@@ -25,4 +25,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 
 
-리드미 수정
+## 2021.07.20
+
+- gitlab - Jira 연동
