@@ -1,0 +1,35 @@
+package com.xy.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.xy.entity.Member;
+import com.xy.entity.MemberInfo;
+import com.xy.repository.MemberRepository;
+
+
+@Service
+public class MemberServiceImpl implements MemberService{
+	
+	@Autowired
+	MemberRepository memberRepo;
+
+	@Override
+	public int registerMember(Member mem) {
+		
+		if(memberRepo.save(mem)!=null) {
+			return 1;
+		}
+		
+		
+		
+		
+		return 0;
+	}
+
+	@Override
+	public int registeMemberInfo(MemberInfo memInfo) {
+		return 0;
+	}
+
+}
