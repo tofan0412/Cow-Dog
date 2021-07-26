@@ -5,6 +5,8 @@ import Admin from '../views/notice/components/Admin.vue'
 import Notice from '../views/notice/components/notice.vue'
 import UserReport from '../views/notice/components/user-report.vue'
 import WritingReport from '../views/notice/components/writing-report.vue'
+import AppealList from '../views/appeal/AppealList.vue'
+
 const routes = [
   {
     path: '/',
@@ -44,7 +46,12 @@ const routes = [
           path: '/admin/writing-report',
           name: 'WritingReport',
           component: WritingReport
-        }
+        },
+        {
+          path: '/appeal',
+          name: 'appealList',
+          component: AppealList
+        },
     ]
   }
 ]
