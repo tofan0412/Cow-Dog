@@ -1,0 +1,5 @@
+package com.xy.config;
+
+public class SwaggerConfig {
+
+}
