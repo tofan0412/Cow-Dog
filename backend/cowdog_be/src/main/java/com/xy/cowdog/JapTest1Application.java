@@ -10,5 +10,3 @@ public class JapTest1Application {
 	}
 
 }
-
-//webRTC commit test
