@@ -1,5 +1,8 @@
 package com.xy.service;
 
-public interface MemberService {
+import com.xy.entity.Member;
 
+public interface MemberService {
+	public String registerMember(Member mem);
+	
 }
