@@ -49,27 +49,27 @@ const routes = [
           name: 'WritingReport',
           component: WritingReport
         },
-        {
-          path: '/appeal',
-          name: 'AppealList',
-          component: AppealList, 
-          // 중첩 라우팅..
-          // children: [],
-          // props를 true로 설정하면, $route.params가 컴포넌트 props로 설정된다.
-          // props: true,
-        },
-        {
-          path: '/appeal/detail',
-          name: 'AppealDetail',
-          component: AppealDetail,
-        },
-        {
-          path: '/appeal/create',
-          name: 'AppealCreate',
-          component: AppealCreate,
-        },  
     ]
-  }
+  },
+  {
+    path: '/appeal',
+    name: 'AppealList',
+    component: AppealList, 
+    // 중첩 라우팅..
+    // children: [],
+    // props를 true로 설정하면, $route.params가 컴포넌트 props로 설정된다.
+    // props: true,
+  },
+  {
+    path: '/appeal/detail',
+    name: 'AppealDetail',
+    component: AppealDetail,
+  },
+  {
+    path: '/appeal/create',
+    name: 'AppealCreate',
+    component: AppealCreate,
+  },  
 ]
 
 const router = createRouter({
