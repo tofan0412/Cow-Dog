@@ -1,22 +1,27 @@
 <template>
 <div class="container">
-  <div v-for="(notice, idx) in noticesPaginated" :key="idx">
-    <el-card class="box-card">
-      <template #header>
-        <div class="card-header">
-          <span>{{ notice.title }}</span>
+  <div class="batch" style="display:flex">
+      <h1 class="title">공지사항</h1>
+      <div><el-button class="create">Create</el-button></div>
+  </div>
+  <div class="notice-list">
+    <div v-for="(notice, idx) in noticesPaginated" :key="idx">
+      <el-card class="box-card">
+        <template #header>
+          <div class="card-header">
+            <span>{{ notice.title }}</span>
+          </div>
+        </template>
+        <div class="card-body">{{ notice.content }}</div>
+        <br>
+        <div class="card-footer">
+          <el-button class="button" type="text">수정</el-button>
+          <el-button class="button" type="text">삭제</el-button>
         </div>
-      </template>
-      <div class="card-body">{{ notice.content }}</div>
-      <br>
-      <div class="card-footer">
-        <el-button class="button" type="text">수정</el-button>
-        <el-button class="button" type="text">삭제</el-button>
-      </div>
-    </el-card>
+      </el-card>
+    </div>
   </div>
 </div>
-
 <div class="pagination">
   <el-pagination
   background
@@ -55,6 +60,11 @@ export default {
 }
 </script>
 <style>
+  .title {
+    text-align: left;
+    margin-left: 10px;
+  }
+
   .card-header {
       display: flex;
       justify-content: space-between;
@@ -70,6 +80,14 @@ export default {
   }
 
   .container {
+    width: 60vw;
+  }
+
+  .batch {
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .notice-list {
     width: 60vw;
   }
 
@@ -109,6 +127,22 @@ export default {
   }
 
   .button {
+    color: #323545;
+    font-weight: bold;
+  }
+
+  .button:hover {
     color: #FF4E7E;
   }
+
+  .create {
+    color: #323545;
+    font-weight: bold;
+  }
+  .create:hover {
+    background-color: #FFFFFF;
+    border-color: #FF4E7E;
+    color: #FF4E7E;
+  }
+
 </style>
