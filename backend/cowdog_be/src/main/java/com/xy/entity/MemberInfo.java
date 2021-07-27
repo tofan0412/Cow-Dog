@@ -1,23 +1,29 @@
 package com.xy.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
 @Data
 @AllArgsConstructor
 @ToString
+@NoArgsConstructor
 public class MemberInfo {
 	
 	
 	@Id
-	@OneToOne(mappedBy = "id")
-	private String id;
+	@GeneratedValue
+	private Long id;
+	
+	
+	
 	
 	private String age;
 	private String gender;
