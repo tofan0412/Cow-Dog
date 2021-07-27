@@ -56,7 +56,7 @@ const routes = [
           // 중첩 라우팅..
           // children: [],
           // props를 true로 설정하면, $route.params가 컴포넌트 props로 설정된다.
-          props: true,
+          // props: true,
         },
         {
           path: '/appeal/detail',
