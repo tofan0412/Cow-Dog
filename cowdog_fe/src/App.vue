@@ -1,13 +1,47 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>|
-    <router-link to="/test">Test</router-link>|
-    <router-link to="/appeal">Appeal..</router-link>|
-    <router-link to="/admin">Admin</router-link>
+  <div>
+    <el-menu
+      :default-active="activeIndex"
+      class="el-menu-demo"
+      mode="horizontal"
+      @select="handleSelect"
+      background-color="#323545"
+      text-color="#ff4e7e"
+      active-text-color="#ff4e7e">
+      <el-menu-item index="1" class="navMenu"><router-link to="/">Home</router-link></el-menu-item>
+      <el-menu-item index="2" class="navMenu"><router-link to="/about">About</router-link></el-menu-item>
+      <el-menu-item index="3" class="navMenu"><router-link to="/admin" @click="getNotices">Admin</router-link></el-menu-item>
+    </el-menu>
   </div>
   <router-view/>
 </template>
+
+<script>
+import { useStore } from 'vuex'
+export default ({
+
+  data() {
+    return {
+      activeIndex: '1',
+    };
+  },
+  methods: {
+    handleSelect(key, keyPath) {
+      console.log(key, keyPath);
+    }
+  },
+
+  setup() {
+    const store = useStore()
+    return {
+      getNotices: () => {
+        store.dispatch('getNotices') // actions/getNotices에 dispatch
+      }
+    }
+  },
+})
+</script>
+
 
 <style>
 #app {
@@ -18,16 +52,14 @@
   color: #2c3e50;
 }
 
-#nav {
-  padding: 30px;
+body {
+  margin: 0;
+  padding: 0;
 }
 
-#nav a {
+.navMenu a {
+  text-decoration: none;
   font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+  color: inherit;
 }
 </style>

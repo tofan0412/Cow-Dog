@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Test from '../components/Test.vue'
-import Admin from '../views/notice/components/Admin.vue'
+import Admin from '../views/notice/Admin.vue'
 import Notice from '../views/notice/components/notice.vue'
 import UserReport from '../views/notice/components/user-report.vue'
 import WritingReport from '../views/notice/components/writing-report.vue'
