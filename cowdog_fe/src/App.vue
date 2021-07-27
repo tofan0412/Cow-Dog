@@ -9,7 +9,6 @@
       text-color="#ff4e7e"
       active-text-color="#ff4e7e">
       <el-menu-item index="1" class="navMenu"><router-link to="/">Home</router-link></el-menu-item>
-      <el-menu-item index="2" class="navMenu"><router-link to="/about">About</router-link></el-menu-item>
       <el-menu-item index="2" class="navMenu"><router-link to="/appeal">Appeal</router-link></el-menu-item>
       <el-menu-item index="3" class="navMenu"><router-link to="/admin" @click="getNotices">Admin</router-link></el-menu-item>
     </el-menu>
