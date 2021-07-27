@@ -1,5 +1,7 @@
 <template>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
 <el-container>
+  <!-- sidebar -->
   <el-aside width="15vw">
     <el-row class="tac">
       <el-col>
@@ -10,16 +12,18 @@
           background-color="#ffffff"
           active-text-color="#ff4e7e">      
           <el-menu-item index="1">
-            <i class="el-icon-menu"></i>
+            <i class="fas fa-clipboard-list" style="font-size: 16px"></i>
             <span><router-link to="/admin/notice">공지사항</router-link></span>
           </el-menu-item>
           <el-submenu index="2">
             <template #title>
-              <i class="el-icon-location"></i>
+              <i class="far fa-trash-alt" style="font-size: 16px"></i>
               <span>신고관리</span>
-            </template>
-              <router-link to="/admin/user-report"><el-menu-item index="2-1">사용자</el-menu-item></router-link>
-              <el-menu-item index="2-2"><router-link to="/admin/writing-report">게시글</router-link></el-menu-item>
+            </template>         
+              <el-menu-item index="2-1"><router-link to="/admin/user-report">
+                <i class="fas fa-user"></i>사용자</router-link></el-menu-item>
+              <el-menu-item index="2-2"><router-link to="/admin/writing-report">
+              <i class="far fa-file-alt"></i>게시글</router-link></el-menu-item>
           </el-submenu>
         </el-menu>
       </el-col>
@@ -60,5 +64,9 @@ export default {
 a {
   text-decoration: none;
   color: inherit;
+}
+
+i {
+  margin: 0 10px 0 0;
 }
 </style>
