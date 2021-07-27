@@ -5,6 +5,7 @@ import Admin from '../views/notice/components/Admin.vue'
 import Notice from '../views/notice/components/notice.vue'
 import UserReport from '../views/notice/components/user-report.vue'
 import WritingReport from '../views/notice/components/writing-report.vue'
+import LoginPage from '../views/login/LoginPage.vue'
 const routes = [
   {
     path: '/',
@@ -23,6 +24,11 @@ const routes = [
     path: '/test',
     name: 'Test',
     component: Test
+  },
+  {
+    path:'/login',
+    name:'Login',
+    component:LoginPage
   },
 
   {
