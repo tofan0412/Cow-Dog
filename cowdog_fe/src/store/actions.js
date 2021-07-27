@@ -20,7 +20,7 @@ export function requestLogin ({ state }, payload) {
 }
 
 export function confirmId({state},payload){
-   console.log('confirmId', state, payload)
+  console.log('confirmId', state, payload)
   console.log(payload.id)
   const url='/mem/confirmId'
   let body=payload.id
