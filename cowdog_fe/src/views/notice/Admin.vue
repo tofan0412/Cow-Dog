@@ -11,7 +11,7 @@
           active-text-color="#ff4e7e">      
           <el-menu-item index="1">
             <i class="el-icon-menu"></i>
-            <span><router-link to="/admin/notice" @click="getNotices">공지사항</router-link></span>
+            <span><router-link to="/admin/notice">공지사항</router-link></span>
           </el-menu-item>
           <el-submenu index="2">
             <template #title>
@@ -35,17 +35,11 @@
 </template>
 
 <script>
-import { useStore } from 'vuex'
+// import { useStore } from 'vuex'
 export default {
   name: 'Admin',
   components: {
   },
-  setup() {
-    const store = useStore()
-    return {
-      getNotices: () => store.dispatch('getNotices') // actions/getNotices에 dispatch
-    }
-  }
 
 
 }
