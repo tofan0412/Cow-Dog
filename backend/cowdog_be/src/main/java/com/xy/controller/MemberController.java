@@ -31,7 +31,6 @@ public class MemberController {
 	
 	
 	
-	
 	@PostMapping("/register")
 	@ApiOperation(value = "회원 가입", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.") 
     @ApiResponses({
@@ -79,5 +78,23 @@ public class MemberController {
 		// 유효하지 않는 패스워드인 경우, 로그인 실패로 응답.
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200,"SUCCESS"));
 	}
+	
+
+	@PostMapping("/confirmId")
+	public ResponseEntity<String> confirmUserId(@RequestBody String userId) {
+		
+		System.out.println(userId);
+		if(memSer.confirmUserId(userId)) {
+			System.out.println("아이디 없다");
+			return ResponseEntity.status(200).body("SUCCESS");
+		}
+		System.out.println("아이디 있다.");
+		return ResponseEntity.status(200).body("FAIL");
+	}
+	
+	
+	
+	
+	
 	
 }

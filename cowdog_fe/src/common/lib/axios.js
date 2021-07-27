@@ -1,7 +1,7 @@
 
 import VueAxios from 'vue-axios'
 import axios from 'axios'
-// import config from '../config'
+// import config from '../config.j'
 
 const BASE_URL = '/cowdog'
 const DEFAULT_ACCEPT_TYPE = 'application/json'

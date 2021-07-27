@@ -8,7 +8,8 @@ import WritingReport from '../views/notice/components/writing-report.vue'
 import AppealList from '../views/appeal/components/AppealList.vue'
 import AppealDetail from '../views/appeal/components/AppealDetail.vue'
 import AppealCreate from '../views/appeal/components/AppealCreate.vue'
-
+import LoginPage from '../views/login/LoginPage.vue'
+import RegisterPage from '../views/register/RegisterPage.vue'
 const routes = [
   {
     path: '/',
@@ -32,6 +33,11 @@ const routes = [
     path:'/login',
     name:'Login',
     component:LoginPage
+  },
+  {
+    path:'/register',
+    name:'Register',
+    component:RegisterPage
   },
 
   {

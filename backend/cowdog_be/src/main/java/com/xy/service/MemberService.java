@@ -8,4 +8,5 @@ import com.xy.entity.MemberInfo;
 public interface MemberService {
 	public String registerMember(Map memberMap, Map memberInfoMap);
 	public Member getMemberByMemberId(String id);
+	public boolean confirmUserId(String userId);
 }

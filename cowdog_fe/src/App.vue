@@ -4,7 +4,10 @@
     <router-link to="/about">About</router-link>|
     <router-link to="/test">Test</router-link>|
     <router-link to="/appeal">Appeal..</router-link>|
-    <router-link to="/admin">Admin</router-link>
+    <router-link to="/admin">Admin</router-link>|
+    <router-link to="/login">Login</router-link>|
+    <router-link to="/register">Register</router-link>|
+
   </div>
   <router-view/>
 </template>
