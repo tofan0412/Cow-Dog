@@ -1,6 +1,6 @@
 <template>
 <el-container>
-  <el-aside width="240px">
+  <el-aside width="15vw">
     <el-row class="tac">
       <el-col>
         <el-menu
@@ -52,10 +52,10 @@ export default {
 .el-row {
   display: inline-block;
   height: 100vh;
-  width: 100vw;
+  width: 15vw;
 }
 .el-menu-item {
-  width: 200px;
+  width: 15vw;
 }
 a {
   text-decoration: none;
