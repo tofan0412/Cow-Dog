@@ -44,6 +44,12 @@ export default {
       currentPage: 1,
     }
   },
+
+  // methods: {
+  //   noticeUpdate(notices) {
+      
+  //   }
+  // },
   computed: {
     noticesPaginated() {
       var start = 0 + (this.currentPage-1) * this.pageSize
