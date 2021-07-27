@@ -1,6 +1,6 @@
 <template>
   <h1>게시글 상세 내용</h1>
-  {{ state.title }}<br>
+  {{ state.id }}<br>
 </template>
 
 <script>
@@ -14,7 +14,7 @@ export default {
     console.log(route.params.title)
 
     const state = reactive({
-      title: route.params.title
+      id: route.params.id
     })
 
     return {
