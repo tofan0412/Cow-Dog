@@ -5,6 +5,10 @@ import Admin from '../views/notice/Admin.vue'
 import Notice from '../views/notice/components/notice.vue'
 import UserReport from '../views/notice/components/user-report.vue'
 import WritingReport from '../views/notice/components/writing-report.vue'
+import AppealList from '../views/appeal/components/AppealList.vue'
+import AppealDetail from '../views/appeal/components/AppealDetail.vue'
+import AppealCreate from '../views/appeal/components/AppealCreate.vue'
+
 const routes = [
   {
     path: '/',
@@ -44,7 +48,26 @@ const routes = [
           path: '/admin/writing-report',
           name: 'WritingReport',
           component: WritingReport
-        }
+        },
+        {
+          path: '/appeal',
+          name: 'AppealList',
+          component: AppealList, 
+          // 중첩 라우팅..
+          // children: [],
+          // props를 true로 설정하면, $route.params가 컴포넌트 props로 설정된다.
+          // props: true,
+        },
+        {
+          path: '/appeal/detail',
+          name: 'AppealDetail',
+          component: AppealDetail,
+        },
+        {
+          path: '/appeal/create',
+          name: 'AppealCreate',
+          component: AppealCreate,
+        },  
     ]
   }
 ]
