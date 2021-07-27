@@ -1,7 +1,18 @@
 <template>
   <h1>Appeal 게시판</h1>
     <div v-for="article in state.articlelist" :key="article.articleno"> <!-- 왜 key에다가 콜론을 해줘야 하지..? -->
-      <router-link :to="{ name: 'AppealDetail', query: {article: article.title} }">{{ article.title }}</router-link>
+      <router-link :to="{ name: 'AppealDetail', 
+      query: {
+      title: article.title, 
+      content: article.content,
+      regtime: article.regtime,
+      member_id: article.member_id,
+      articleno: article.articleno,
+      image: article.image,
+      longitude: article.longitude,
+      distance: article.distance,
+      address: article.address
+      }}">{{ article.title }}</router-link>
     </div>
     
 </template>
