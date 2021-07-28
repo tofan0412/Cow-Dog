@@ -1,5 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue';
+import VueAxios from './common/lib/axios'
+import axios from './common/lib/axios'
 
 import { 
   ElAlert,
@@ -182,7 +184,7 @@ const plugins = [
   ElNotification,
 ]
 
-const app = createApp(App).use(router).use(store)
+const app = createApp(App).use(router).use(store).use(axios).use(VueAxios)
 components.forEach(component => {
   app.component(component.name, component)
 })
