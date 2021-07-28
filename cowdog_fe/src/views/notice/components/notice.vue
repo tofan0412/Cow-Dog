@@ -1,4 +1,5 @@
 <template>
+
 <div class="container">
   <div class="batch" style="display:flex">
       <h1 class="title">공지사항</h1>
@@ -22,6 +23,7 @@
     </div>
   </div>
 </div>
+
 <div class="pagination">
   <el-pagination
   background
@@ -32,6 +34,7 @@
   </el-pagination>
 </div>
 </template>
+
 <script>
 import { useStore } from 'vuex'
 
@@ -47,7 +50,7 @@ export default {
 
   // methods: {
   //   noticeUpdate(notices) {
-      
+
   //   }
   // },
   computed: {
@@ -65,6 +68,7 @@ export default {
   }
 }
 </script>
+
 <style>
   .title {
     text-align: left;
@@ -76,7 +80,7 @@ export default {
       justify-content: space-between;
       align-items: center;
   }
-    
+
   .text {
     font-size: 14px;
   }
@@ -115,8 +119,8 @@ export default {
   }
 
   .card-body {
-    /* 글자 수 제한을 넘어가면 ... 처리, 좌측 정렬 */
-    /* https://junistory.blogspot.com/2017/06/css-ellipsis.html 참조 */
+    /* 글자 수 제한을 넘어가면 ... 처리, 좌측 정렬 /
+    / https://junistory.blogspot.com/2017/06/css-ellipsis.html 참조 */
     text-align: left;
     overflow: hidden;
     text-overflow: ellipsis;
