@@ -71,12 +71,12 @@ public class MemberController {
 		Member mem = memSer.getMemberByMemberId(userId);
 		if(mem==null) {
 			System.out.println("회원 읎어");
-			return ResponseEntity.status(404).body(BaseResponseBody.of(404, "FAIL"));
+			return ResponseEntity.status(404).body(BaseResponseBody.of(200, "NOT_EXISTS_USER"));
 		}
 		// 로그인 요청한 유저로부터 입력된 패스워드 와 디비에 저장된 유저의 암호화된 패스워드가 같은지 확인.(유효한 패스워드인지 여부 확인)
 		
 		// 유효하지 않는 패스워드인 경우, 로그인 실패로 응답.
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200,"SUCCESS"));
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200,"EXIST_USER"));
 	}
 	
 
@@ -86,10 +86,23 @@ public class MemberController {
 		System.out.println(userId);
 		if(memSer.confirmUserId(userId)) {
 			System.out.println("아이디 없다");
-			return ResponseEntity.status(200).body("SUCCESS");
+			return ResponseEntity.status(200).body("NOT_EXISTS_USERID");
 		}
 		System.out.println("아이디 있다.");
-		return ResponseEntity.status(200).body("FAIL");
+		return ResponseEntity.status(200).body("EXIST_USERID");
+	}
+	
+	
+	@PostMapping("/confirmNickname")
+	public ResponseEntity<String> confirmNickname(@RequestBody String userNickname) {
+		
+		System.out.println(userNickname);
+		if(memSer.confirmNickname(userNickname)) {
+			System.out.println("닉네임 없다");
+			return ResponseEntity.status(200).body("NOT_EXISTS_NICKNAME");
+		}
+		System.out.println("닉네임 있다.");
+		return ResponseEntity.status(200).body("EXIST_NICKNAME");
 	}
 	
 	

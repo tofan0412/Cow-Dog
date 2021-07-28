@@ -87,6 +87,15 @@ public class MemberServiceImpl implements MemberService{
 		
 		return true;
 	}
+
+	@Override
+	public boolean confirmNickname(String userNickname) {
+
+		if(memRepo.existsBynickname(userNickname)) {
+			return false;
+		}
+		return false;
+	}
 	
 	
 	

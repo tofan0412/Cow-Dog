@@ -1,9 +1,8 @@
 import { createApp } from 'vue'
 import App from './App.vue';
-import "bootstrap/dist/css/bootstrap.min.css"
-import "bootstrap"
 import VueAxios from './common/lib/axios'
 import axios from './common/lib/axios'
+
 import { 
   ElAlert,
   ElAside,

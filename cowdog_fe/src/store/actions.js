@@ -26,3 +26,12 @@ export function confirmId({state},payload){
   let body=payload.id
   return $axios.post(url,body)
 }
+
+
+export function confirmNickname({state},payload){
+  console.log('confirmNickname', state, payload)
+  console.log(payload.id)
+  const url='/mem/confirmNickname'
+  let body=payload.id
+  return $axios.post(url,body)
+}

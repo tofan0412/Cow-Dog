@@ -1,9 +1,9 @@
 <template>
 <div class="register_body container">
  <el-carousel :interval="1000000" arrow="never" autoplay="false" trigger="click">
-    <el-carousel-item class="row">
-        <div class="row">
-            <div class="col-sm-6 regist_input">
+    <el-carousel-item class="item">
+        <el-row>
+            <el-col :span="12" class="regist_input">
                 <br>
                 <br>
                 <h2>회원 가입</h2>
@@ -35,15 +35,15 @@
                         </el-form-item>
                     </el-form>
                 </div>
-            </div>
-           <div class="col-sm-6 regist_img">
+            </el-col>
+           <el-col :span="12"  class=" regist_img">
                 <img class="logo_img1" alt="cow dog logo" :src="require('@/assets/images/regist_img1.png')">
-            </div>
-        </div>
+           </el-col>
+        </el-row>
     </el-carousel-item>
     <el-carousel-item class="row">
-        <div class="row">
-            <div class="col-sm-6 regist_input">
+        <el-row>
+            <el-col :span="12" class="regist_input">
                 <br>
                 <br>
                 <h2>회원 가입</h2>
@@ -53,31 +53,35 @@
                             <label>종교를 선택해 주세요</label>
                             <br>
                             <div>
-                                <div style="padding-bottom:10px">
-                                    <el-radio v-model="radio1" label="1" border>Option A</el-radio>
-                                    <el-radio v-model="radio2" label="2" border>Option B</el-radio>
-                                    <el-radio v-model="radio3" label="3" border >Option A</el-radio>
-                                </div>
-                                <br>
-                                <div>
-                                    <el-radio v-model="radio4" label="4" border>Option A</el-radio>
-                                    <el-radio v-model="radio5" label="5" border>Option B</el-radio>
-                                    <el-radio v-model="radio6" label="6" border >Option A</el-radio>
-                                </div>
+                                <el-radio v-model="relegion" label="1" border>무교</el-radio>
+                                <el-radio v-model="relegion" label="2" border>천주교</el-radio>
+                                <el-radio v-model="relegion" label="3" border>불교</el-radio>
+                                <el-radio v-model="relegion" label="4" border>기독교</el-radio>
                             </div>
                         </el-form-item>
                         <el-form-item prop="nickname"  :label-width="state.formLabelWidth">
                             <label>취미를 선택해 주세요.</label>
-                            <el-input class="elinput" v-model="state.form.password" autocomplete="off" show-password ></el-input>
+                            <br>
+                            <div>
+                                <el-radio v-model="hobby" label="1" border>운동</el-radio>
+                                <el-radio v-model="hobby" label="2" border>영화</el-radio>
+                                <el-radio v-model="hobby" label="3" border>게임</el-radio>
+                                <br>
+                                <el-radio v-model="hobby" label="4" border>요라</el-radio>
+                                <el-radio v-model="hobby" label="4" border>독서</el-radio>
+                                <el-radio v-model="hobby" label="4" border>낚시</el-radio>
+                                <br>
+                                <el-radio v-model="hobby" label="4" border>음악듣기</el-radio>
+                            </div>
                         </el-form-item>
                         
                     </el-form>
                 </div>
-            </div>
-           <div class="col-sm-6 regist_img">
+            </el-col>
+            <el-col :span="12" class="regist_img">
                 <img class="logo_img1" alt="cow dog logo" :src="require('@/assets/images/regist_img1.png')">
-            </div>
-        </div>
+            </el-col>
+        </el-row>
     </el-carousel-item>
     <el-carousel-item >
       <p>sdfsf</p>
@@ -98,16 +102,11 @@
 import { reactive,ref } from 'vue'
 import { useStore } from 'vuex'
 
-
 export default {
     data () {
       return {
-        radio1: '1',
-        radio2: '1',
-        radio3: '1',
-        radio4: '1',
-        radio5:'1',
-        radio6:'1',
+        relegion: '',
+        hobby:''
       };
     },
     setup(){
@@ -119,8 +118,25 @@ export default {
       store.dispatch('confirmId',{id:value})
       .then(function(result){
         console.log(result)
-        if(result.data==="FAIL"){
+        if(result.data==="EXIST_USERID"){
           callback(new Error("이미 있는 아이디입니다."))
+        }
+        else{
+          callback()
+        }
+      })
+      .catch(function(err){
+        alert(err)
+      })
+      }
+    }
+    const confirmNickname = function(rule, value, callback) {
+      if(value!==""){
+      store.dispatch('confirmNickname',{nickName:value})
+      .then(function(result){
+        console.log(result)
+        if(result.data==="FAIL"){
+          callback(new Error("이미 있는 닉네임입니다."))
         }
         else{
           callback()
@@ -155,7 +171,8 @@ export default {
           rules: {
             id: [
                 { required: true, message: '아이디를 입력하세요', trigger: 'blur' },
-                {max:16 , message:'최대 16 자까지 입력 사능합니다.'},
+                { message: '최대 15 글자까지 입력 가능합니다', trigger: 'blur', max:15 },
+              { message: '최소 4 글자를 입력해야 합니다.', trigger: 'blur', min:4},
                 {validator:confirmId}
             ],
             age: [
@@ -171,7 +188,9 @@ export default {
               { pattern:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]/, message:"비밀번호는 영문, 숫자, 특수문자가 조합되어야합니다." ,trigger:'blur'}
             ],
             nickname:[
-                { required: true, message: '닉네입을 입력하세요', trigger: 'blur' }
+                { required: true, message: '닉네입을 입력하세요', trigger: 'blur' },
+                { message: '최소 2 글자를 입력해야 합니다.', trigger: 'blur', min:2},
+                {validator:confirmNickname}
             ],
             passwordConfirm:[
                 {required: true,message:'비밀번호를 입력하세요', trigger:'blur'},
@@ -224,8 +243,12 @@ export default {
     line-height: 300px;
     margin: 0;
   }
-
-  .el-carousel__container {
+.el-row{
+    widows: 100%;
+    height: 100%;
+    margin: 0 auto;
+}
+.el-carousel__container {
     width: 80%;
     height: 800px;
     margin: 0 auto;
@@ -234,19 +257,49 @@ export default {
 .register_body{
     width: 80%;
     height: 800px;
+    margin: 0 auto;
 }
-.regist_input{
-    
-}
-.regist_image{
-    
-}
+
 .logo_img1{
     width: 100%;
-    height: 120%;
+    height: 100%;
 }
-.row{
-    margin: 0 auto;
+.el-radio.is-bordered {
+    padding: 12px 20px 0 10px;
+    border-radius: 20px;
+    border: 1px solid #DCDFE6;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 40px;
+    color: white;
+    background-color: #323545;
+}
+.el-radio.is-focus{
+    color: white !important;
+    background-color: #d66767;
+}
+.el-radio:hover{
+    color: white;
+    background-color: #d66767;
+}
+.el-radio{
+    border-radius: 20px;
+}
+span.el-radio__input.is-chcked{
+    color: white;
+    background-color: #d66767;
+}
+span.el-radio__inner{
+    display:none;
+    color: white;
+}
+.el-radio__input.is-checked+.el-radio__label {
+   color: white;
+}
+.el-radio.is-bordered.is-checked {
+    border-color: white;
+}
+.item{
     width: 100%;
 }
 .el-carousel__arrow{

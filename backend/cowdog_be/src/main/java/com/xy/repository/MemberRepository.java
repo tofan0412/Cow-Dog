@@ -9,5 +9,6 @@ import com.xy.entity.Member;
 public interface MemberRepository extends JpaRepository<Member, Long> {
 	boolean existsBymemberid(String id);
 	Member getBymemberid(String id);
+	boolean existsBynickname(String userNickname);
 
 }
