@@ -52,19 +52,16 @@
                         <el-form-item prop="id"  :label-width="state.formLabelWidth" >
                             <label>종교를 선택해 주세요</label>
                             <br>
-                            <div>
-                                <el-radio v-model="relegion" label="1" border>무교</el-radio>
-                                <el-radio v-model="relegion" label="2" border>천주교</el-radio>
-                                <el-radio v-model="relegion" label="3" border>불교</el-radio>
-                                <el-radio v-model="relegion" label="4" border>기독교</el-radio>
-                            </div>
+                            
+                                <el-input type="radio" v-model="무교">무교</el-input>
+                            
                         </el-form-item>
                         <el-form-item prop="nickname"  :label-width="state.formLabelWidth">
                             <label>취미를 선택해 주세요.</label>
                             <br>
                             <div>
                                 <el-radio v-model="hobby" label="1" border>운동</el-radio>
-                                <el-radio v-model="hobby" label="2" border>영화</el-radio>
+                                <el-radio v-model="hobby" label="1" border>영화</el-radio>
                                 <el-radio v-model="hobby" label="3" border>게임</el-radio>
                                 <br>
                                 <el-radio v-model="hobby" label="4" border>요라</el-radio>
@@ -105,7 +102,9 @@ import { useStore } from 'vuex'
 export default {
     data () {
       return {
-        relegion: '',
+        relegion: '1',
+        relegion2: '1',
+        relegion3: '1',
         hobby:''
       };
     },
