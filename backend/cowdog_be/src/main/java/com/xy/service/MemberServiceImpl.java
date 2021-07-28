@@ -1,5 +1,7 @@
 package com.xy.service;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +46,10 @@ public class MemberServiceImpl implements MemberService{
 		newMember.setMemberid((String)memberMap.get("memberid"));
 		newMember.setMemberinfo(newMemberInfo);
 		newMember.setNickname((String)memberMap.get("nickname"));
-//		newMember.setOnlinetime("sdf");
+		Date date_now = new Date(System.currentTimeMillis()); // 현재시간을 가져와 Date형으로 저장한다
+		// 년월일시분초 14자리 포멧
+		SimpleDateFormat fourteen_format = new SimpleDateFormat("yyyyMMddHHmmss"); 
+		newMember.setOnlinetime(fourteen_format.format(date_now));
 		newMember.setPassword((String)memberMap.get("password"));
 		
 		
@@ -69,6 +74,27 @@ public class MemberServiceImpl implements MemberService{
 		
 		
 		return null;
+	}
+
+	@Override
+	public boolean confirmUserId(String userId) {
+		
+		
+		if(memRepo.existsBymemberid(userId)) {
+			return false;
+		}
+		
+		
+		return true;
+	}
+
+	@Override
+	public boolean confirmNickname(String userNickname) {
+
+		if(memRepo.existsBynickname(userNickname)) {
+			return false;
+		}
+		return false;
 	}
 	
 	

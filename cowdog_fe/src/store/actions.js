@@ -18,3 +18,20 @@ export function requestLogin ({ state }, payload) {
   let body = payload
   return $axios.post(url, body)
 }
+
+export function confirmId({state},payload){
+  console.log('confirmId', state, payload)
+  console.log(payload.id)
+  const url='/mem/confirmId'
+  let body=payload.id
+  return $axios.post(url,body)
+}
+
+
+export function confirmNickname({state},payload){
+  console.log('confirmNickname', state, payload)
+  console.log(payload.id)
+  const url='/mem/confirmNickname'
+  let body=payload.id
+  return $axios.post(url,body)
+}
