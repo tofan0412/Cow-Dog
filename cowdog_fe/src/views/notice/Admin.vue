@@ -20,8 +20,7 @@
               <i class="far fa-trash-alt" style="font-size: 16px"></i>
               <span>신고관리</span>
             </template>         
-              <el-menu-item index="2-1"><router-link to="/admin/user-report">
-                <i class="fas fa-user"></i>사용자</router-link></el-menu-item>
+              <el-menu-item index="2-1" @click="getReportedUsers"><i class="fas fa-user"></i>사용자</el-menu-item>
               <el-menu-item index="2-2"><router-link to="/admin/writing-report">
               <i class="far fa-file-alt"></i>게시글</router-link></el-menu-item>
           </el-submenu>
@@ -39,10 +38,19 @@
 </template>
 
 <script>
-// import { useStore } from 'vuex'
+import { useStore } from 'vuex'
 export default {
   name: 'Admin',
   components: {
+  },
+
+  setup() {
+    const store = useStore()
+    return {
+      getReportedUsers: () => {
+        store.dispatch('getReportedUsers') //actions/getReportedUsers에 dispatch
+      }
+    }
   },
 
 

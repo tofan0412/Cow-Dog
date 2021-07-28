@@ -43,8 +43,8 @@ export default {
   data() {
     return {
       // for pagination
-      pageSize: 5,
-      currentPage: 1,
+      pageSize: 5, // 한 페이지에 나오는 게시물 수
+      currentPage: 1, // 현재 페이지(v-model 적용)
     }
   },
 
@@ -152,6 +152,19 @@ export default {
   .create:hover {
     background-color: #FFFFFF;
     border-color: #FF4E7E;
+    color: #FF4E7E;
+  }
+
+  .el-button {
+    color: #323545;
+    font-weight: bold;
+  }
+
+  .el-button:hover {
+    color: #FF4E7E;
+  }
+  
+  .el-button:focus {
     color: #FF4E7E;
   }
 
