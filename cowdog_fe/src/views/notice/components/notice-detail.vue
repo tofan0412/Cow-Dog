@@ -27,7 +27,7 @@
     <template #footer>
       <div class="dialog-footer" style="display:flex">
         <div style="margin-right:5px">
-          <el-button @click="moveToDetailUpdate">수정</el-button>
+          <el-button @click="moveToDetailUpdate(noticeDetailData)">수정</el-button>
         </div>
         <div>
           <el-button @click="dialogVisible = false">삭제</el-button>
@@ -52,10 +52,9 @@ import router from '../../../router'
       }
     },
     methods: {
-      moveToDetailUpdate() {
+      moveToDetailUpdate(noticeDetailData) {
         this.dialogVisible = false
-        router.push('/admin/noticeDetailUpdate')
-        
+        router.push( {name: 'UpdateNotice', params: { title: noticeDetailData.title, content:noticeDetailData.content }})
       },
       handleClose(done) {
         this.$confirm('Are you sure to close this dialog?')

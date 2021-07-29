@@ -1,4 +1,3 @@
-
 <template>
 <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
   <h1>공지사항 작성</h1>
@@ -17,8 +16,7 @@
     <h3>이미지 첨부 옵션(추가)</h3>
   </div>
   <el-form-item>
-    <el-button type="primary" @click="submitForm('ruleForm')">Create</el-button>
-    <el-button @click="resetForm('ruleForm')">Reset</el-button>
+    <el-button type="primary" @click="submitForm('ruleForm')">작성</el-button>
   </el-form-item>
 </el-form>
 </template>
@@ -53,9 +51,6 @@
             return false;
           }
         });
-      },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
       }
     }
   }

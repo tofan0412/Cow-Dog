@@ -52,7 +52,7 @@ const routes = [
         {
           path: '/admin/noticeDetailUpdate',
           name: 'UpdateNotice',
-          component: NoticeUpdate
+          component: NoticeUpdate,
         },
         {
           path: '/admin/user-report',
