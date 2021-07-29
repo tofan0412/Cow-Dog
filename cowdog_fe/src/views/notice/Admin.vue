@@ -13,7 +13,7 @@
           active-text-color="#ff4e7e">      
           <el-menu-item index="1">
             <i class="fas fa-clipboard-list" style="font-size: 16px"></i>
-            <span><router-link to="/admin/notice">공지사항</router-link></span>
+            <span><router-link to="/admin/notice" @click="getNotices">공지사항</router-link></span>
           </el-menu-item>
           <el-submenu index="2">
             <template #title>
@@ -49,6 +49,9 @@ export default {
     return {
       getReportedUsers: () => {
         store.dispatch('getReportedUsers') //actions/getReportedUsers에 dispatch
+      },
+      getNotices: () => {
+        store.dispatch('getNotices') // actions/getNotices에 dispatch
       }
     }
   },
@@ -76,5 +79,17 @@ a {
 
 i {
   margin: 0 10px 0 0;
+}
+
+.el-main {
+    /* for Firefox */
+    scrollbar-width: none;
+    /* for IE, Edge */
+    -ms-overflow-style: none;
+}
+
+/* For Chrome, Safari and Opera */
+.el-main::-webkit-scrollbar {
+    display: none;
 }
 </style>

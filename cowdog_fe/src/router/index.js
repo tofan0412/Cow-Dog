@@ -3,6 +3,8 @@ import About from '../views/About.vue'
 import Test from '../components/Test.vue'
 import Admin from '../views/notice/Admin.vue'
 import Notice from '../views/notice/components/notice.vue'
+import NoticeCreate from '../views/notice/components/notice-create.vue'
+import NoticeUpdate from '../views/notice/components/notice-update.vue'
 import UserReport from '../views/notice/components/user-report.vue'
 import WritingReport from '../views/notice/components/writing-report.vue'
 import AppealList from '../views/appeal/components/AppealList.vue'
@@ -43,6 +45,16 @@ const routes = [
           component: Notice
         },
         {
+          path: '/admin/noticeCreate',
+          name: 'NoticeCreate',
+          component: NoticeCreate
+        },
+        {
+          path: '/admin/noticeDetailUpdate',
+          name: 'UpdateNotice',
+          component: NoticeUpdate
+        },
+        {
           path: '/admin/user-report',
           name: 'UserReport',
           component: UserReport
@@ -51,7 +63,7 @@ const routes = [
           path: '/admin/writing-report',
           name: 'WritingReport',
           component: WritingReport
-        },
+        }
     ]
   },
   {
