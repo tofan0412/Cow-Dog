@@ -2,6 +2,7 @@ package com.xy.service;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,35 +23,40 @@ public class MemberServiceImpl implements MemberService{
 	MemberInfoRepository memInfoRepo;
 
 	@Override
-	public String registerMember(Map memberMap, Map memberInfoMap) {
-		
+	public String registerMember(Map member) {
+		System.out.println(member);
 		MemberInfo newMemberInfo=new MemberInfo();
 		
-		newMemberInfo.setAddress((String)memberInfoMap.get("address"));
-		newMemberInfo.setAge((String)memberInfoMap.get("age"));
-		newMemberInfo.setAlcohol((String)memberInfoMap.get("alcohol"));
-		newMemberInfo.setDistance((double)memberInfoMap.get("distance"));
-		newMemberInfo.setGender((String)memberInfoMap.get("gender"));
-		newMemberInfo.setHobby((String)memberInfoMap.get("hobby"));
-		newMemberInfo.setInterest((String)memberInfoMap.get("interest"));
-		newMemberInfo.setLatitude((double)memberInfoMap.get("latitude"));
-		newMemberInfo.setLongitude((double)memberInfoMap.get("longitude"));
-		newMemberInfo.setPersonality((String)memberInfoMap.get("personality"));
-		newMemberInfo.setReligion((String)memberInfoMap.get("religion"));
-		newMemberInfo.setSmoking((boolean)memberInfoMap.get("smoking"));
+		newMemberInfo.setAddress((String)member.get("address"));
+		newMemberInfo.setAge((String)member.get("age"));
+		newMemberInfo.setAlcohol(member.get("alcohol").toString());
+		System.out.println(member.get("distance"));
+		newMemberInfo.setDistance((Integer)member.get("distance"));
+		newMemberInfo.setGender(member.get("gender").toString());
+		newMemberInfo.setHobby(member.get("hobby").toString());
+		newMemberInfo.setInterest(member.get("interest").toString());
+		newMemberInfo.setLatitude((double)member.get("latitude"));
+		newMemberInfo.setLongitude((double)member.get("longitude"));
+		newMemberInfo.setPersonality(member.get("personality").toString());
+		newMemberInfo.setReligion(member.get("religion").toString());
+		boolean smokingCheck=true;
+		if(member.get("smoking").toString().equals("[false]")) {
+			smokingCheck=false;
+		}
+		newMemberInfo.setSmoking(smokingCheck);
 		
 		
 		Member newMember=new Member();
-		newMember.setEmail((String)memberMap.get("email"));
+		newMember.setEmail(member.get("email").toString());
 		newMember.setIssuspended(false);
-		newMember.setMemberid((String)memberMap.get("memberid"));
+		newMember.setMemberid(member.get("id").toString());
 		newMember.setMemberinfo(newMemberInfo);
-		newMember.setNickname((String)memberMap.get("nickname"));
+		newMember.setNickname(member.get("nickname").toString());
 		Date date_now = new Date(System.currentTimeMillis()); // 현재시간을 가져와 Date형으로 저장한다
-		// 년월일시분초 14자리 포멧
-		SimpleDateFormat fourteen_format = new SimpleDateFormat("yyyyMMddHHmmss"); 
-		newMember.setOnlinetime(fourteen_format.format(date_now));
-		newMember.setPassword((String)memberMap.get("password"));
+		String stringDatetime = new SimpleDateFormat("yyyy.MM.dd").format(date_now);
+//		SimpleDateFormat fourteen_format = new SimpleDateFormat("yyyy-MM-dd-HH"); 
+		newMember.setOnlinetime(stringDatetime);
+		newMember.setPassword(member.get("password").toString());
 		
 		
 		
@@ -94,7 +100,7 @@ public class MemberServiceImpl implements MemberService{
 		if(memRepo.existsBynickname(userNickname)) {
 			return false;
 		}
-		return false;
+		return true;
 	}
 	
 	

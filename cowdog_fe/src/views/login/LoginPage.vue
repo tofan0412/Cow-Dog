@@ -16,12 +16,12 @@
         <el-button class="loginBtn" @click="clickLogin">로그인</el-button>
         <hr>
         <div>
-          <router-link to='/RegisterPage' style="text-decoration: none; color: black;">비밀번호 찾기</router-link>
+          <router-link to='/FindPassword' style="text-decoration: none; color: black;">비밀번호 찾기</router-link>
         </div>
         <br>
       </div>
       <div class="register-form" >
-        <span>계정이 없으신가요?    </span> <router-link to='/RegisterPage' style="text-decoration: none; color: #EC7357;">가입하기</router-link>
+        <span>계정이 없으신가요?    </span> <router-link to='/Register' style="text-decoration: none; color: #EC7357;">가입하기</router-link>
       </div>
     </div>
   </div>
@@ -122,6 +122,7 @@ export default {
     })
 
     const clickLogin = function () {
+      
       state.form.isLoading=true;
       // 로그인 클릭 시 validate 체크 후 그 결과 값에 따라, 로그인 API 호출 또는 경고창 표시
       loginForm.value.validate((valid) => {
@@ -130,13 +131,17 @@ export default {
           console.log('submit')
           store.dispatch('requestLogin', { id: state.form.id, password: state.form.password })
           .then(function (result) {
-            store.commit('SET_USER',{
-              result
-            })
+            console.log(result.data)
+           if(result.data==="NOT_EXISTS_USER"){
+              alert("회원이 아닙니다.")
+            }
+            else{
               alert("로그인 성공")
+              //router.push({name:""}) 로그인 성공하면 메인페이지로 이동
+            }
           })
           .catch(function () {
-            alert("아이디나 비밀번호가 일치하지 않습니다")
+            alert("회원정보가 없습니다.")
           })
         } else {
           state.form.isLoading=false

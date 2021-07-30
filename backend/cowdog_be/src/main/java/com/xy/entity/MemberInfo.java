@@ -35,7 +35,7 @@ public class MemberInfo {
 	private String hobby;
 	private double latitude;
 	private double longitude;
-	private double distance;
+	private int distance;
 	private String address;
 
 }
