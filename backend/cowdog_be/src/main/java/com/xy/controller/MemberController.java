@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,7 @@ import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/cowdog/mem")
+@CrossOrigin(origins="http://localhost:8083")
 public class MemberController {
 
 	@Autowired
@@ -41,13 +43,11 @@ public class MemberController {
     })
 	public ResponseEntity<? extends BaseResponseBody> register(
 			@RequestBody HashMap<String, Object> map) {
-		Map memberInfoMap=(Map)map.get("memberinfo");
-		Map memberMap=(Map)map.get("member");
+		System.out.println(map);
 		
 		
 		
-		
-		if(memSer.registerMember(memberMap, memberInfoMap).equals("FAIL")) {
+		if(memSer.registerMember(map).equals("FAIL")) {
 			return ResponseEntity.status(200).body(BaseResponseBody.of(404, "FAIL"));
 		}
 		
@@ -71,7 +71,7 @@ public class MemberController {
 		Member mem = memSer.getMemberByMemberId(userId);
 		if(mem==null) {
 			System.out.println("회원 읎어");
-			return ResponseEntity.status(404).body(BaseResponseBody.of(200, "NOT_EXISTS_USER"));
+			return ResponseEntity.status(404).body(BaseResponseBody.of(204, "NOT_EXISTS_USER"));
 		}
 		// 로그인 요청한 유저로부터 입력된 패스워드 와 디비에 저장된 유저의 암호화된 패스워드가 같은지 확인.(유효한 패스워드인지 여부 확인)
 		
@@ -94,10 +94,10 @@ public class MemberController {
 	
 	
 	@PostMapping("/confirmNickname")
-	public ResponseEntity<String> confirmNickname(@RequestBody String userNickname) {
+	public ResponseEntity<String> confirmNickname(@RequestBody String Nickname) {
 		
-		System.out.println(userNickname);
-		if(memSer.confirmNickname(userNickname)) {
+		System.out.println(Nickname);
+		if(memSer.confirmNickname(Nickname)) {
 			System.out.println("닉네임 없다");
 			return ResponseEntity.status(200).body("NOT_EXISTS_NICKNAME");
 		}

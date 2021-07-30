@@ -19,9 +19,20 @@ export function requestLogin ({ state }, payload) {
   return $axios.post(url, body)
 }
 
+export function requestRegister ({ state }, payload) {
+  console.log('requestLogin', state, payload)
+  console.log("여기는 회원가입: ", state, payload)
+  
+  const url = '/mem/register'
+  let body = payload
+  return $axios.post(url, body)
+}
+
 export function confirmId({state},payload){
   console.log('confirmId', state, payload)
   console.log(payload.id)
+
+
   const url='/mem/confirmId'
   let body=payload.id
   return $axios.post(url,body)
@@ -30,8 +41,10 @@ export function confirmId({state},payload){
 
 export function confirmNickname({state},payload){
   console.log('confirmNickname', state, payload)
-  console.log(payload.id)
+  console.log(payload.nickName)
   const url='/mem/confirmNickname'
-  let body=payload.id
+  let body=payload.nickName
   return $axios.post(url,body)
 }
+
+
