@@ -1,58 +1,63 @@
 <template>
-
-<div class="container">
-  <div class="batch" style="display:flex">
-      <h1 class="title">공지사항</h1>
-      <div><el-button class="create">Create</el-button></div>
-  </div>
-  <div class="notice-list">
-    <div v-for="(notice, idx) in noticesPaginated" :key="idx">
-      <el-card class="box-card">
-        <template #header>
-          <div class="card-header">
-            <span>{{ notice.title }}</span>
+<div>
+  <div class="container">
+    <div class="batch" style="display:flex">
+        <h1 class="title">공지사항</h1>
+        <div><el-button class="create" @click="moveToNoticeCreate">Create</el-button></div>
+    </div>
+    <div class="notice-list">
+      <div v-for="(notice, idx) in noticesPaginated" :key="idx">
+        <el-card class="box-card">
+          <template #header>
+            <div class="card-header">
+              <span>{{ notice.title }}</span>
+            </div>
+          </template>
+          <div class="card-body">{{ notice.content }}</div>
+          <br>
+          <div class="card-footer">
+            <noticeDetail :noticeDetailData="notice" />
           </div>
-        </template>
-        <div class="card-body">{{ notice.content }}</div>
-        <br>
-        <div class="card-footer">
-          <el-button class="button" type="text">수정</el-button>
-          <el-button class="button" type="text">삭제</el-button>
-        </div>
-      </el-card>
+        </el-card>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="pagination">
-  <el-pagination
-  background
-  layout="prev, pager, next"
-  :page-size=pageSize
-  :total="notices.length"
-  v-model:current-page="currentPage">
-  </el-pagination>
+  <div class="pagination">
+    <el-pagination
+    background
+    layout="prev, pager, next"
+    :page-size=pageSize
+    :total="notices.length"
+    v-model:current-page="currentPage">
+    </el-pagination>
+  </div>
 </div>
 </template>
 
 <script>
 import { useStore } from 'vuex'
-
+import router from '../../../router'
+import noticeDetail from './notice-detail.vue'
 export default {
-
   data() {
     return {
       // for pagination
-      pageSize: 5,
-      currentPage: 1,
+      pageSize: 5, // 한 페이지에 나오는 게시물 수
+      currentPage: 1, // 현재 페이지(v-model 적용)
     }
   },
 
-  // methods: {
-  //   noticeUpdate(notices) {
+  components: {
+    noticeDetail,
+  },
 
-  //   }
-  // },
+  methods: {
+    moveToNoticeCreate() {
+      router.push('/admin/noticeCreate')
+    }
+  },
+
   computed: {
     noticesPaginated() {
       var start = 0 + (this.currentPage-1) * this.pageSize
@@ -64,6 +69,7 @@ export default {
   setup() {
     const store = useStore()
     const notices = store.state.notices
+
     return { notices }
   }
 }
@@ -152,6 +158,19 @@ export default {
   .create:hover {
     background-color: #FFFFFF;
     border-color: #FF4E7E;
+    color: #FF4E7E;
+  }
+
+  .el-button {
+    color: #323545;
+    font-weight: bold;
+  }
+
+  .el-button:hover {
+    color: #FF4E7E;
+  }
+  
+  .el-button:focus {
     color: #FF4E7E;
   }
 

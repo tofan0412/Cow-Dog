@@ -6,6 +6,8 @@ import * as actions from './actions'
 
 const state = {
   notices: "기본값",
+  reportedUsers: '기본값',
+  noticeDetailData: '기본값',
 }
 
 const root = createStore({
