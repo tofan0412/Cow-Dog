@@ -91,6 +91,7 @@
 <script>
 import { reactive,ref } from 'vue'
 import { useStore } from 'vuex'
+// import router from "@/router";
 
 export default {
   name: "RegisterPage",
