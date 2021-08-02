@@ -91,8 +91,7 @@
 <script>
 import { reactive,ref } from 'vue'
 import { useStore } from 'vuex'
-// import router from "@/router";
-
+import router from "@/router"
 export default {
   name: "RegisterPage",
   props: {
@@ -133,12 +132,20 @@ export default {
           store.dispatch('requestLogin', { id: state.form.id, password: state.form.password })
           .then(function (result) {
             console.log(result.data)
-           if(result.data==="NOT_EXISTS_USER"){
+           if(result.data.message==="NOT_EXISTS_USER"){
               alert("회원이 아닙니다.")
             }
-            else{
+            else if(result.data.message==="PASSWORD_INCORRECT"){
+              alert("아이디나 비밀번호를 확인해주세요")
+            }else{
               alert("로그인 성공")
-              //router.push({name:""}) 로그인 성공하면 메인페이지로 이동
+              console.log(result.data.id)
+              console.log(result.data.accessToken)
+              // var login_user={}
+              // login_user.userId=result.data.id
+              // login_user.accessToken=result.data.accessToken
+              store.commit("GET_LOGIN_USER",{userId:result.data.id,accessToken:result.data.accessToken})
+              router.push({name:"Admin"}) //로그인 성공하면 메인페이지로 이동
             }
           })
           .catch(function () {

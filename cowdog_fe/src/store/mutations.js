@@ -8,3 +8,13 @@ export const GET_REPORTED_USERS = (state, reportedUserDatas) => {
     state.reportedUsers = reportedUserDatas
     router.push('/admin/user-report')
 }
+
+
+export const GET_LOGIN_USER=(state,login_user)=>{
+    console.log(login_user)
+    state.userId=login_user.userId
+    state.accessToken=login_user.accessToken
+
+    console.log(state.userId)
+    console.log(state.accessToken)
+}

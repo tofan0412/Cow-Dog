@@ -10,4 +10,5 @@ public interface MemberService {
 	public Member getMemberByMemberId(String id);
 	public boolean confirmUserId(String userId);
 	public boolean confirmNickname(String userNickname);
+	public Member getMemberById(long id);
 }

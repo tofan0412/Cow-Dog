@@ -13,6 +13,7 @@
       <el-menu-item index="3" class="navMenu"><router-link to="/admin" @click="getNotices">Admin</router-link></el-menu-item>
       <el-menu-item index="4" class="navMenu"><router-link to="/login">Login</router-link></el-menu-item>
       <el-menu-item index="5" class="navMenu"><router-link to="/register">Register</router-link></el-menu-item>
+      <el-menu-item index="5" class="navMenu"><router-link to="/mypage" @click="getMyInfo">mypage</router-link></el-menu-item>
     </el-menu>
   </div>
   <router-view/>
@@ -38,6 +39,9 @@ export default ({
     return {
       getNotices: () => {
         store.dispatch('getNotices') // actions/getNotices에 dispatch
+      },
+      getMyInfo:()=>{
+        store.dispatch('getMyInfo')
       }
     }
   },

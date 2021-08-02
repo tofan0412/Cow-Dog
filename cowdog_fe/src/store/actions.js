@@ -11,6 +11,23 @@ export function getNotices ({ commit }) {
     })
 }
 
+export function getMyInfo({state}){
+  console.log(state.userId)
+  console.log(state.accessToken)
+  axios.get("/mem/mypage/?userId="+state.userId,{
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    }
+  })
+  .then(res=>{
+    console.log(res.data)
+  })
+  .catch(err=>{
+    console.log(err)
+  })
+}
+
+
 export function requestLogin ({ state }, payload) {
   console.log('requestLogin', state, payload)
   console.log("여기는 로그인: ", state, payload)
@@ -31,7 +48,7 @@ export function requestRegister ({ state }, payload) {
 export function confirmId({state},payload){
   console.log('confirmId', state, payload)
   console.log(payload.id)
-
+  
 
   const url='/mem/confirmId'
   let body=payload.id

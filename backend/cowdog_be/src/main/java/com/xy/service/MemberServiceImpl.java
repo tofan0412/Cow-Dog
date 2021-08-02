@@ -5,7 +5,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Map;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.xy.entity.Member;
@@ -21,7 +25,12 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Autowired
 	MemberInfoRepository memInfoRepo;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
+	 @PersistenceContext
+	    EntityManager entityManager;
 	@Override
 	public String registerMember(Map member) {
 		System.out.println(member);
@@ -56,7 +65,8 @@ public class MemberServiceImpl implements MemberService{
 		String stringDatetime = new SimpleDateFormat("yyyy.MM.dd").format(date_now);
 //		SimpleDateFormat fourteen_format = new SimpleDateFormat("yyyy-MM-dd-HH"); 
 		newMember.setOnlinetime(stringDatetime);
-		newMember.setPassword(member.get("password").toString());
+		newMember.setPassword(passwordEncoder.encode(member.get("password").toString()));//패스워드 인코드
+		
 		
 		
 		
@@ -102,7 +112,12 @@ public class MemberServiceImpl implements MemberService{
 		}
 		return true;
 	}
-	
+
+	@Override
+	public Member getMemberById(long id) {
+		return memRepo.getById(id);
+		
+	}
 	
 	
 	

@@ -6,7 +6,20 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
-			<item value="C:\Users\multicampus\Desktop\pjt 1\S05P12B104"/>
+			<item value="C:\Users\multicampus\Desktop\pjt 1 back"/>
+		</list>
+	</section>
+	<section name="ExternalProjectImportWizard">
+		<item key="WizardProjectsImportPage.STORE_NESTED_PROJECTS" value="false"/>
+		<item key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID" value="false"/>
+		<item key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED" value="false"/>
+		<item key="WizardProjectsImportPage.STORE_CLOSE_CREATED_PROJECTS_ID" value="false"/>
+		<item key="WizardProjectsImportPage.STORE_HIDE_CONFLICTING_PROJECTS_ID" value="false"/>
+		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="C:\Users\multicampus\Desktop\pjt 1 back\backend\cowdog_be"/>
+		</list>
+		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
+			<item value=""/>
 		</list>
 	</section>
 </section>

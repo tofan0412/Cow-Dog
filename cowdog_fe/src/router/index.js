@@ -11,6 +11,8 @@ import AppealDetail from '../views/appeal/components/AppealDetail.vue'
 import AppealCreate from '../views/appeal/components/AppealCreate.vue'
 import LoginPage from '../views/login/LoginPage.vue'
 import RegisterPage from '../views/register/RegisterPage.vue'
+import Mypage from '../views/mypage/Mypage.vue'
+import MyInfo from '../views/mypage/components/MyInfo.vue'
 const routes = [
   
   {
@@ -28,7 +30,19 @@ const routes = [
     name:'Register',
     component:RegisterPage
   },
+  {
+    path:'/mypage',
+    name: 'Mypage',
+    component:Mypage,
+    children:[
+      {
+        path:'/mypage/myinfo',
+        name:'MyInfo',
+        component:MyInfo
+      }
 
+    ]
+  },
   {
     path: '/admin',
     name: 'Admin',
