@@ -3,9 +3,9 @@ package com.xy.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.xy.entity.Notice;
+import com.xy.entity.UserReport;
 
 @Repository
-public interface NoticeRepository extends JpaRepository<Notice, Long> {
+public interface UserReportRepository extends JpaRepository<UserReport, Long> {
 	
 }

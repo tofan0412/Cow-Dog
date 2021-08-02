@@ -1,10 +1,9 @@
-[TOC]
-
 # 🐂🐕COW & DOG
+
+![LogoBackgroundInvisible](README.assets/LogoBackgroundInvisible.png)
 
 <div>
 <p align="center">
-  <img width="200px;" src=#이미지url />
   <br/><b>소개팅 서비스</b>
   <p align="center">
  <img src="https://img.shields.io/badge/JavaScript-ES6+-green?logo=javascript">
@@ -19,6 +18,7 @@
 <br/> 
 </p>    
 </div>
+
 > 서비스명: CowDog
 > 팀명: 5xy
 > 개발 기간: 2021.07.12 ~ 2021.08.20 (약 7주) 
@@ -274,8 +274,9 @@ git commit -m "S04P22B107-56 [feat] : BE_0415 - AWS RDS, S3 서버 및 기본환
 ### ✔ 와이어프레임    
 > [피그마 바로가기](https://www.figma.com/file/DgYRBtDjlOecYPiEZOxTAi/Untitled?node-id=0%3A1)    
 
-원하는 페이지 추가하기
+
 
 ### 2021.07.23
 
 - vue router 추가
+
