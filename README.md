@@ -2,7 +2,7 @@
 
 # 🐂🐕COW & DOG
 
-![LogoBackgroundInvisible](.\README.assets\LogoBackgroundInvisible.png)
+![LogoBackgroundInvisible](README.assets\LogoBackgroundInvisible.png)
 
 <div>
 <p align="center">
