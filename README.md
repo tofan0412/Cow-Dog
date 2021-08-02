@@ -1,5 +1,3 @@
-[TOC]
-
 # 🐂🐕COW & DOG
 
 ![LogoBackgroundInvisible](README.assets/LogoBackgroundInvisible.png)
