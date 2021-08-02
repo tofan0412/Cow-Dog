@@ -1,22 +1,5 @@
 import axios from 'axios'
 import $axios from 'axios'
-export function getNotices ({ state, commit }) {
-  const url = '/notice'
-  axios({
-    url: url,
-    method: 'get',
-    headers:{
-      Authorization:"Bearer "+state.accessToken
-    },
-  })
-    .then(res => {
-      console.log(res)
-      commit('GET_NOTICES', res.data)
-    })
-    .catch(err => {
-      console.log(err)
-    })    
-}
 
 export function getMyInfo({state}){
   console.log(state.userId)
@@ -71,16 +54,23 @@ export function confirmNickname({state},payload){
   return $axios.post(url,body)
 }
 
-
-export function getReportedUsers({ commit }) {
-  axios.get('https://e7d14d3b-41a2-4dc5-874c-a55731c663b9.mock.pstmn.io/reportedUserList')
+// 공지사항 관련 actions
+export function getNotices ({ state, commit }) {
+  const url = '/notice'
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
     .then(res => {
-      console.log(res.data)
-      commit('GET_REPORTED_USERS', res.data)
+      console.log(res)
+      commit('GET_NOTICES', res.data)
     })
     .catch(err => {
       console.log(err)
-    })  
+    })    
 }
 
 export function postNotice({ state }, payload) {
@@ -95,6 +85,49 @@ export function postNotice({ state }, payload) {
     data: {
       title: payload.title,
       content: payload.content
+    }
+  })
+    .then(res => {
+      console.log(res)
+      return res.data
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
+
+// 신고 관련 actions
+export function getReportedUsers({ state, commit }) {
+  const url = '/user-report'
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+    .then(res => {
+      console.log(res.data)
+      commit('GET_REPORTED_USERS', res.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })  
+}
+
+export function postUserReport({ state }, payload) {
+  console.log(payload)
+  const url = '/user-report'
+  axios({
+    url: url,
+    method: 'post',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+    data: {
+      title: payload.title,
+      content: payload.content,
+      reportedId: payload.reportedId
     }
   })
     .then(res => {

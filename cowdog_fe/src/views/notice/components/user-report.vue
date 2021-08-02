@@ -31,6 +31,8 @@
     </el-pagination>
   </div>  
 </div>
+
+<button @click="userReport">신고 테스트</button>
 </template>
 
 <script>
@@ -55,6 +57,13 @@ export default {
       var start = 0 + (this.currentPage-1) * this.pageSize
       var end = this.currentPage * this.pageSize
       return this.reportedUsers.slice(start, end) //기본값 0~5번
+    }
+  },
+
+  // 신고 POST 예시
+  methods: {
+    userReport() {
+      this.$store.dispatch('postUserReport', {"title": "정지시켜주세요.", "content": "악질이에요.", "reportedId": "3"})
     }
   },
 
