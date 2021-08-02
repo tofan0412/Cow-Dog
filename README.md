@@ -2,9 +2,10 @@
 
 # 🐂🐕COW & DOG
 
+![LogoBackgroundInvisible](C:\Users\multicampus\Desktop\sub3\S05P13B104\README.assets\LogoBackgroundInvisible.png)
+
 <div>
 <p align="center">
-  <img width="200px;" src=#이미지url />
   <br/><b>소개팅 서비스</b>
   <p align="center">
  <img src="https://img.shields.io/badge/JavaScript-ES6+-green?logo=javascript">
@@ -19,6 +20,7 @@
 <br/> 
 </p>    
 </div>
+
 > 서비스명: CowDog
 > 팀명: 5xy
 > 개발 기간: 2021.07.12 ~ 2021.08.20 (약 7주) 
