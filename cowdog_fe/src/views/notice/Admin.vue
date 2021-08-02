@@ -21,7 +21,7 @@
               <span>신고관리</span>
             </template>         
               <el-menu-item index="2-1" @click="getReportedUsers"><i class="fas fa-user"></i>사용자</el-menu-item>
-              <el-menu-item index="2-2"><router-link to="/admin/writing-report">
+              <el-menu-item index="2-2" @click="getReportedArticles"><router-link to="/admin/article-report">
               <i class="far fa-file-alt"></i>게시글</router-link></el-menu-item>
           </el-submenu>
         </el-menu>
@@ -49,6 +49,9 @@ export default {
     return {
       getReportedUsers: () => {
         store.dispatch('getReportedUsers') //actions/getReportedUsers에 dispatch
+      },
+      getReportedArticles: () => {
+        store.dispatch('getReportedArticles') // actions/getReportedArticles에 dispatch
       },
       getNotices: () => {
         store.dispatch('getNotices') // actions/getNotices에 dispatch

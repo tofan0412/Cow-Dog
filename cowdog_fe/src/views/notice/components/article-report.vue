@@ -2,20 +2,20 @@
 
 <div class="container">
   <div class="batch" style="display:flex">
-      <h1 class="title">유저 신고 관리</h1>
+      <h1 class="title">게시글 신고 관리</h1>
   </div>
-  <div class="reportedUser-list">
-    <div v-for="(reportedUser, idx) in reportedUsersPaginated" :key="idx">
+  <div class="reportedArticle-list">
+    <div v-for="(reportedArticle, idx) in reportedArticlesPaginated" :key="idx">
       <el-card class="box-card">
         <template #header>
           <div class="card-header">
-            <span>신고 대상 번호: {{ reportedUser.reportedId }}</span>
+            <span>신고 대상 번호: {{ reportedArticle.reportedArticleNo }}</span>
           </div>
         </template>
-        <div class="card-body">{{ reportedUser.content }}</div>
+        <div class="card-body">{{ reportedArticle.content }}</div>
         <br>
         <div class="card-footer">
-          <el-button class="button" type="text"><reportedDetail :reportedUserData="reportedUser" /></el-button>
+          <el-button class="button" type="text"><reportedArticleDetail :reportedArticleData="reportedArticle" /></el-button>
           <el-button class="button" type="text">삭제</el-button>
         </div>
       </el-card>
@@ -26,18 +26,18 @@
     background
     layout="prev, pager, next"
     :page-size=pageSize
-    :total="reportedUsers.length"
+    :total="reportedArticles.length"
     v-model:current-page="currentPage">
     </el-pagination>
   </div>  
 </div>
 
-<button @click="userReport">신고 테스트</button>
+<button @click="ArticleReport">게시글 신고 테스트</button>
 </template>
 
 <script>
 import { useStore } from 'vuex'
-import reportedDetail from './reported-detail.vue'
+import reportedArticleDetail from './reported-article-detail.vue'
 
 export default {
 
@@ -49,28 +49,28 @@ export default {
     }
   },
   components: {
-    reportedDetail,
+    reportedArticleDetail,
   },
 
   computed: {
-    reportedUsersPaginated() {
+    reportedArticlesPaginated() {
       var start = 0 + (this.currentPage-1) * this.pageSize
       var end = this.currentPage * this.pageSize
-      return this.reportedUsers.slice(start, end) //기본값 0~5번
+      return this.reportedArticles.slice(start, end) //기본값 0~5번
     }
   },
 
   // 신고 POST 예시
   methods: {
-    userReport() {
-      this.$store.dispatch('postUserReport', {"title": "정지시켜주세요.", "content": "악질이에요.", "reportedId": "3"})
+    ArticleReport() {
+      this.$store.dispatch('postArticleReport', {"title": "정지시켜주세요.", "content": "악질이에요.", "reportedArticleNo": "3", "articleUrl": "www.naver.com"})
     }
   },
 
   setup() {
     const store = useStore()
-    const reportedUsers = store.state.reportedUsers
-    return { reportedUsers }
+    const reportedArticles = store.state.reportedArticles
+    return { reportedArticles }
   }
 }
 </script>
@@ -103,7 +103,7 @@ export default {
     justify-content: space-between;
     align-items: baseline;
   }
-  .reportedUser-list {
+  .reportedArticle-list {
     width: 80vw;
   }
 

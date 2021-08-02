@@ -9,25 +9,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.xy.api.request.NoticeCreatePostReq;
+import com.xy.api.request.ArticleReportPostReq;
 import com.xy.common.response.BaseResponseBody;
-import com.xy.entity.Notice;
-import com.xy.service.NoticeService;
+import com.xy.entity.ArticleReport;
+import com.xy.service.ArticleReportService;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/cowdog/notice")
+@RequestMapping("/cowdog/article-report")
 @CrossOrigin(origins="http://localhost:8083")
-public class NoticeController {
+public class ArticleReportController {
 
 	@Autowired
-	NoticeService noticeService;
+	ArticleReportService articleReportService;
 	
-	@PostMapping("") // notice에 post 요청
-	@ApiOperation(value = "공지 작성", notes = "공지를 작성한다.") 
+	@PostMapping("") // '/user-report'에 post 요청
+	@ApiOperation(value = "게시글 신고", notes = "게시글을 신고한다.") 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
         @ApiResponse(code = 401, message = "인증 실패"),
@@ -35,21 +35,17 @@ public class NoticeController {
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public ResponseEntity<? extends BaseResponseBody> create(
-			@RequestBody NoticeCreatePostReq noticereq) {
-		System.out.println(noticereq);
-	
-		if(noticeService.createNotice(noticereq).equals("FAIL")) { //NoticeServiceImpl에서 save가 실패하면 FAIL을 return함
+			@RequestBody ArticleReportPostReq request) {
+		System.out.println(request);
+		if(articleReportService.createArticleReport(request).equals("FAIL")) {
 			return ResponseEntity.status(200).body(BaseResponseBody.of(404, "FAIL"));
 		}
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SUCCESS"));
 	}
 	
-	@GetMapping("") // notice에 get 요청
-	public List<Notice> get(){
-		return noticeService.getNoticeList();
+	@GetMapping("") // article-report에 get 요청
+	public List<ArticleReport> get() {
+		return articleReportService.getArticleReportList();
 	}
 	
-//	@PutMapping("")
-	
-//	@DeleteMapping("")
 }
