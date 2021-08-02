@@ -46,6 +46,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!');
+            this.$store.dispatch('postNotice', {"title": this.ruleForm.title, "content": this.ruleForm.content})
           } else {
             console.log('error submit!!');
             return false;

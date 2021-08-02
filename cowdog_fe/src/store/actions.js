@@ -75,3 +75,23 @@ export function getReportedUsers({ commit }) {
       console.log(err)
     })  
 }
+
+export function postNotice({ commit }, payload) {
+  console.log(commit, payload)
+  const url = '/notice'
+  axios({
+    url: url,
+    method: 'post',
+    data: {
+      title: payload.title,
+      content: payload.content
+    }
+  })
+    .then(res => {
+      console.log(res)
+      return res.data
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
