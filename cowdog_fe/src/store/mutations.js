@@ -10,7 +10,10 @@ export const GET_REPORTED_USERS = (state, reportedUserDatas) => {
     router.push('/admin/user-report')
 }
 
-
+export const GET_REPORTED_ARTICLES = (state, reportedArticleDatas) => {
+    state.reportedArticles = reportedArticleDatas
+    router.push('/admin/article-report')
+}
 export const GET_LOGIN_USER=(state,login_user)=>{
     console.log(login_user)
     state.userId=login_user.userId

@@ -96,7 +96,7 @@ export function postNotice({ state }, payload) {
     })
 }
 
-// 신고 관련 actions
+// 유저 신고 관련 actions
 export function getReportedUsers({ state, commit }) {
   const url = '/user-report'
   axios({
@@ -128,6 +128,50 @@ export function postUserReport({ state }, payload) {
       title: payload.title,
       content: payload.content,
       reportedId: payload.reportedId
+    }
+  })
+    .then(res => {
+      console.log(res)
+      return res.data
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
+
+// 게시글 신고 관련 actions
+export function getReportedArticles({ state, commit }) {
+  const url = '/article-report'
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+    .then(res => {
+      console.log(res.data)
+      commit('GET_REPORTED_ARTICLES', res.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })  
+}
+
+export function postArticleReport({ state }, payload) {
+  console.log(payload)
+  const url = '/article-report'
+  axios({
+    url: url,
+    method: 'post',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+    data: {
+      title: payload.title,
+      content: payload.content,
+      reportedArticleNo: payload.reportedArticleNo,
+      articleUrl: payload.articleUrl,
     }
   })
     .then(res => {
