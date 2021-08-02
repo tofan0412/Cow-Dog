@@ -1,4 +1,20 @@
+import router from '../router'
 export const GET_NOTICES = (state, noticeDatas) => {
     state.notices = noticeDatas
-    console.log(state.notices)
+    router.push('/admin/notice') // Admin 클릭 => notices가 로드되고 난 후에 notice 페이지로 push
+}
+
+export const GET_REPORTED_USERS = (state, reportedUserDatas) => {
+    state.reportedUsers = reportedUserDatas
+    router.push('/admin/user-report')
+}
+
+
+export const GET_LOGIN_USER=(state,login_user)=>{
+    console.log(login_user)
+    state.userId=login_user.userId
+    state.accessToken=login_user.accessToken
+
+    console.log(state.userId)
+    console.log(state.accessToken)
 }
