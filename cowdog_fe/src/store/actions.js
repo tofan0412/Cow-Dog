@@ -1,14 +1,21 @@
 import axios from 'axios'
 import $axios from 'axios'
-export function getNotices ({ commit }) {
-  axios.get('https://e7d14d3b-41a2-4dc5-874c-a55731c663b9.mock.pstmn.io/notice')
+export function getNotices ({ state, commit }) {
+  const url = '/notice'
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
     .then(res => {
-      console.log(res.data)
+      console.log(res)
       commit('GET_NOTICES', res.data)
     })
     .catch(err => {
       console.log(err)
-    })
+    })    
 }
 
 export function getMyInfo({state}){
@@ -76,12 +83,15 @@ export function getReportedUsers({ commit }) {
     })  
 }
 
-export function postNotice({ commit }, payload) {
-  console.log(commit, payload)
+export function postNotice({ state }, payload) {
+  console.log(payload)
   const url = '/notice'
   axios({
     url: url,
     method: 'post',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
     data: {
       title: payload.title,
       content: payload.content

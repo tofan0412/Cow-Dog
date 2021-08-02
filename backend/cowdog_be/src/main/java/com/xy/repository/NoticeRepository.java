@@ -7,4 +7,5 @@ import com.xy.entity.Notice;
 
 @Repository
 public interface NoticeRepository extends JpaRepository<Notice, Long> {
+	
 }
