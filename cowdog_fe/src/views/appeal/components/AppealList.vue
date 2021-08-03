@@ -14,7 +14,7 @@ export default {
   name: 'BOARDLIST',  
   setup() {
     // POSTMAN Mock Server
-    const serverURL = "https://5a66a063-6d26-4bf8-ae2c-fe9b30ddbb1b.mock.pstmn.io/appeal"
+    const serverURL = "http://localhost:8081/cowdog/appeal/"
     
     // vue 2에서 data의 역할을 한다.
     const state = reactive({
@@ -24,7 +24,7 @@ export default {
     })
 
     // 게시글 목록 불러오기
-    axios.get(serverURL, { /* parameters */ })
+    axios.get(serverURL, { headers: {Authorization:"Bearer "+state.accessToken} })
     .then(resp => {
       state.articlelist = resp.data
       // console.log(state.articleList)
