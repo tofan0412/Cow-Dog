@@ -1,13 +1,13 @@
 package com.xy.repository;
 
-import java.util.List;
+import javax.persistence.NamedQuery;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.xy.entity.Notice;
+import com.xy.entity.Image;
 
 @Repository
-public interface NoticeRepository extends JpaRepository<Notice, Long> {
+public interface ImageRepository extends  JpaRepository<Image, Long>{
 	
 }

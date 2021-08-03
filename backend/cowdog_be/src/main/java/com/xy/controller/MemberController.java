@@ -1,6 +1,8 @@
 package com.xy.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +18,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.xy.S3.S3SServiceImpl;
+import com.xy.S3.S3Service;
 import com.xy.api.request.MemberLoginPostReq;
 import com.xy.api.response.MemberLoginPostRes;
 import com.xy.common.response.BaseResponseBody;
+import com.xy.entity.Image;
 import com.xy.entity.Member;
 import com.xy.entity.MemberInfo;
+import com.xy.service.ImageService;
 import com.xy.service.MemberService;
 import com.xy.auth.JwtUtil;
 import io.swagger.annotations.ApiOperation;
@@ -36,6 +43,10 @@ public class MemberController {
 
 	@Autowired
 	MemberService memSer;
+	@Autowired
+	S3SServiceImpl s3sSer;
+	@Autowired
+	ImageService imgaeSer;
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -52,6 +63,9 @@ public class MemberController {
 			@ApiResponse(code = 404, message = "사용자 없음"), @ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<? extends BaseResponseBody> register(@RequestBody HashMap<String, Object> map) {
 		System.out.println(map);
+		
+		
+		
 
 		if (memSer.registerMember(map).equals("FAIL")) {
 			return ResponseEntity.status(200).body(BaseResponseBody.of(404, "FAIL"));
@@ -59,7 +73,26 @@ public class MemberController {
 
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SUCCESS"));
 	}
-
+	
+	@PostMapping("/profileImgaeUpload")
+	public void execWrite(Image image, MultipartFile files,String userId) throws IOException {
+		System.out.println("여기는 이미지 업로드");
+		System.out.println(image.toString());
+	    System.out.println(files);
+	    System.out.println(userId);
+	    // for (int i = 0; i < files.length; i++) {
+	    String imgPath = s3sSer.upload(image.getFile_path(), files);
+	    image.setFile_path("https://" + "d2ukkf315368dk.cloudfront.net" + "/" + imgPath);
+	    // }
+	    imgaeSer.upload(image,userId);
+	  }
+	
+	@GetMapping("/getImageList")
+	public List<Image> getImageList(){
+		return imgaeSer.getImageList();
+	}
+	
+	
 	@PostMapping("/login")
 	@ApiOperation(value = "로그인", notes = "<strong>아이디와 패스워드</strong>를 통해 로그인 한다.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),

@@ -11,7 +11,7 @@ export function getNotices ({ commit }) {
     })
 }
 
-export function getMyInfo({state}){
+export function getMyInfo({state,commit}){
   console.log(state.userId)
   console.log(state.accessToken)
   axios.get("/mem/mypage/?userId="+state.userId,{
@@ -21,6 +21,7 @@ export function getMyInfo({state}){
   })
   .then(res=>{
     console.log(res.data)
+    commit('GET_MYINFO',res.data);
   })
   .catch(err=>{
     console.log(err)
@@ -76,8 +77,8 @@ export function getReportedUsers({ commit }) {
     })  
 }
 
-export function postNotice({ commit }, payload) {
-  console.log(commit, payload)
+export function postNotice({ state }, payload) {
+  console.log( payload)
   const url = '/notice'
   axios({
     url: url,
@@ -85,6 +86,9 @@ export function postNotice({ commit }, payload) {
     data: {
       title: payload.title,
       content: payload.content
+    },
+    headers:{
+      Authorization:"Bearer "+state.accessToken
     }
   })
     .then(res => {

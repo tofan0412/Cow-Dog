@@ -1,5 +1,7 @@
 package com.xy.service;
 import java.sql.Timestamp;
+import java.util.List;
+
 import com.xy.api.request.NoticeCreatePostReq;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +35,11 @@ public class NoticeServiceImpl implements NoticeService{ // NoticeService를 상
 			return "SUCCESS";
 		}
 		return "FAIL";
+	}
+
+
+	@Override
+	public List<Notice> getNoticeList() {
+		return noticeRepo.findAll();
 	}
 }
