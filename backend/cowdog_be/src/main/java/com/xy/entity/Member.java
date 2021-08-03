@@ -47,7 +47,9 @@ public class Member {
 	private String email;
 	private boolean issuspended;
 	private String onlinetime;
-	
+	private String file_path;
+	private String title;
+	private String imgFullPath;
 	public void addArticle(Article article) {
 		this.articles.add(article);
 		if(article.getMember_id()!=this) {

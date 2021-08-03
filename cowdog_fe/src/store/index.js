@@ -8,6 +8,7 @@ const state = {
   notices: "기본값",
   reportedUsers: '기본값',
   noticeDetailData: '기본값',
+  myinfo:[],
   accessToken:'',// 
   userId:'',
 }

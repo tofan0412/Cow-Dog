@@ -13,7 +13,7 @@
           active-text-color="#ff4e7e">      
           <el-menu-item index="1">
             <i class="fas fa-clipboard-list" style="font-size: 16px"></i>
-            <span><router-link to="/myinfo" >내 정보</router-link></span>
+            <span><router-link to="/mypage/myinfo" >내 정보</router-link></span>
           </el-menu-item>
           <el-menu-item index="2">
             <i class="fas fa-user-friends" style="font-size: 16px"></i>
@@ -29,16 +29,13 @@
           </el-menu-item>
           <el-menu-item index="5">
             <i class="fas fa-user-cog" style="font-size: 16px"></i>
-            <span><router-link to="" >계정 설정</router-link></span>
+            <span><router-link to="/mypage/setting" >계정 설정</router-link></span>
           </el-menu-item>
           <el-menu-item index="6">
             <i class="fas fa-user-cog" style="font-size: 16px"></i>
-            <span><router-link to="" >인적사항 수정</router-link></span>
+            <span><router-link to="/mypage/update" >인적사항 수정</router-link></span>
           </el-menu-item>
-          <el-menu-item index="7">
-            <i class="fas fa-key" style="font-size: 16px"></i>
-            <span><router-link to="" >비밀번호 변경하기</router-link></span>
-          </el-menu-item>
+         
          
         </el-menu>
       </el-col>
