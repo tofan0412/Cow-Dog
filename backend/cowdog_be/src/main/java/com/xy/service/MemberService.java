@@ -11,4 +11,5 @@ public interface MemberService {
 	public boolean confirmUserId(String userId);
 	public boolean confirmNickname(String userNickname);
 	public Member getMemberById(long id);
+	public void deleteMemberById(long id);
 }

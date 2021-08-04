@@ -1,7 +1,7 @@
 <template>
   <div class="login-wrapper" style="display:flex">
     <div class="img-box">
-      <img class="logo-img" alt="cow dog logo" :src="require('@/assets/images/logo.png')">
+      <img class="logo-img" alt="cow dog logo" :src="require('@/assets/images/cowanddog.png')">
     </div>
     <div class="login-box">
       <div class="login-form">
@@ -16,7 +16,7 @@
         <el-button class="loginBtn" @click="clickLogin">로그인</el-button>
         <hr>
         <div>
-          <router-link to='/FindPassword' style="text-decoration: none; color: black;">비밀번호 찾기</router-link>
+          <router-link to='/findingpassword' style="text-decoration: none; color: black;">비밀번호 찾기</router-link>
         </div>
         <br>
       </div>
@@ -93,7 +93,7 @@ import { reactive,ref } from 'vue'
 import { useStore } from 'vuex'
 import router from "@/router"
 export default {
-  name: "RegisterPage",
+  name: "LoginPage",
   props: {
     msg: String,
   },
@@ -137,7 +137,10 @@ export default {
             }
             else if(result.data.message==="PASSWORD_INCORRECT"){
               alert("아이디나 비밀번호를 확인해주세요")
-            }else{
+            }else if(result.data.message==="ISSUSPENDED"){
+              alert("정지된 계정입니다.")
+            }
+            else{
               alert("로그인 성공")
               console.log(result.data.id)
               console.log(result.data.accessToken)

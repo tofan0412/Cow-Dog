@@ -118,6 +118,13 @@ public class MemberServiceImpl implements MemberService{
 		return memRepo.getById(id);
 		
 	}
+
+	@Override
+	public void deleteMemberById(long id) {
+		
+		memRepo.deleteById(id);
+		
+	}
 	
 	
 	
