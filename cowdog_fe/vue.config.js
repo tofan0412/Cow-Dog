@@ -5,12 +5,14 @@ module.exports = {
       
       proxy: {
         '/cowdog': {
-          target: 'http://localhost:8080'
+          target: 'http://localhost:8081'
         }
       },
       historyApiFallback: true,
-      hot: true
+      hot: true,
+      port: 8081
     },
+    
     
   }
   

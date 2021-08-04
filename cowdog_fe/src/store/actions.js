@@ -1,5 +1,7 @@
 import axios from 'axios'
 import $axios from 'axios'
+import router from '../router'
+import cookies from 'vue-cookies'
 
 export function getMyInfo({state}){
   console.log(state.userId)
@@ -181,4 +183,17 @@ export function postArticleReport({ state }, payload) {
     .catch(err => {
       console.log(err)
     })
+}
+
+export function checklogin() {
+  const cookie = cookies.get("csrftoken")
+  if (!cookie) {
+    alert("로그인 해주세요")
+    router.push("/login")
+  }
+  
+}
+
+export function createArticle() {
+  
 }
