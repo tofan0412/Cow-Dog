@@ -12,6 +12,13 @@ export const GET_REPORTED_USERS = (state, reportedUserDatas) => {
     router.push('/admin/user-report')
 }
 
+export const USER_LOGOUT=(state)=>{
+    state.accessToken=''
+    state.userId=''
+    state.myinfo=[]
+    router.push('/login')
+}
+
 
 export const GET_LOGIN_USER=(state,login_user)=>{
     console.log(login_user)

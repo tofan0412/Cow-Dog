@@ -11,9 +11,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,6 +30,7 @@ import com.xy.common.response.BaseResponseBody;
 import com.xy.entity.Image;
 import com.xy.entity.Member;
 import com.xy.entity.MemberInfo;
+import com.xy.repository.MemberRepository;
 import com.xy.service.ImageService;
 import com.xy.service.MemberService;
 import com.xy.auth.JwtUtil;
@@ -47,6 +50,8 @@ public class MemberController {
 	S3SServiceImpl s3sSer;
 	@Autowired
 	ImageService imgaeSer;
+	@Autowired
+	MemberRepository memRepo;
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -107,10 +112,14 @@ public class MemberController {
 		System.out.println(password);
 		Member mem = memSer.getMemberByMemberId(userId);
 
+		
 
 		if (mem == null) {
 			System.out.println("회원 읎어");
 			return ResponseEntity.status(404).body(BaseResponseBody.of(404, "NOT_EXISTS_USER"));
+		}
+		if(mem.isIssuspended()) {
+			return ResponseEntity.status(404).body(BaseResponseBody.of(200, "ISSUSPENDED"));//계정 정지되어 있으면
 		}
 		// 로그인 요청한 유저로부터 입력된 패스워드 와 디비에 저장된 유저의 암호화된 패스워드가 같은지 확인.(유효한 패스워드인지 여부 확인)
 		if (passwordEncoder.matches(password, mem.getPassword())) {
@@ -158,6 +167,38 @@ public class MemberController {
 		return mem;
 	}
 	
+	
+	
+	@PutMapping("/changePassword")
+	public String getMemberPassword(@RequestBody Map<String, String> map) {
+		System.out.println("비밀번호 바꾸기~~~");
+		System.out.println(map.toString());
+		Member mem=memSer.getMemberById(Long.parseLong(map.get("id")));
+		if(!passwordEncoder.matches(map.get("curPassword"), mem.getPassword())) {//만약 현재 비밀번호가 틀렸다면
+			return "FAIL";
+		}
+		
+		
+		mem.setPassword(passwordEncoder.encode(map.get("newPassword")));
+		memRepo.save(mem);
+		System.out.println(mem.toString());
+		return "SUCCESS";
+	}
+	
+	
+	@DeleteMapping("/deleteMember")
+	public String deleteMember(@RequestParam("id") long id) {
+		System.out.println(id);
+		
+		try {
+			memSer.deleteMemberById(id);
+		} catch (Exception e) {
+			return "FAIL";
+		}
+		
+		
+		return "SUCCESS";
+	}
 	
 	
 	

@@ -9,7 +9,8 @@ module.exports = {
         }
       },
       historyApiFallback: true,
-      hot: true
+      hot: true,
+      port:8081
     },
     
   }

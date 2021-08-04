@@ -18,6 +18,7 @@ import Follow from '../views/mypage/components/Follow.vue'
 import Following from '../views/mypage/components/Following.vue'
 import Setting from '../views/mypage/components/Setting.vue'
 import Update from '../views/mypage/components/Update.vue'
+import FindingPassword from '../views/findpassword/FindingPassword.vue'
 const routes = [
   
   {
@@ -34,6 +35,11 @@ const routes = [
     path:'/register',
     name:'Register',
     component:RegisterPage
+  },
+  {
+    paht:'/findingpassword',
+    name:'FindingPassword',
+    component:FindingPassword
   },
   {
     path:'/mypage',

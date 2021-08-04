@@ -228,7 +228,7 @@
 <script>
 import { reactive,ref } from 'vue'
 import { useStore } from 'vuex'
-// import router from "@/router";
+import router from "@/router";
 import axios from 'axios'
 var geocoder
 let road=''
@@ -356,7 +356,7 @@ export default {
                             // 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
                             infowindow.setContent(content);
                             infowindow.open(map, marker);
-                            if(result[0].road_address.address_name){
+                            if(result[0].road_address!=null){
                                 road=result[0].road_address.address_name
                             }
                             old=result[0].address.address_name
@@ -364,6 +364,8 @@ export default {
                             longitude=mouseEvent.latLng.getLng()
                             console.log(latitude)
                             console.log(longitude)
+                            console.log(old)
+                            console.log(road)
                         } 
                         
                           
@@ -480,7 +482,8 @@ export default {
               { required: true, message: '나이를 입력하세요', trigger: 'blur' }
             ],
             email: [
-              { required: true, message: '이메일을 입력하세요 입력하세요', trigger: 'blur' }
+              { required: true, message: '이메일을 입력하세요 입력하세요', trigger: 'blur' },
+              {pattern:/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/ ,message:"이메일형식이 올바르지 않습니다."}
             ],
             password: [
               {required: true,message:'비밀번호를 입력하세요', trigger:'blur'},
@@ -554,13 +557,13 @@ export default {
         }
         console.log(dist)
         registerForm.value.validate((valid) => {
-        if(old==''){
-            state.form.address=road
+            if(old==''){
+                state.form.address=road
+                
+            }else{
+                state.form.address=old
             
-        }else{
-            state.form.address=old
-           
-        }
+            }
         console.log("회원가입 검사")
         if (valid) {
            
@@ -572,7 +575,7 @@ export default {
           .then(function () {
             profileImageUpload()
             alert("회원가입 성공")
-            // router.push({name:"Login"})
+            router.push({name:"Login"})
           })
           .catch(function () {
             alert("")

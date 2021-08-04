@@ -12,7 +12,7 @@
 성격: {{myinfo.memberinfo.personality.replace('[','').replace(']','').split(',')[1]}}<br><!-- 앞뒤 대괄호 제거후 , 로 구분 한다.-->
 위도: {{myinfo.memberinfo.latitude}}<br>
 경도: {{myinfo.memberinfo.longitude}}<br>
-정지된 계정인지: {{myinfo.issuspended}}<br>
+정지된: {{myinfo.issuspended}}<br>
 
 {{myinfo.email}}
 {{myinfo.email}}

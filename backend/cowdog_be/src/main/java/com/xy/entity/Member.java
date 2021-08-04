@@ -18,6 +18,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,6 +33,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class Member {
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Long id;
 	
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

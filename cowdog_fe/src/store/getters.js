@@ -3,9 +3,13 @@ export function getNotices (state) {
 }
 
 export function getUserId(state){
-	return state.login_user
+	return state.userId
+}
+
+export function getUserInfo(state){
+	return state.myinfo
 }
 
 export function getUserToken(state){
-	return state.access_token
+	return state.accessToken
 }
