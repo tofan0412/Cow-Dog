@@ -1,11 +1,8 @@
 import axios from 'axios'
 import $axios from 'axios'
-<<<<<<< HEAD
 import router from '../router'
 import cookies from 'vue-cookies'
 
-=======
->>>>>>> merging_test
 export function getMyInfo({state}){
   console.log(state.userId)
   console.log(state.accessToken)
@@ -78,11 +75,7 @@ export function getNotices ({ state, commit }) {
     })    
 }
 
-<<<<<<< HEAD
-export function postNotice({ state }, payload) {
-=======
 export function postNotice({ state, commit }, payload) {
->>>>>>> merging_test
   console.log(payload)
   const url = '/notice'
   axios({
@@ -98,9 +91,6 @@ export function postNotice({ state, commit }, payload) {
   })
     .then(res => {
       console.log(res)
-<<<<<<< HEAD
-      return res.data
-=======
       commit('GET_NOTICES', res.data)
     })
     .catch(err => {
@@ -124,15 +114,12 @@ export function updateNotice({ state, commit }, payload) {
     .then(res => {
       console.log(res)
       commit('GET_NOTICES', res.data)
->>>>>>> merging_test
     })
     .catch(err => {
       console.log(err)
     })
 }
 
-<<<<<<< HEAD
-=======
 export function deleteNotice({ state, commit }, payload) {
   // noticeNo를 받아 백엔드에 전달
   console.log(payload)
@@ -152,7 +139,6 @@ export function deleteNotice({ state, commit }, payload) {
       console.log(err)
     })
 }
->>>>>>> merging_test
 // 유저 신고 관련 actions
 export function getReportedUsers({ state, commit }) {
   const url = '/user-report'
@@ -172,8 +158,6 @@ export function getReportedUsers({ state, commit }) {
     })  
 }
 
-<<<<<<< HEAD
-=======
 export function deleteUserReport({ state, commit }, payload) {
   const url = '/user-report/' + payload
   axios({
@@ -191,7 +175,6 @@ export function deleteUserReport({ state, commit }, payload) {
     })
 }
 
->>>>>>> merging_test
 export function postUserReport({ state }, payload) {
   console.log(payload)
   const url = '/user-report'
@@ -216,8 +199,6 @@ export function postUserReport({ state }, payload) {
     })
 }
 
-<<<<<<< HEAD
-=======
 export function deleteReportedUser({ state, commit }, payload) {
   const url = '/user-report/user/' + payload.user_id + '/' + payload.user_long_id // user의 id를 payload로
   axios({
@@ -232,7 +213,6 @@ export function deleteReportedUser({ state, commit }, payload) {
     })
 }
 
->>>>>>> merging_test
 // 게시글 신고 관련 actions
 export function getReportedArticles({ state, commit }) {
   const url = '/article-report'
@@ -277,7 +257,6 @@ export function postArticleReport({ state }, payload) {
     })
 }
 
-<<<<<<< HEAD
 export function checklogin() {
   const cookie = cookies.get("csrftoken")
   if (!cookie) {
@@ -309,7 +288,8 @@ export function createArticle({ state }, payload) {
   .catch(err => {
     console.log(err)
   })
-=======
+}
+
 export function deleteArticleReport({ state, commit }, payload) {
   const url = '/article-report/' + payload
   axios({
@@ -317,5 +297,4 @@ export function deleteArticleReport({ state, commit }, payload) {
   })
     .then(res => { commit('GET_REPORTED_ARTICLES', res.data) })
     .catch(err => {console.log(err)})
->>>>>>> merging_test
 }
