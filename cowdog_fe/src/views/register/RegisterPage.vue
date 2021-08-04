@@ -335,7 +335,7 @@ export default {
                             // 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
                             infowindow.setContent(content);
                             infowindow.open(map, marker);
-                            if(result[0].road_address.address_name){
+                            if(result[0].road_address!=null){
                                 road=result[0].road_address.address_name
                             }
                             old=result[0].address.address_name

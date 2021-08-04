@@ -194,6 +194,26 @@ export function checklogin() {
   
 }
 
-export function createArticle() {
-  
+export function createArticle({ state }, payload) {
+  console.log(state)
+
+  const url = "/appeal/create"
+  axios({
+    url: url,
+    method: "POST",
+    data: {
+      title: payload.title,
+      content: payload.content,
+      member_id: payload.member_id,
+      headers:{
+        Authorization:"Bearer "+state.accessToken
+      },
+    }
+  })
+  .then(resp => {
+    console.log(resp)
+  })
+  .catch(err => {
+    console.log(err)
+  })
 }

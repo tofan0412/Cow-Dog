@@ -1,5 +1,6 @@
 <template>
   <h1>게시글 작성</h1>
+  <div>사용자: {{ state.articleForm.member_id }}</div>
   <el-form :model="state.articleForm" :rules="state.rules" ref="articleForm">
     <el-form-item prop="title" :label-width="state.formLabelWidth">
       <label for="title">제목</label>
@@ -12,10 +13,6 @@
     </el-form-item>
     <button type="button" @click="create()">작성</button>
   </el-form>
-  
-
-
-  
 
 </template>
 <script>
@@ -31,6 +28,7 @@ setup() {
     articleForm: {
       title: '',
       content: '',
+      member_id: store.getters.getUserId,
     },
     rules: {
       title: [
@@ -62,7 +60,10 @@ methods: {
       alert("내용 입력")
       return
     }
-    this.state.store.dispatch("createArticle", {title:this.state.article.title, content: this.state.article.content} )
+    this.state.store.dispatch("createArticle", 
+        { title: this.state.articleForm.title, 
+        content: this.state.articleForm.content, 
+        member_id: this.state.articleForm.member_id } )
   }
 },
 }
