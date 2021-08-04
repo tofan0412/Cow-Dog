@@ -1,5 +1,15 @@
 import axios from 'axios'
 import $axios from 'axios'
+import router from '../router'
+
+export function checkLogin({ state }) {
+  const result = state.accessToken
+  
+  if (result == '') {
+    alert("권한이 없습니다. 로그인 해주세요")
+    router.push("/login")
+  }
+}
 
 export function getMyInfo({state}){
   console.log(state.userId)
@@ -181,4 +191,44 @@ export function postArticleReport({ state }, payload) {
     .catch(err => {
       console.log(err)
     })
+}
+
+export function getArticles() {
+  const url = '/appeal'
+  const appealList = {
+    type: Object,
+  }
+  axios({
+    url: url,
+    method: 'GET',
+  })
+  .then(resp => {
+    this.appealList = resp.data
+  })
+  .catch(err => {
+    console.log(err)
+  })
+  return appealList
+} 
+
+export function createArticle({ state }, payload) {
+  console.log(state)
+
+  const url = '/appeal/create'
+
+  axios({
+    url: url,
+    method: 'POST',
+    data: {
+      title: payload.title,
+      content: payload.content,
+      memberid: payload.memberid,
+    }
+  })
+  .then(resp => {
+    console.log(resp)
+  })
+  .catch(err => {
+    console.log(err)
+  })
 }

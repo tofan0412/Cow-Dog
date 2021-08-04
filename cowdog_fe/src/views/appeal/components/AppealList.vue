@@ -7,30 +7,21 @@
     
 </template>
 <script>
-import axios from 'axios'
 import { reactive } from '@vue/reactivity'
+import { useStore } from 'vuex' // vuex의 store를 사용하기 위해 사용한다.
 
 export default {
   name: 'BOARDLIST',  
   setup() {
-    // POSTMAN Mock Server
-    const serverURL = "https://5a66a063-6d26-4bf8-ae2c-fe9b30ddbb1b.mock.pstmn.io/appeal"
-    
-    // vue 2에서 data의 역할을 한다.
+    const store = useStore()
     const state = reactive({
       articleList: {
         type: Object,
       }
     })
-
     // 게시글 목록 불러오기
-    axios.get(serverURL, { /* parameters */ })
-    .then(resp => {
-      state.articlelist = resp.data
-      // console.log(state.articleList)
-    }).catch(err => {
-      console.log(err)
-    })
+    state.articleList = store.dispatch("getArticles")
+    
     return {
       state
     }
