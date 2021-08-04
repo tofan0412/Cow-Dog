@@ -6,7 +6,7 @@
     v-model="dialogVisible"
     width="70%"
     >
-    <div class="reported_id">신고 대상 ID: {{ reportedArticleData.reportedArticleNo }}</div>
+    <div class="reported_id">신고 대상 게시글 번호: {{ reportedArticleData.reportedArticleNo }}</div>
     <br>
     <br>
     <div class="reported_reason">신고 사유</div>
@@ -78,7 +78,7 @@
   font-weight: normal;
 }
 .reported_url_box {
-  width: 100%;
+  width: 50%;
 }
 
 .el-button--primary {
@@ -97,9 +97,5 @@
 .el-button--default:hover {
   background: #ffffff;
   border-color: #ff4e7e;
-}
-img {
-  width: 300px;
-  height: 100%;
 }
 </style>

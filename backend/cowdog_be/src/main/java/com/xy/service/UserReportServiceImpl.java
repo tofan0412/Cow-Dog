@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xy.entity.UserReport;
+import com.xy.repository.MemberRepository;
 import com.xy.repository.UserReportRepository;
 
 @Service
@@ -14,6 +15,8 @@ public class UserReportServiceImpl implements UserReportService{ // NoticeServic
 	
 	@Autowired
 	UserReportRepository userReportRepo; //NoticeRepository를 가져와서 noticeRepo로 이름지음
+	@Autowired
+	MemberRepository memberRepo;
 	
 	
 	@Override
@@ -42,4 +45,16 @@ public class UserReportServiceImpl implements UserReportService{ // NoticeServic
 	    return userReportRepo.findAll();
 	}
 	
+	// 유저 신고 삭제(유저 삭제가 아님)
+	@Override
+	public void deleteUserReport(Long userReportNo) {
+		userReportRepo.deleteById(userReportNo);
+	}
+	
+	// 유저 삭제(유저 삭제 후 유저 관련 신고도 삭제)
+	@Override
+	public void deleteReportedUser(String userId, Long userLongId) {
+		userReportRepo.deleteByReportedId(userId); // userId와 관련된 userReport 모두 삭제
+		memberRepo.deleteById(userLongId);
+	}
 }

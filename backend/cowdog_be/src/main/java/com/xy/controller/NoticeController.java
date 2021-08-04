@@ -5,11 +5,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xy.api.request.NoticeCreatePostReq;
+import com.xy.api.request.NoticeUpdatePutReq;
 import com.xy.common.response.BaseResponseBody;
 import com.xy.entity.Notice;
 import com.xy.service.NoticeService;
@@ -34,14 +38,14 @@ public class NoticeController {
         @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public ResponseEntity<? extends BaseResponseBody> create(
+	public List<Notice> create(
 			@RequestBody NoticeCreatePostReq noticereq) {
 		System.out.println(noticereq);
-	
-		if(noticeService.createNotice(noticereq).equals("FAIL")) { //NoticeServiceImpl에서 save가 실패하면 FAIL을 return함
-			return ResponseEntity.status(200).body(BaseResponseBody.of(404, "FAIL"));
-		}
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SUCCESS"));
+		noticeService.createNotice(noticereq);
+//		if(noticeService.createNotice(noticereq).equals("FAIL")) { //NoticeServiceImpl에서 save가 실패하면 FAIL을 return함
+//			return ResponseEntity.status(200).body(BaseResponseBody.of(404, "FAIL"));
+//		}
+		return noticeService.getNoticeList();
 	}
 	
 	@GetMapping("") // notice에 get 요청
@@ -49,7 +53,16 @@ public class NoticeController {
 		return noticeService.getNoticeList();
 	}
 	
-//	@PutMapping("")
+	@PutMapping("")
+	public List<Notice> delete(@RequestBody NoticeUpdatePutReq noticeUpdateReq) {
+		noticeService.updateNotice(noticeUpdateReq);
+		return noticeService.getNoticeList();
+	}
 	
-//	@DeleteMapping("")
+	@DeleteMapping("/{no}") // notice에 no번 공지 delete 요청
+	public List<Notice> delete(@PathVariable("no") Long noticeNo) {
+		noticeService.deleteNotice(noticeNo);
+		return noticeService.getNoticeList();
+	}
+	
 }

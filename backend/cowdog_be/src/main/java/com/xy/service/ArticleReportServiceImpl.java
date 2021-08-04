@@ -35,4 +35,9 @@ public class ArticleReportServiceImpl implements ArticleReportService {
 	    return articleReportRepo.findAll();
 	}
 	
+	@Override
+	public void deleteReportedArticle(Long reportedArticleNo) {
+		articleReportRepo.deleteById(reportedArticleNo);
+	}
+	
 }

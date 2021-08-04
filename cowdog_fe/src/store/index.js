@@ -3,7 +3,11 @@ import { createStore } from 'vuex'
 import * as getters from './getters'
 import * as mutations from './mutations'
 import * as actions from './actions'
+<<<<<<< HEAD
 
+=======
+import createPersistedState from 'vuex-persistedstate'
+>>>>>>> merging_test
 const state = {
   notices: "기본값",
   reportedUsers: '기본값',
@@ -18,7 +22,14 @@ const root = createStore({
   state,
   getters,
   mutations,
+<<<<<<< HEAD
   actions
+=======
+  actions,
+  plugins: [
+    createPersistedState()
+  ]
+>>>>>>> merging_test
 })
 
 export default root

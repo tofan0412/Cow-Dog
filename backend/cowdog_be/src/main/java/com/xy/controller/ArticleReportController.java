@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.xy.api.request.ArticleReportPostReq;
 import com.xy.common.response.BaseResponseBody;
 import com.xy.entity.ArticleReport;
+import com.xy.entity.UserReport;
 import com.xy.service.ArticleReportService;
 
 import io.swagger.annotations.ApiOperation;
@@ -45,6 +48,12 @@ public class ArticleReportController {
 	
 	@GetMapping("") // article-report에 get 요청
 	public List<ArticleReport> get() {
+		return articleReportService.getArticleReportList();
+	}
+	
+	@DeleteMapping("/{reported_article_no}")
+	public List<ArticleReport> delete(@PathVariable("reported_article_no") Long reportedArticleNo) {
+		articleReportService.deleteReportedArticle(reportedArticleNo);
 		return articleReportService.getArticleReportList();
 	}
 	

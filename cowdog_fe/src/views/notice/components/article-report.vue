@@ -16,7 +16,7 @@
         <br>
         <div class="card-footer">
           <el-button class="button" type="text"><reportedArticleDetail :reportedArticleData="reportedArticle" /></el-button>
-          <el-button class="button" type="text">삭제</el-button>
+          <el-button class="button" type="text" @click="deleteArticleReport(reportedArticle.articleReportNo)">삭제</el-button>
         </div>
       </el-card>
     </div>
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { useStore } from 'vuex'
+import { mapGetters } from 'vuex'
 import reportedArticleDetail from './reported-article-detail.vue'
 
 export default {
@@ -57,21 +57,26 @@ export default {
       var start = 0 + (this.currentPage-1) * this.pageSize
       var end = this.currentPage * this.pageSize
       return this.reportedArticles.slice(start, end) //기본값 0~5번
-    }
+    },
+    ...mapGetters({
+      reportedArticles: 'getReportedArticles'
+    })
   },
 
   // 신고 POST 예시
   methods: {
     ArticleReport() {
-      this.$store.dispatch('postArticleReport', {"title": "정지시켜주세요.", "content": "악질이에요.", "reportedArticleNo": "3", "articleUrl": "www.naver.com"})
+      this.$store.dispatch('postArticleReport', {"title": "정지시켜주세요.", "content": "악질이에요.", "reportedArticleNo": "3", "articleUrl": "http://www.naver.com"})
+    },
+    // 게시글 신고 삭제(게시글 삭제 아님)
+    deleteArticleReport(articleReportNo) {
+      this.$confirm('정말로 신고를 삭제하시겠습니까?')
+        .then(res => {
+          console.log(res)
+          this.$store.dispatch('deleteArticleReport', articleReportNo)
+        })
     }
   },
-
-  setup() {
-    const store = useStore()
-    const reportedArticles = store.state.reportedArticles
-    return { reportedArticles }
-  }
 }
 </script>
 

@@ -15,6 +15,7 @@
       <el-menu-item index="5" class="navMenu"><router-link to="/login">Login</router-link></el-menu-item>
       <el-menu-item index="6" class="navMenu"><router-link to="/register">Register</router-link></el-menu-item>
       <el-menu-item index="7" class="navMenu"><router-link to="/mypage" @click="getMyInfo">mypage</router-link></el-menu-item>
+      <el-menu-item index="8" class="navMenu"><router-link to="/test">test</router-link></el-menu-item>
     </el-menu>
   </div>
   <router-view/>
@@ -52,7 +53,7 @@ export default ({
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: SeoulNamsanM;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -68,5 +69,12 @@ body {
   text-decoration: none;
   font-weight: bold;
   color: inherit;
+}
+
+@font-face {
+    font-family: 'SeoulNamsanM';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/SeoulNamsanM.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 </style>
