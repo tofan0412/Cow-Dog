@@ -3,6 +3,7 @@ package com.xy.service;
 import com.xy.entity.Article;
 import com.xy.entity.Member;
 import com.xy.repository.ArticleRepository;
+import com.xy.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,9 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     ArticleRepository articleRepository;
 
+    @Autowired
+    MemberRepository memberRepository;
+
     @Override
     public List<Article> findAll() {
         return articleRepository.findAll();
@@ -22,18 +26,12 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public String create(Map map) {
-        System.out.println(map.get("title"));
-        System.out.println(map.get("content"));
 
         // 1. 사용자 정보 찾기
-
+        String member_id = (String) map.get("member_id");
+        Member member = memberRepository.getBymemberid(member_id);
 
         Article article = new Article();
-
-
-        Member member = new Member();
-        member.setMemberid("tofan");
-
         article.setTitle((String) map.get("title"));
         article.setContent((String) map.get("content"));
 
