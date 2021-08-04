@@ -22,14 +22,22 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public String create(Map map) {
+        System.out.println(map.get("title"));
+        System.out.println(map.get("content"));
+
+        // 1. 사용자 정보 찾기
+
+
         Article article = new Article();
 
-        // 임시 멤버 추가
+
         Member member = new Member();
         member.setMemberid("tofan");
 
         article.setTitle((String) map.get("title"));
         article.setContent((String) map.get("content"));
+
+
         article.setMember_id(member);
 
         if (articleRepository.save(article) != null) {

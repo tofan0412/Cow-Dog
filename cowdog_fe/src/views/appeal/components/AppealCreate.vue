@@ -5,11 +5,11 @@
   <label for="content">내용</label>
   <br>
   <textarea name="content" id="content" v-model="state.article.content" cols="30" rows="10" placeholder="내용을 입력하세요"></textarea>
-  <button @click="articleCreate()">작성</button>
+  <button @click="createArticle()">작성</button>
 </template>
 <script>
 import { reactive } from 'vue'
-import axios from 'axios'
+import { useStore } from 'vuex'
 
 export default {
 name: '',
@@ -20,30 +20,37 @@ data() {
   }	
 },
 setup() {
+  const store = useStore()
+  console.log(store)
   const state = reactive({
     article: {
       title: "",      
       content: "",
-      member_id: "",
-    }
+      member_id: "tofan",
+    },
+    store: store
   })
+
+  // 인증된 사용자에 한해 작성 가능
+  state.store.dispatch("checkLogin")
 
   return {
     state
   }
 },
 methods: {
-  
-  articleCreate() {
-    // console.log(this.state.article)
-
-    axios.post("http://localhost:8081/cowdog/appeal/create", { 'article' : this.state.article })
-    .then(resp => {
-      console.log(resp)
-    })
-    .catch(err => {
-      console.log(err)
-    })
+  createArticle() {
+    if (this.state.article.title.length == 0) {
+      alert("제목을 입력해 주세요.")
+      return
+    }
+    else if (this.state.article.content.length == 0) {
+      alert("내용을 입력해 주세요.")
+      return
+    }
+    
+    console.log(this.state.store)
+    this.state.store.dispatch("createArticle", this.state.article)
   }
 },
 }

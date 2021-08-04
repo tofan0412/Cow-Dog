@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ArticleRepository extends JpaRepository<Article, Long>, CrudRepository<Article, Long> {
-    List<Article> findAll();
+public interface ArticleRepository extends JpaRepository<Article, Long> {
 
 }
