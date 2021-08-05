@@ -1,26 +1,29 @@
 <template>
-  <h1>게시글 상세 내용</h1>
-  {{ state.article_no }}<br>
-  <button>Update</button><br>
-  <button>Delete</button>
+  <h3>{{ this.article.title }}</h3>
+  <div>
+    {{ this.article.content }}
+  </div>
+  <div>
+    <button>Update</button>
+    <button>Delete</button>
+  </div>
+  <hr>
 
 </template>
 
 <script>
 import { reactive } from '@vue/reactivity'
-import { useStore } from 'vuex'
 
 export default {  
   name: 'ArticleDetail',
+  props: {
+      article: Object,
+    },
   setup() {
-    const store = useStore()
     const state = reactive({
-      article_no: store.getters.getArticleNo
+      
     })
     
-    // DB에서 게시글 객체 불러오기
-    store.dispatch("findArticleByArticleNo")
-
     return {
       state
     }

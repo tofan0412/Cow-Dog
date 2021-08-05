@@ -265,7 +265,7 @@ export function checklogin({ state }) {
   }
 }
 
-export function createArticle({ state, commit }, payload) {
+export function createArticle({ state }, payload) {
   console.log(state)
 
   const url = "/appeal/create"
@@ -283,9 +283,8 @@ export function createArticle({ state, commit }, payload) {
   })
   .then(resp => {
     // 게시글 작성 후 디테일 페이지로 이동한다.
-    const article_no = resp.data.message
-    // vuex state에 저장한다. 저장과 동시에 디테일 페이지로 이동한다.
-    commit("SET_ARTICLENO", article_no)
+    console.log(resp)
+    router.push("/appeal")
 
     
   })
@@ -302,36 +301,6 @@ export function getArticles({ commit }) {
   })
   .then(resp => {
     commit("SET_ARTICLES", resp.data)
-  })
-  .catch(err => {
-    console.log(err)
-  })
-}
-
-export function goToDetail({ commit }, payload) {
-  // store에 저장되어 있는 게시글 번호를 수정하고
-  // 해당 게시글의 상세 페이지로 이동한다.
-  const article_no = payload.article_no
-  commit("SET_ARTICLENO", article_no)
-}
-
-export function findArticleByArticleNo({ state, commit }) {
-  // console.log("게시글 객체 시작: ", state.articleNo)
-  
-  const url = "/appeal/detail"
-  axios({
-    url: url,
-    method: "GET",
-    headers:{
-      Authorization:"Bearer "+state.accessToken
-    },
-    data: {
-      articleNo: state.articleNo
-    }
-  })
-  .then(resp => {
-    console.log(resp.data)
-    commit("SET_ARTICLEDATA", resp.data)
   })
   .catch(err => {
     console.log(err)
