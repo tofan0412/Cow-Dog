@@ -1,27 +1,33 @@
 <template>
-  <div class="login-wrapper" style="display:flex">
-    <div class="img-box">
-      <img class="logo-img" alt="cow dog logo" :src="require('@/assets/images/cowanddog.png')">
-    </div>
-    <div class="login-box">
-      <div class="login-form">
-        <el-form :model="state.form" :rules="state.rules" ref="loginForm" :label-position="state.form.align">
-          <el-form-item prop="id"  :label-width="state.formLabelWidth" >
-            <el-input class="elinput" v-model="state.form.id" autocomplete="off"  placeholder="아이디"></el-input>
-          </el-form-item>
-          <el-form-item prop="password"  :label-width="state.formLabelWidth">
-            <el-input class="elinput" v-model="state.form.password" autocomplete="off" show-password  placeholder="비밀번호"></el-input>
-          </el-form-item>
-        </el-form>
-        <el-button class="loginBtn" @click="clickLogin">로그인</el-button>
-        <hr>
-        <div>
-          <router-link to='/findingpassword' style="text-decoration: none; color: black;">비밀번호 찾기</router-link>
-        </div>
-        <br>
+  <div class="login-background">
+    <br>
+    <div class="login-modal">
+      <div class="img-box">
+        <img class="cowdog-logo" alt="cow dog logo" :src="require('@/assets/images/onlyLogo.png')">
       </div>
-      <div class="register-form" >
-        <span>계정이 없으신가요?    </span> <router-link to='/Register' style="text-decoration: none; color: #EC7357;">가입하기</router-link>
+      <div class="login-box">
+        <div class="login-form">
+          <el-form :model="state.form" :rules="state.rules" ref="loginForm" :label-position="state.form.align">
+            <div class="title-box">
+              <img class="cowdog-logo" alt="cow dog logo" :src="require('@/assets/images/onlyTitle.png')">
+            </div>
+            <el-form-item prop="id"  :label-width="state.formLabelWidth" >
+              <el-input class="elinput" v-model="state.form.id" autocomplete="on"  placeholder="아이디"></el-input>
+            </el-form-item>
+            <el-form-item prop="password"  :label-width="state.formLabelWidth">
+              <el-input class="elinput" v-model="state.form.password" autocomplete="off" show-password  placeholder="비밀번호"></el-input>
+            </el-form-item>
+          </el-form>
+          <el-button class="loginBtn" @click="clickLogin">로그인</el-button>
+          <div class="finding-password">
+            <span>비밀번호를 잊으셨나요? </span><router-link to='/findingpassword'>비밀번호 찾기</router-link>
+          </div>
+        </div>
+
+        <div class="register-form">
+          <span>계정이 없으신가요? </span>
+          <router-link to='/Register'>가입하기</router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -30,60 +36,87 @@
 
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+<style>
 
-<style scoped>
-.login-wrapper{
-  justify-content: center;
-  margin-top: 50px;
-}
+.login-background{
+  /* background: #e2e2e2; */
+  /* background: rgb(255,209,221); */
+  background: linear-gradient(90deg, rgba(255,209,221,1) 0%, rgba(228,230,241,1) 100%);
+  height: 50vw;
+  }
 
-.img-box {
-  width: 50vw;
-  height: 100vw;
-}
-
-.logo-img{
-  margin: 0 0 0 20%;
-  width: 80%;
-  height: 30%;
+.login-modal {
+  margin: 5rem auto;
+  width: 60%;
+  border-radius: 10px;
+  background: #ffffff;
 }
 
-.login-box {
-  width: 50vw;
-}
-
-.login-form{
-  margin: 0 0 0 10%;
-  width: 50%;
-  border: 1px solid #BBABAB;
-  border-radius: 5px;
-  text-align: center;
-}
-.register-form{
-  margin: 0 0 0 10%;
-  margin-top: 20px;
-  width:50%;
-  border: 1px solid #BBABAB;
-  border-radius: 5px;
-}
-.el-input{
-  background: #BBABAB;
-  width: 90%;
+.login-form {
   margin: 0 auto;
-  border-radius: 5px;
-
 }
+.login-modal .img-box {
+}
+
+.login-modal .login-box {
+}
+
 .el-input::placeholder{
   color: black;
 }
-.el-form{
-  margin-top:40%;
+
+.login-background .el-form-item__error {
+  left: 35%;
 }
-.el-button{
-  width: 90%;
-  background-color:rgba(236,115,87,0.2);
-  color: #EC7357;
+
+.login-background .el-button{
+  width: 30%;
+  margin: 1rem 0 2rem 0;
 }
+
+.login-background .el-button--default {
+  border-color: rgb(255,149,178);
+}
+
+.login-background .el-button--default:hover {
+  background: rgb(255,149,178);
+  border-color: rgb(255,149,178);
+  color: white;
+}
+
+.login-background .el-button--default:focus {
+  background: rgb(255,149,178);
+  border-color: rgb(255,149,178);
+  color: white;
+}
+
+.login-background .elinput {
+  width: 30%;
+}
+
+.finding-password {
+  margin-bottom: 1rem;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.finding-password a {
+  text-decoration: none; 
+  color: #ff4e7e;
+}
+
+.register-form {
+  padding: 5px 0 5px 0;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.register-form a {
+  text-decoration: none;
+  color: #ff4e7e;
+}
+
+
 </style>
 
 

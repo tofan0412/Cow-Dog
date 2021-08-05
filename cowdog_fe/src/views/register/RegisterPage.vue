@@ -1,8 +1,8 @@
 <template>
-<div class="register_body container">
+<div class="register_body">
  <el-carousel :interval="1000000" arrow="never" autoplay="false" trigger="click">
     <el-carousel-item class="item">
-        <el-row>
+      <el-row>
             <el-col :span="12" class="regist_input">
                 <br>
                 <br>
@@ -451,8 +451,7 @@ export default {
 
    }
     const state = reactive({
-
-          form: {
+        form: {
             interest:[],
             personality:[],
             hobby:[],
@@ -469,9 +468,8 @@ export default {
             religion:[],
             address:'',
             distance:0,
-            
           },
-          rules: {
+        rules: {
             id: [
                 { required: true, message: '아이디를 입력하세요', trigger: 'blur' },
                 { message: '최대 15 글자까지 입력 가능합니다', trigger: 'blur', max:15 },
@@ -502,40 +500,33 @@ export default {
                 { message: '최소 9 글자를 입력해야 합니다.', trigger: 'blur', min:9},
                 { pattern:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]/, message:"비밀번호는 영문, 숫자, 특수문자가 조합되어야합니다." ,trigger:'blur'},
                 {validator:validPass}
-             ],
+            ],
              
-          },
-
-          
-      
-    
-    
+        },
     })
     
-    const profileImageUpload=function(){
-        
+    const profileImageUpload=function(){  
         console.log("이미지 업로드~")
         console.log(files)
         for (var i = 0; i < files.length; i++) {
-                        let formData = new FormData();
-                        formData.append('title', "profile");
-                        formData.append('files', files[i]);
-                        formData.append('userId',state.form.id)
-                        axios.post('http://localhost:8080/cowdog/mem/profileImgaeUpload',
-                        formData, {
-                            headers: {
-                            'Content-Type': 'multipart/form-data'
-                            },
-                        }
-                    ).then(function() {
-                    console.log('SUCCESS!!');
-                })
-                .catch(function() {
-                 console.log('FAILURE!!');
-            });
-        }
-
-
+            let formData = new FormData();
+            formData.append('title', "profile");
+            formData.append('files', files[i]);
+            formData.append('userId',state.form.id)
+            axios.post('http://localhost:8080/cowdog/mem/profileImgaeUpload',
+            formData, {
+                headers: {
+                'Content-Type': 'multipart/form-data'
+                },
+            }
+            )  
+            .then(function() {
+            console.log('SUCCESS!!');
+            })
+            .catch(function() {
+                console.log('FAILURE!!');
+                    });
+            }
     }
     const clickRegister = function () {
         
@@ -590,6 +581,16 @@ export default {
 }
 </script>
 <style>
+.register_body{
+    width: 70%;
+    height: 800px;
+    margin: 0 auto;
+}
+
+.el-carousel {
+    height: 800px;
+}
+
 .el-carousel__item h3 {
     color: #475669;
     font-size: 18px;
@@ -598,20 +599,15 @@ export default {
     margin: 0;
   }
 .el-row{
-    widows: 100%;
+    width: 100%;
     height: 100%;
     margin: 0 auto;
 }
 .el-carousel__container {
-    width: 80%;
-    height: 800px;
+    width: 100%;
+    height: 100%;
     margin: 0 auto;
     border: 1px solid rgba(134, 123, 123, 0.212);
-}
-.register_body{
-    width: 80%;
-    height: 800px;
-    margin: 0 auto;
 }
 
 .logo_img1{

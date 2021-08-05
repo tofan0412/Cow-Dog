@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-menu
+      router=true
       :default-active="activeIndex"
       class="el-menu-demo"
       mode="horizontal"
@@ -8,16 +9,16 @@
       background-color="#323545"
       text-color="#ff4e7e"
       active-text-color="#ff4e7e">
-      <el-menu-item index="1" class="navMenu"><router-link to="/">Home</router-link></el-menu-item>
-      <el-menu-item index="2" class="navMenu"><router-link to="/appeal">Appeal</router-link></el-menu-item>
-      <el-menu-item index="3" class="navMenu"><router-link to="/admin" @click="getNotices">Admin</router-link></el-menu-item>
+      <el-menu-item index="/" class="navMenu">Home</el-menu-item>
+      <el-menu-item index="/Appeal" class="navMenu">Appeal</el-menu-item>
+      <el-menu-item index="/Admin" class="navMenu" @click="getNotices">Admin</el-menu-item>
      <!-- 나중에 거의 완성 되면 로그인 빼고 다 막아야 한다~ -->
-      <el-menu-item  v-if="this.$store.state.userId" index="4" class="navMenu"><router-link @click="logout()" to="">Logout</router-link></el-menu-item>
-      <el-menu-item  v-else index="4" class="navMenu"><router-link to="/login">Login</router-link></el-menu-item>
-      <el-menu-item index="5" class="navMenu"><router-link to="/register">Register</router-link></el-menu-item>
-      <el-menu-item index="6" class="navMenu"><router-link to="/mypage" @click="getMyInfo">mypage</router-link></el-menu-item>
-      <el-menu-item index="7" class="navMenu"><router-link to="/appeal/create">AppealCreate</router-link></el-menu-item>
-      <el-menu-item index="8" class="navMenu"><router-link to="/test">test</router-link></el-menu-item>
+      <el-menu-item  v-if="this.$store.state.userId" class="navMenu" @click="logout()">Logout</el-menu-item>
+      <el-menu-item  v-else index="/login" class="navMenu">Login</el-menu-item>
+      <el-menu-item index="/register" class="navMenu">Register</el-menu-item>
+      <el-menu-item index="/mypage" class="navMenu" @click="getMyInfo">mypage</el-menu-item>
+      <el-menu-item index="/appeal/create" class="navMenu">AppealCreate</el-menu-item>
+      <el-menu-item index="/test" class="navMenu">test</el-menu-item>
     </el-menu>
   </div>
   
@@ -78,10 +79,26 @@ body {
   padding: 0;
 }
 
-.navMenu a {
+.navMenu {
   text-decoration: none;
   font-weight: bold;
   color: inherit;
+}
+
+.el-menu.el-menu--horizontal {
+    border-bottom: 0px #e6e6e6;
+}
+
+html::-webkit-scrollbar {
+  width: 10px;
+}
+html::-webkit-scrollbar-thumb {
+  width: 5px;
+  background-color: #ffe7e7;
+  border-radius: 5px;
+}
+html::-webkit-scrollbar-track {
+  background-color: #ffffff;
 }
 
 @font-face {
