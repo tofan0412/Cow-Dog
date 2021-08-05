@@ -8,7 +8,6 @@
     <button>Delete</button>
   </div>
   <hr>
-
 </template>
 
 <script>
