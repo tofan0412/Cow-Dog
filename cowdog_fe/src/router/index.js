@@ -37,7 +37,7 @@ const routes = [
     component:RegisterPage
   },
   {
-    paht:'/findingpassword',
+    path:'/findingpassword',
     name:'FindingPassword',
     component:FindingPassword
   },
