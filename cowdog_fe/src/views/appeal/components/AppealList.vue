@@ -1,8 +1,7 @@
 <template>
   <h1>Appeal 게시판</h1>
-    <div v-for="article in state.articleList" 
-        :key="article.articleno" 
-        @click="goToDetail(article)"> <!-- 왜 key에다가 콜론을 해줘야 하지..? -->
+    <div v-for="article in state.articleList" :key="article.articleno" > <!-- 왜 key에다가 콜론을 해줘야 하지..? -->
+      <appealDetail :article="article"/>
       <div>{{ article.title }}</div>
       <p>{{ article.regtime }}</p>      
     </div>
@@ -12,9 +11,13 @@
 import { reactive } from '@vue/reactivity'
 import { useStore } from 'vuex'
 import router from '../../../router'
+import appealDetail from './AppealDetail.vue'
 
 export default {
   name: 'BOARDLIST',  
+  components: {
+    appealDetail,
+  }, 
   setup() {
     const store = useStore()
     const state = reactive({
@@ -36,14 +39,10 @@ export default {
   methods: {
     createArticle() {
       this.state.store.dispatch("checklogin")
-
-      // 로그인 여부 확인 후 이동
+      // 로그인 여부 확인 후 이동. 근데 목록을 다시 불러와야 함..
+      this.state.store.dispatch("getArticles") 
       router.push("/appeal/create")
     },
-    goToDetail(article) {
-      const article_no = article.articleNo
-      this.state.store.dispatch("goToDetail", {article_no: article_no})
-    }
   }
 }
 </script>
