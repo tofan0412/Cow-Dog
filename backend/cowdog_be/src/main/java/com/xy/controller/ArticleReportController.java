@@ -51,9 +51,9 @@ public class ArticleReportController {
 		return articleReportService.getArticleReportList();
 	}
 	
-	@DeleteMapping("/{reported_article_no}")
-	public List<ArticleReport> delete(@PathVariable("reported_article_no") Long reportedArticleNo) {
-		articleReportService.deleteReportedArticle(reportedArticleNo);
+	@DeleteMapping("/{article_report_no}")
+	public List<ArticleReport> delete(@PathVariable("article_report_no") Long articleReportNo) {
+		articleReportService.deleteArticleReport(articleReportNo);
 		return articleReportService.getArticleReportList();
 	}
 	

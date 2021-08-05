@@ -36,8 +36,8 @@ public class ArticleReportServiceImpl implements ArticleReportService {
 	}
 	
 	@Override
-	public void deleteReportedArticle(Long reportedArticleNo) {
-		articleReportRepo.deleteById(reportedArticleNo);
+	public void deleteArticleReport(Long articleReportNo) {
+		articleReportRepo.deleteById(articleReportNo);
 	}
 	
 }
