@@ -21,3 +21,11 @@ export function getReportedUsers (state) {
 export function getReportedArticles (state) {
 	return state.reportedArticles
 }
+
+export function getArticleNo (state) {
+	return state.articleNo
+}
+
+export function getArticles (state) {
+	return state.articles
+}

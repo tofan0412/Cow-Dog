@@ -1,7 +1,7 @@
 import axios from 'axios'
 import $axios from 'axios'
 import router from '../router'
-import cookies from 'vue-cookies'
+// import cookies from 'vue-cookies'
 
 export function getMyInfo({state}){
   console.log(state.userId)
@@ -257,16 +257,15 @@ export function postArticleReport({ state }, payload) {
     })
 }
 
-export function checklogin() {
-  const cookie = cookies.get("csrftoken")
-  if (!cookie) {
+export function checklogin({ state }) {
+  const accessToken = state.accessToken
+  if (accessToken == '') {
     alert("로그인 해주세요")
     router.push("/login")
   }
-  
 }
 
-export function createArticle({ state }, payload) {
+export function createArticle({ state, commit }, payload) {
   console.log(state)
 
   const url = "/appeal/create"
@@ -283,12 +282,62 @@ export function createArticle({ state }, payload) {
     }
   })
   .then(resp => {
-    console.log(resp)
+    // 게시글 작성 후 디테일 페이지로 이동한다.
+    const article_no = resp.data.message
+    // vuex state에 저장한다. 저장과 동시에 디테일 페이지로 이동한다.
+    commit("SET_ARTICLENO", article_no)
+
+    
   })
   .catch(err => {
     console.log(err)
   })
 }
+
+export function getArticles({ commit }) {  
+  const url = "/appeal"
+  axios({
+    url: url,
+    method: 'GET',
+  })
+  .then(resp => {
+    commit("SET_ARTICLES", resp.data)
+  })
+  .catch(err => {
+    console.log(err)
+  })
+}
+
+export function goToDetail({ commit }, payload) {
+  // store에 저장되어 있는 게시글 번호를 수정하고
+  // 해당 게시글의 상세 페이지로 이동한다.
+  const article_no = payload.article_no
+  commit("SET_ARTICLENO", article_no)
+}
+
+export function findArticleByArticleNo({ state, commit }) {
+  // console.log("게시글 객체 시작: ", state.articleNo)
+  
+  const url = "/appeal/detail"
+  axios({
+    url: url,
+    method: "GET",
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+    data: {
+      articleNo: state.articleNo
+    }
+  })
+  .then(resp => {
+    console.log(resp.data)
+    commit("SET_ARTICLEDATA", resp.data)
+  })
+  .catch(err => {
+    console.log(err)
+  })
+}
+
 
 export function deleteArticleReport({ state, commit }, payload) {
   const url = '/article-report/' + payload
