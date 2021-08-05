@@ -1,7 +1,7 @@
 <template>
   <div class="login-background">
     <br>
-    <div class="login-modal" style="display:flex">
+    <div class="login-modal">
       <div class="img-box">
         <img class="cowdog-logo" alt="cow dog logo" :src="require('@/assets/images/onlyLogo.png')">
       </div>
@@ -37,101 +37,282 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+@media (max-width: 1440px) {
+  .login-background{
+    /* background: #e2e2e2; */
+    /* background: rgb(255,209,221); */
+    background: linear-gradient(90deg, rgba(255,209,221,1) 0%, rgba(228,230,241,1) 100%);
+    height: 50vw;
+    }
 
-.login-background{
-  /* background: #e2e2e2; */
-  /* background: rgb(255,209,221); */
-  background: linear-gradient(90deg, rgba(255,209,221,1) 0%, rgba(228,230,241,1) 100%);
-  height: 50vw;
+  .login-modal {
+    display: flex;
+    margin: 5rem auto;
+    width: 70%;
+    height: 70%;
+    border-radius: 10px;
+    background: #ffffff;
   }
 
-.login-modal {
-  margin: 5rem auto;
-  width: 60%;
-  height: 60%;
-  border-radius: 10px;
-  background: #ffffff;
+  .login-modal .img-box {
+    width: 50%;
+  }
+
+  .img-box .cowdog-logo {
+    width: 100%;
+    height: 60%;
+    margin: 3rem auto;
+  }
+
+  .title-box {
+    width: 80%;
+    margin: auto;
+  }
+
+  .title-box .cowdog-title {
+    width: 100%;
+  }
+  .login-modal .login-box {
+    width: 50%;
+    margin: 2rem auto;
+  }
+
+  .el-input::placeholder{
+    color: black;
+  }
+
+  .login-background .el-form-item__error {
+    left: 15%;
+  }
+
+  .login-background .el-button{
+    width: 70%;
+    margin: 1rem 0 2rem 0;
+  }
+
+  .login-background .el-button--default {
+    border-color: rgb(255,149,178);
+  }
+
+  .login-background .el-button--default:hover {
+    background: rgb(255,149,178);
+    border-color: rgb(255,149,178);
+    color: white;
+  }
+
+  .login-background .el-button--default:focus {
+    background: rgb(255,149,178);
+    border-color: rgb(255,149,178);
+    color: white;
+  }
+
+  .login-background .elinput {
+    width: 70%;
+  }
+
+  .finding-password {
+    margin-bottom: 1rem;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .finding-password a {
+    text-decoration: none; 
+    color: #ff4e7e;
+  }
+
+  .register-form {
+    padding: 5px 0 5px 0;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .register-form a {
+    text-decoration: none;
+    color: #ff4e7e;
+  }
+}
+@media (max-width: 1024px) {
+  .login-background{
+    /* background: #e2e2e2; */
+    /* background: rgb(255,209,221); */
+    background: linear-gradient(90deg, rgba(255,209,221,1) 0%, rgba(228,230,241,1) 100%);
+    height: 70vw;
+    }
+
+  .login-modal {
+    display: flex;
+    margin: 5rem auto;
+    width: 70%;
+    height: 55%;
+    border-radius: 10px;
+    background: #ffffff;
+  }
+
+  .login-modal .img-box {
+    width: 50%;
+  }
+
+  .img-box .cowdog-logo {
+    width: 100%;
+    height: 50%;
+    margin: 3rem auto;
+  }
+
+  .title-box {
+    width: 70%;
+    margin: auto;
+  }
+
+  .title-box .cowdog-title {
+    width: 100%;
+  }
+  .login-modal .login-box {
+    width: 50%;
+    margin: 1rem auto;
+  }
+
+  .el-input::placeholder{
+    color: black;
+  }
+
+  .login-background .el-form-item__error {
+    left: 15%;
+  }
+
+  .login-background .el-button{
+    width: 70%;
+    margin: 0 0 1rem 0;
+  }
+
+  .login-background .el-button--default {
+    border-color: rgb(255,149,178);
+  }
+
+  .login-background .el-button--default:hover {
+    background: rgb(255,149,178);
+    border-color: rgb(255,149,178);
+    color: white;
+  }
+
+  .login-background .el-button--default:focus {
+    background: rgb(255,149,178);
+    border-color: rgb(255,149,178);
+    color: white;
+  }
+
+  .login-background .elinput {
+    width: 70%;
+  }
+
+  .finding-password {
+    margin-bottom: 1rem;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .finding-password a {
+    text-decoration: none; 
+    color: #ff4e7e;
+  }
+
+  .register-form {
+    padding: 5px 0 5px 0;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .register-form a {
+    text-decoration: none;
+    color: #ff4e7e;
+  }
 }
 
-.login-modal .img-box {
-  width: 50%;
-}
 
-.img-box .cowdog-logo {
-  width: 100%;
-  height: 60%;
-  margin: 3rem auto;
-}
+@media (max-width: 768px) {
+  .login-background{
+    /* background: #e2e2e2; */
+    /* background: rgb(255,209,221); */
 
-.title-box {
-  width: 100%;
-}
+    background: linear-gradient(90deg, rgba(255,209,221,1) 0%, rgba(228,230,241,1) 100%);
+    height: 100vw;
+    }
 
-.title-box .cowdog-title {
-  width: 90%;
-}
-.login-modal .login-box {
-  width: 50%;
-  margin: 2rem auto;
-}
+  .login-modal {
+    display: block;
+    margin: 3rem auto;
+    width: 60%;
+    border-radius: 10px;
+    background: #ffffff;
+  }
 
-.el-input::placeholder{
-  color: black;
-}
+  .login-form {
+    margin: 0 auto;
+  }
+  .login-modal .img-box {
+    margin: 0 auto;
+  }
+  .img-box .cowdog-logo {
+    margin: 0;
+  }
+  .login-modal .login-box {
+    margin: 0 auto;
+  }
 
-.login-background .el-form-item__error {
-  left: 15%;
-}
+  .el-input::placeholder{
+    color: black;
+  }
 
-.login-background .el-button{
-  width: 70%;
-  margin: 1rem 0 2rem 0;
-}
+  .login-background .el-form-item__error {
+    left: 15%;
+  }
 
-.login-background .el-button--default {
-  border-color: rgb(255,149,178);
-}
+  .login-background .el-button{
+    width: 100%;
+    margin: 0 0 5px 0;
+  }
 
-.login-background .el-button--default:hover {
-  background: rgb(255,149,178);
-  border-color: rgb(255,149,178);
-  color: white;
-}
+  .login-background .el-button--default {
+    border-color: rgb(255,149,178);
+  }
 
-.login-background .el-button--default:focus {
-  background: rgb(255,149,178);
-  border-color: rgb(255,149,178);
-  color: white;
-}
+  .login-background .el-button--default:hover {
+    background: rgb(255,149,178);
+    border-color: rgb(255,149,178);
+    color: white;
+  }
 
-.login-background .elinput {
-  width: 70%;
-}
+  .login-background .el-button--default:focus {
+    background: rgb(255,149,178);
+    border-color: rgb(255,149,178);
+    color: white;
+  }
 
-.login-background .el-input__inner {
-  height: 40px;
-}
+  .login-background .elinput {
+    width: 100%;
+  }
 
-.finding-password {
-  margin-bottom: 1rem;
-  font-size: 12px;
-  font-weight: bold;
-}
+  .finding-password {
+    margin-bottom: 1rem;
+    font-size: 12px;
+    font-weight: bold;
+  }
 
-.finding-password a {
-  text-decoration: none; 
-  color: #ff4e7e;
-}
+  .finding-password a {
+    text-decoration: none; 
+    color: #ff4e7e;
+  }
 
-.register-form {
-  padding: 5px 0 5px 0;
-  font-size: 12px;
-  font-weight: bold;
-}
+  .register-form {
+    padding: 5px 0 5px 0;
+    font-size: 12px;
+    font-weight: bold;
+  }
 
-.register-form a {
-  text-decoration: none;
-  color: #ff4e7e;
+  .register-form a {
+    text-decoration: none;
+    color: #ff4e7e;
+  }
 }
 
 
