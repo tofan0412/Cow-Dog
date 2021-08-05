@@ -1,7 +1,7 @@
 <template>
   <div class="login-background">
     <br>
-    <div class="login-modal">
+    <div class="login-modal" style="display:flex">
       <div class="img-box">
         <img class="cowdog-logo" alt="cow dog logo" :src="require('@/assets/images/onlyLogo.png')">
       </div>
@@ -9,7 +9,7 @@
         <div class="login-form">
           <el-form :model="state.form" :rules="state.rules" ref="loginForm" :label-position="state.form.align">
             <div class="title-box">
-              <img class="cowdog-logo" alt="cow dog logo" :src="require('@/assets/images/onlyTitle.png')">
+              <img class="cowdog-title" alt="cow dog logo" :src="require('@/assets/images/onlyTitle.png')">
             </div>
             <el-form-item prop="id"  :label-width="state.formLabelWidth" >
               <el-input class="elinput" v-model="state.form.id" autocomplete="on"  placeholder="아이디"></el-input>
@@ -48,17 +48,31 @@
 .login-modal {
   margin: 5rem auto;
   width: 60%;
+  height: 60%;
   border-radius: 10px;
   background: #ffffff;
 }
 
-.login-form {
-  margin: 0 auto;
-}
 .login-modal .img-box {
+  width: 50%;
 }
 
+.img-box .cowdog-logo {
+  width: 100%;
+  height: 60%;
+  margin: 3rem auto;
+}
+
+.title-box {
+  width: 100%;
+}
+
+.title-box .cowdog-title {
+  width: 90%;
+}
 .login-modal .login-box {
+  width: 50%;
+  margin: 2rem auto;
 }
 
 .el-input::placeholder{
@@ -66,11 +80,11 @@
 }
 
 .login-background .el-form-item__error {
-  left: 35%;
+  left: 15%;
 }
 
 .login-background .el-button{
-  width: 30%;
+  width: 70%;
   margin: 1rem 0 2rem 0;
 }
 
@@ -91,7 +105,11 @@
 }
 
 .login-background .elinput {
-  width: 30%;
+  width: 70%;
+}
+
+.login-background .el-input__inner {
+  height: 40px;
 }
 
 .finding-password {
