@@ -61,6 +61,7 @@ public class MemberServiceImpl implements MemberService{
 		newMember.setMemberid(member.get("id").toString());
 		newMember.setMemberinfo(newMemberInfo);
 		newMember.setNickname(member.get("nickname").toString());
+		newMember.setLogin(false);
 		Date date_now = new Date(System.currentTimeMillis()); // 현재시간을 가져와 Date형으로 저장한다
 		String stringDatetime = new SimpleDateFormat("yyyy.MM.dd").format(date_now);
 //		SimpleDateFormat fourteen_format = new SimpleDateFormat("yyyy-MM-dd-HH"); 

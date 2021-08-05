@@ -29,6 +29,7 @@ setup() {
       title: '',
       content: '',
       member_id: store.getters.getUserId,
+      writer:store.getters.getUserInfo.memberid
     },
     rules: {
       title: [
@@ -63,7 +64,8 @@ methods: {
     this.state.store.dispatch("createArticle", 
         { title: this.state.articleForm.title, 
         content: this.state.articleForm.content, 
-        member_id: this.state.articleForm.member_id } )
+        member_id: this.state.articleForm.member_id ,
+        writer:this.state.articleForm.writer} )
   }
 },
 }

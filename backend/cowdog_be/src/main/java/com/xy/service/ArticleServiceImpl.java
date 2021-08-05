@@ -28,16 +28,15 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Long create(Map map) {
         // 1. 사용자 정보 찾기
+    	
         System.out.println();
-        int temp = (Integer) map.get("member_id");
-        String member_id = Integer.toString(temp);
-
-        Member member = memberRepository.getBymemberid(member_id);
-
+        System.out.println("SERVICEC   "+map.toString());
+      
         Article article = new Article();
+        article.setMemberId((Long) (Long.parseLong(map.get("member_id").toString())));
         article.setTitle((String) map.get("title"));
         article.setContent((String) map.get("content"));
-        article.setMember_id(member);
+        article.setWriter(map.get("writer").toString());
 
         Article result = articleRepository.save(article);
         if ( result != null) {

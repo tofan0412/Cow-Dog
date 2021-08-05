@@ -355,6 +355,7 @@ export function checklogin({ state }) {
 
 export function createArticle({ state, commit }, payload) {
   console.log(state)
+  console.log(payload)
 
   const url = "/appeal/create"
   axios({
@@ -367,6 +368,7 @@ export function createArticle({ state, commit }, payload) {
       title: payload.title,
       content: payload.content,
       member_id: payload.member_id,
+      writer:payload.writer
     }
   })
   .then(resp => {
@@ -394,6 +396,7 @@ export function createArticle({ state, commit }, payload) {
 }
 
 export function getArticles({ commit }) {  
+  console.log("아티클 가져와~~")
   const url = "/appeal"
   axios({
     url: url,
@@ -405,6 +408,27 @@ export function getArticles({ commit }) {
   .catch(err => {
     console.log(err)
   })
+}
+export function userLogout({state,commit},payload){
+  console.log(payload.id)
+  const url = '/mem/logout/?id='+payload.id
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+    .then(res => {
+      console.log(res.data)
+      if(res.data==="SUCCESS"){
+        alert("로그아웃")
+        commit("USER_LOGOUT")
+      }
+    })
+    .catch(err => {
+      console.log(err)
+    })  
 }
 
 export function updateArticlePage({ state }, payload) {

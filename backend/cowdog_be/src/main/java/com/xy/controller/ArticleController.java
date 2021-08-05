@@ -30,6 +30,12 @@ public class ArticleController {
      */
     @GetMapping("")
     public List<Article> findAll() {
+    	List<Article> list=articleService.findAll();
+    	for(int i=0; i<list.size(); i++) {
+    		System.out.println(list.toString());
+    	}
+    	
+    	
         return articleService.findAll();
     }
 
@@ -37,6 +43,7 @@ public class ArticleController {
     @PostMapping("/create")
     @Transactional // 트랜잭션 설정
     public ResponseEntity<? extends BaseResponseBody> create(@RequestBody HashMap<String, Object> map) {
+    	System.out.println(map.toString());
         // 작성된 게시글 번호 또는 0L을 반환한다.
         Long result = articleService.create(map);
 

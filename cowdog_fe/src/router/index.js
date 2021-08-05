@@ -19,6 +19,10 @@ import Following from '../views/mypage/components/Following.vue'
 import Setting from '../views/mypage/components/Setting.vue'
 import Update from '../views/mypage/components/Update.vue'
 import FindingPassword from '../views/findpassword/FindingPassword.vue'
+import Main from '../views/main/Main.vue'
+import RandomMatching from '../views/main/components/RandomMatching.vue'
+import DistanceMatching from '../views/main/components/DistanceMatching.vue'
+import RecomMatching from '../views/main/components/RecomMatching.vue'
 const routes = [
   
   {
@@ -40,6 +44,28 @@ const routes = [
     path:'/findingpassword',
     name:'FindingPassword',
     component:FindingPassword
+  },
+  {
+    path:'/main',
+    name:'Main',
+    component:Main,
+    children:[
+      {
+        path:'/main/randomMatching',
+        name:'RandomMatching',
+        component:RandomMatching
+      },
+      {
+        path:'/main/distanceMatching',
+        name:'DistanceMatching',
+        component:DistanceMatching
+      },
+      {
+        path:'/main/recomMatching',
+        name:'RecomMatching',
+        component:RecomMatching
+      },
+    ]
   },
   {
     path:'/mypage',
