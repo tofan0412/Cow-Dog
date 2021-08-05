@@ -282,8 +282,9 @@ export function createArticle({ state }, payload) {
     }
   })
   .then(resp => {
-    // 게시글 작성 후 디테일 페이지로 이동한다.
     console.log(resp)
+    // 게시글 작성 후 디테일 페이지로 이동한다.
+    // 게시글 목록 재업로드
     router.push("/appeal")
 
     

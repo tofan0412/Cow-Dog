@@ -2,8 +2,6 @@
   <h1>Appeal 게시판</h1>
     <div v-for="article in state.articleList" :key="article.articleno" > <!-- 왜 key에다가 콜론을 해줘야 하지..? -->
       <appealDetail :article="article"/>
-      <div>{{ article.title }}</div>
-      <p>{{ article.regtime }}</p>      
     </div>
     <button @click="createArticle()">게시글 생성</button>
 </template>
@@ -39,8 +37,6 @@ export default {
   methods: {
     createArticle() {
       this.state.store.dispatch("checklogin")
-      // 로그인 여부 확인 후 이동. 근데 목록을 다시 불러와야 함..
-      this.state.store.dispatch("getArticles") 
       router.push("/appeal/create")
     },
   }
