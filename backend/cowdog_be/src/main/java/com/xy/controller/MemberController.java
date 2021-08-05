@@ -1,6 +1,8 @@
 package com.xy.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,19 +11,27 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.xy.S3.S3SServiceImpl;
+import com.xy.S3.S3Service;
 import com.xy.api.request.MemberLoginPostReq;
 import com.xy.api.response.MemberLoginPostRes;
 import com.xy.common.response.BaseResponseBody;
+import com.xy.entity.Image;
 import com.xy.entity.Member;
 import com.xy.entity.MemberInfo;
+import com.xy.repository.MemberRepository;
+import com.xy.service.ImageService;
 import com.xy.service.MemberService;
 import com.xy.auth.JwtUtil;
 import io.swagger.annotations.ApiOperation;
@@ -36,6 +46,12 @@ public class MemberController {
 
 	@Autowired
 	MemberService memSer;
+	@Autowired
+	S3SServiceImpl s3sSer;
+	@Autowired
+	ImageService imgaeSer;
+	@Autowired
+	MemberRepository memRepo;
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -52,6 +68,9 @@ public class MemberController {
 			@ApiResponse(code = 404, message = "사용자 없음"), @ApiResponse(code = 500, message = "서버 오류") })
 	public ResponseEntity<? extends BaseResponseBody> register(@RequestBody HashMap<String, Object> map) {
 		System.out.println(map);
+		
+		
+		
 
 		if (memSer.registerMember(map).equals("FAIL")) {
 			return ResponseEntity.status(200).body(BaseResponseBody.of(404, "FAIL"));
@@ -59,7 +78,26 @@ public class MemberController {
 
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SUCCESS"));
 	}
-
+	
+	@PostMapping("/profileImgaeUpload")
+	public void execWrite(Image image, MultipartFile files,String userId) throws IOException {
+		System.out.println("여기는 이미지 업로드");
+		System.out.println(image.toString());
+	    System.out.println(files);
+	    System.out.println(userId);
+	    // for (int i = 0; i < files.length; i++) {
+	    String imgPath = s3sSer.upload(image.getFile_path(), files);
+	    image.setFile_path("https://" + "d2ukkf315368dk.cloudfront.net" + "/" + imgPath);
+	    // }
+	    imgaeSer.upload(image,userId);
+	  }
+	
+	@GetMapping("/getImageList")
+	public List<Image> getImageList(){
+		return imgaeSer.getImageList();
+	}
+	
+	
 	@PostMapping("/login")
 	@ApiOperation(value = "로그인", notes = "<strong>아이디와 패스워드</strong>를 통해 로그인 한다.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
@@ -74,10 +112,14 @@ public class MemberController {
 		System.out.println(password);
 		Member mem = memSer.getMemberByMemberId(userId);
 
+		
 
 		if (mem == null) {
 			System.out.println("회원 읎어");
 			return ResponseEntity.status(404).body(BaseResponseBody.of(404, "NOT_EXISTS_USER"));
+		}
+		if(mem.isIssuspended()) {
+			return ResponseEntity.status(404).body(BaseResponseBody.of(200, "ISSUSPENDED"));//계정 정지되어 있으면
 		}
 		// 로그인 요청한 유저로부터 입력된 패스워드 와 디비에 저장된 유저의 암호화된 패스워드가 같은지 확인.(유효한 패스워드인지 여부 확인)
 		if (passwordEncoder.matches(password, mem.getPassword())) {
@@ -125,6 +167,38 @@ public class MemberController {
 		return mem;
 	}
 	
+	
+	
+	@PutMapping("/changePassword")
+	public String getMemberPassword(@RequestBody Map<String, String> map) {
+		System.out.println("비밀번호 바꾸기~~~");
+		System.out.println(map.toString());
+		Member mem=memSer.getMemberById(Long.parseLong(map.get("id")));
+		if(!passwordEncoder.matches(map.get("curPassword"), mem.getPassword())) {//만약 현재 비밀번호가 틀렸다면
+			return "FAIL";
+		}
+		
+		
+		mem.setPassword(passwordEncoder.encode(map.get("newPassword")));
+		memRepo.save(mem);
+		System.out.println(mem.toString());
+		return "SUCCESS";
+	}
+	
+	
+	@DeleteMapping("/deleteMember")
+	public String deleteMember(@RequestParam("id") long id) {
+		System.out.println(id);
+		
+		try {
+			memSer.deleteMemberById(id);
+		} catch (Exception e) {
+			return "FAIL";
+		}
+		
+		
+		return "SUCCESS";
+	}
 	
 	
 	

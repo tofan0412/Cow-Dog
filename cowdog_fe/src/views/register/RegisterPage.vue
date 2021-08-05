@@ -192,11 +192,11 @@
                 <br>
                 <br>
                 <h2>회원 가입</h2>
-                
+                <div>
                 <label>상대방에게 보여줄 프로필을 선택하세요</label>
-                <br>
-                <div style="width:95%; height:200px; border:1px solid black; margin:0 auto;">
+                <input type="file" id="imgfiles" ref="imgfiles" v-on:change="handleFileUpload()" multiple />
                 </div>
+                <br>
                 <br>
                 <label>자신의 위치를 선택하세요(더블 클릭)</label>
                 <br>
@@ -204,6 +204,16 @@
                     <span id="centerAddr"></span>
                 </div>
                 <br><br>
+                <label>이성을 찾고 싶은 거리 제한을 설정해주세요</label>
+                <div>
+                    <ul class="ks-cboxtags">
+                        <li><input type="radio" v-model="state.form.distance" value=2>2km</li>
+                        <li><input type="radio" v-model="state.form.distance" value=4>4km</li>
+                        <li><input type="radio" v-model="state.form.distance" value=6>6km</li>
+                        <li><input type="radio" v-model="state.form.distance" value=8>8km</li>
+                        <li><input type="radio" v-model="state.form.distance" value=10>10km</li>
+                    </ul>
+                </div>
                 <el-button class="loginBtn" @click="clickRegister">회원가입</el-button>
             </el-col>
             <el-col :span="12" class="regist_img">
@@ -219,12 +229,13 @@
 import { reactive,ref } from 'vue'
 import { useStore } from 'vuex'
 import router from "@/router";
+import axios from 'axios'
 var geocoder
 let road=''
 let old=''
 let latitude=0
 let longitude=0
-
+let files=[]
 function searchAddrFromCoords(coords, callback) {
     // 좌표로 행정동 주소 정보를 요청합니다
     geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);         
@@ -263,14 +274,24 @@ export default {
       return {
         interest:[],
         marker:Object,
-       
-
+        title: "",
+        files: [],
+        galleryDatas: [],
+        url:null,
       };
       
       
     },
     
     methods:{
+       handleFileUpload() {
+            console.log(this.$refs.imgfiles.files)
+            files = this.$refs.imgfiles.files;
+            this.url=files[0].name
+            console.log(files);
+           
+        },
+       
         
          initMap() {
                 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
@@ -335,12 +356,16 @@ export default {
                             // 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
                             infowindow.setContent(content);
                             infowindow.open(map, marker);
-                            if(result[0].road_address.address_name){
+                            if(result[0].road_address!=null){
                                 road=result[0].road_address.address_name
                             }
                             old=result[0].address.address_name
                             latitude=mouseEvent.latLng.getLat()
                             longitude=mouseEvent.latLng.getLng()
+                            console.log(latitude)
+                            console.log(longitude)
+                            console.log(old)
+                            console.log(road)
                         } 
                         
                           
@@ -370,6 +395,13 @@ export default {
             script.src = 'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=0f0de04704d7e38d69c53bd08ce9a2b8&libraries=services';
             document.head.appendChild(script);
         }
+
+        // axios.get('http://localhost:8080/cowdog/mem/getImageList')
+        //             .then(res => {
+        //                 console.log(res.data);
+        //                 this.galleryDatas = res.data
+        //             })
+        //             .catch(error => console.log(error));
     },
     setup(){
     const registerForm = ref(null)
@@ -435,7 +467,9 @@ export default {
             smoking:[],
             alcohol:[],
             religion:[],
-            address:''
+            address:'',
+            distance:0,
+            
           },
           rules: {
             id: [
@@ -448,7 +482,8 @@ export default {
               { required: true, message: '나이를 입력하세요', trigger: 'blur' }
             ],
             email: [
-              { required: true, message: '이메일을 입력하세요 입력하세요', trigger: 'blur' }
+              { required: true, message: '이메일을 입력하세요 입력하세요', trigger: 'blur' },
+              {pattern:/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/ ,message:"이메일형식이 올바르지 않습니다."}
             ],
             password: [
               {required: true,message:'비밀번호를 입력하세요', trigger:'blur'},
@@ -476,25 +511,69 @@ export default {
     
     
     })
+    
+    const profileImageUpload=function(){
+        
+        console.log("이미지 업로드~")
+        console.log(files)
+        for (var i = 0; i < files.length; i++) {
+                        let formData = new FormData();
+                        formData.append('title', "profile");
+                        formData.append('files', files[i]);
+                        formData.append('userId',state.form.id)
+                        axios.post('http://localhost:8080/cowdog/mem/profileImgaeUpload',
+                        formData, {
+                            headers: {
+                            'Content-Type': 'multipart/form-data'
+                            },
+                        }
+                    ).then(function() {
+                    console.log('SUCCESS!!');
+                })
+                .catch(function() {
+                 console.log('FAILURE!!');
+            });
+        }
 
+
+    }
     const clickRegister = function () {
         
-        registerForm.value.validate((valid) => {
-        if(old==''){
-            state.form.address=road
-            
+        var dist=0
+        if(state.form.distance==2){
+            console.log(state.form.distance)
+            dist=2
+        }else if(state.form.distance==4){
+            console.log(state.form.distance)
+            dist=4
+        }else if(state.form.distance==6){
+            console.log(state.form.distance)
+            dist=6
+        }else if(state.form.distance==8){
+            console.log(state.form.distance)
+            dist=8
         }else{
-            state.form.address=old
-           
+            dist=10
         }
+        console.log(dist)
+        registerForm.value.validate((valid) => {
+            if(old==''){
+                state.form.address=road
+                
+            }else{
+                state.form.address=old
+            
+            }
         console.log("회원가입 검사")
         if (valid) {
+           
           console.log('submit')
           store.dispatch('requestRegister', { id:state.form.id, nickname:state.form.nickname, password:state.form.password, 
                                             email:state.form.email, age:state.form.age,  religion:state.form.religion, interest:state.form.interest,
                                             personality:state.form.personality, hobby:state.form.hobby, gender:state.form.gender, smoking:state.form.smoking,
-                                            alcohol:state.form.alcohol,address:state.form.address,latitude:latitude,longitude:longitude,distance:0})
+                                            alcohol:state.form.alcohol,address:state.form.address,latitude:latitude,longitude:longitude,distance:dist})
           .then(function () {
+            profileImageUpload()
             alert("회원가입 성공")
             router.push({name:"Login"})
           })
@@ -543,6 +622,19 @@ export default {
 .item{
     width: 100%;
 }
+.profile_img{
+    width:140px;
+    height:120px;
+    margin-left:5px;
+}
+.img_button:visited{
+    border: 3px solid red;
+    
+}
+.img_view{
+    display:inline;
+}
+
 .el-carousel__arrow{
     background-color: rgb(255 255 255 / 62%);
     color: #d66767;

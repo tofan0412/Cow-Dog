@@ -21,6 +21,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/cowdog_be" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -33,6 +34,7 @@
       <workItem from="1627396585489" duration="21000" />
       <workItem from="1627396669595" duration="3091000" />
       <workItem from="1627431580683" duration="1167000" />
+      <workItem from="1628088923117" duration="49000" />
     </task>
     <servers />
   </component>

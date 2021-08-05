@@ -30,7 +30,7 @@
           <el-button @click="moveToDetailUpdate(noticeDetailData)">수정</el-button>
         </div>
         <div>
-          <el-button @click="dialogVisible = false">삭제</el-button>
+          <el-button @click="handleDelete(noticeDetailData.noticeNo)">삭제</el-button>
         </div>
       </div>
     </template>
@@ -54,7 +54,8 @@ import router from '../../../router'
     methods: {
       moveToDetailUpdate(noticeDetailData) {
         this.dialogVisible = false
-        router.push( {name: 'UpdateNotice', params: { title: noticeDetailData.title, content:noticeDetailData.content }})
+        router.push( 
+          {name: 'UpdateNotice', params: { noticeNo: noticeDetailData.noticeNo, title: noticeDetailData.title, content:noticeDetailData.content }})
       },
       handleClose(done) {
         this.$confirm('Are you sure to close this dialog?')
@@ -65,8 +66,19 @@ import router from '../../../router'
           })
           .catch(res => {
             console.log(res)
-          });
-            
+          }); 
+      },
+      handleDelete(noticeNo) {
+        this.$confirm('정말로 삭제하시겠습니까?')
+          .then(res => {
+            console.log(res)
+            this.dialogVisible = false
+            this.$store.dispatch('deleteNotice', noticeNo)
+            this.$router.push('/admin/notice')
+          })
+          .catch(err => {
+            console.log(err)
+          })
       }
     }
   };
@@ -112,9 +124,6 @@ import router from '../../../router'
   border-color: #ff4e7e;
 }
 
-.el-button:focus {
-  color: #FF4E7E;
-}
 img {
   width: 300px;
   height: 100%;

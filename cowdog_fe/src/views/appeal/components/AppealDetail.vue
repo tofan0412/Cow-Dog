@@ -1,22 +1,28 @@
 <template>
-  <h1>게시글 상세 내용</h1>
-  {{ state.id }}<br>
+  <h3>{{ this.article.title }}</h3>
+  <div>
+    {{ this.article.content }}
+  </div>
+  <div>
+    <button>Update</button>
+    <button>Delete</button>
+  </div>
+  <hr>
 </template>
 
 <script>
 import { reactive } from '@vue/reactivity'
-import { useRoute } from 'vue-router'
 
 export default {  
   name: 'ArticleDetail',
+  props: {
+      article: Object,
+    },
   setup() {
-    const route = useRoute()
-    console.log(route.params.title)
-
     const state = reactive({
-      id: route.params.id
+      
     })
-
+    
     return {
       state
     }

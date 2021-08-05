@@ -6,7 +6,7 @@
     v-model="dialogVisible"
     width="70%"
     >
-    <div class="reported_id">신고 대상 ID: {{ reportedArticleData.reportedArticleNo }}</div>
+    <div class="reported_id">신고 대상 게시글 번호: {{ reportedArticleData.reportedArticleNo }}</div>
     <br>
     <br>
     <div class="reported_reason">신고 사유</div>
@@ -25,7 +25,7 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">취소</el-button>
-        <el-button @click="dialogVisible = false">게시글 제재</el-button>
+        <el-button @click="deleteReportedArticle(reportedArticleData.reportedArticleNo)">게시글 제재</el-button>
       </span>
     </template>
   </el-dialog>
@@ -54,8 +54,20 @@
           })
           .catch(res => {
             console.log(res)
-          });
-            
+          });     
+      },
+      deleteReportedArticle(reportedArticleNo) {
+        this.$confirm('정말로 제재하시겠습니까?')
+          .then(res => {
+            console.log(res)
+            var reportedArticleLongNo = reportedArticleNo
+            this.$store.dispatch('deleteReportedArticle', 
+            {"reportedArticleNo": reportedArticleNo, "reportedArticleLongNo": reportedArticleLongNo})
+            this.dialogVisible = false
+          })
+          .catch(err => {
+            console.log(err)
+          })
       }
     }
   };
@@ -78,7 +90,7 @@
   font-weight: normal;
 }
 .reported_url_box {
-  width: 100%;
+  width: 50%;
 }
 
 .el-button--primary {
@@ -97,9 +109,5 @@
 .el-button--default:hover {
   background: #ffffff;
   border-color: #ff4e7e;
-}
-img {
-  width: 300px;
-  height: 100%;
 }
 </style>

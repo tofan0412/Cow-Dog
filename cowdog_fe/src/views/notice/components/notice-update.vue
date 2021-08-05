@@ -26,6 +26,7 @@
     data() {
       return {
         ruleForm: {
+          noticeNo: this.$route.params.noticeNo,
           title: this.$route.params.title,
           content: this.$route.params.content
         },
@@ -45,7 +46,8 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            this.$store.dispatch('updateNotice',
+            {"noticeNo": this.ruleForm.noticeNo, "title": this.ruleForm.title, "content": this.ruleForm.content})
           } else {
             console.log('error submit!!');
             return false;

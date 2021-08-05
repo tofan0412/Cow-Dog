@@ -13,6 +13,12 @@ import LoginPage from '../views/login/LoginPage.vue'
 import RegisterPage from '../views/register/RegisterPage.vue'
 import Mypage from '../views/mypage/Mypage.vue'
 import MyInfo from '../views/mypage/components/MyInfo.vue'
+import Eachother from '../views/mypage/components/Eachother.vue'
+import Follow from '../views/mypage/components/Follow.vue'
+import Following from '../views/mypage/components/Following.vue'
+import Setting from '../views/mypage/components/Setting.vue'
+import Update from '../views/mypage/components/Update.vue'
+import FindingPassword from '../views/findpassword/FindingPassword.vue'
 const routes = [
   
   {
@@ -31,6 +37,11 @@ const routes = [
     component:RegisterPage
   },
   {
+    path:'/findingpassword',
+    name:'FindingPassword',
+    component:FindingPassword
+  },
+  {
     path:'/mypage',
     name: 'Mypage',
     component:Mypage,
@@ -39,7 +50,32 @@ const routes = [
         path:'/mypage/myinfo',
         name:'MyInfo',
         component:MyInfo
-      }
+      },
+      {
+        path:'/mypage/eachother',
+        name:'Eachother',
+        component:Eachother
+      },
+      {
+        path:'/mypage/follow',
+        name:'Follow',
+        component:Follow
+      },
+      {
+        path:'/mypage/following',
+        name:'Following',
+        component:Following
+      },
+      {
+        path:'/mypage/setting',
+        name:'Setting',
+        component:Setting
+      },
+      {
+        path:'/mypage/update',
+        name:'update',
+        component:Update
+      },
 
     ]
   },
