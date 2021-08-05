@@ -3,7 +3,10 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import com.xy.api.request.NoticeCreatePostReq;
+import com.xy.api.request.NoticeUpdatePutReq;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.xy.entity.Notice;
@@ -42,5 +45,21 @@ public class NoticeServiceImpl implements NoticeService{ // NoticeService를 상
 	    return noticeRepo.findAll();
 	}
 	
+	@Override
+	public void deleteNotice(Long noticeNo) {
+		noticeRepo.deleteById(noticeNo);
+	}
 	
+	@Override
+	public void updateNotice(NoticeUpdatePutReq noticeUpdateReq) {
+		Optional<Notice> notice = noticeRepo.findById(noticeUpdateReq.getNoticeNo());
+		notice.ifPresent(update -> {
+			update.setNoticeNo(noticeUpdateReq.getNoticeNo());
+			update.setTitle(noticeUpdateReq.getTitle());
+			update.setContent(noticeUpdateReq.getContent());
+			// 이미지 수정
+			// 저장
+			noticeRepo.save(update);
+		});
+	}
 }

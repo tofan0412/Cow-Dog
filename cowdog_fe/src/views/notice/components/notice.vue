@@ -36,7 +36,8 @@
 </template>
 
 <script>
-import { useStore } from 'vuex'
+// import { useStore } from 'vuex'
+import { mapGetters } from 'vuex'
 import router from '../../../router'
 import noticeDetail from './notice-detail.vue'
 export default {
@@ -63,15 +64,11 @@ export default {
       var start = 0 + (this.currentPage-1) * this.pageSize
       var end = this.currentPage * this.pageSize
       return this.notices.slice(start, end) //기본값 0~5번
-    }
+    },
+    ...mapGetters({
+      notices: 'getNotices'
+    })
   },
-
-  setup() {
-    const store = useStore()
-    const notices = store.state.notices
-
-    return { notices }
-  }
 }
 </script>
 

@@ -8,11 +8,13 @@ import org.springframework.stereotype.Service;
 
 import com.xy.entity.ArticleReport;
 import com.xy.repository.ArticleReportRepository;
+import com.xy.repository.ArticleRepository;
 
 @Service
 public class ArticleReportServiceImpl implements ArticleReportService {
 	@Autowired
 	ArticleReportRepository articleReportRepo;
+	ArticleRepository articleRepo;
 	
 	@Override
 	public String createArticleReport(ArticleReportPostReq request) {
@@ -33,6 +35,18 @@ public class ArticleReportServiceImpl implements ArticleReportService {
 	@Override
 	public List<ArticleReport> getArticleReportList() {
 	    return articleReportRepo.findAll();
+	}
+	
+	@Override
+	public void deleteArticleReport(Long articleReportNo) {
+		articleReportRepo.deleteById(articleReportNo);
+	}
+	
+	// 유저 삭제(유저 삭제 후 유저 관련 신고도 삭제)
+	@Override
+	public void deleteReportedArticle(String reportedArticleNo, Long reportedArticleLongNo) {
+		articleReportRepo.deleteByReportedArticleNo(reportedArticleNo); // userId와 관련된 userReport 모두 삭제
+		articleRepo.deleteById(reportedArticleLongNo);
 	}
 	
 }

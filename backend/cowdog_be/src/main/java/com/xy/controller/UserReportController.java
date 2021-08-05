@@ -5,12 +5,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xy.api.request.UserReportPostReq;
 import com.xy.common.response.BaseResponseBody;
+import com.xy.entity.Notice;
 import com.xy.entity.UserReport;
 import com.xy.service.UserReportService;
 
@@ -48,4 +51,17 @@ public class UserReportController {
 		return userReportService.getUserReportList();
 	}
 	
+	@DeleteMapping("/{user_report_no}") // user_report_no 신고 delete 요청
+	public List<UserReport> deleteReport(@PathVariable("user_report_no") Long userReportNo) {
+		userReportService.deleteUserReport(userReportNo);
+		return userReportService.getUserReportList();
+	}
+	
+	@DeleteMapping("/user/{user_id}/{user_long_id}") // user delete 요청
+	public List<UserReport> deleteUser(
+			@PathVariable("user_id") String userId,
+			@PathVariable("user_long_id") Long userLongId) {
+		userReportService.deleteReportedUser(userId, userLongId);
+		return userReportService.getUserReportList();
+	}
 }

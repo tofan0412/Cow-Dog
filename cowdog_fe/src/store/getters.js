@@ -13,3 +13,15 @@ export function getUserInfo(state){
 export function getUserToken(state){
 	return state.accessToken
 }
+
+export function getReportedUsers (state) {
+	return state.reportedUsers
+}
+
+export function getReportedArticles (state) {
+	return state.reportedArticles
+}
+
+export function getArticles (state) {
+	return state.articles
+}

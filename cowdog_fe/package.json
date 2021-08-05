@@ -18,6 +18,8 @@
     "vue": "^3.0.0",
     "vue-axios": "^3.2.4",
     "vue-axios-cors": "^1.0.1",
+    "vue-cookies": "^1.7.4",
+    "vue-doughnut-chart": "^0.3.0",
     "vue-router": "^4.0.10",
     "vueperslides": "^2.15.2",
     "vuex": "^4.0.0-0",

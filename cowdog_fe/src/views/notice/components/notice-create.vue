@@ -45,7 +45,7 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            alert('작성이 완료되었습니다.');
             this.$store.dispatch('postNotice', {"title": this.ruleForm.title, "content": this.ruleForm.content})
           } else {
             console.log('error submit!!');

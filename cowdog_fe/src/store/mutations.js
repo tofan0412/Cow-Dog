@@ -25,3 +25,7 @@ export const GET_LOGIN_USER=(state,login_user)=>{
     console.log(state.userId)
     console.log(state.accessToken)
 }
+
+export const SET_ARTICLES = (state, articles) => {
+    state.articles = articles
+}
