@@ -1,8 +1,7 @@
 <template>
 <div>
-<label>프로필</label>
-{{myinfo}}<br>
-<img class="profile" :src="myinfo.file_path"><br>
+<!-- <label>프로필</label> -->
+{{myinfo}}
 닉네임: {{myinfo.nickname}}<br>
 이메일: {{myinfo.email}}<br>
 아이디: {{myinfo.memberid}}<br>
@@ -51,8 +50,11 @@ export default {
 </script>
 
 <style>
+
  .profile{
-     width:120px;
-     height:150px;
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
  }
+
 </style>

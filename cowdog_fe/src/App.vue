@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-menu
-      router=true
+      :router="true"
       :default-active="activeIndex"
       class="el-menu-demo"
       mode="horizontal"
