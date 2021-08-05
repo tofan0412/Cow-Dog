@@ -206,7 +206,7 @@ export function deleteReportedUser({ state, commit }, payload) {
   })
     .then(res => {
       console.log(res.data)
-      commit('GET_REPORTED_ARTICLES', res.data)
+      commit('GET_REPORTED_USERS', res.data)
     })
     .catch(err => {
       console.log(err)
@@ -251,6 +251,21 @@ export function postArticleReport({ state }, payload) {
     .then(res => {
       console.log(res)
       return res.data
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
+
+export function deleteReportedArticle({ state, commit }, payload) {
+  console.log(payload)
+  const url = '/article-report/reported-article/' + payload.reportedArticleNo + '/' + payload.reportedArticleLongNo
+  axios({
+    url: url, method: 'delete', headers:{ Authorization:"Bearer "+state.accessToken},
+  })
+    .then(res => {
+      console.log(res.data)
+      commit('GET_REPORTED_ARTICLES', res.data)
     })
     .catch(err => {
       console.log(err)

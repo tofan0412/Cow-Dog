@@ -66,7 +66,7 @@ export default {
   // 신고 POST 예시
   methods: {
     ArticleReport() {
-      this.$store.dispatch('postArticleReport', {"title": "정지시켜주세요.", "content": "악질이에요.", "reportedArticleNo": "3", "articleUrl": "http://www.naver.com"})
+      this.$store.dispatch('postArticleReport', {"title": "정지시켜주세요.", "content": "악질이에요.", "reportedArticleNo": "173", "articleUrl": "http://www.naver.com"})
     },
     // 게시글 신고 삭제(게시글 삭제 아님)
     deleteArticleReport(articleReportNo) {

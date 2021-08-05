@@ -57,4 +57,11 @@ public class ArticleReportController {
 		return articleReportService.getArticleReportList();
 	}
 	
+	@DeleteMapping("/reported-article/{reported_article_no}/{reported_article_long_no}")// reported article delete 요청
+	public List<ArticleReport> deleteReportedArticle(
+			@PathVariable("reported_article_no") String reportedArticleNo,
+			@PathVariable("reported_article_long_no") Long reportedArticleLongNo) {
+		articleReportService.deleteReportedArticle(reportedArticleNo, reportedArticleLongNo);
+		return articleReportService.getArticleReportList();
+	}
 }

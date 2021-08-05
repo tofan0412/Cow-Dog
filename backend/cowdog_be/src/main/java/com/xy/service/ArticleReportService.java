@@ -8,4 +8,5 @@ public interface ArticleReportService {
     public String createArticleReport(ArticleReportPostReq request);
     public List<ArticleReport> getArticleReportList();
     public void deleteArticleReport(Long articleReportNo);
+    public void deleteReportedArticle(String reportedArticleNo, Long reportedArticleLongNo);
 }
