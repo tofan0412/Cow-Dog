@@ -353,29 +353,40 @@ export function checklogin({ state }) {
   }
 }
 
-export function createArticle({ state }, payload) {
+export function createArticle({ state, commit }, payload) {
   console.log(state)
 
   const url = "/appeal/create"
   axios({
     url: url,
     method: "POST",
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
     data: {
       title: payload.title,
       content: payload.content,
       member_id: payload.member_id,
-      headers:{
-        Authorization:"Bearer "+state.accessToken
-      },
     }
   })
   .then(resp => {
     console.log(resp)
     // 게시글 작성 후 디테일 페이지로 이동한다.
     // 게시글 목록 재업로드
-    router.push("/appeal")
-
-    
+    axios({
+      url: "/appeal",
+      method: 'GET',
+      headers:{
+        Authorization:"Bearer "+state.accessToken
+      },
+    })
+    .then(resp => {
+      commit("SET_ARTICLES", resp.data)
+      router.push("/appeal")
+    })
+    .catch(err => {
+      console.log(err)
+    })    
   })
   .catch(err => {
     console.log(err)
@@ -394,6 +405,16 @@ export function getArticles({ commit }) {
   .catch(err => {
     console.log(err)
   })
+}
+
+export function updateArticlePage({ state }, payload) {
+  console.log(state)
+  console.log(payload)
+}
+
+export function deleteArticle({ state }, payload) {
+  console.log(state)
+  console.log(payload)
 }
 
 

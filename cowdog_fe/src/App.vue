@@ -17,8 +17,7 @@
       <el-menu-item index="5" class="navMenu"><router-link to="/register">Register</router-link></el-menu-item>
       <el-menu-item index="6" class="navMenu"><router-link to="/mypage" @click="getMyInfo">mypage</router-link></el-menu-item>
       <el-menu-item index="7" class="navMenu"><router-link to="/appeal/create">AppealCreate</router-link></el-menu-item>
-      <el-menu-item index="8" class="navMenu"><router-link to="/login">Login</router-link></el-menu-item>
-      <el-menu-item index="9" class="navMenu"><router-link to="/test">test</router-link></el-menu-item>
+      <el-menu-item index="8" class="navMenu"><router-link to="/test">test</router-link></el-menu-item>
     </el-menu>
   </div>
   

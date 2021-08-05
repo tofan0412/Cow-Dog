@@ -26,6 +26,14 @@ export const GET_LOGIN_USER=(state,login_user)=>{
     console.log(state.accessToken)
 }
 
+export const USER_LOGOUT=(state)=>{
+    state.accessToken=''
+    state.userId=''
+    state.myinfo=[]
+    router.push('/login')
+}
+
+
 export const SET_ARTICLES = (state, articles) => {
     state.articles = articles
 }
