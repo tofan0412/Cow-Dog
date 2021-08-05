@@ -8,6 +8,7 @@ import createPersistedState from 'vuex-persistedstate';
 const state = {
   notices: "기본값",
   reportedUsers: '기본값',
+  reportedArticles: '기본값',
   noticeDetailData: '기본값',
   myinfo:[],//유저 정보
   accessToken:'',// 토큰

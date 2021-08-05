@@ -5,7 +5,7 @@ import Notice from '../views/notice/components/notice.vue'
 import NoticeCreate from '../views/notice/components/notice-create.vue'
 import NoticeUpdate from '../views/notice/components/notice-update.vue'
 import UserReport from '../views/notice/components/user-report.vue'
-import WritingReport from '../views/notice/components/writing-report.vue'
+import ArticleReport from '../views/notice/components/article-report.vue'
 import AppealList from '../views/appeal/components/AppealList.vue'
 import AppealDetail from '../views/appeal/components/AppealDetail.vue'
 import AppealCreate from '../views/appeal/components/AppealCreate.vue'
@@ -105,9 +105,9 @@ const routes = [
           component: UserReport
         },
         {
-          path: '/admin/writing-report',
-          name: 'WritingReport',
-          component: WritingReport
+          path: '/admin/article-report',
+          name: 'ArticleReport',
+          component: ArticleReport
         }
     ]
   },

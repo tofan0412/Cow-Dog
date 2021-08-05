@@ -1,16 +1,5 @@
 import axios from 'axios'
 import $axios from 'axios'
-import router from "@/router";
-export function getNotices ({ commit }) {
-  axios.get('https://e7d14d3b-41a2-4dc5-874c-a55731c663b9.mock.pstmn.io/notice')
-    .then(res => {
-      console.log(res.data)
-      commit('GET_NOTICES', res.data)
-    })
-    .catch(err => {
-      console.log(err)
-    })
-}
 
 export function getMyInfo({state,commit}){
   console.log(state.userId)
@@ -138,9 +127,58 @@ export function confirmNickname({state},payload){
   return $axios.post(url,body)
 }
 
+// 공지사항 관련 actions
+export function getNotices ({ state, commit }) {
+  const url = '/notice'
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+    .then(res => {
+      console.log(res)
+      commit('GET_NOTICES', res.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })    
+}
 
-export function getReportedUsers({ commit }) {
-  axios.get('https://e7d14d3b-41a2-4dc5-874c-a55731c663b9.mock.pstmn.io/reportedUserList')
+export function postNotice({ state }, payload) {
+  console.log(payload)
+  const url = '/notice'
+  axios({
+    url: url,
+    method: 'post',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+    data: {
+      title: payload.title,
+      content: payload.content
+    }
+  })
+    .then(res => {
+      console.log(res)
+      return res.data
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
+
+// 유저 신고 관련 actions
+export function getReportedUsers({ state, commit }) {
+  const url = '/user-report'
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
     .then(res => {
       console.log(res.data)
       commit('GET_REPORTED_USERS', res.data)
@@ -150,18 +188,63 @@ export function getReportedUsers({ commit }) {
     })  
 }
 
-export function postNotice({ state }, payload) {
-  console.log( payload)
-  const url = '/notice'
+export function postUserReport({ state }, payload) {
+  console.log(payload)
+  const url = '/user-report'
   axios({
     url: url,
     method: 'post',
-    data: {
-      title: payload.title,
-      content: payload.content
-    },
     headers:{
       Authorization:"Bearer "+state.accessToken
+    },
+    data: {
+      title: payload.title,
+      content: payload.content,
+      reportedId: payload.reportedId
+    }
+  })
+    .then(res => {
+      console.log(res)
+      return res.data
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
+
+// 게시글 신고 관련 actions
+export function getReportedArticles({ state, commit }) {
+  const url = '/article-report'
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+    .then(res => {
+      console.log(res.data)
+      commit('GET_REPORTED_ARTICLES', res.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })  
+}
+
+export function postArticleReport({ state }, payload) {
+  console.log(payload)
+  const url = '/article-report'
+  axios({
+    url: url,
+    method: 'post',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+    data: {
+      title: payload.title,
+      content: payload.content,
+      reportedArticleNo: payload.reportedArticleNo,
+      articleUrl: payload.articleUrl,
     }
   })
     .then(res => {

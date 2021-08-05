@@ -3,7 +3,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import com.xy.api.request.NoticeCreatePostReq;
-
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.xy.entity.Notice;
@@ -36,10 +36,11 @@ public class NoticeServiceImpl implements NoticeService{ // NoticeService를 상
 		}
 		return "FAIL";
 	}
-
-
+	
 	@Override
 	public List<Notice> getNoticeList() {
-		return noticeRepo.findAll();
+	    return noticeRepo.findAll();
 	}
+	
+	
 }
