@@ -37,11 +37,12 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-@media (max-width: 1440px) {
+@media (max-width: 2400px) {
   .login-background{
     /* background: #e2e2e2; */
     /* background: rgb(255,209,221); */
-    background: linear-gradient(90deg, rgba(255,209,221,1) 0%, rgba(228,230,241,1) 100%);
+    background: #f0f2f5;
+    /* background: linear-gradient(90deg, rgba(255,209,221,1) 0%, rgba(228,230,241,1) 100%); */
     height: 50vw;
     }
 

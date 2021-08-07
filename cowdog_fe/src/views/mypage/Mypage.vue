@@ -1,7 +1,6 @@
 <template>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
 <div class="mypage">
-  <!-- <label>프로필</label> -->
   <div class="upward" style="display:flex">
     <div class="profile-img-box">
       <img class="profile" :src="myinfo.file_path"><br>
@@ -53,13 +52,7 @@
     <el-tab-pane label="맞팔로우" name="eachother"><EachOther /></el-tab-pane>
     <el-tab-pane label="계정설정" name="account-setting"><Setting /></el-tab-pane>
   </el-tabs>
-
 </div>
-<br>
-<br>
-<el-footer>
-  footer@@@@@@@@@@@@footer
-</el-footer>
 </template>
 
 <script>
@@ -82,11 +75,7 @@ export default {
     const store = useStore()
     const myinfo = store.state.myinfo
 
-    return { myinfo
-      //  getMyInfo:()=>{
-      //   store.dispatch('getMyInfo')
-      // }
-    }
+    return { myinfo }
   },
 
 
@@ -94,6 +83,10 @@ export default {
 </script>
 
 <style>
+.upward {
+  margin-left: 15%;
+}
+
 .profile-img-box {
   margin-left: 20%;
   margin-top: 5%;
@@ -107,6 +100,9 @@ export default {
   margin: 0 37%;
 }
 
+.el-tabs__header {
+  margin: 0;
+}
 .profile-info {
   text-align: left;
   margin: 4rem;
