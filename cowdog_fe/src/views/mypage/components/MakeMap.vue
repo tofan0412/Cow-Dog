@@ -1,7 +1,6 @@
 <template>
   <div id="map" style="width: 500px; height: 500px;"></div>
 </template>
-
 <script>
 export default {
     props: {

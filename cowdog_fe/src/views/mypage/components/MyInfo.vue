@@ -14,10 +14,10 @@
       <li>지역: {{ myRegion }}</li>
     </ul>
   </div>
-  <KakaoMap
-  :lat="this.myinfo.memberinfo.latitude"
-  :lng="this.myinfo.memberinfo.longitude"
-  :meters="this.myinfo.memberinfo.distance" />
+  <div class="map-box">
+  <div class="map-title">만남을 원하는 위치는?</div>
+    <div id="map" style="width: 450px; height: 450px;"></div>
+  </div>
 </div>
 
 
@@ -26,13 +26,9 @@
 
 <script>
 import { useStore } from 'vuex'
-import KakaoMap from './MakeMap.vue'
+import { onMounted } from 'vue'
 let files=[]
 export default {
-
-  components: {
-    KakaoMap
-  },
   data () {
     return {
       interest:[],
@@ -61,6 +57,46 @@ export default {
   setup() {
     const store = useStore()
     const myinfo = store.state.myinfo
+
+    // 지도 관련 setup
+    const initMap = () => {
+        var container = document.getElementById('map');
+        var options = {
+          center: new kakao.maps.LatLng(myinfo.memberinfo.latitude, myinfo.memberinfo.longitude),
+          level: 8
+        };
+
+        const map = new kakao.maps.Map(container, options);
+
+        var circle = new kakao.maps.Circle({
+            center: new kakao.maps.LatLng(myinfo.memberinfo.latitude, myinfo.memberinfo.longitude),
+            radius: myinfo.memberinfo.distance * 1000,
+            strokeWeight: 5, // 선의 두께
+            strokeColor: '#ff4e7e', // 선의 색깔
+            strokeOpacity: 1, // 불투명
+            strokeStyle: 'line',
+            fillColor: '#CFE7FF', // 채우기 색깔
+            fillOpacity: 0.4 // 채우기 불투명도
+        })
+        circle.setMap(map);
+        // setTimeout(() => {
+            map.relayout()
+            map.setCenter(new kakao.maps.LatLng(myinfo.memberinfo.latitude, myinfo.memberinfo.longitude))
+            console.log('done!!')
+        // }, 0)
+    }
+
+    onMounted(() => {
+      if (window.kakao && window.kakao.maps) {
+          initMap();
+      } else {
+          const script = document.createElement('script');
+          script.onload = () => kakao.maps.load(initMap);
+          script.src = 'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=0f0de04704d7e38d69c53bd08ce9a2b8&libraries=services';
+          document.head.appendChild(script);
+      }
+    })
+
     return { myinfo }
   }
 }
@@ -94,5 +130,12 @@ export default {
 
   .el-tabs__content {
     background: #f0f2f5;
+  }
+  .map-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  .map-box {
+    margin: 4rem 3rem;
   }
 </style>

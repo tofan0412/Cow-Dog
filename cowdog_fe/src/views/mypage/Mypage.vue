@@ -71,6 +71,12 @@ export default {
     EachOther,
     Setting
   },
+
+  data() {
+    return {
+      activeName: 'myinfo'
+    }
+  },
   setup() {
     const store = useStore()
     const myinfo = store.state.myinfo
