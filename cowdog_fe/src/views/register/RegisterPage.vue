@@ -24,15 +24,11 @@
                             </el-form-item>
                             <el-form-item prop="password">
                                 <div class="input-name">비밀번호</div>
-                                <el-input class="elinput" v-model="state.form.password" autocomplete="off"></el-input>
+                                <el-input class="elinput" v-model="state.form.password" autocomplete="off" show-password></el-input>
                             </el-form-item>
-                            <el-form-item prop="passwordConfirm" :label-width="state.formLabelWidth">
+                            <el-form-item prop="passwordConfirm">
                                 <div class="input-name">비밀번호 확인</div>
-                                <el-input class="elinput" v-model="state.form.passwordConfirm" autocomplete="off"></el-input>
-                            </el-form-item>
-                            <el-form-item>
-                                <div class="input-name">나이</div>
-                                <el-input class="elinput" v-model="state.form.age" autocomplete="off"></el-input>
+                                <el-input class="elinput" v-model="state.form.passwordConfirm" autocomplete="off" show-password></el-input>
                             </el-form-item>
                         </el-form>
                     </div>
@@ -52,26 +48,75 @@
                     <h2>회원 가입</h2>
                     <div>
                         <el-form :model="state.form" :rules="state.rules"  :label-position="state.form.align">
+                            <el-form-item>
+                                <div class="input-name">나이가 어떻게 되세요?(숫자 입력)</div>
+                                <el-input class="elinput" v-model="state.form.age" autocomplete="off"></el-input>
+                            </el-form-item>
+                            
                             <el-form-item prop="religion">
                                 <div class="input-name">종교를 선택해 주세요</div>
                                     <ul>
-                                        <li><input v-model="state.form.religion" type="checkbox" id="무교" value="무교"><label for="무교">무교</label></li>
-                                        <li><input v-model="state.form.religion" type="checkbox" id="기독교" value="기독교"><label for="기독교">기독교</label></li>
-                                        <li><input v-model="state.form.religion" type="checkbox" id="천주교" value="천주교"><label for="천주교">천주교</label></li>
-                                        <li><input v-model="state.form.religion" type="checkbox" id="불교" value="불교"><label for="불교">불교</label></li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.religion" id="무교" value="무교" type="checkbox">
+                                            <span class="icon"></span><span class="text">무교</span>
+                                            </label>
+                                        </li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.religion" id="기독교" value="기독교" type="checkbox">
+                                            <span class="icon"></span><span class="text">기독교</span>
+                                            </label>
+                                        </li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.religion" id="천주교" value="천주교" type="checkbox">
+                                            <span class="icon"></span><span class="text">천주교</span>
+                                            </label>
+                                        </li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.religion" id="불교" value="불교" type="checkbox">
+                                            <span class="icon"></span><span class="text">불교</span>
+                                            </label>
+                                        </li>
                                     </ul>
                             </el-form-item>
                             <el-form-item prop="hobby">
                                 <div class="input-name">취미를 선택해 주세요(3개)</div>
                                 <div>
                                     <ul class="ks-cboxtags">
-                                        <li><input v-model="state.form.hobby" type="checkbox" id="운동" value="운동"><label for="운동">운동</label></li>
-                                        <li><input v-model="state.form.hobby" type="checkbox" id="요리" value="요리"><label for="요리">요리</label></li>
-                                        <li><input v-model="state.form.hobby" type="checkbox" id="영화" value="영화"><label for="영화">영화</label></li>
-                                        <li><input v-model="state.form.hobby" type="checkbox" id="게임" value="게임"><label for="게임">게임</label></li>
-                                        <li><input v-model="state.form.hobby" type="checkbox" id="낚시" value="낚시"><label for="낚시">낚시</label></li>
-                                        <li><input v-model="state.form.hobby" type="checkbox" id="음악듣기" value="음악듣기"><label for="음악듣기">음악듣기</label></li>
-                                        <li><input v-model="state.form.hobby" type="checkbox" id="그림그리기" value="그림그리기"><label for="그림그리기">그림그리기</label></li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.hobby" id="운동" value="운동" type="checkbox">
+                                            <span class="icon"></span><span class="text">운동</span>
+                                            </label>
+                                        </li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.hobby" id="요리" value="요리" type="checkbox">
+                                            <span class="icon"></span><span class="text">요리</span>
+                                            </label>
+                                        </li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.hobby" id="영화" value="영화" type="checkbox">
+                                            <span class="icon"></span><span class="text">영화</span>
+                                            </label>
+                                        </li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.hobby" id="게임" value="게임" type="checkbox">
+                                            <span class="icon"></span><span class="text">게임</span>
+                                            </label>
+                                        </li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.hobby" id="낚시" value="낚시" type="checkbox">
+                                            <span class="icon"></span><span class="text">낚시</span>
+                                            </label>
+                                        </li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.hobby" id="음악감상" value="음악감상" type="checkbox">
+                                            <span class="icon"></span><span class="text">음악감상</span>
+                                            </label>
+                                        </li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.hobby" id="그림그리기" value="그림그리기" type="checkbox">
+                                            <span class="icon"></span><span class="text">그림그리기</span>
+                                            </label>
+                                        </li>
                                     </ul>
                                 </div>
                             </el-form-item>
@@ -85,42 +130,81 @@
                 </div>
             </div>
         </el-carousel-item>
-        <el-carousel-item class="row">
-            <el-row>
-                <el-col :span="12" class="regist_input">
-                    <br>
-                    <br>
+
+        
+        <el-carousel-item class="item">
+            <div class="register-inside-carousel">
+                <div class="register-left-half">
                     <h2>회원 가입</h2>
                     <div>
                         <el-form :model="state.form" :rules="state.rules" :label-position="state.form.align">
-                            <el-form-item prop="personality"  :label-width="state.formLabelWidth" >
-                                <label>본인의 성격을 선택해 주세요(최소3개)</label>
-                                <br>
+                            <el-form-item prop="personality">
+                                <div class="input-name">본인의 성격을 선택해 주세요(최소 3개)</div>
                                 <div>
                                     <ul class="ks-cboxtags">
-                                            <li><input v-model="state.form.personality" type="checkbox" id="활기찬" value="활기찬"><label for="활기찬">활기찬</label></li>
-                                            <li><input v-model="state.form.personality" type="checkbox" id="진지한" value="진지한"><label for="진지한">진지한</label></li>
-                                            <li><input v-model="state.form.personality" type="checkbox" id="재미있는" value="재미있는"><label for="재미있는">재미있는</label></li>
-                                            <li><input v-model="state.form.personality" type="checkbox" id="웃음많은" value="웃음많은"><label for="웃음많은">웃음많은</label></li>
-                                            <li><input v-model="state.form.personality" type="checkbox" id="장난끼많은" value="장난끼많은"><label for="장난끼많은">장난끼많은</label></li>
-                                            <li><input v-model="state.form.personality" type="checkbox" id="꼼꼼한" value="꼼꼼한"><label for="꼼꼼한">꼼꼼한</label></li>
-                                            <li><input v-model="state.form.personality" type="checkbox" id="세심한" value="세심한"><label for="세심한">세심한</label></li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.personality" id="활기찬" value="활기찬" type="checkbox">
+                                            <span class="icon"></span><span class="text">활기찬</span>
+                                            </label>
+                                        </li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.personality" id="진지한" value="진지한" type="checkbox">
+                                            <span class="icon"></span><span class="text">진지한</span>
+                                            </label>
+                                        </li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.personality" id="재미있는" value="재미있는" type="checkbox">
+                                            <span class="icon"></span><span class="text">재미있는</span>
+                                            </label>
+                                        </li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.personality" id="웃음많은" value="웃음많은" type="checkbox">
+                                            <span class="icon"></span><span class="text">웃음많은</span>
+                                            </label>
+                                        </li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.personality" id="장난끼많은" value="장난끼많은" type="checkbox">
+                                            <span class="icon"></span><span class="text">장난끼많은</span>
+                                            </label>
+                                        </li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.personality" id="꼼꼼한" value="꼼꼼한" type="checkbox">
+                                            <span class="icon"></span><span class="text">꼼꼼한</span>
+                                            </label>
+                                        </li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.personality" id="세심한" value="세심한" type="checkbox">
+                                            <span class="icon"></span><span class="text">세심한</span>
+                                            </label>
+                                        </li>
                                     </ul>
                                 </div>
                             </el-form-item>
-                            <br><br>
-                            <br><br>
-                            <br><br>
-                            <el-form-item prop="interest"   :label-width="state.formLabelWidth">
-                                <label>본인의 관심사를 선택해 주세요(최소3개)</label>
-                                <br>
+
+                            <el-form-item prop="interest">
+                                <div class="input-name">본인의 관심사를 선택해 주세요(최소3개)</div>
                                 <div>
-                                
                                     <ul class="ks-cboxtags">
-                                            <li><input v-model="state.form.interest" type="checkbox" id="정치" value="정치"><label for="정치">정치</label></li>
-                                            <li><input v-model="state.form.interest" type="checkbox" id="경제" value="경제"><label for="경제">경제</label></li>
-                                            <li><input v-model="state.form.interest" type="checkbox" id="문화" value="문화"><label for="문화">문화</label></li>
-                                            <li><input v-model="state.form.interest" type="checkbox" id="미술" value="미술"><label for="미술">미술</label></li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.interest" id="정치" value="정치" type="checkbox">
+                                            <span class="icon"></span><span class="text">정치</span>
+                                            </label>
+                                        </li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.interest" id="경제" value="경제" type="checkbox">
+                                            <span class="icon"></span><span class="text">경제</span>
+                                            </label>
+                                        </li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.interest" id="문화" value="문화" type="checkbox">
+                                            <span class="icon"></span><span class="text">문화</span>
+                                            </label>
+                                        </li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.interest" id="미술" value="미술" type="checkbox">
+                                            <span class="icon"></span><span class="text">미술</span>
+                                            </label>
+                                        </li>
                                     </ul>
                                 
                                 </div>
@@ -128,106 +212,153 @@
                             
                         </el-form>
                     </div>
-                </el-col>
-                <el-col :span="12" class="regist_img">
-                    <img class="logo_img1" alt="cow dog logo" :src="require('@/assets/images/regist_img1.png')">
-                </el-col>
-            </el-row>
+                </div>
+                <div class="register-right-half">
+                    <div class="register-img-box">
+                        <img class="register-img-item" :src="require('@/assets/images/regist_img1.png')">
+                    </div>
+                </div>
+            </div>
         </el-carousel-item>
-        <el-carousel-item class="row">
-            <el-row>
-                <el-col :span="12" class="regist_input">
-                    <br>
-                    <br>
+        <el-carousel-item class="item">
+            <div class="register-inside-carousel">
+                <div class="register-left-half">
                     <h2>회원 가입</h2>
                     <div>
-                        <el-form :model="state.form" :rules="state.rules"  :label-position="state.form.align">
-                            <el-form-item prop="gender"  :label-width="state.formLabelWidth" >
-                                <label>성별</label>
-                                <br>
+                        <el-form :model="state.form" :rules="state.rules">
+                            <el-form-item prop="gender">
+                                <div class="input-name">성별</div>
                                 <div>
                                     <ul class="ks-cboxtags">
-                                            <li><input v-model="state.form.gender" type="checkbox" id="남자" value="남자"><label for="남자">남자</label></li>
-                                            <li><input v-model="state.form.gender" type="checkbox" id="여자" value="여자"><label for="여자">여자</label></li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.gender" id="남자" value="남자" type="radio">
+                                            <span class="icon"></span><span class="text">남자</span>
+                                            </label>
+                                        </li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.gender" id="여자" value="여자" type="radio">
+                                            <span class="icon"></span><span class="text">여자</span>
+                                            </label>
+                                        </li>
                                     </ul>
                                 </div>
                             </el-form-item>
-                            <el-form-item prop="smoking"  :label-width="state.formLabelWidth">
-                                <label>흡연을 하시나요?</label>
-                                <br>
+                            <el-form-item prop="smoking">
+                                <div class="input-name">흡연을 하시나요?</div>
                                 <div>
                                     <ul class="ks-cboxtags">
-                                            <li><input v-model="state.form.smoking" type="checkbox" id="예" value="true"><label for="예">예</label></li>
-                                            <li><input v-model="state.form.smoking" type="checkbox" id="아니요" value="false"><label for="아니요">아니요</label></li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.smoking" id="예" value="예" type="radio">
+                                            <span class="icon"></span><span class="text">예</span>
+                                            </label>
+                                        </li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.smoking" id="아니오" value="아니오" type="radio">
+                                            <span class="icon"></span><span class="text">아니오</span>
+                                            </label>
+                                        </li>
                                     </ul>
                                 </div>
                             </el-form-item>
-                            <el-form-item prop="alcohol"  :label-width="state.formLabelWidth" >
-                                <label>음주는 얼마나 하시나요?</label>
-                                <br>
+                            <el-form-item prop="alcohol">
+                                <div class="input-name">음주는 얼마나 하시나요?</div>
                                 <div>
                                     <ul class="ks-cboxtags">
-                                            <li><input v-model="state.form.alcohol" type="checkbox" id="안함" value="안함"><label for="안함">안함</label></li>
-                                            <li><input v-model="state.form.alcohol" type="checkbox" id="거의 안마신다" value="거의 안마신다"><label for="거의 안마신다">거의 안마신다</label></li>
-                                            <li><input v-model="state.form.alcohol" type="checkbox" id="가끔 마신다" value="가끔 마신다"><label for="가끔 마신다">가끔 마신다</label></li>
-                                            <li><input v-model="state.form.alcohol" type="checkbox" id="자주 마신다" value="자주 마신다"><label for="자주 마신다">자주 마신다</label></li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.alcohol" id="안함" value="안함" type="radio">
+                                            <span class="icon"></span><span class="text">안함</span>
+                                            </label>
+                                        </li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.alcohol" id="거의 안 마신다" value="거의 안마신다" type="radio">
+                                            <span class="icon"></span><span class="text">거의 안마신다</span>
+                                            </label>
+                                        </li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.alcohol" id="가끔 마신다" value="가끔 마신다" type="radio">
+                                            <span class="icon"></span><span class="text">가끔 마신다</span>
+                                            </label>
+                                        </li>
+                                        <li><label class="checkbox">
+                                            <input v-model="state.form.alcohol" id="자주 마신다" value="자주 마신다" type="radio">
+                                            <span class="icon"></span><span class="text">자주 마신다</span>
+                                            </label>
+                                        </li>
                                     </ul>
                                 </div>
                             </el-form-item>
                         </el-form>
                     </div>
-                </el-col>
-                <el-col :span="12" class="regist_img">
-                    <img class="logo_img1" alt="cow dog logo" :src="require('@/assets/images/regist_img1.png')">
-                </el-col>
-            </el-row>
+                </div>
+                <div class="register-right-half">
+                    <div class="register-img-box">
+                        <img class="register-img-item" :src="require('@/assets/images/regist_img1.png')">
+                    </div>
+                </div>
+            </div>
         </el-carousel-item>
         
-        <el-carousel-item >
-        <el-row>
-                <el-col :span="12" class="regist_input">
-                    <br>
-                    <br>
+        <el-carousel-item class="item">
+            <div class="register-inside-carousel">
+                <div class="register-left-half">
                     <h2>회원 가입</h2>
                     <div>
-                    <label>상대방에게 보여줄 프로필을 선택하세요</label>
-                    <input type="file" id="imgfiles" ref="imgfiles" v-on:change="handleFileUpload()" multiple />
+                    <div class="input-name">상대방에게 보여줄 프로필 이미지를 선택하세요</div>
+                    <div class="button-and-img-name">
+                        <label class="img-upload-btn" for="imgfiles"><i class="fas fa-arrow-circle-up"></i>&nbsp;업로드</label>
+                        <input type="file" id="imgfiles" ref="imgfiles" v-on:change="handleFileUpload()" multiple style="display:none"/>
+                        <div class="img-file-uploaded">{{ url }}</div>
+                    </div>
                     </div>
                     <br>
                     <br>
-                    <label>자신의 위치를 선택하세요(더블 클릭)</label>
+                    <div class="input-name">자신의 위치를 선택하세요</div>
                     <br>
-                    <div id="map" ref="map" style="width:95%;height:300px; margin:0 auto; border:1px solid black">
+                    <div id="map" ref="map" style="width:95%;height:300px; margin:0 auto;">
                         <span id="centerAddr"></span>
                     </div>
                     <br><br>
-                    <label>이성을 찾고 싶은 거리 제한을 설정해주세요</label>
+                    <div class="input-name">이성을 찾고자 하는 거리 제한을 설정해주세요</div>
                     <div>
                         <ul class="ks-cboxtags">
-                            <li><input type="radio" v-model="state.form.distance" value=2>2km</li>
-                            <li><input type="radio" v-model="state.form.distance" value=4>4km</li>
-                            <li><input type="radio" v-model="state.form.distance" value=6>6km</li>
-                            <li><input type="radio" v-model="state.form.distance" value=8>8km</li>
-                            <li><input type="radio" v-model="state.form.distance" value=10>10km</li>
+                            <li class="distance-radio"><label class="checkbox">
+                                <input v-model="state.form.distance" value="2" type="radio">
+                                <span class="icon"></span><span class="text">2km</span>
+                                </label>
+                            </li>
+                            <li class="distance-radio"><label class="checkbox">
+                                <input v-model="state.form.distance" value="4" type="radio">
+                                <span class="icon"></span><span class="text">4km</span>
+                                </label>
+                            </li>
+                            <li class="distance-radio"><label class="checkbox">
+                                <input v-model="state.form.distance" value="6" type="radio">
+                                <span class="icon"></span><span class="text">6km</span>
+                                </label>
+                            </li>
+                            <li class="distance-radio"><label class="checkbox">
+                                <input v-model="state.form.distance" value="8" type="radio">
+                                <span class="icon"></span><span class="text">8km</span>
+                                </label>
+                            </li>
+                            <li class="distance-radio"><label class="checkbox">
+                                <input v-model="state.form.distance" value="10" type="radio">
+                                <span class="icon"></span><span class="text">10km</span>
+                                </label>
+                            </li>
                         </ul>
                     </div>
-                    <el-button class="loginBtn" @click="clickRegister">회원가입</el-button>
-                </el-col>
-                <el-col :span="12" class="regist_img">
-                    <img class="logo_img1" alt="cow dog logo" :src="require('@/assets/images/regist_img1.png')">
-                </el-col>
-            </el-row>
+                    <el-button class="register-btn" @click="clickRegister">회원가입</el-button>
+                </div>
+                <div class="register-right-half">
+                    <div class="register-img-box">
+                        <img class="register-img-item" :src="require('@/assets/images/regist_img1.png')">
+                    </div>
+                </div>
+            </div>            
         </el-carousel-item>
     </el-carousel>
     </div>
-
-    <!-- 젤리 체크박스 테스트 -->
-    <label class="checkbox">
-        <input type="checkbox">
-        <span class="icon"></span>
-        <span class="text">약관에 동의합니다</span>
-    </label>
-
 </div>
 </template>
 <script>
@@ -284,10 +415,7 @@ export default {
         galleryDatas: [],
         url:null,
       };
-      
-      
     },
-    
     methods:{
        handleFileUpload() {
             console.log(this.$refs.imgfiles.files)
@@ -569,7 +697,6 @@ export default {
     margin: auto;
     border-radius: 10px;
 }
-
 .el-carousel {
     height: 750px;
 }
@@ -605,89 +732,62 @@ export default {
     width: 40px;
     height: 5px;
 }
-/* ul.ks-cboxtags {
-    list-style: none;
-    padding: 20px;
-} */
-
-/* ul.ks-cboxtags li{
-  display: inline;
-} */
-
-/* #centerAddr {
-    display:block;
-    margin-top:2px;
-    font-weight: bold;} */
-
-/* ul.ks-cboxtags li label{
-    display: inline-block;
-    background-color: #323545;
-    border: 2px solid rgba(139, 139, 139, .3);
-    color: white;
-    border-radius: 25px;
-    white-space: nowrap;
-    margin: 3px 0px;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-    transition: all .2s;
-} */
-
-/* ul.ks-cboxtags li label {
-    padding: 5px 20px;
-    cursor: pointer;
-    margin-left: 20px;
-} */
-
-/* 버튼 돌아가는 액션 */
-/* ul.ks-cboxtags li label::before {
-    display: inline-block;
-    font-style: normal;
-    font-variant: normal;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    font-size: 12px;
-    padding: 2px 6px 2px 2px;
-    content: "\f067";
-    transition: transform .3s ease-in-out;
-} */
-
-/* 버튼 돌아가는 액션 */
-/* ul.ks-cboxtags li input[type="checkbox"]:checked + label::before {
-    content: "\f00c";
-    transform: rotate(-360deg);
-    transition: transform .3s ease-in-out;
-} */
-
-/* 버튼 색깔 */
-/* ul.ks-cboxtags li input[type="checkbox"]:checked + label {
-    border: 2px solid #FF4E7E;
-    background-color: #FF4E7E;
-    color: #fff;
-    transition: all .2s;
-} */
-
-/* ul.ks-cboxtags li input[type="checkbox"] {
-  display: absolute;
-}
-ul.ks-cboxtags li input[type="checkbox"] {
-  position: absolute;
-  opacity: 0;
-}
-ul.ks-cboxtags li input[type="checkbox"]:focus + label {
-  border: 2px solid #e9a1ff;
-} */
 .register-body .elinput{
     margin: 0 1rem;
     display: block;
     width: 90%;
 }
 
+/* 이미지 업로드 버튼 커스텀 */
+.img-upload-btn {
+    border: 1px solid #ff4e7e;
+    border-radius: 5px;
+    padding: 5px;
+    background: #ff4e7e;
+    color: white;
+    font-weight: bold;
+    margin: 1rem;
+}
+.button-and-img-name {
+    display: flex;
+}
+.img-file-uploaded {
+ margin-top: 1.5rem;   
+}
+
+/* 체크박스 배치 */
+.register-body ul {
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+}
+.register-body li {
+    font-weight: bold;
+    padding: 3px;
+    border-radius: 15px;
+    margin: 1rem;
+}
+.register-body .distance-radio {
+    margin: 0.5rem;
+}
+
+/* 회원가입 버튼 */
+.register-btn {
+    width: 90%;
+    border: 1px solid #ff4e7e;
+    font-weight: bold;
+}
+.register-btn:hover {
+    background: #ff4e7e;
+    color: white;
+}
+.register-btn:focus {
+    background: white;
+    border: 1px solid #ff4e7e;
+    color: #323545;
+}
 /* 젤리 체크박스 */
 .checkbox input {
     display:none;
@@ -722,9 +822,12 @@ ul.ks-cboxtags li input[type="checkbox"]:focus + label {
 .checkbox .text {
     margin-left: 5px;
 }
+.checkbox input:checked ~ .text {
+    color: #ff4e7e;
+}
 .checkbox input:checked ~ .icon {
     border-color: transparent;
-    background: #ff1616;
+    background: #ff4e7e;
     animation: jelly 0.6s ease;
 }
 .checkbox input:checked ~ .icon::after{
