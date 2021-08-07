@@ -80,8 +80,8 @@ export default {
         })
         circle.setMap(map);
         // setTimeout(() => {
-            map.relayout()
-            map.setCenter(new kakao.maps.LatLng(myinfo.memberinfo.latitude, myinfo.memberinfo.longitude))
+            // map.relayout()
+            // map.setCenter(new kakao.maps.LatLng(myinfo.memberinfo.latitude, myinfo.memberinfo.longitude))
             console.log('done!!')
         // }, 0)
     }
@@ -102,7 +102,6 @@ export default {
 }
 </script>
 <style>
-
   .profile{
     width: 100%;
     height: 100%;
