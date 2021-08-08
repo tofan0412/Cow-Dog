@@ -37,3 +37,24 @@ export const USER_LOGOUT=(state)=>{
 export const SET_ARTICLES = (state, articles) => {
     state.articles = articles
 }
+
+export const SET_RANDOM_USER=(state,randomUsers)=>{
+    console.log(randomUsers)
+    state.randomUsers=randomUsers;
+    console.log(state.randomUsers)
+    router.push('/randomResultView')
+}
+export const SET_RECOM_USER=(state,recomUsers)=>{
+    console.log(recomUsers)
+    state.recomUsers=recomUsers;
+    console.log(state.recomUsers)
+    console.log("Here is SET_RECOM_USER!!!!!!!!!!!!!!!!!")
+    router.push('/recomResultView')
+}
+
+export const SET_DISTANCE_USER=(state,distanceUsers)=>{
+    console.log(distanceUsers)
+    state.distanceUsers=distanceUsers;
+    console.log(state.distanceUsers)
+    router.push('/distanceResultView')
+}

@@ -3,10 +3,12 @@ package com.xy.service;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,7 +32,7 @@ public class MemberServiceImpl implements MemberService{
 	PasswordEncoder passwordEncoder;
 
 	 @PersistenceContext
-	    EntityManager entityManager;
+	    EntityManager em;
 	@Override
 	public String registerMember(Map member) {
 		System.out.println(member);
@@ -43,7 +45,8 @@ public class MemberServiceImpl implements MemberService{
 		newMemberInfo.setDistance((Integer)member.get("distance"));
 		newMemberInfo.setGender(member.get("gender").toString());
 		newMemberInfo.setHobby(member.get("hobby").toString());
-		newMemberInfo.setInterest(member.get("interest").toString());
+		newMemberInfo.setMbti(member.get("mbti").toString());
+		newMemberInfo.setMymbti(member.get("mymbti").toString());
 		newMemberInfo.setLatitude((double)member.get("latitude"));
 		newMemberInfo.setLongitude((double)member.get("longitude"));
 		newMemberInfo.setPersonality(member.get("personality").toString());
@@ -125,6 +128,19 @@ public class MemberServiceImpl implements MemberService{
 		
 		memRepo.deleteById(id);
 		
+	}
+
+	
+	//로그인한 유저만 가져오기
+	@Override
+	public List<Member> getLoginUser(long id) {
+		System.out.println(id);
+		
+		//자신 빼고 지금 로그인한 유저 쿼리
+		String jpql="select m from Member as m where m.login='true' and m.id is not :id";
+		TypedQuery<Member> query=em.createQuery(jpql,Member.class);
+		query.setParameter("id", id);
+		return query.getResultList();
 	}
 	
 	

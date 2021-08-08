@@ -23,6 +23,13 @@ import Main from '../views/main/Main.vue'
 import RandomMatching from '../views/main/components/RandomMatching.vue'
 import DistanceMatching from '../views/main/components/DistanceMatching.vue'
 import RecomMatching from '../views/main/components/RecomMatching.vue'
+import RandomResultView from '../views/main/matchingview/RandomResultView.vue'
+import RandomResultViewDetail from '../views/main/matchingview/RandomResultViewDetail.vue'
+import DistanceResultView from '../views/main/matchingview/DistanceResultView.vue'
+import DistanceResultViewDetail from '../views/main/matchingview/DistanceResultViewDetail.vue'
+import RecomResultView from '../views/main/matchingview/RecomResultView.vue'
+import RecomResultViewDetail from '../views/main/matchingview/RecomResultViewDetail.vue'
+
 const routes = [
   
   {
@@ -44,6 +51,38 @@ const routes = [
     path:'/findingpassword',
     name:'FindingPassword',
     component:FindingPassword
+  },
+
+  {
+    path:'/recomResultView',
+    name:'RecomResultView',
+    component:RecomResultView
+  },
+  {
+    path:'/recomResultViewDetail',
+    name:'RecomResultViewDetail',
+    component:RecomResultViewDetail
+  },
+  
+  {
+    path:'/randomResultView',
+    name:'RandomResultView',
+    component:RandomResultView
+  },
+  {
+    path:'/randomResultViewDetail',
+    name:'RandomResultViewDetail',
+    component:RandomResultViewDetail
+  },
+  {
+    path:'/distanceResultView',
+    name:'DistanceResultView',
+    component:DistanceResultView
+  },
+  {
+    path:'/distanceResultViewDetail',
+    name:'DistanceResultViewDetail',
+    component:DistanceResultViewDetail
   },
   {
     path:'/main',

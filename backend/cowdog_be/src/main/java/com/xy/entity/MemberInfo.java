@@ -34,7 +34,8 @@ public class MemberInfo {
 	private String alcohol;
 	private String religion;
 	private String personality;
-	private String interest;
+	private String mbti;
+	private String mymbti;
 	private String hobby;
 	private double latitude;
 	private double longitude;

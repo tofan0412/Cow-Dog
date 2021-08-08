@@ -69,13 +69,15 @@
                             <br>
                             <div>
                                 <ul class="ks-cboxtags">
-                                        <li><input v-model="state.form.hobby" type="checkbox" id="운동" value="운동"><label for="운동">운동</label></li>
-                                        <li><input v-model="state.form.hobby" type="checkbox" id="요리" value="요리"><label for="요리">요리</label></li>
-                                        <li><input v-model="state.form.hobby" type="checkbox" id="영화" value="영화"><label for="영화">영화</label></li>
-                                        <li><input v-model="state.form.hobby" type="checkbox" id="게임" value="게임"><label for="게임">게임</label></li>
-                                        <li><input v-model="state.form.hobby" type="checkbox" id="낚시" value="낚시"><label for="낚시">낚시</label></li>
+                                        <li><input v-model="state.form.hobby" type="checkbox" id="운동" value="운동"><label for="운동">운동 하기</label></li>
+                                        <li><input v-model="state.form.hobby" type="checkbox" id="요리" value="요리"><label for="요리">요리 하기</label></li>
+                                        <li><input v-model="state.form.hobby" type="checkbox" id="영화" value="영화"><label for="영화">영화 보기</label></li>
+                                        <li><input v-model="state.form.hobby" type="checkbox" id="게임" value="게임"><label for="게임">게임 하기</label></li>
+                                        <li><input v-model="state.form.hobby" type="checkbox" id="낚시" value="낚시"><label for="낚시">낚시 하기</label></li>
                                         <li><input v-model="state.form.hobby" type="checkbox" id="음악듣기" value="음악듣기"><label for="음악듣기">음악듣기</label></li>
-                                        <li><input v-model="state.form.hobby" type="checkbox" id="그림그리기" value="그림그리기"><label for="그림그리기">그림그리기</label></li>
+                                        <li><input v-model="state.form.hobby" type="checkbox" id="제빵" value="제빵"><label for="제빵">제과 제빵</label></li>
+                                        <li><input v-model="state.form.hobby" type="checkbox" id="사진" value="사진"><label for="사진">사진 찍기</label></li>
+                                        <li><input v-model="state.form.hobby" type="checkbox" id="코딩" value="코딩"><label for="코딩">코딩</label></li>
                                 </ul>
                             </div>
                         </el-form-item>
@@ -107,23 +109,37 @@
                                         <li><input v-model="state.form.personality" type="checkbox" id="웃음많은" value="웃음많은"><label for="웃음많은">웃음많은</label></li>
                                         <li><input v-model="state.form.personality" type="checkbox" id="장난끼많은" value="장난끼많은"><label for="장난끼많은">장난끼많은</label></li>
                                         <li><input v-model="state.form.personality" type="checkbox" id="꼼꼼한" value="꼼꼼한"><label for="꼼꼼한">꼼꼼한</label></li>
-                                        <li><input v-model="state.form.personality" type="checkbox" id="세심한" value="세심한"><label for="세심한">세심한</label></li>
+                                        <li><input v-model="state.form.personality" type="checkbox" id="차분함" value="차분함"><label for="차분함">차분함</label></li>
+                                        <li><input v-model="state.form.personality" type="checkbox" id="책임감" value="책임감"><label for="책임감">책임감</label></li>
+                                        <li><input v-model="state.form.personality" type="checkbox" id="솔직한" value="솔직한"><label for="솔직한">솔직한</label></li>
+                                        <li><input v-model="state.form.personality" type="checkbox" id="정열적인" value="정열적인"><label for="정열적인">정열적인</label></li>
+                                        <li><input v-model="state.form.personality" type="checkbox" id="조용함" value="조용함"><label for="조용함">조용함</label></li>
+                                        <li><input v-model="state.form.personality" type="checkbox" id="다정한" value="다정한"><label for="다정한">다정한</label></li>
                                 </ul>
                             </div>
                         </el-form-item>
-                        <br><br>
-                        <br><br>
-                        <br><br>
-                        <el-form-item prop="interest"   :label-width="state.formLabelWidth">
-                            <label>본인의 관심사를 선택해 주세요(최소3개)</label>
+                       
+                        <el-form-item prop="mbti"   :label-width="state.formLabelWidth">
+                            <label>선호하는 MBTI</label>
                             <br>
                             <div>
-                               
                                 <ul class="ks-cboxtags">
-                                        <li><input v-model="state.form.interest" type="checkbox" id="정치" value="정치"><label for="정치">정치</label></li>
-                                        <li><input v-model="state.form.interest" type="checkbox" id="경제" value="경제"><label for="경제">경제</label></li>
-                                        <li><input v-model="state.form.interest" type="checkbox" id="문화" value="문화"><label for="문화">문화</label></li>
-                                        <li><input v-model="state.form.interest" type="checkbox" id="미술" value="미술"><label for="미술">미술</label></li>
+                                        <li><input v-model="state.form.mbti" type="checkbox" id="ISTJ" value="ISTJ"><label for="ISTJ">ISTJ</label></li>
+                                        <li><input v-model="state.form.mbti" type="checkbox" id="ISFJ" value="ISFJ"><label for="ISFJ">ISFJ</label></li>
+                                        <li><input v-model="state.form.mbti" type="checkbox" id="INFJ" value="INFJ"><label for="INFJ">INFJ</label></li>
+                                        <li><input v-model="state.form.mbti" type="checkbox" id="INTJ" value="INTJ"><label for="INTJ">INTJ</label></li>
+                                        <li><input v-model="state.form.mbti" type="checkbox" id="ISTP" value="ISTP"><label for="ISTP">ISTP</label></li>
+                                        <li><input v-model="state.form.mbti" type="checkbox" id="ISFP" value="ISFP"><label for="ISFP">ISFP</label></li>
+                                        <li><input v-model="state.form.mbti" type="checkbox" id="INFP" value="INFP"><label for="INFP">INFP</label></li>
+                                        <li><input v-model="state.form.mbti" type="checkbox" id="INTP" value="INTP"><label for="INTP">INTP</label></li>
+                                        <li><input v-model="state.form.mbti" type="checkbox" id="ESTP" value="ESTP"><label for="ESTP">ESTP</label></li>
+                                        <li><input v-model="state.form.mbti" type="checkbox" id="ESFP" value="ESFP"><label for="ESFP">ESFP</label></li>
+                                        <li><input v-model="state.form.mbti" type="checkbox" id="ENFP" value="ENFP"><label for="ENFP">ENFP</label></li>
+                                        <li><input v-model="state.form.mbti" type="checkbox" id="ENTP" value="ENTP"><label for="ENTP">ENTP</label></li>
+                                        <li><input v-model="state.form.mbti" type="checkbox" id="ESTJ" value="ESTJ"><label for="ESTJ">ESTJ</label></li>
+                                        <li><input v-model="state.form.mbti" type="checkbox" id="ESFJ" value="ESFJ"><label for="ESFJ">ESFJ</label></li>
+                                        <li><input v-model="state.form.mbti" type="checkbox" id="ENFJ" value="ENFJ"><label for="ENFJ">ENFJ</label></li>
+                                        <li><input v-model="state.form.mbti" type="checkbox" id="ENTJ" value="ENTJ"><label for="ENTJ">ENTJ</label></li>
                                 </ul>
                                
                             </div>
@@ -146,8 +162,15 @@
                 <div>
                     <el-form :model="state.form" :rules="state.rules"  :label-position="state.form.align">
                         <el-form-item prop="gender"  :label-width="state.formLabelWidth" >
+                            <label>나의 mbti</label>
+                            <div>
+                                <ul class="ks-cboxtags">
+                                        <el-input class="elinput" v-model="state.form.mymbti" autocomplete="off" ></el-input>
+                                </ul>
+                            </div>
+                        </el-form-item>
+                        <el-form-item prop="gender"  :label-width="state.formLabelWidth" >
                             <label>성별</label>
-                            <br>
                             <div>
                                 <ul class="ks-cboxtags">
                                         <li><input v-model="state.form.gender" type="checkbox" id="남자" value="남자"><label for="남자">남자</label></li>
@@ -453,7 +476,7 @@ export default {
     const state = reactive({
 
           form: {
-            interest:[],
+            mbti:[],
             personality:[],
             hobby:[],
             gender:[],
@@ -469,7 +492,7 @@ export default {
             religion:[],
             address:'',
             distance:0,
-            
+            mymbti:'',
           },
           rules: {
             id: [
@@ -569,9 +592,9 @@ export default {
            
           console.log('submit')
           store.dispatch('requestRegister', { id:state.form.id, nickname:state.form.nickname, password:state.form.password, 
-                                            email:state.form.email, age:state.form.age,  religion:state.form.religion, interest:state.form.interest,
+                                            email:state.form.email, age:state.form.age,  religion:state.form.religion, mbti:state.form.mbti,
                                             personality:state.form.personality, hobby:state.form.hobby, gender:state.form.gender, smoking:state.form.smoking,
-                                            alcohol:state.form.alcohol,address:state.form.address,latitude:latitude,longitude:longitude,distance:dist})
+                                            alcohol:state.form.alcohol,address:state.form.address,latitude:latitude,longitude:longitude,distance:dist,mymbti:state.form.mymbti})
           .then(function () {
             profileImageUpload()
             alert("회원가입 성공")

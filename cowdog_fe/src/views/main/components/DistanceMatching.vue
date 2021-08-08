@@ -13,16 +13,17 @@
             </el-slider>
             <h3>거리 설정</h3>
         </div>
-        <el-button class="distance-circle">MATCHING</el-button>
+        <el-button class="distance-circle" @click="distanceMathcing">MATCHING</el-button>
     </div>
 </template>
 <script>
 import { reactive } from 'vue'
+import { useStore } from 'vuex'
 
 export default{
 
      setup() {
-        
+        const store=useStore()
         const state = reactive({
             distance:4,
             marks:{
@@ -33,10 +34,16 @@ export default{
                 10:"10km",
             }
         })
-        
+        const distanceMathcing =function(){
+            console.log(state.distance)
+            store.dispatch("disatnceMatching",state.distance)
+
+
+
+        }
 
         return{
-            state
+            state,distanceMathcing
         }
     },
     

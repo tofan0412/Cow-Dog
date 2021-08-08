@@ -25,3 +25,14 @@ export function getReportedArticles (state) {
 export function getArticles (state) {
 	return state.articles
 }
+
+export function getRandomUser(state){
+	return state.randomUsers
+}
+
+export function getDistanceUser(state){
+	return state.distanceUsers
+}
+export function getRecomUser(state){
+	return state.recomUsers
+}
