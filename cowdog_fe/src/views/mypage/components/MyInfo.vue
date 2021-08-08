@@ -1,5 +1,5 @@
 <template>
-<div class="myinfo-detail" style="display:flex">
+<div class="myinfo-detail">
   <div class="detail-box">
     <ul class="detail-info">
       <li>나이: {{myinfo.memberinfo.age}}</li>
@@ -16,7 +16,7 @@
   </div>
   <div class="map-box">
   <div class="map-title">만남을 원하는 위치는?</div>
-    <div id="map" style="width: 450px; height: 450px;"></div>
+    <div id="map"></div>
   </div>
 </div>
 
@@ -102,6 +102,10 @@ export default {
 }
 </script>
 <style>
+  .myinfo-detail {
+    display:flex
+  }
+
   .profile{
     width: 100%;
     height: 100%;
@@ -117,6 +121,7 @@ export default {
     background: white;
   }
   .detail-info {
+    margin-top: 10%;
     list-style: none;
     text-align: left;
     font-weight: bold;
@@ -136,5 +141,33 @@ export default {
   }
   .map-box {
     margin: 4rem 3rem;
+  }
+  .map-box #map {
+    width: 450px;
+    height: 450px;
+  }
+
+  @media (max-width: 1024px) {
+    .map-box #map {
+      width: 350px;
+      height: 350px;
+    }
+  }
+  @media (max-width: 840px) {
+    .myinfo-detail {
+      display:block
+    }
+    .detail-box {
+      margin: 5% auto;
+      width: 50%;
+    }
+    .map-title {
+      text-align: center;
+    }
+    .map-box #map {
+      width: 350px;
+      height: 350px;
+      margin: 0 auto;
+    }
   }
 </style>

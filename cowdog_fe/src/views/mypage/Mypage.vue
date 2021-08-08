@@ -1,7 +1,7 @@
 <template>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
 <div class="mypage">
-  <div class="upward" style="display:flex">
+  <div class="upward">
     <div class="profile-img-box">
       <img class="profile" :src="myinfo.file_path"><br>
     </div>
@@ -12,7 +12,7 @@
       <div class="email-address">
         {{myinfo.email}}
       </div>
-      <div style="display:flex">
+      <div class="follow" style="display:flex">
         <div class="followers">
           33 followers
         </div>
@@ -45,13 +45,15 @@
     </div>
   </div>
   <!-- tabs -->
-  <el-tabs v-model="activeName">
-    <el-tab-pane label="상세정보" name="myinfo"><MyInfo /></el-tab-pane>
-    <el-tab-pane label="팔로잉" name="following"><Following /></el-tab-pane>
-    <el-tab-pane label="팔로우" name="follow"><Follow /></el-tab-pane>
-    <el-tab-pane label="맞팔로우" name="eachother"><EachOther /></el-tab-pane>
-    <el-tab-pane label="계정설정" name="account-setting"><Setting /></el-tab-pane>
-  </el-tabs>
+  <div>
+    <el-tabs v-model="activeName">
+      <el-tab-pane label="상세정보" name="myinfo"><MyInfo /></el-tab-pane>
+      <el-tab-pane label="팔로잉" name="following"><Following /></el-tab-pane>
+      <el-tab-pane label="팔로우" name="follow"><Follow /></el-tab-pane>
+      <el-tab-pane label="맞팔로우" name="eachother"><EachOther /></el-tab-pane>
+      <el-tab-pane label="계정설정" name="account-setting"><Setting /></el-tab-pane>
+    </el-tabs>
+  </div>
 </div>
 </template>
 
@@ -90,20 +92,22 @@ export default {
 
 <style>
 .upward {
-  margin-left: 15%;
+  display: flex;
+  justify-content: center;
 }
-
 .profile-img-box {
+  margin: 5% auto;
   margin-left: 20%;
-  margin-top: 5%;
-  width: 200px;
-  height: 200px;
+  width: 250px;
+  height: 250px;
   border-radius: 70%;
   overflow: hidden;
 }
 
 .el-tabs__nav {
-  margin: 0 37%;
+  float: none;
+  margin: 0 auto;
+  display: inline-block
 }
 
 .el-tabs__header {
@@ -111,7 +115,8 @@ export default {
 }
 .profile-info {
   text-align: left;
-  margin: 4rem;
+  width: 50%;
+  margin: 5% 0;
 }
 
 .profile-info .nickname {
@@ -144,5 +149,30 @@ export default {
 }
 .el-tabs__item {
   font-weight: bold;
+}
+
+@media (max-width: 860px) {
+  .upward {
+    display: block;
+  }
+  .profile-img-box {
+    margin: 5% auto;
+    width: 250px;
+    height: 250px;
+    border-radius: 70%;
+    overflow: hidden;
+  }
+  .profile-info {
+    display: block;
+    text-align: center;
+    width: 50%;
+    margin: 5% auto;
+  }
+  .follow {
+    justify-content: center;
+  }
+  .hashtag {
+    justify-content: center;
+  }
 }
 </style>

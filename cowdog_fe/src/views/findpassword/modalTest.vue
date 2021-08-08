@@ -1,4 +1,11 @@
 <template>
+  <el-button type="text" @click="dialogVisible = true">비밀번호 찾기</el-button>
+
+<el-dialog
+  title="비밀번호 찾기"
+  v-model="dialogVisible"
+  width="30%"
+  :before-close="handleClose">
     <el-container class="wrapper">
     
         <div class="findForm">
@@ -17,25 +24,39 @@
         </div>
 
     </el-container>
+
+  <template #footer>
+    <span class="dialog-footer">
+      <el-button @click="dialogVisible = false">Cancel</el-button>
+      <el-button type="primary" @click="dialogVisible = false">Confirm</el-button>
+    </span>
+  </template>
+</el-dialog>
 </template>
 
 <script>
 import { reactive,ref } from 'vue'
 import { useStore } from 'vuex'
-export default {
-    name:"FindPassword",
-    components: {
-        
+  export default {
+    data() {
+      return {
+        dialogVisible: false
+      };
     },
-
     methods: {
-    
-    },
+      handleClose(done) {
+        this.$confirm('Are you sure to close this dialog?')
+          .then(res => {
+            console.log(res)
+            done();
+            this.dialogVisible = false
+          })
+          .catch(err => {
+            console.log(err)
+          });
 
-    computed: {
-    
+      }
     },
-
     setup() {
         const store = useStore()
         const findingPasswordForm=ref(null)
@@ -90,27 +111,5 @@ export default {
         }
         return {state,findingPasswordForm,authentication}
     }
-}
+  };
 </script>
-<style >
-/* .wrapper{
-    width: 700px;
-    height: 500px;
-    margin-top: 300px;
-    margin: 0 auto;
-    border: 1px solid #BBABAB;
-    border-radius: 5%;
-}
-.findForm{
-    height: 80%;
-    margin: 0 auto;
-}
-.valid_btn{
-    margin-top: 50px;
-    width:100%;
-}
-.valid_btn:hover{
-    color: white;
-    background-color: #EC7357;
-} */
-</style>

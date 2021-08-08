@@ -20,7 +20,7 @@
           </el-form>
           <el-button class="loginBtn" @click="clickLogin">로그인</el-button>
           <div class="finding-password">
-            <span>비밀번호를 잊으셨나요? </span><router-link to='/findingpassword'>비밀번호 찾기</router-link>
+            <span>비밀번호를 잊으셨나요? </span><FindingPasswordModal />
           </div>
         </div>
 
@@ -37,7 +37,6 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-@media (max-width: 2400px) {
   .login-background{
     /* background: #e2e2e2; */
     /* background: rgb(255,209,221); */
@@ -83,6 +82,7 @@
   }
 
   .login-background .el-form-item__error {
+    font-weight: bold;
     left: 15%;
   }
 
@@ -132,7 +132,6 @@
     text-decoration: none;
     color: #ff4e7e;
   }
-}
 @media (max-width: 1024px) {
   .login-background{
     /* background: #e2e2e2; */
@@ -142,93 +141,25 @@
     }
 
   .login-modal {
-    display: flex;
-    margin: 5rem auto;
-    width: 70%;
     height: 55%;
-    border-radius: 10px;
-    background: #ffffff;
-  }
-
-  .login-modal .img-box {
-    width: 50%;
   }
 
   .img-box .cowdog-logo {
-    width: 100%;
     height: 50%;
-    margin: 3rem auto;
   }
-
   .title-box {
     width: 70%;
-    margin: auto;
   }
-
   .title-box .cowdog-title {
     width: 100%;
   }
   .login-modal .login-box {
-    width: 50%;
     margin: 1rem auto;
   }
-
-  .el-input::placeholder{
-    color: black;
-  }
-
-  .login-background .el-form-item__error {
-    left: 15%;
-  }
-
   .login-background .el-button{
-    width: 70%;
     margin: 0 0 1rem 0;
   }
-
-  .login-background .el-button--default {
-    border-color: rgb(255,149,178);
-  }
-
-  .login-background .el-button--default:hover {
-    background: rgb(255,149,178);
-    border-color: rgb(255,149,178);
-    color: white;
-  }
-
-  .login-background .el-button--default:focus {
-    background: rgb(255,149,178);
-    border-color: rgb(255,149,178);
-    color: white;
-  }
-
-  .login-background .elinput {
-    width: 70%;
-  }
-
-  .finding-password {
-    margin-bottom: 1rem;
-    font-size: 12px;
-    font-weight: bold;
-  }
-
-  .finding-password a {
-    text-decoration: none; 
-    color: #ff4e7e;
-  }
-
-  .register-form {
-    padding: 5px 0 5px 0;
-    font-size: 12px;
-    font-weight: bold;
-  }
-
-  .register-form a {
-    text-decoration: none;
-    color: #ff4e7e;
-  }
 }
-
 
 @media (max-width: 768px) {
   .login-background{
@@ -246,7 +177,6 @@
     border-radius: 10px;
     background: #ffffff;
   }
-
   .login-form {
     margin: 0 auto;
   }
@@ -259,64 +189,14 @@
   .login-modal .login-box {
     margin: 0 auto;
   }
-
-  .el-input::placeholder{
-    color: black;
-  }
-
-  .login-background .el-form-item__error {
-    left: 15%;
-  }
-
   .login-background .el-button{
     width: 100%;
     margin: 0 0 5px 0;
   }
-
-  .login-background .el-button--default {
-    border-color: rgb(255,149,178);
-  }
-
-  .login-background .el-button--default:hover {
-    background: rgb(255,149,178);
-    border-color: rgb(255,149,178);
-    color: white;
-  }
-
-  .login-background .el-button--default:focus {
-    background: rgb(255,149,178);
-    border-color: rgb(255,149,178);
-    color: white;
-  }
-
   .login-background .elinput {
     width: 100%;
   }
-
-  .finding-password {
-    margin-bottom: 1rem;
-    font-size: 12px;
-    font-weight: bold;
-  }
-
-  .finding-password a {
-    text-decoration: none; 
-    color: #ff4e7e;
-  }
-
-  .register-form {
-    padding: 5px 0 5px 0;
-    font-size: 12px;
-    font-weight: bold;
-  }
-
-  .register-form a {
-    text-decoration: none;
-    color: #ff4e7e;
-  }
 }
-
-
 </style>
 
 
@@ -325,8 +205,12 @@
 import { reactive,ref } from 'vue'
 import { useStore } from 'vuex'
 import router from "@/router"
+import FindingPasswordModal from "../findpassword/FindingPasswordModal.vue"
 export default {
   name: "LoginPage",
+  components: {
+    FindingPasswordModal
+  },
   props: {
     msg: String,
   },
