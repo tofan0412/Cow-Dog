@@ -29,7 +29,7 @@ import RecomResultViewDetail from '../views/main/matchingview/RecomResultViewDet
 import AppealCreate from '../views/appeal/components/AppealCreate'
 import AppealDetail from '../views/appeal/components/AppealDetail'
 import AppealList from '../views/appeal/components/AppealList'
-// import AppealUpdate from '../views/appeal/components/AppealUpdate'
+import AppealUpdate from '../views/appeal/components/AppealUpdate'
 
 const routes = [
   
@@ -196,8 +196,12 @@ const routes = [
     path: '/appeal/create',
     name: 'AppealCreate',
     component: AppealCreate,
-  }, 
-  
+  },  
+  {
+    path: '/appeal/update',
+    name: 'AppealUpdate',
+    component: AppealUpdate,
+  },  
 ]
 
 const router = createRouter({
