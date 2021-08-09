@@ -276,7 +276,7 @@
                                             </label>
                                         </li>
                                         <li><label class="checkbox">
-                                            <input v-model="state.form.mbti" id="ESFP" value="ESFP" type="checkbox">
+                                            <input v-model="state.form.mbti" id="ENFP" value="ENFP" type="checkbox">
                                             <span class="icon"></span><span class="text">ENFP</span>
                                             </label>
                                         </li>
