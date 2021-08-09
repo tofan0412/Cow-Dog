@@ -29,7 +29,7 @@ import RecomResultViewDetail from '../views/main/matchingview/RecomResultViewDet
 import AppealCreate from '../views/appeal/components/AppealCreate'
 import AppealDetail from '../views/appeal/components/AppealDetail'
 import AppealList from '../views/appeal/components/AppealList'
-import AppealUpdate from '../views/appeal/components/AppealUpdate'
+// import AppealUpdate from '../views/appeal/components/AppealUpdate'
 
 const routes = [
   
@@ -175,29 +175,28 @@ const routes = [
           path: '/admin/article-report',
           name: 'ArticleReport',
           component: ArticleReport
-        },
-        {
-          path: '/appeal/',
-          name: 'AppealList',
-          component: AppealList
-        },
-        {
-          path: '/appeal/',
-          name: 'AppealList',
-          component: AppealCreate
-        },
-        {
-          path: '/appeal/',
-          name: 'AppealList',
-          component: AppealDetail
-        },
-        {
-          path: '/appeal/',
-          name: 'AppealList',
-          component: AppealUpdate
-        },
+        },       
     ]
   },
+  {
+    path: '/appeal',
+    name: 'AppealList',
+    component: AppealList, 
+    // 중첩 라우팅..
+    // children: [],
+    // props를 true로 설정하면, $route.params가 컴포넌트 props로 설정된다.
+    // props: true,
+  },
+  {
+    path: '/appeal/detail',
+    name: 'AppealDetail',
+    component: AppealDetail,
+  },
+  {
+    path: '/appeal/create',
+    name: 'AppealCreate',
+    component: AppealCreate,
+  }, 
   
 ]
 
