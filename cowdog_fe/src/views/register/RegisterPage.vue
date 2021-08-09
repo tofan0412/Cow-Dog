@@ -3,7 +3,7 @@
     <br>
     <br>
     <div class="register-body">
-    <el-carousel :interval="1000000" arrow="never" :autoplay="false" trigger="click">
+    <el-carousel :interval="1000000" arrow="never" :autoplay="false" trigger="click" v-loading="state.loading">
         <el-carousel-item class="item">
             <div class="register-inside-carousel">
                 <div class="register-left-half">
@@ -557,6 +557,7 @@ export default {
 
    }
     const state = reactive({
+        loading: false,
         form: {
             interest:[],
             personality:[],
@@ -636,7 +637,7 @@ export default {
             }
     }
     const clickRegister = function () {
-        
+        state.loading = true
         var dist=0
         if(state.form.distance==2){
             console.log(state.form.distance)
@@ -672,6 +673,7 @@ export default {
                                             alcohol:state.form.alcohol,address:state.form.address,latitude:latitude,longitude:longitude,distance:dist})
           .then(function () {
             profileImageUpload()
+            state.loading = false
             alert("회원가입 성공")
             router.push({name:"Login"})
           })
@@ -861,131 +863,7 @@ export default {
     }
 }
 
-
-/* for 1024 */
-@media (max-width: 1024px) {
-    .register-background {
-        width: 100%;
-        background: #f0f2f5;
-    }
-    .register-body{
-        background: white;
-        width: 60%;
-        margin: auto;
-        border-radius: 10px;
-    }
-    .el-carousel {
-        height: 750px;
-    }
-    .el-carousel__container {
-        height: 100%;
-    }
-    .register-inside-carousel {
-        display: flex;
-    }
-    .register-left-half {
-        width: 50%;
-    }
-    .register-right-half {
-        width: 50%;
-    }
-    .el-carousel .input-name {
-        text-align: left;
-        margin-left: 1rem;
-        font-weight: bold;
-    }
-    .el-carousel .el-form-item__error {
-        margin-left: 1rem;
-    }
-    .el-carousel .register-img-box {
-        width: 100%;
-    }
-    .el-carousel .register-img-item {
-        width: 100%;
-        border: 1px solid white;
-    }
-    .el-carousel__button {
-        background-color: #ff4e7e;
-        width: 40px;
-        height: 5px;
-    }
-    .register-body .elinput{
-        margin: 0 1rem;
-        display: block;
-        width: 90%;
-    }
-
-    /* 이미지 업로드 버튼 커스텀 */
-    .img-upload-btn {
-        border: 1px solid #ff4e7e;
-        border-radius: 5px;
-        padding: 5px;
-        background: #ff4e7e;
-        color: white;
-        font-weight: bold;
-        margin: 1rem;
-    }
-    .button-and-img-name {
-        display: flex;
-    }
-    .img-file-uploaded {
-    margin-top: 1.5rem;   
-    }
-
-    /* 체크박스 배치 */
-    .register-body ul {
-        list-style-type: none;
-        display: flex;
-        flex-wrap: wrap;
-        margin: 0;
-        padding: 0;
-    }
-
-    .register-body .el-carousel__indicators {
-        list-style-type: none;
-        display: flex;
-        flex-wrap: nowrap;
-        margin: 0;
-        padding: 0;
-    }
-    .register-body li {
-        font-weight: bold;
-        padding: 3px;
-        border-radius: 15px;
-        margin: 1rem;
-    }
-    .register-body .distance-radio {
-        margin: 0.5rem;
-    }
-
-    /* 회원가입 버튼 */
-    .register-btn {
-        width: 90%;
-        border: 1px solid #ff4e7e;
-        font-weight: bold;
-    }
-    .register-btn:hover {
-        background: #ff4e7e;
-        color: white;
-    }
-    .register-btn:focus {
-        background: white;
-        border: 1px solid #ff4e7e;
-        color: #323545;
-    }
-}
-
 @media (max-width: 840px) {
-    .register-background {
-        width: 100%;
-        background: #f0f2f5;
-    }
-    .register-body{
-        background: white;
-        width: 60%;
-        margin: auto;
-        border-radius: 10px;
-    }
     .el-carousel {
         height: 720px;
     }
@@ -1006,83 +884,9 @@ export default {
         margin-left: 1rem;
         font-weight: bold;
     }
-    .el-carousel .el-form-item__error {
-        margin-left: 1rem;
-    }
-    .el-carousel .register-img-box {
-        width: 100%;
-    }
-    .el-carousel .register-img-item {
-        width: 100%;
-        border: 1px solid white;
-    }
     .el-carousel__button {
-        background-color: #ff4e7e;
         width: 20px;
         height: 3px;
-    }
-    .register-body .elinput{
-        margin: 0 1rem;
-        display: block;
-        width: 90%;
-    }
-
-    /* 이미지 업로드 버튼 커스텀 */
-    .img-upload-btn {
-        border: 1px solid #ff4e7e;
-        border-radius: 5px;
-        padding: 5px;
-        background: #ff4e7e;
-        color: white;
-        font-weight: bold;
-        margin: 1rem;
-    }
-    .button-and-img-name {
-        display: flex;
-    }
-    .img-file-uploaded {
-    margin-top: 1.5rem;   
-    }
-
-    /* 체크박스 배치 */
-    .register-body ul {
-        list-style-type: none;
-        display: flex;
-        flex-wrap: wrap;
-        margin: 0;
-        padding: 0;
-    }
-    .register-body .el-carousel__indicators {
-        list-style-type: none;
-        display: flex;
-        flex-wrap: nowrap;
-        margin: 0;
-        padding: 0;
-    }
-    .register-body li {
-        font-weight: bold;
-        padding: 3px;
-        border-radius: 15px;
-        margin: 1rem;
-    }
-    .register-body .distance-radio {
-        margin: 0.5rem;
-    }
-
-    /* 회원가입 버튼 */
-    .register-btn {
-        width: 90%;
-        border: 1px solid #ff4e7e;
-        font-weight: bold;
-    }
-    .register-btn:hover {
-        background: #ff4e7e;
-        color: white;
-    }
-    .register-btn:focus {
-        background: white;
-        border: 1px solid #ff4e7e;
-        color: #323545;
     }
 }
 

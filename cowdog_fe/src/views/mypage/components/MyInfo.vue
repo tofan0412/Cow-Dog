@@ -8,7 +8,7 @@
       <li>성격: {{myinfo.memberinfo.personality.replace('[','').replace(']','')}}</li>
       <li>종교: {{myinfo.memberinfo.religion.replace('[','').replace(']','')}}</li>
       <li>취미: {{myinfo.memberinfo.hobby.replace('[','').replace(']','')}}</li>
-      <li>흡연: {{myinfo.memberinfo.smoking}}</li>
+      <li>흡연: {{smoking}}</li>
       <li>음주: {{myinfo.memberinfo.alcohol.replace('[', '').replace(']', '')}}</li>
       <li>MBTI: </li>
       <li>지역: {{ myRegion }}</li>
@@ -52,6 +52,13 @@ export default {
       var myRegionSplit = this.myinfo.memberinfo.address.split(' ')
       var myRegion = myRegionSplit[0] + ' ' + myRegionSplit[1]
       return myRegion
+    },
+    smoking() {
+      if(this.myinfo.memberinfo.smoking==true) {
+        return "흡연자"
+      } else {
+        return "비흡연자"
+      }
     }
   },
   setup() {
