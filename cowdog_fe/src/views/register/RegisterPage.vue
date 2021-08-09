@@ -412,23 +412,23 @@
                 <div class="register-left-half">
                     <h2>회원 가입</h2>
                     <div>
-                    <div class="input-name">상대방에게 보여줄 프로필 이미지를 선택하세요</div>
+                    <div class="input-name profile-comment">상대방에게 보여줄 프로필 이미지를 선택하세요</div>
                     <div class="button-and-img-name">
-                        <label class="img-upload-btn" for="imgfiles"><i class="fas fa-arrow-circle-up"></i>&nbsp;업로드</label>
-                        <input type="file" id="imgfiles" ref="imgfiles" v-on:change="handleFileUpload()" multiple style="display:none"/>
-                        <div class="img-file-uploaded">{{ url }}</div>
+                        <div class="img-preview-box"><img class="img-preview" :src="imagePreview"></div>
+                        <div class="img-upload-btn-box"><label class="img-upload-btn" for="imgfiles"><i class="fas fa-arrow-circle-up"></i>&nbsp;업로드</label></div>
+                        <input type="file" id="imgfiles" ref="imgfiles" @change="handleFileUpload" multiple style="display:none"/>
                     </div>
                     </div>
                     <br>
                     <br>
                     <div class="input-name">자신의 위치를 선택하세요</div>
                     <br>
-                    <div id="map" ref="map" style="width:95%;height:300px; margin:0 auto;">
+                    <div id="map" ref="map" style="width:90%;height:250px; margin:0 auto;">
                         <span id="centerAddr"></span>
                     </div>
                     <br><br>
-                    <div class="input-name">이성을 찾고자 하는 거리 제한을 설정해주세요</div>
-                    <div>
+                    <div class="input-name distance-comment">이성을 찾고자 하는 거리 제한을 설정해주세요</div>
+                    <div class="distance-radio">
                         <ul class="ks-cboxtags">
                             <li class="distance-radio"><label class="checkbox">
                                 <input v-model="state.form.distance" value="2" type="radio">
@@ -462,6 +462,7 @@
                 <div class="register-right-half">
                     <div class="register-img-box">
                         <img class="register-img-item" :src="require('@/assets/images/regist_img5.png')">
+                        <el-button class="register-btn2" @click="clickRegister">회원가입</el-button>
                     </div>
                 </div>
             </div>            
@@ -481,6 +482,7 @@ let old=''
 let latitude=0
 let longitude=0
 let files=[]
+
 function searchAddrFromCoords(coords, callback) {
     // 좌표로 행정동 주소 정보를 요청합니다
     geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);         
@@ -517,23 +519,25 @@ export default {
     
     data () {
       return {
+        imagePreview: "#",
         interest:[],
         marker:Object,
         title: "",
         files: [],
         galleryDatas: [],
         url:null,
-      };
+      }
     },
     methods:{
-       handleFileUpload() {
+        handleFileUpload(e) {
+            const file = e.target.files[0]
+            this.imagePreview = URL.createObjectURL(file)
             console.log(this.$refs.imgfiles.files)
             files = this.$refs.imgfiles.files;
             this.url=files[0].name
             console.log(files);
-           
         },
-         initMap() {
+        initMap() {
                 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
                     mapOption = {
                         center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
@@ -621,7 +625,7 @@ export default {
     setup(){
     const registerForm = ref(null)
     const store = useStore()
-    
+
     const confirmId = function(rule, value, callback) {
       if(value!==""){
       store.dispatch('confirmId',{id:value})
@@ -801,6 +805,15 @@ export default {
 }
 </script>
 <style>
+/* 이미지 미리보기 */
+.img-preview-box {
+    width: 200px;
+    height: 200px;
+    border-radius: 70%;
+    overflow: hidden;
+    border: 2px dashed #ff4e7e;
+    margin: 10px auto;
+}
 /* 젤리 체크박스 */
 .checkbox input {
     display:none;
@@ -870,7 +883,7 @@ export default {
         border-radius: 10px;
     }
     .el-carousel {
-        height: 750px;
+        height: 850px;
     }
     .el-carousel__container {
         height: 100%;
@@ -912,19 +925,18 @@ export default {
 
     /* 이미지 업로드 버튼 커스텀 */
     .img-upload-btn {
+        width: 80%;
         border: 1px solid #ff4e7e;
         border-radius: 5px;
         padding: 5px;
         background: #ff4e7e;
         color: white;
         font-weight: bold;
-        margin: 1rem;
+        margin: 1rem auto;
+        display: block;
     }
     .img-upload-btn:hover {
         cursor: pointer;
-    }
-    .button-and-img-name {
-        display: flex;
     }
     .img-file-uploaded {
     margin-top: 1.5rem;   
@@ -959,6 +971,7 @@ export default {
 
     /* 회원가입 버튼 */
     .register-btn {
+        display: none;
         width: 90%;
         border: 1px solid #ff4e7e;
         font-weight: bold;
@@ -972,11 +985,26 @@ export default {
         border: 1px solid #ff4e7e;
         color: #323545;
     }
+    .register-btn2 {
+        width: 95%;
+        margin-top: 10%;
+        border: 1px solid #ff4e7e;
+        font-weight: bold;
+    }
+    .register-btn2:hover {
+        background: #ff4e7e;
+        color: white;
+    }
+    .register-btn2:focus {
+        background: white;
+        border: 1px solid #ff4e7e;
+        color: #323545;
+    }
 }
 
 @media (max-width: 840px) {
     .el-carousel {
-        height: 720px;
+        height: 850px;
     }
     .el-carousel__container {
         height: 100%;
@@ -995,9 +1023,22 @@ export default {
         margin-left: 1rem;
         font-weight: bold;
     }
+    .el-carousel .profile-comment {
+        text-align: center;
+    }
+    .el-carousel .distance-comment {
+        text-align: center;
+    }
     .el-carousel__button {
         width: 20px;
         height: 3px;
+    }
+    .distance-radio .ks-cboxtags {
+        justify-content: center;
+    }
+    .register-btn {
+        display: block;
+        margin: 0 auto;
     }
 }
 

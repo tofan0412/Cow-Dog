@@ -56,7 +56,7 @@ export default {
   methods: {
     moveToNoticeCreate() {
       router.push('/admin/noticeCreate')
-    }
+    },
   },
 
   computed: {
@@ -109,9 +109,11 @@ export default {
   }
 
   .notice-list .el-card {
-    margin: 10px;
     width: 100%;
-    height: 20%;
+    height: 30%;
+  }
+  .notice-list .el-card.is-always-shadow {
+    margin: 10px auto;
   }
 
   .el-pagination.is-background .el-pager li:not(.disabled).active {

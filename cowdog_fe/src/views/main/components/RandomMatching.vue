@@ -45,11 +45,10 @@ export default{
     
     border: 1px solid #C4C4C4;
     border-radius: 10px;
-    width: 500px;
-    height: 600px;
-    margin: 0 auto;
-    margin-top:100px;
-    background-color: rgb(196, 196, 196,15%);
+    width: 50%;
+    height: 50%;
+    margin: 5% auto;
+    background: white;
 }
 .circle{
     width: 200px;
