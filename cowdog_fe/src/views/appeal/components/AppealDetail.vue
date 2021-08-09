@@ -1,39 +1,63 @@
 <template>
-  <el-container class="article">
-  <el-header>
-    <el-row justify="space-between" align="middle">
-      <el-col :span="12" style="text-align: start;">
-        <h3><strong>{{ this.article.title }}</strong></h3>
-      </el-col>
-      <el-col :span="6" style="text-align: end;">
-        {{ this.article.writer }}
-      </el-col>
-    </el-row>
-    <el-row justify="start">
-      {{ this.article.regtime }}
-    </el-row>
-  </el-header>
-  
-  <el-main style="margin-top: 30px;">
-    <el-row justify="start" style="min-height: 150px;">
-      {{ this.article.content }}
-    </el-row>
-  </el-main>
+  <el-container class="el-container" direction="vertical">
+    <el-header class="el-header">
+      <!-- 작성자 정보 -->
+      <el-row>
+        <el-col>
+          {{ this.article.writer }}
+        </el-col>
+      </el-row>
 
-  <el-footer>
-    <el-row justify="end">
-      <!-- 게시글 작성자가 아닌 경우 출력하지 않는다. -->
-      <div v-if="this.state.loginId === this.article.memberId">
-        <el-button plain @click="updateArticlePage(this.article)">Update</el-button>
-        <el-button plain @click="deleteArticle(this.article)">Delete</el-button>
-      </div>  
-    </el-row>
-    
-  </el-footer>
+      <!-- 게시글 제목 -->
+      <el-row>
+        <el-col>
+          <h3><strong>{{ this.article.title }}</strong></h3>
+        </el-col>
+      </el-row>
+      <!-- 작성일 정보 -->
+      <el-row>
+        <el-col style="font-size: 12px; color: grey">
+          {{ this.article.regtime }}
+        </el-col>
+      </el-row>
+    </el-header>
+
+
+    <!-- 본문 내용 -->
+    <el-main class="el-main" style="margin-top:50px;">
+      <el-row style="text-align: justify;">
+        {{ this.article.content }}
+      </el-row>
+      <el-row justify="end" v-if="this.state.loginId === this.article.memberId">
+        <!-- Button Group -->
+        <el-button size="mini" round @click="updateArticlePage(this.article)"><i class="el-icon-edit">수정</i></el-button>
+        <el-button size="mini" round @click="deleteArticle(this.article)"><i class="el-icon-delete">삭제</i></el-button> 
+      </el-row>
+      <!-- 댓글 부분 -->
+      <el-row style="color: gray; font-size: 15px; margin-top: 10px;">
+        댓글 ??개 모두 보기
+      </el-row>
+      <el-row>
+        댓글1
+      </el-row>
+      <el-row>
+        댓글1
+      </el-row>
+      <el-row>
+        댓글1
+      </el-row>
+      <el-row>
+        댓글1
+      </el-row>
+      <el-divider/>
+      <el-row>
+        <el-input size="mini" class="elinput" placeholder="댓글 달기...">
+          <template #append>게시</template>
+        </el-input>
+        
+      </el-row>
+    </el-main>
   </el-container>
-  
-  
-  
 </template>
 
 <script>
@@ -70,9 +94,19 @@ export default {
   }
 </script>
 <style>
-.article{
+.el-container{
+  margin: 10px;
   border: 1px solid black;
   border-radius: 0.45rem;
-  margin-top: 10px;
+  height: auto;
 }
+.el-header > *{
+  margin: 5px;
+  text-align: start;
+}
+.el-main > *{
+  margin: 5px;
+  margin-top: 7px;
+}
+
 </style>

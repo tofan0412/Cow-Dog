@@ -1,7 +1,7 @@
 <template>
   <el-row>
     <el-col :span="12" :offset="6"> <!-- offset 설정하면 왼쪽 기준으로 공백 크기 설정 -->
-      <div v-for="article in state.articleList" :key="article.articleno" > <!-- 왜 key에다가 콜론을 해줘야 하지..? -->
+      <div v-for="article in state.articleList" :key="article.articleno"> <!-- 왜 key에다가 콜론을 해줘야 하지..? -->
         <appealDetail :article="article"/>
       </div>
       <button @click="createArticle()">게시글 생성</button>

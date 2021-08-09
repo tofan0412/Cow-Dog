@@ -42,9 +42,9 @@
           />
         </el-form-item>
         <!-- 추가한 태그를 표시하는 곳.. -->
-        <el-row style="min-height: 60px;" justify="start" align="top">
+        <el-row style="min-height: 60px; margin-bottom: 20px;" justify="start" align="top">
           <el-col 
-          :span="3"
+          :span="2"
           v-for="tag in state.articleForm.tags" :key="tag"
           style="color: black; margin: 1px; font-size:13px; padding: 2px; border-radius: 0.2rem;"
           @click="removeTag(tag)"
