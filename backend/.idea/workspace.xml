@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5e54f24b-e2a9-4acf-9bfe-48a5e40ae0f4" name="Default Changelist" comment="" />
+    <list default="true" id="5e54f24b-e2a9-4acf-9bfe-48a5e40ae0f4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../cowdog_fe/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../cowdog_fe/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../cowdog_fe/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../cowdog_fe/package.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,7 +25,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/cowdog_be" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -35,6 +39,8 @@
       <workItem from="1627396669595" duration="3091000" />
       <workItem from="1627431580683" duration="1167000" />
       <workItem from="1628088923117" duration="49000" />
+      <workItem from="1628146681643" duration="45000" />
+      <workItem from="1628146867252" duration="17000" />
     </task>
     <servers />
   </component>

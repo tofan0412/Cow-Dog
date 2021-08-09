@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <template>
   <h1>게시글 작성</h1>
   <div>사용자: {{ state.articleForm.member_id }}</div>
@@ -70,3 +71,5 @@ methods: {
 },
 }
 </script>
+=======
+>>>>>>> master

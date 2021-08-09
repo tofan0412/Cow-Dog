@@ -6,9 +6,6 @@ import NoticeCreate from '../views/notice/components/notice-create.vue'
 import NoticeUpdate from '../views/notice/components/notice-update.vue'
 import UserReport from '../views/notice/components/user-report.vue'
 import ArticleReport from '../views/notice/components/article-report.vue'
-import AppealList from '../views/appeal/components/AppealList.vue'
-import AppealDetail from '../views/appeal/components/AppealDetail.vue'
-import AppealCreate from '../views/appeal/components/AppealCreate.vue'
 import LoginPage from '../views/login/LoginPage.vue'
 import RegisterPage from '../views/register/RegisterPage.vue'
 import Mypage from '../views/mypage/Mypage.vue'
@@ -29,6 +26,10 @@ import DistanceResultView from '../views/main/matchingview/DistanceResultView.vu
 import DistanceResultViewDetail from '../views/main/matchingview/DistanceResultViewDetail.vue'
 import RecomResultView from '../views/main/matchingview/RecomResultView.vue'
 import RecomResultViewDetail from '../views/main/matchingview/RecomResultViewDetail.vue'
+import AppealCreate from '../views/appeal/components/AppealCreate'
+import AppealDetail from '../views/appeal/components/AppealDetail'
+import AppealList from '../views/appeal/components/AppealList'
+import AppealUpdate from '../views/appeal/components/AppealUpdate'
 
 const routes = [
   
@@ -174,28 +175,30 @@ const routes = [
           path: '/admin/article-report',
           name: 'ArticleReport',
           component: ArticleReport
-        }
+        },
+        {
+          path: '/appeal/',
+          name: 'AppealList',
+          component: AppealList
+        },
+        {
+          path: '/appeal/',
+          name: 'AppealList',
+          component: AppealCreate
+        },
+        {
+          path: '/appeal/',
+          name: 'AppealList',
+          component: AppealDetail
+        },
+        {
+          path: '/appeal/',
+          name: 'AppealList',
+          component: AppealUpdate
+        },
     ]
   },
-  {
-    path: '/appeal',
-    name: 'AppealList',
-    component: AppealList, 
-    // 중첩 라우팅..
-    // children: [],
-    // props를 true로 설정하면, $route.params가 컴포넌트 props로 설정된다.
-    // props: true,
-  },
-  {
-    path: '/appeal/detail',
-    name: 'AppealDetail',
-    component: AppealDetail,
-  },
-  {
-    path: '/appeal/create',
-    name: 'AppealCreate',
-    component: AppealCreate,
-  },  
+  
 ]
 
 const router = createRouter({
