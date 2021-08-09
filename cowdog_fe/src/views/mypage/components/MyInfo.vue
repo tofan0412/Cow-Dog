@@ -3,14 +3,14 @@
   <div class="detail-box">
     <ul class="detail-info">
       <li>나이: {{myinfo.memberinfo.age}}</li>
-      <li>성별: {{myinfo.memberinfo.gender[1]+myinfo.memberinfo.gender[2]}}</li>
+      <li>성별: {{myinfo.memberinfo.gender}}</li>
       <li>이메일: {{myinfo.email}}</li>
       <li>성격: {{myinfo.memberinfo.personality.replace('[','').replace(']','')}}</li>
       <li>종교: {{myinfo.memberinfo.religion.replace('[','').replace(']','')}}</li>
       <li>취미: {{myinfo.memberinfo.hobby.replace('[','').replace(']','')}}</li>
       <li>흡연: {{smoking}}</li>
       <li>음주: {{myinfo.memberinfo.alcohol.replace('[', '').replace(']', '')}}</li>
-      <li>MBTI: </li>
+      <li>MBTI: {{myinfo.memberinfo.mymbti}}</li>
       <li>지역: {{ myRegion }}</li>
     </ul>
   </div>

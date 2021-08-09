@@ -73,12 +73,6 @@ export default {
 
   data() {
     return {
-       getMyInfo:()=>{
-        store.dispatch('getMyInfo')
-      },
-       GetFollowUsers:()=>{
-                store.dispatch("getFollowUsers")
-            },
       activeName: 'myinfo'
     }
   },
@@ -86,7 +80,14 @@ export default {
     const store = useStore()
     const myinfo = store.state.myinfo
 
-    return { myinfo }
+    return { myinfo,
+      getMyInfo:()=>{
+        store.dispatch('getMyInfo')
+      },
+      GetFollowUsers:()=>{
+        store.dispatch("getFollowUsers")
+      },
+    }
   },
 
 

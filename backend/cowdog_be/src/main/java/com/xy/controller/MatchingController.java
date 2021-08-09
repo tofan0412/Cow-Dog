@@ -157,7 +157,7 @@ public class MatchingController {
 			List<Member> resultList=new ArrayList<Member>();
 			
 			for(int i=0; i<LoginUsers.size(); i++) {
-				if(LoginUsers.get(i).getMemberinfo().getGender().equals("[남자]")) {
+				if(LoginUsers.get(i).getMemberinfo().getGender().equals("남자")) {
 					resultList.add(LoginUsers.get(i));
 				}
 			}
@@ -176,7 +176,7 @@ public class MatchingController {
 			List<Member> resultList=new ArrayList<Member>();
 			
 			for(int i=0; i<LoginUsers.size(); i++) {
-				if(LoginUsers.get(i).getMemberinfo().getGender().equals("[여자]")) {
+				if(LoginUsers.get(i).getMemberinfo().getGender().equals("여자")) {
 					resultList.add(LoginUsers.get(i));
 				}
 			}
