@@ -12,8 +12,8 @@
                     <span>사는곳: {{this.user.memberinfo.address}}</span><br>
                     <span>MBTI: {{this.user.memberinfo.mymbti}}</span><br>
                     <div style="margin-top:50px;">
-                        <el-button  class="random-matcing-btn"><i class="fas fa-video" style="font-size:20px"></i>  화상챗 요청</el-button>
-                        <el-button  class="like_btn"><i class="fas fa-heart" style="font-size:10px"></i></el-button>
+                        <el-button  class="random-matcing-btn" @click="liveOn"><i class="fas fa-video" style="font-size:20px"></i>  화상챗 요청</el-button>
+                        <el-button  class="like_btn" @click="like"><i class="fas fa-heart" style="font-size:10px"></i></el-button>
 
                     </div>
                 </div>

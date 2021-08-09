@@ -10,9 +10,10 @@
                     <span>성격: {{this.user.memberinfo.personality.replace('[','').replace(']','')}}</span><br>
                     <span>취미: {{this.user.memberinfo.hobby.replace('[','').replace(']','')}}</span><br>
                     <span>사는곳: {{this.user.memberinfo.address}}</span><br>
+                    <span>MBTI: {{this.user.memberinfo.mymbti}}</span><br>
                     <div style="margin-top:50px;">
-                        <el-button  class="random-matcing-btn"><i class="fas fa-video" style="font-size:20px"></i>  화상챗 요청</el-button>
-                        <el-button  class="like_btn"><i class="fas fa-heart" style="font-size:20px"></i></el-button>
+                        <el-button  class="random-matcing-btn" @click="liveOn"><i class="fas fa-video" style="font-size:20px"></i>  화상챗 요청</el-button>
+                        <el-button  class="like_btn" @click="like"><i class="fas fa-heart" style="font-size:10px"></i></el-button>
 
                     </div>
                 </div>
@@ -26,7 +27,7 @@ import { reactive } from '@vue/reactivity'
 import router from '../../../router'
 
 export default {  
-  name: 'RandomResultViewDetail.vue',
+  name: 'FollowDetail.vue',
   props: {
       user: Object,
 },
@@ -60,10 +61,6 @@ export default {
     border-color: #FF427E;
     width: 50%;
 }
-.random-matcing-btn:hover{
-  color:white ;
-    background-color: #FF427E;
-}
 .like_btn{
     border-radius:50%;
     color:#FF427E ;
@@ -72,6 +69,10 @@ export default {
 }
 .like_btn:hover{
      color:white ;
+    background-color: #FF427E;
+}
+.random-matcing-btn:hover{
+  color:white ;
     background-color: #FF427E;
 }
 .profiile_image{

@@ -12,8 +12,8 @@
                     <span>사는곳: {{this.user.memberinfo.address}}</span><br>
                     <span>거리: {{this.user.dist}}km 이내에 있습니다.</span><br>
                     <div style="margin-top:50px;">
-                        <el-button  class="random-matcing-btn"><i class="fas fa-video" style="font-size:20px"></i>  화상챗 요청</el-button>
-                        <el-button  class="random-matcing-btn"><i class="fas fa-heart" style="font-size:20px"></i></el-button>
+                        <el-button  class="random-matcing-btn" @click="liveOn"><i class="fas fa-video" style="font-size:20px"></i>  화상챗 요청</el-button>
+                        <el-button  class="like_btn" @click="like(this.user.memberid)"><i class="fas fa-heart" style="font-size:10px"></i></el-button>
                     </div>
                 </div>
             </div>
@@ -24,6 +24,7 @@
 <script>
 import { reactive } from '@vue/reactivity'
 import router from '../../../router'
+import { useStore } from 'vuex'
 
 export default {  
   name: 'DistanceResultViewDetail.vue',
@@ -31,15 +32,34 @@ export default {
       user: Object,
 },
   setup() {
+    const store=useStore()
     const state = reactive({
       
     })
     const back=function(){
         router.push("/main")
     }
+    const like=function(memberid){//팔로우~
+        console.log("팔로우~~")
+        console.log(memberid)
+        store.dispatch("like",memberid)
+
+
+
+
+    }
+    const liveOn=function(){//화상 요청~
+        console.log("화상요청~~")
+
+
+
+
+
+
+    }
     
     return {
-      state,back
+      state,back,like,liveOn
     }
   },
   methods: {},
@@ -62,6 +82,16 @@ export default {
 }
 .random-matcing-btn:hover{
   color:white ;
+    background-color: #FF427E;
+}
+.like_btn{
+    border-radius:50%;
+    color:#FF427E ;
+    border-color: #FF427E;
+    width: 50px;
+}
+.like_btn:hover{
+     color:white ;
     background-color: #FF427E;
 }
 .profiile_image{

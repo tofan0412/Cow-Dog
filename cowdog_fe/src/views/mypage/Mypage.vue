@@ -17,21 +17,13 @@
           </el-menu-item>
           <el-menu-item index="2">
             <i class="fas fa-user-friends" style="font-size: 16px"></i>
-            <span><router-link to="" >팔로잉</router-link></span>
+            <span><router-link to="/mypage/follow" >팔로우</router-link></span>
           </el-menu-item>
           <el-menu-item index="3">
-            <i class="fas fa-user-friends" style="font-size: 16px"></i>
-            <span><router-link to="" >팔로우</router-link></span>
-          </el-menu-item>
-          <el-menu-item index="4">
             <i class="fas fa-heart" style="font-size: 16px"></i>
-            <span><router-link to="" >맞팔로우</router-link></span>
+            <span><router-link to="/mypage/eachother" >맞팔로우</router-link></span>
           </el-menu-item>
-          <!-- <el-menu-item index="6">
-            <i class="fas fa-user-cog" style="font-size: 16px"></i>
-            <span><router-link to="/mypage/update" >인적사항 수정</router-link></span>
-          </el-menu-item> -->
-         <el-menu-item index="5">
+         <el-menu-item index="4">
             <i class="fas fa-user-cog" style="font-size: 16px"></i>
             <span><router-link to="/mypage/setting" >계정 설정</router-link></span>
           </el-menu-item>
@@ -62,7 +54,10 @@ export default {
     return {
        getMyInfo:()=>{
         store.dispatch('getMyInfo')
-      }
+      },
+       GetFollowUsers:()=>{
+                store.dispatch("getFollowUsers")
+            },
     }
   },
 

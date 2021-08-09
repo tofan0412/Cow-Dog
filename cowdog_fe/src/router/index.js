@@ -15,7 +15,7 @@ import Mypage from '../views/mypage/Mypage.vue'
 import MyInfo from '../views/mypage/components/MyInfo.vue'
 import Eachother from '../views/mypage/components/Eachother.vue'
 import Follow from '../views/mypage/components/Follow.vue'
-import Following from '../views/mypage/components/Following.vue'
+import FollowDetail from '../views/mypage/components/FollowDetail.vue'
 import Setting from '../views/mypage/components/Setting.vue'
 import Update from '../views/mypage/components/Update.vue'
 import FindingPassword from '../views/findpassword/FindingPassword.vue'
@@ -127,10 +127,11 @@ const routes = [
         component:Follow
       },
       {
-        path:'/mypage/following',
-        name:'Following',
-        component:Following
+        path:'/mypage/followDetail',
+        name:'FollowDetail',
+        component:FollowDetail
       },
+
       {
         path:'/mypage/setting',
         name:'Setting',

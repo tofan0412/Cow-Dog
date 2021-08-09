@@ -36,3 +36,7 @@ export function getDistanceUser(state){
 export function getRecomUser(state){
 	return state.recomUsers
 }
+
+export function getFollowUsers(state){
+	return state.followUsers
+}

@@ -16,6 +16,7 @@ const state = {
   randomUsers:[],
   distanceUsers:[],
   recomUsers:[],
+  followUsers:[],
 }
 
 const root = createStore({

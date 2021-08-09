@@ -701,3 +701,65 @@ export function samePersonality({state,commit},payload){
       console.log(err)
     })  
 }
+
+//팔로우 기능
+export function getFollowUsers({state,commit}){
+
+  console.log(state.userId)
+  console.log("나를 팔로우 한 사람 가져오기")
+  const url='/like/getFollowUsers/?id='+state.userId
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+    .then(res => {
+      console.log(res)
+      if(res.data.message=="SUCCESS"){
+        console.log(res.data.list[0])
+        commit("SET_FOLLOW_USER",res.data.list)
+      }
+      
+    })
+    .catch(err => {
+      console.log(err)
+    })  
+
+
+
+
+}
+
+
+
+
+
+export function like({state},payload){
+  console.log(state.userId)
+  console.log("팔로우 합니다~")
+  console.log(payload)
+  const url='/like/follow'
+  axios({
+    url: url,
+    method: 'post',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+    data: {
+     memberid:state.userId,//팔로우를 하는 사람
+     followid:payload//팔로우 당하는 사람
+    }
+  })
+    .then(res => {
+      console.log(res)
+      if(res.data.message=="SUCCESS"){
+        alert("팔로우 성공")
+      }
+    })
+    .catch(err => {
+      console.log(err)
+    })
+
+}

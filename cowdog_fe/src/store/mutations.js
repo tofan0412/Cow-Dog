@@ -58,3 +58,9 @@ export const SET_DISTANCE_USER=(state,distanceUsers)=>{
     console.log(state.distanceUsers)
     router.push('/distanceResultView')
 }
+
+export const SET_FOLLOW_USER=(state,followUsers)=>{
+    console.log(followUsers)
+    state.followUsers=followUsers;
+    console.log(state.followUsers)
+}
