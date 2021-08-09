@@ -58,13 +58,26 @@ public class ArticleController {
 
     @GetMapping("/detail")
     public Article findArticleByArticleNo(@RequestParam("articleNo") Long articleNo){
-        System.out.println("게시글 번호는~~!~!~!" + articleNo);
         // 프론트로부터 게시글 PK를 받아, 해당 게시글 객체를 반환한다.
         Article result = articleService.findArticleByArticleNo(articleNo);
         return result;
     }
 
+    @DeleteMapping("/delete")
+    @Transactional
+    public String deleteArticle(@RequestParam("articleNo") Long articleNo){
+        System.out.println("삭제를 시작합니다. : " + articleNo);
+        String result = articleService.deleteArticle(articleNo);
+        return result;
+    }
 
+    @PutMapping("/update")
+    @Transactional
+    public ResponseEntity<? extends BaseResponseBody> update(@RequestBody HashMap<String, Object> map) {
+        Long result = articleService.update(map);
+
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, Long.toString(result)));
+    }
 
 
 

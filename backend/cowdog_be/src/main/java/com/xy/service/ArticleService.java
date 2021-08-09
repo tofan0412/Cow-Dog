@@ -9,4 +9,6 @@ public interface ArticleService {
     public List<Article> findAll();
     public Long create(Map map);
     public Article findArticleByArticleNo(Long articleNo);
+    public String deleteArticle(Long articleNo);
+    public Long update(Map map);
 }

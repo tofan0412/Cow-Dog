@@ -33,7 +33,10 @@ export const USER_LOGOUT=(state)=>{
     router.push('/login')
 }
 
-
 export const SET_ARTICLES = (state, articles) => {
     state.articles = articles
+}
+
+export const SET_USERINFO = (state, data) => {
+    state.myinfo = data
 }

@@ -9,6 +9,7 @@ import ArticleReport from '../views/notice/components/article-report.vue'
 import AppealList from '../views/appeal/components/AppealList.vue'
 import AppealDetail from '../views/appeal/components/AppealDetail.vue'
 import AppealCreate from '../views/appeal/components/AppealCreate.vue'
+import AppealUpdate from '../views/appeal/components/AppealUpdate.vue'
 import LoginPage from '../views/login/LoginPage.vue'
 import RegisterPage from '../views/register/RegisterPage.vue'
 import Mypage from '../views/mypage/Mypage.vue'
@@ -155,6 +156,11 @@ const routes = [
     path: '/appeal/create',
     name: 'AppealCreate',
     component: AppealCreate,
+  },  
+  {
+    path: '/appeal/update',
+    name: 'AppealUpdate',
+    component: AppealUpdate,
   },  
 ]
 
