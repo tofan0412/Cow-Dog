@@ -4,8 +4,8 @@ import router from '../router'
 // import cookies from 'vue-cookies'
 
 export function getMyInfo({state,commit}){
-  console.log(state.userId)
-  console.log(state.accessToken)
+  // console.log(state.userId)
+  // console.log(state.accessToken)
   axios.get("/mem/mypage/?userId="+state.userId,{
     headers:{
       Authorization:"Bearer "+state.accessToken
@@ -19,6 +19,24 @@ export function getMyInfo({state,commit}){
     console.log(err)
   })
 }
+
+export function setUserInfo({state, commit}) {
+  // console.log("로그인 성공! 유저 정보를 vuex store에 저장합니다..")
+  axios.get("/mem/mypage/?userId="+state.userId,{
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    }
+  })
+  .then(res=>{
+    console.log(res.data)
+    commit('SET_USERINFO', res.data);
+  })
+  .catch(err=>{
+    console.log(err)
+  })
+}
+
+
 export function Authentication({ state },payload){
   console.log("비밀번호 초기화~" ,state,payload)
     axios.put("/EmailAuthentication/searchPassword",{id:payload.id, email:payload.email}
@@ -348,14 +366,13 @@ export function deleteReportedArticle({ state, commit }, payload) {
 export function checklogin({ state }) {
   const accessToken = state.accessToken
   if (accessToken == '') {
-    alert("로그인 해주세요")
+    alert("로그인 해주세요.")
     router.push("/login")
+    return
   }
 }
 
 export function createArticle({ state, commit }, payload) {
-  console.log(state)
-  console.log(payload)
 
   const url = "/appeal/create"
   axios({
@@ -372,8 +389,7 @@ export function createArticle({ state, commit }, payload) {
     }
   })
   .then(resp => {
-    console.log(resp)
-    // 게시글 작성 후 디테일 페이지로 이동한다.
+    console.log("create result: ", resp)
     // 게시글 목록 재업로드
     axios({
       url: "/appeal",
@@ -395,20 +411,44 @@ export function createArticle({ state, commit }, payload) {
   })
 }
 
-export function getArticles({ commit }) {  
-  console.log("아티클 가져와~~")
+export function getArticles({ state, commit }) {  
+  console.log("게시글 목록 가져옵니다..")
   const url = "/appeal"
   axios({
     url: url,
     method: 'GET',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
   })
   .then(resp => {
+    // 날짜 전처리 필요하다...
+    console.log("날짜 전처리 시작합니다.")
+    for (let i = 0; i < resp.data.length; i++) {
+      console.log(resp.data[i].regtime)
+      const date = new Date(resp.data[i].regtime).toDateString()
+      resp.data[i].regtime = date
+    }
+
     commit("SET_ARTICLES", resp.data)
   })
   .catch(err => {
     console.log(err)
   })
 }
+
+export function getArticle({ state }, payload){
+  console.log(state)
+  const url = '/appeal/detail?articleNo=' + payload.articleNo
+  return axios({
+    url: url,
+    method: 'GET',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+}
+
 export function userLogout({state,commit},payload){
   console.log(payload.id)
   const url = '/mem/logout/?id='+payload.id
@@ -433,12 +473,76 @@ export function userLogout({state,commit},payload){
 
 export function updateArticlePage({ state }, payload) {
   console.log(state)
-  console.log(payload)
+  console.log(payload.article.articleNo)
+  router.push({name: 'AppealUpdate', params: { articleNo: payload.article.articleNo }})
 }
 
-export function deleteArticle({ state }, payload) {
-  console.log(state)
-  console.log(payload)
+export function updateArticle({ state }, payload) {
+  const url = '/appeal/update'
+  axios({
+    url: url,
+    method: "PUT",
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+    data: {
+      articleNo: payload.articleNo,
+      title: payload.title,
+      content: payload.content,
+    }
+  })
+  .then(resp => {
+    console.log(resp)
+    // 목록을 수정한다.
+  })
+  .catch(err => {
+    console.log(err)
+  })
+}
+
+export function deleteArticle({ state, commit }, payload) {
+  // 현재 로그인한 사용자와 게시글을 작성한 사용자의 PK 비교 
+  if (payload.memberId !== state.userId) {
+    alert("권한이 없습니다.")
+    return
+  }
+  else{
+
+    const answer = confirm("게시글을 삭제하시겠습니까?")
+    if (answer) {
+      const url = "/appeal/delete?articleNo=" + payload.articleNo
+      axios({
+        url: url,
+        method: "DELETE",
+        headers:{
+          Authorization:"Bearer "+state.accessToken
+        },
+      })
+      .then(resp => {
+        console.log("게시글 삭제 완료!!!", resp)
+        
+        // 게시글 목록 갱신
+        axios({
+          url: "/appeal",
+          method: 'GET',
+          headers:{
+            Authorization:"Bearer "+state.accessToken
+          },
+        })
+        .then(resp => {
+          console.log("게시글 목록 갱신: ", resp.data)
+          commit("SET_ARTICLES", resp.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
+  }
+  
 }
 
 

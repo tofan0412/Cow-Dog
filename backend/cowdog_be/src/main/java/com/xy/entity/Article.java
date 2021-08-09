@@ -46,5 +46,4 @@ public class Article {
 	private double longitude;
 	private double distance;
 	private String address;
-	
 }
