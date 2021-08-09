@@ -1,7 +1,10 @@
 package com.xy.api.response;
 
 
+import java.util.List;
+
 import com.xy.common.response.BaseResponseBody;
+import com.xy.entity.Member;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -27,5 +30,7 @@ public class MemberLoginPostRes extends BaseResponseBody{
 		res.setId(id);
 		return res;
 	}
+
+	
 }
 

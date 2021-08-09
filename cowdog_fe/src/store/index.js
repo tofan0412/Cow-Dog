@@ -13,6 +13,10 @@ const state = {
   myinfo:[],//유저 정보
   accessToken:'',// 토큰
   userId:'',//유저 pk 값
+  randomUsers:[],
+  distanceUsers:[],
+  recomUsers:[],
+  followUsers:[],
 }
 
 const root = createStore({

@@ -6,17 +6,13 @@ import NoticeCreate from '../views/notice/components/notice-create.vue'
 import NoticeUpdate from '../views/notice/components/notice-update.vue'
 import UserReport from '../views/notice/components/user-report.vue'
 import ArticleReport from '../views/notice/components/article-report.vue'
-import AppealList from '../views/appeal/components/AppealList.vue'
-import AppealDetail from '../views/appeal/components/AppealDetail.vue'
-import AppealCreate from '../views/appeal/components/AppealCreate.vue'
-import AppealUpdate from '../views/appeal/components/AppealUpdate.vue'
 import LoginPage from '../views/login/LoginPage.vue'
 import RegisterPage from '../views/register/RegisterPage.vue'
 import Mypage from '../views/mypage/Mypage.vue'
 import MyInfo from '../views/mypage/components/MyInfo.vue'
 import Eachother from '../views/mypage/components/Eachother.vue'
 import Follow from '../views/mypage/components/Follow.vue'
-import Following from '../views/mypage/components/Following.vue'
+import FollowDetail from '../views/mypage/components/FollowDetail.vue'
 import Setting from '../views/mypage/components/Setting.vue'
 import Update from '../views/mypage/components/Update.vue'
 import FindingPassword from '../views/findpassword/FindingPassword.vue'
@@ -24,6 +20,17 @@ import Main from '../views/main/Main.vue'
 import RandomMatching from '../views/main/components/RandomMatching.vue'
 import DistanceMatching from '../views/main/components/DistanceMatching.vue'
 import RecomMatching from '../views/main/components/RecomMatching.vue'
+import RandomResultView from '../views/main/matchingview/RandomResultView.vue'
+import RandomResultViewDetail from '../views/main/matchingview/RandomResultViewDetail.vue'
+import DistanceResultView from '../views/main/matchingview/DistanceResultView.vue'
+import DistanceResultViewDetail from '../views/main/matchingview/DistanceResultViewDetail.vue'
+import RecomResultView from '../views/main/matchingview/RecomResultView.vue'
+import RecomResultViewDetail from '../views/main/matchingview/RecomResultViewDetail.vue'
+import AppealCreate from '../views/appeal/components/AppealCreate'
+import AppealDetail from '../views/appeal/components/AppealDetail'
+import AppealList from '../views/appeal/components/AppealList'
+import AppealUpdate from '../views/appeal/components/AppealUpdate'
+
 const routes = [
   
   {
@@ -45,6 +52,38 @@ const routes = [
     path:'/findingpassword',
     name:'FindingPassword',
     component:FindingPassword
+  },
+
+  {
+    path:'/recomResultView',
+    name:'RecomResultView',
+    component:RecomResultView
+  },
+  {
+    path:'/recomResultViewDetail',
+    name:'RecomResultViewDetail',
+    component:RecomResultViewDetail
+  },
+  
+  {
+    path:'/randomResultView',
+    name:'RandomResultView',
+    component:RandomResultView
+  },
+  {
+    path:'/randomResultViewDetail',
+    name:'RandomResultViewDetail',
+    component:RandomResultViewDetail
+  },
+  {
+    path:'/distanceResultView',
+    name:'DistanceResultView',
+    component:DistanceResultView
+  },
+  {
+    path:'/distanceResultViewDetail',
+    name:'DistanceResultViewDetail',
+    component:DistanceResultViewDetail
   },
   {
     path:'/main',
@@ -89,10 +128,11 @@ const routes = [
         component:Follow
       },
       {
-        path:'/mypage/following',
-        name:'Following',
-        component:Following
+        path:'/mypage/followDetail',
+        name:'FollowDetail',
+        component:FollowDetail
       },
+
       {
         path:'/mypage/setting',
         name:'Setting',
@@ -135,7 +175,7 @@ const routes = [
           path: '/admin/article-report',
           name: 'ArticleReport',
           component: ArticleReport
-        }
+        },       
     ]
   },
   {

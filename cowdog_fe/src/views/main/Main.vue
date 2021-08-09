@@ -1,4 +1,5 @@
 <template>
+    <h1>다양한 매칭을 통해 인연을 만나세요</h1>
     <div class="main-wrapper">
         <el-button class="matching_btn" @click="distance">지역 매칭</el-button>
         <el-button class="matching_btn" @click="random">랜덤 매칭</el-button>
@@ -28,7 +29,7 @@ export default{
     setup() {
         
         const state = reactive({
-            random:Boolean,
+            random:true,
             recom:Boolean,
             distance:Boolean,
         })
@@ -66,10 +67,6 @@ export default{
     color:white ;
     background-color: #FF427E;
     
-}
-.el-button :hover{
- background-color: #FF427E;
- 
 }
 
 .main-wrapper{
