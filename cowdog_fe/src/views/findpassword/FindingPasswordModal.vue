@@ -1,41 +1,39 @@
 <template>
-    <el-container class="wrapper">
-    
-        <div class="findForm">
-            <p>비밀번호 찾기</p>
-            <el-form :model="state.form" :rules="state.rules" ref="findingPasswordForm" :label-position="state.form.align">
-                <el-form-item prop="findingId"  :label-width="state.formLabelWidth" >
-                    <label>비밀번호를 찾고자 하는 아이디를 입력해주세요</label>
-                    <el-input  class="elinput" v-model="state.form.findingId" autocomplete="off" ></el-input>
-                </el-form-item>
-                <el-form-item prop="email"  :label-width="state.formLabelWidth">
-                    <label>회원가입시 작성한 이메일을 입력하세요</label>
-                    <el-input class="elinput" v-model="state.form.email" autocomplete="off" placeholder="example@example.com"></el-input>
-                </el-form-item>
-            </el-form>
-            <el-button class="valid_btn" @click="authentication">인증하기</el-button>
-        </div>
+  <a class="finding-password-btn" @click="dialogVisible = true">비밀번호 찾기</a>
 
-    </el-container>
+<el-dialog
+  title="비밀번호 찾기"
+  v-model="dialogVisible"
+  width="30%">
+  <div class="wrapper">
+      <div class="findForm">
+          <el-form :model="state.form" :rules="state.rules" ref="findingPasswordForm" :label-position="state.form.align">
+              <el-form-item prop="findingId"  :label-width="state.formLabelWidth" >
+                  <div class="input-name">가입한 아이디를 입력해주세요</div>
+                  <el-input  class="elinput" v-model="state.form.findingId" autocomplete="off" ></el-input>
+              </el-form-item>
+              <el-form-item prop="email"  :label-width="state.formLabelWidth">
+                  <div class="input-name">회원가입시 작성한 이메일을 입력하세요</div>
+                  <el-input class="elinput" v-model="state.form.email" autocomplete="off" placeholder="example@example.com"></el-input>
+              </el-form-item>
+          </el-form>
+          <div>
+            <el-button class="valid_btn" @click="authentication">인증하기</el-button>
+          </div>
+      </div>
+  </div>
+</el-dialog>
 </template>
 
 <script>
 import { reactive,ref } from 'vue'
 import { useStore } from 'vuex'
-export default {
-    name:"FindPassword",
-    components: {
-        
+  export default {
+    data() {
+      return {
+        dialogVisible: false
+      };
     },
-
-    methods: {
-    
-    },
-
-    computed: {
-    
-    },
-
     setup() {
         const store = useStore()
         const findingPasswordForm=ref(null)
@@ -90,27 +88,47 @@ export default {
         }
         return {state,findingPasswordForm,authentication}
     }
-}
+  };
 </script>
-<style >
-/* .wrapper{
-    width: 700px;
-    height: 500px;
-    margin-top: 300px;
-    margin: 0 auto;
-    border: 1px solid #BBABAB;
-    border-radius: 5%;
-}
-.findForm{
-    height: 80%;
-    margin: 0 auto;
-}
-.valid_btn{
-    margin-top: 50px;
-    width:100%;
-}
-.valid_btn:hover{
-    color: white;
-    background-color: #EC7357;
-} */
+
+<style scoped>
+  .wrapper {
+    text-align: center;
+  }
+  .finding-password-btn:hover {
+    cursor: pointer;
+  }
+  .login-background .elinput {
+    width: 90%;
+    margin: 0 auto; 
+  }
+  .login-background .el-button {
+    width: 90%;
+  }
+  .input-name {
+    text-align: left;
+    margin-left: 5%;
+  }
+  @media (max-width: 1024px) {
+    .input-name {
+      font-size: 12px;
+    }
+  }
+  @media (max-width: 800px) {
+    .input-name {
+      font-size: 10px;
+    }
+  }
+</style>
+
+<style>
+   .findForm .el-form-item__error {
+    left: 5%;
+  }
+  @media (max-width: 1024px) {
+    .findForm .el-form-item__error {
+      font-size: 10px;
+    }
+  }
+
 </style>
