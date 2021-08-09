@@ -1,5 +1,6 @@
 package com.xy.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.xy.entity.Member;
@@ -12,4 +13,5 @@ public interface MemberService {
 	public boolean confirmNickname(String userNickname);
 	public Member getMemberById(long id);
 	public void deleteMemberById(long id);
+	public List<Member> getLoginUser(long id);
 }

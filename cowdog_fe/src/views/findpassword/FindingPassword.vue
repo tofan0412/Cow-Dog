@@ -3,16 +3,15 @@
     
         <div class="findForm">
             <p>비밀번호 찾기</p>
-            <hr>
             <el-form :model="state.form" :rules="state.rules" ref="findingPasswordForm" :label-position="state.form.align">
-                        <el-form-item prop="findingId"  :label-width="state.formLabelWidth" >
-                            <label>비밀번호를 찾고자 하는 아이디를 입력해주세요</label>
-                            <el-input  class="elinput" v-model="state.form.findingId" autocomplete="off" ></el-input>
-                        </el-form-item>
-                        <el-form-item prop="email"  :label-width="state.formLabelWidth">
-                            <label>회원가입시 작성한 이메일을 입력하세요</label>
-                            <el-input class="elinput" v-model="state.form.email" autocomplete="off" placeholder="example@example.com"></el-input>
-                        </el-form-item>
+                <el-form-item prop="findingId"  :label-width="state.formLabelWidth" >
+                    <label>비밀번호를 찾고자 하는 아이디를 입력해주세요</label>
+                    <el-input  class="elinput" v-model="state.form.findingId" autocomplete="off" ></el-input>
+                </el-form-item>
+                <el-form-item prop="email"  :label-width="state.formLabelWidth">
+                    <label>회원가입시 작성한 이메일을 입력하세요</label>
+                    <el-input class="elinput" v-model="state.form.email" autocomplete="off" placeholder="example@example.com"></el-input>
+                </el-form-item>
             </el-form>
             <el-button class="valid_btn" @click="authentication">인증하기</el-button>
         </div>
@@ -88,19 +87,13 @@ export default {
             
             } 
         });
-
-
-
-
-
-
         }
         return {state,findingPasswordForm,authentication}
     }
 }
 </script>
 <style >
-.wrapper{
+/* .wrapper{
     width: 700px;
     height: 500px;
     margin-top: 300px;
@@ -119,5 +112,5 @@ export default {
 .valid_btn:hover{
     color: white;
     background-color: #EC7357;
-}
+} */
 </style>

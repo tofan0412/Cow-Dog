@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.sound.midi.SysexMessage;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -28,16 +30,19 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Long create(Map map) {
         // 1. 사용자 정보 찾기
+    	
         System.out.println();
-        int temp = (Integer) map.get("member_id");
-        String member_id = Integer.toString(temp);
-
-        Member member = memberRepository.getBymemberid(member_id);
-
+        System.out.println("SERVICEC   "+map.toString());
+      
         Article article = new Article();
+        article.setMemberId((Long) (Long.parseLong(map.get("member_id").toString())));
         article.setTitle((String) map.get("title"));
         article.setContent((String) map.get("content"));
-        article.setMember_id(member);
+        article.setWriter(map.get("writer").toString());
+
+        // 작성일 입력
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        article.setRegtime(now);
 
         Article result = articleRepository.save(article);
         if ( result != null) {
@@ -45,12 +50,41 @@ public class ArticleServiceImpl implements ArticleService {
             System.out.println(result.getArticleNo());
             return result.getArticleNo();
         }
-        return 0L;
+        else {
+            return 0L;
+        }
+
     }
 
     @Override
     public Article findArticleByArticleNo(Long articleNo) {
         return articleRepository.findArticleByArticleNo(articleNo);
+    }
+
+    @Override
+    public String deleteArticle(Long articleNo) {
+        articleRepository.deleteById(articleNo);
+        return "SUCCESS";
+    }
+
+    @Override
+    public Long update(Map map) {
+        Long articleNo = Long.parseLong(map.get("articleNo").toString());
+        System.out.println("게시글 수정합니다! " + articleNo + "번 게시글 수정합니다.");
+
+        Article article = articleRepository.findArticleByArticleNo(articleNo);
+
+        article.setTitle(map.get("title").toString());
+        article.setContent(map.get("content").toString());
+        article.setRegtime(new Timestamp(System.currentTimeMillis()));
+
+        Article result = articleRepository.save(article);
+        if (result != null){
+            return result.getArticleNo();
+        }
+        else {
+            return 0L;
+        }
     }
 
 

@@ -6,7 +6,7 @@ export const GET_NOTICES = (state, noticeDatas) => {
 }
 export const GET_MYINFO = (state, myinfoData) => {
     state.myinfo = myinfoData
-    router.push('/mypage/myinfo') // Admin 클릭 => notices가 로드되고 난 후에 notice 페이지로 push
+    router.push('/mypage') // Admin 클릭 => notices가 로드되고 난 후에 notice 페이지로 push
 }
 export const GET_REPORTED_USERS = (state, reportedUserDatas) => {
     state.reportedUsers = reportedUserDatas
@@ -33,7 +33,37 @@ export const USER_LOGOUT=(state)=>{
     router.push('/login')
 }
 
-
 export const SET_ARTICLES = (state, articles) => {
     state.articles = articles
+}
+
+export const SET_USERINFO = (state, data) => {
+    state.myinfo = data
+}
+
+export const SET_RANDOM_USER=(state,randomUsers)=>{
+    console.log(randomUsers)
+    state.randomUsers=randomUsers;
+    console.log(state.randomUsers)
+    router.push('/randomResultView')
+}
+export const SET_RECOM_USER=(state,recomUsers)=>{
+    console.log(recomUsers)
+    state.recomUsers=recomUsers;
+    console.log(state.recomUsers)
+    console.log("Here is SET_RECOM_USER!!!!!!!!!!!!!!!!!")
+    router.push('/recomResultView')
+}
+
+export const SET_DISTANCE_USER=(state,distanceUsers)=>{
+    console.log(distanceUsers)
+    state.distanceUsers=distanceUsers;
+    console.log(state.distanceUsers)
+    router.push('/distanceResultView')
+}
+
+export const SET_FOLLOW_USER=(state,followUsers)=>{
+    console.log(followUsers)
+    state.followUsers=followUsers;
+    console.log(state.followUsers)
 }

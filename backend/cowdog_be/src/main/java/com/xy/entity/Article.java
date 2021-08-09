@@ -31,9 +31,8 @@ public class Article {
 	@Id @GeneratedValue
 	private Long articleNo;//pk
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name="member_id")//컬럼 이름을 member_id로 하겠따.
-	private Member member_id;//이 게시물을 누가 썼는지
+	private String writer;
+	private Long memberId;
 	
 	
 	@OneToMany(mappedBy = "articleno")
@@ -47,10 +46,4 @@ public class Article {
 	private double longitude;
 	private double distance;
 	private String address;
-	public void setMember(Member member_id) {
-		this.member_id=member_id;
-		if(!member_id.getArticles().contains(this)) {
-			member_id.getArticles().add(this);
-		}
-	}
 }
