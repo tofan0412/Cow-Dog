@@ -2,7 +2,7 @@
   <el-container class="article">
   <el-header>
     <el-row justify="space-between" align="middle">
-      <el-col :span="6" style="text-align: start;">
+      <el-col :span="12" style="text-align: start;">
         <h3><strong>{{ this.article.title }}</strong></h3>
       </el-col>
       <el-col :span="6" style="text-align: end;">

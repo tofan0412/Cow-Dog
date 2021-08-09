@@ -13,6 +13,7 @@ import { reactive } from '@vue/reactivity'
 import { useStore } from 'vuex'
 import router from '../../../router'
 import appealDetail from './AppealDetail.vue'
+import { onMounted } from 'vue'
 
 export default {
   name: 'BOARDLIST',  
@@ -28,15 +29,16 @@ export default {
       store: store
     })
     store.dispatch("checklogin")
-    // vuex의 store의 변수 중에서 게시글 목록을 별도로 저장한다.
-    store.dispatch("getArticles")
     
-    state.articleList = store.getters.getArticles
+    // 게시글 목록 갱신
+    onMounted(() => {
+      store.dispatch("getArticles")
+      state.articleList = store.getters.getArticles
+    })
 
     return {
       state
     }
-    
     
   },
   methods: {
