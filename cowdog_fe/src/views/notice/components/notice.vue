@@ -108,8 +108,10 @@ export default {
     width: 100%;
   }
 
-  .el-card {
+  .notice-list .el-card {
     margin: 10px;
+    width: 100%;
+    height: 20%;
   }
 
   .el-pagination.is-background .el-pager li:not(.disabled).active {

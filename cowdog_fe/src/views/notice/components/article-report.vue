@@ -116,7 +116,9 @@ export default {
     width: 100%;
   }
 
-  .el-card {
+  .reportedArticle-list .el-card {
+    width: 100%;
+    height: 20%;
     margin: 10px;
   }
 
