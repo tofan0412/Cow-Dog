@@ -12,14 +12,24 @@ import Mypage from '../views/mypage/Mypage.vue'
 import MyInfo from '../views/mypage/components/MyInfo.vue'
 import Eachother from '../views/mypage/components/Eachother.vue'
 import Follow from '../views/mypage/components/Follow.vue'
-import Following from '../views/mypage/components/Following.vue'
+import FollowDetail from '../views/mypage/components/FollowDetail.vue'
 import Setting from '../views/mypage/components/Setting.vue'
 import Update from '../views/mypage/components/Update.vue'
 import FindingPassword from '../views/findpassword/FindingPassword.vue'
+import Main from '../views/main/Main.vue'
+import RandomMatching from '../views/main/components/RandomMatching.vue'
+import DistanceMatching from '../views/main/components/DistanceMatching.vue'
+import RecomMatching from '../views/main/components/RecomMatching.vue'
+import RandomResultView from '../views/main/matchingview/RandomResultView.vue'
+import RandomResultViewDetail from '../views/main/matchingview/RandomResultViewDetail.vue'
+import DistanceResultView from '../views/main/matchingview/DistanceResultView.vue'
+import DistanceResultViewDetail from '../views/main/matchingview/DistanceResultViewDetail.vue'
+import RecomResultView from '../views/main/matchingview/RecomResultView.vue'
+import RecomResultViewDetail from '../views/main/matchingview/RecomResultViewDetail.vue'
 import AppealCreate from '../views/appeal/components/AppealCreate'
 import AppealDetail from '../views/appeal/components/AppealDetail'
 import AppealList from '../views/appeal/components/AppealList'
-import AppealUpdate from '../views/appeal/components/AppealUpdate'
+// import AppealUpdate from '../views/appeal/components/AppealUpdate'
 
 const routes = [
   
@@ -43,6 +53,60 @@ const routes = [
     name:'FindingPassword',
     component:FindingPassword
   },
+
+  {
+    path:'/recomResultView',
+    name:'RecomResultView',
+    component:RecomResultView
+  },
+  {
+    path:'/recomResultViewDetail',
+    name:'RecomResultViewDetail',
+    component:RecomResultViewDetail
+  },
+  
+  {
+    path:'/randomResultView',
+    name:'RandomResultView',
+    component:RandomResultView
+  },
+  {
+    path:'/randomResultViewDetail',
+    name:'RandomResultViewDetail',
+    component:RandomResultViewDetail
+  },
+  {
+    path:'/distanceResultView',
+    name:'DistanceResultView',
+    component:DistanceResultView
+  },
+  {
+    path:'/distanceResultViewDetail',
+    name:'DistanceResultViewDetail',
+    component:DistanceResultViewDetail
+  },
+  {
+    path:'/main',
+    name:'Main',
+    component:Main,
+    children:[
+      {
+        path:'/main/randomMatching',
+        name:'RandomMatching',
+        component:RandomMatching
+      },
+      {
+        path:'/main/distanceMatching',
+        name:'DistanceMatching',
+        component:DistanceMatching
+      },
+      {
+        path:'/main/recomMatching',
+        name:'RecomMatching',
+        component:RecomMatching
+      },
+    ]
+  },
   {
     path:'/mypage',
     name: 'Mypage',
@@ -64,10 +128,11 @@ const routes = [
         component:Follow
       },
       {
-        path:'/mypage/following',
-        name:'Following',
-        component:Following
+        path:'/mypage/followDetail',
+        name:'FollowDetail',
+        component:FollowDetail
       },
+
       {
         path:'/mypage/setting',
         name:'Setting',
@@ -110,29 +175,28 @@ const routes = [
           path: '/admin/article-report',
           name: 'ArticleReport',
           component: ArticleReport
-        },
-        {
-          path: '/appeal/',
-          name: 'AppealList',
-          component: AppealList
-        },
-        {
-          path: '/appeal/',
-          name: 'AppealList',
-          component: AppealCreate
-        },
-        {
-          path: '/appeal/',
-          name: 'AppealList',
-          component: AppealDetail
-        },
-        {
-          path: '/appeal/',
-          name: 'AppealList',
-          component: AppealUpdate
-        },
+        },       
     ]
   },
+  {
+    path: '/appeal',
+    name: 'AppealList',
+    component: AppealList, 
+    // 중첩 라우팅..
+    // children: [],
+    // props를 true로 설정하면, $route.params가 컴포넌트 props로 설정된다.
+    // props: true,
+  },
+  {
+    path: '/appeal/detail',
+    name: 'AppealDetail',
+    component: AppealDetail,
+  },
+  {
+    path: '/appeal/create',
+    name: 'AppealCreate',
+    component: AppealCreate,
+  }, 
   
 ]
 

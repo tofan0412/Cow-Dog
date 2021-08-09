@@ -125,6 +125,8 @@ public class MemberController {
 		if (passwordEncoder.matches(password, mem.getPassword())) {
 			// 유효한 패스워드가 맞는 경우, 로그인 성공으로 응답.
 			System.out.println("로그인 성공");
+			mem.setLogin(true);//로그인~
+			memRepo.save(mem);
 			long id=mem.getId();
 			return ResponseEntity.ok(MemberLoginPostRes.of(200, "SUCESS", jwtUtil.generateToken(userId),id));
 		}
@@ -197,6 +199,23 @@ public class MemberController {
 		}
 		
 		
+		return "SUCCESS";
+	}
+	
+	@GetMapping("/logout")
+	public String logout(@RequestParam("id") long id) {
+		
+		
+		System.out.println("로그아우!!!!!!!!!!!!!!!!!!!!   "+id);
+		
+		try {
+			Member mem=memSer.getMemberById(id);
+			mem.setLogin(false);
+			memRepo.save(mem);
+			
+		} catch (Exception e) {
+			return "FAIL";
+		}
 		return "SUCCESS";
 	}
 	

@@ -353,6 +353,95 @@ export function checklogin({ state }) {
   }
 }
 
+export function createArticle({ state, commit }, payload) {
+  console.log(state)
+  console.log(payload)
+
+  const url = "/appeal/create"
+  axios({
+    url: url,
+    method: "POST",
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+    data: {
+      title: payload.title,
+      content: payload.content,
+      member_id: payload.member_id,
+      writer:payload.writer
+    }
+  })
+  .then(resp => {
+    console.log(resp)
+    // 게시글 작성 후 디테일 페이지로 이동한다.
+    // 게시글 목록 재업로드
+    axios({
+      url: "/appeal",
+      method: 'GET',
+      headers:{
+        Authorization:"Bearer "+state.accessToken
+      },
+    })
+    .then(resp => {
+      commit("SET_ARTICLES", resp.data)
+      router.push("/appeal")
+    })
+    .catch(err => {
+      console.log(err)
+    })    
+  })
+  .catch(err => {
+    console.log(err)
+  })
+}
+
+export function getArticles({ commit }) {  
+  console.log("아티클 가져와~~")
+  const url = "/appeal"
+  axios({
+    url: url,
+    method: 'GET',
+  })
+  .then(resp => {
+    commit("SET_ARTICLES", resp.data)
+  })
+  .catch(err => {
+    console.log(err)
+  })
+}
+export function userLogout({state,commit},payload){
+  console.log(payload.id)
+  const url = '/mem/logout/?id='+payload.id
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+    .then(res => {
+      console.log(res.data)
+      if(res.data==="SUCCESS"){
+        alert("로그아웃")
+        commit("USER_LOGOUT")
+      }
+    })
+    .catch(err => {
+      console.log(err)
+    })  
+}
+
+export function updateArticlePage({ state }, payload) {
+  console.log(state)
+  console.log(payload)
+}
+
+export function deleteArticle({ state }, payload) {
+  console.log(state)
+  console.log(payload)
+}
+
+
 export function deleteArticleReport({ state, commit }, payload) {
   const url = '/article-report/' + payload
   axios({
@@ -360,4 +449,317 @@ export function deleteArticleReport({ state, commit }, payload) {
   })
     .then(res => { commit('GET_REPORTED_ARTICLES', res.data) })
     .catch(err => {console.log(err)})
+}
+
+
+//매칭 기능
+
+export function randomMatching({state,commit}){
+  console.log(state.userId)
+  console.log("랜덤매칭~~~")
+  const url='/matching/randomMatching/?id='+state.userId
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+    .then(res => {
+      console.log(res)
+      if(res.data.message=="SUCCESS"){
+        console.log(res.data.list[0])
+        commit("SET_RANDOM_USER",res.data.list)
+      }
+      
+    })
+    .catch(err => {
+      console.log(err)
+    })  
+}
+
+export function disatnceMatching({state,commit},payload){
+  console.log(state.userId)
+  console.log("거리매칭~~~")
+  console.log(payload)
+  const url='/matching/distanceMatching/'
+  axios({
+    url: url,
+    method: 'get',
+    params:{
+      dist:payload,
+      id:state.userId
+    },
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+    .then(res => {
+      console.log(res)
+      if(res.data.message=="SUCCESS"){
+        console.log(res.data.list)
+        commit("SET_DISTANCE_USER",res.data.list)
+      }
+      
+    })
+    .catch(err => {
+      console.log(err)
+    })  
+}
+
+
+export function alcohol({state,commit},payload){
+  console.log(state.userId)
+  console.log("주량 비슷한 사람")
+  console.log(payload)
+  const url='/matching/alcohol/?id='+state.userId
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+    .then(res => {
+      console.log(res)
+      if(res.data.message=="SUCCESS"){
+        console.log(res.data.list[0])
+        commit("SET_RECOM_USER",res.data.list)
+      }
+      
+    })
+    .catch(err => {
+      console.log(err)
+    })  
+
+}
+export function sameHobby({state,commit},payload){
+  console.log(state.userId)
+  console.log("취미 비슷한 사람")
+  console.log(payload)
+  const url='/matching/sameHobby/?id='+state.userId
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+    .then(res => {
+      console.log(res)
+      if(res.data.message=="SUCCESS"){
+        console.log(res.data.list[0])
+        commit("SET_RECOM_USER",res.data.list)
+      }
+      
+    })
+    .catch(err => {
+      console.log(err)
+    })  
+}
+export function wantMale({state,commit},payload){
+  console.log(state.userId)
+  console.log("남자를 원하는 사람")
+  console.log(payload)
+  const url='/matching/wantMale/?id='+state.userId
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+    .then(res => {
+      console.log(res)
+      if(res.data.message=="SUCCESS"){
+        console.log(res.data.list[0])
+        commit("SET_RECOM_USER",res.data.list)
+      }
+      
+    })
+    .catch(err => {
+      console.log(err)
+    })  
+}
+export function wantFemale({state,commit},payload){
+  console.log(state.userId)
+  console.log("여자를 원하는 사람")
+  console.log(payload)
+  const url='/matching/wantFemale/?id='+state.userId
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+    .then(res => {
+      console.log(res)
+      if(res.data.message=="SUCCESS"){
+        console.log(res.data.list[0])
+        commit("SET_RECOM_USER",res.data.list)
+      }
+      
+    })
+    .catch(err => {
+      console.log(err)
+    })  
+}
+export function nonSmoking({state,commit},payload){
+  console.log(state.userId)
+  console.log("담배 안피는 사람")
+  console.log(payload)
+  const url='/matching/nonSmoking/?id='+state.userId
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+    .then(res => {
+      console.log(res)
+      if(res.data.message=="SUCCESS"){
+        console.log(res.data.list[0])
+        commit("SET_RECOM_USER",res.data.list)
+      }
+      
+    })
+    .catch(err => {
+      console.log(err)
+    })  
+}
+export function sameReligion({state,commit},payload){
+  console.log(state.userId)
+  console.log("종교가 같은 사람")
+  console.log(payload)
+  const url='/matching/sameReligion/?id='+state.userId
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+    .then(res => {
+      console.log(res)
+      if(res.data.message=="SUCCESS"){
+        console.log(res.data.list[0])
+        commit("SET_RECOM_USER",res.data.list)
+      }
+      
+    })
+    .catch(err => {
+      console.log(err)
+    })  
+}
+export function sameMbti({state,commit},payload){
+  console.log(state.userId)
+  console.log("mbti")
+  console.log(payload)
+  const url='/matching/sameMbti/?id='+state.userId
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+    .then(res => {
+      console.log(res)
+      if(res.data.message=="SUCCESS"){
+        console.log(res.data.list[0])
+        commit("SET_RECOM_USER",res.data.list)
+      }
+      
+    })
+    .catch(err => {
+      console.log(err)
+    })  
+}
+export function samePersonality({state,commit},payload){
+  console.log(state.userId)
+  console.log("성격 비슷한 사람")
+  console.log(payload)
+  const url='/matching/samePersonality/?id='+state.userId
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+    .then(res => {
+      console.log(res)
+      if(res.data.message=="SUCCESS"){
+        console.log(res.data.list[0])
+        commit("SET_RECOM_USER",res.data.list)
+      }
+      
+    })
+    .catch(err => {
+      console.log(err)
+    })  
+}
+
+//팔로우 기능
+export function getFollowUsers({state,commit}){
+
+  console.log(state.userId)
+  console.log("나를 팔로우 한 사람 가져오기")
+  const url='/like/getFollowUsers/?id='+state.userId
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+    .then(res => {
+      console.log(res)
+      if(res.data.message=="SUCCESS"){
+        console.log(res.data.list[0])
+        commit("SET_FOLLOW_USER",res.data.list)
+      }
+      
+    })
+    .catch(err => {
+      console.log(err)
+    })  
+
+
+
+
+}
+
+
+
+
+
+export function like({state},payload){
+  console.log(state.userId)
+  console.log("팔로우 합니다~")
+  console.log(payload)
+  const url='/like/follow'
+  axios({
+    url: url,
+    method: 'post',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+    data: {
+     memberid:state.userId,//팔로우를 하는 사람
+     followid:payload//팔로우 당하는 사람
+    }
+  })
+    .then(res => {
+      console.log(res)
+      if(res.data.message=="SUCCESS"){
+        alert("팔로우 성공")
+      }
+    })
+    .catch(err => {
+      console.log(err)
+    })
+
 }

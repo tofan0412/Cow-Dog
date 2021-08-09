@@ -42,8 +42,8 @@ public class Member {
 	
 	private String memberid;
 	
-	@OneToMany(mappedBy = "member_id")//이 멤버가 쓴 게시물들
-	private List<Article> articles=new ArrayList<Article>();
+//	@OneToMany(mappedBy = "member_id")//이 멤버가 쓴 게시물들
+//	private List<Article> articles=new ArrayList<Article>();
 	
 	@Column(name="password")
 	private String password;
@@ -54,12 +54,13 @@ public class Member {
 	private String file_path;
 	private String title;
 	private String imgFullPath;
-	public void addArticle(Article article) {
-		this.articles.add(article);
-		if(article.getMember_id()!=this) {
-			article.setMember_id(this);
-		}
-	}
+	private boolean login;
+//	public void addArticle(Article article) {
+//		this.articles.add(article);
+//		if(article.getMember_id()!=this) {
+//			article.setMember_id(this);
+//		}
+//	}
 	
 	
 	
