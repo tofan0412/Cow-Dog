@@ -2,7 +2,8 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
     <div class="recom-container">
         <div class="recom-comments">
-            <h2>지금 만나보고 싶은 이성을 하나 골라본다면?</h2>
+            <br>
+            <h2>지금 만나보고 싶은 이성을 골라본다면?</h2>
         </div>
 
        <el-button class="recom_btn" @click="alcohol"><i class="fas fa-wine-glass-alt"></i> 주량이 맞는 사람</el-button>
@@ -83,13 +84,12 @@ export default{
 <style >
 .recom-container{
     
-    border: 1px solid #C4C4C4;
     border-radius: 10px;
     width: 500px;
     height: 700px;
-    margin: 0 auto;
+    margin: 5% auto;
     margin-top:100px;
-    background-color: rgb(196, 196, 196,15%);
+    background-color: white
 }
 .recom_btn span:hover{
     color: #FF4E7E;

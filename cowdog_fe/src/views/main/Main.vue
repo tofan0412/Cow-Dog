@@ -2,9 +2,9 @@
 <div class="main-top">
   <h1 class="main-intro">다양한 매칭을 통해 인연을 만나세요</h1>
   <div style="display:flex; justify-content:center; margin:3%">
-    <h2>local icon/</h2>
-    <h2>random icon/</h2>
-    <h2>recom icon</h2>
+    <i class="fas fa-map-marked-alt match-icon"></i>
+    <i class="fas fa-random match-icon"></i>
+    <i class="fas fa-thumbs-up match-icon"></i>
   </div>
   <el-tabs class="main-tabs" v-model="activeName" @tab-click="handleClick">
     <el-tab-pane label="지역매칭" name="지역매칭"><distance-matching /></el-tab-pane>
@@ -76,7 +76,11 @@ export default{
     color: white;
     background-color: #ff427e;
 }
-
+.match-icon {
+  font-size: 100px;
+  margin: 5%;
+  color: #323545;
+}
 .main-wrapper{
     margin-top: 50px;
 }

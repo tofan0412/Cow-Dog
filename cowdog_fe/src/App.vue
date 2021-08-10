@@ -10,13 +10,13 @@
       active-text-color="#ff4e7e">
       <el-menu-item index="/" class="navMenu-logo"><img class="nav-logo" :src="require('@/assets/images/cowanddog.png')" alt="logo" style="max-width: 100%; height:auto;"></el-menu-item>
       <el-menu-item index="/Appeal" class="navMenu">Appeal</el-menu-item>
-      <el-menu-item index="#" class="navMenu" @click="getNotices">Admin</el-menu-item>
+      <el-menu-item index="/admin/notice" class="navMenu" @click="getNotices">Admin</el-menu-item>
      <!-- 나중에 거의 완성 되면 로그인 빼고 다 막아야 한다~ -->
       <el-menu-item index="/main" class="navMenu">Main</el-menu-item>
       <el-menu-item v-if="this.$store.state.userId" class="navMenu" @click="logout()">Logout</el-menu-item>
       <el-menu-item v-else index="/login" class="navMenu">Login</el-menu-item>
       <el-menu-item index="/register" class="navMenu">Register</el-menu-item>
-      <el-menu-item index="#" class="navMenu" @click="getMyInfo">mypage</el-menu-item>
+      <el-menu-item index="/mypage" class="navMenu" @click="getMyInfo">mypage</el-menu-item>
       <el-menu-item index="/test" class="navMenu">test</el-menu-item>
     </el-menu>
   </div>
