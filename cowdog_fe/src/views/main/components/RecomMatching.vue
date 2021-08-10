@@ -91,15 +91,22 @@ export default{
     margin-top:100px;
     background-color: white
 }
-.recom_btn span:hover{
-    color: #FF4E7E;
+.recom_btn span {
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+.recom_btn {
+    width: 90%;
+    margin-top: 20px;
+    border: 2px solid #323545;
+    color: #323545;
     background-color: white;
 }
-.recom_btn
+.recom_btn:hover
 {
     background-color: white;
     color: #FF4E7E;
-    width: 90%;
-    margin-top: 20px;
+    border: 2px solid;
 }
 </style>
