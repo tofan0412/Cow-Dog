@@ -7,7 +7,7 @@
           {{ this.article.writer }}
         </el-col>
       </el-row>
-
+      
       <!-- 게시글 제목 -->
       <el-row>
         <el-col>
@@ -20,21 +20,24 @@
           {{ this.article.regtime }}
         </el-col>
       </el-row>
+      <el-divider/>
     </el-header>
-
+    
 
     <!-- 본문 내용 -->
-    <el-main class="el-main" style="margin-top:50px;">
-      <el-row style="text-align: justify;">
-        {{ this.article.content }}
-      </el-row>
+    <el-main class="el-main" style="margin-top:30px;">
       <el-row justify="end" v-if="this.state.loginId === this.article.memberId">
         <!-- Button Group -->
         <el-button size="mini" round @click="updateArticlePage(this.article)"><i class="el-icon-edit">수정</i></el-button>
         <el-button size="mini" round @click="deleteArticle(this.article)"><i class="el-icon-delete">삭제</i></el-button> 
       </el-row>
+      
+      <el-row style="text-align: justify;">
+        {{ this.article.content }}
+      </el-row>
+      
       <!-- 댓글 부분 -->
-      <el-row style="color: gray; font-size: 15px; margin-top: 10px;">
+      <el-row style="color: gray; font-size: 15px; margin-top: 20px;">
         댓글 ??개 모두 보기
       </el-row>
       <el-row>
@@ -50,10 +53,13 @@
         댓글1
       </el-row>
       <el-divider/>
-      <el-row>
-        <el-input size="mini" class="elinput" placeholder="댓글 달기...">
-          <template #append>게시</template>
-        </el-input>
+      <el-row align="middle">
+        <el-col :span="22">
+          <el-input size="mini" class="elinput" v-model="state.commentContent" placeholder="댓글 달기..." />
+        </el-col>
+        <el-col :span="2">
+          <p id="commentCreateBtn" @click="createComment()">게시</p>
+        </el-col>
         
       </el-row>
     </el-main>
@@ -73,7 +79,8 @@ export default {
     const store = useStore()
     const state = reactive({
       store: store,
-      loginId: store.getters.getUserId
+      loginId: store.getters.getUserId,
+      commentContent: '',
     })
     
     return {
@@ -88,7 +95,16 @@ export default {
     },
     updateArticlePage(article) {
       this.state.store.dispatch("updateArticlePage", { article : article })
-    }
+    },
+    createComment() {
+      const comment = {
+        articleNo: this.article.articleNo,
+        memberId: this.article.memberId,
+        content: this.state.commentContent,
+      }
+      
+      this.state.store.dispatch("createArticleComment", { comment: comment })
+    },
 
   },
   }
@@ -107,6 +123,10 @@ export default {
 .el-main > *{
   margin: 5px;
   margin-top: 7px;
+}
+#commentCreateBtn{
+  color: #323545;
+  font-weight: bold;
 }
 
 </style>

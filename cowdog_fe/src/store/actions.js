@@ -425,7 +425,6 @@ export function getArticles({ state, commit }) {
     // 날짜 전처리 필요하다...
     console.log("날짜 전처리 시작합니다.")
     for (let i = 0; i < resp.data.length; i++) {
-      console.log(resp.data[i].regtime)
       const date = new Date(resp.data[i].regtime).toDateString()
       resp.data[i].regtime = date
     }
@@ -543,6 +542,28 @@ export function deleteArticle({ state, commit }, payload) {
     }
   }
   
+}
+
+export function createArticleComment({ state }, payload) {
+  const url = '/appealComment/create'
+  axios({
+    url: url,
+    method: "POST",
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+    data: {
+      articleNo: payload.comment.articleNo,
+      memberId: payload.comment.memberId,
+      content: payload.comment.content,
+    }
+  })
+  .then(resp => {
+    console.log(resp)
+  })
+  .catch(err => {
+    console.log(err)
+  })
 }
 
 
