@@ -34,7 +34,7 @@ export default ({
      data() {
         return {
             // for pagination
-            pageSize: 6, // 한 페이지에 나오는 게시물 수
+            pageSize: 4, // 한 페이지에 나오는 게시물 수
             currentPage: 1, // 현재 페이지(v-model 적용)
         }
     },
@@ -84,7 +84,7 @@ export default ({
 <style>
 .follow-view {
     width: 100%;
-    height: 300px;
+    height: 700px;
     background: #f0f2f5;
 }
 </style>

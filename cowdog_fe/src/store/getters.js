@@ -40,3 +40,6 @@ export function getRecomUser(state){
 export function getFollowUsers(state){
 	return state.followUsers
 }
+export function getUsersIFollowed(state){
+	return state.usersIFollowed
+}

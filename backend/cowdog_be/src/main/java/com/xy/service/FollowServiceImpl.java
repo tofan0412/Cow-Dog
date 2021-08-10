@@ -1,9 +1,10 @@
 package com.xy.service;
 
 import java.util.List;
-
+import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,18 +39,27 @@ public class FollowServiceImpl implements FollowService{
 		String jpql="select distinct f from Follow as f where f.follower_id=:id";
 		TypedQuery<Follow> query=em.createQuery(jpql,Follow.class);
 		query.setParameter("id", id);
-		
-		
-		
-		
-		
-		
-		
+
 		return query.getResultList();
 	}
 	
+	@Override
+	public List<Follow> amIFollowed(long id) {
+		String jpql="select distinct f from Follow as f where f.member_id=:id";
+		TypedQuery<Follow> query=em.createQuery(jpql, Follow.class);
+		query.setParameter("id", id);
+		return query.getResultList();
+	}
 	
-	
+	@Override
+	@Transactional
+	public int unFollow(long memberid, long followid) {
+		String jpql="delete from Follow m where m.member_id=:memberid and m.follower_id=:followid";
+		Query query = em.createQuery(jpql).setParameter("memberid", memberid).setParameter("followid", followid);
+		int rows = query.executeUpdate();
+		
+		return rows;
+	}
 	
 	
 	

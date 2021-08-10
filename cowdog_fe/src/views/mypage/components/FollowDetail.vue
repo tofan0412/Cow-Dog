@@ -8,7 +8,8 @@
                 (<span v-if="genderIcon"><i class="fas fa-mars"></i></span>
                 <span v-else><i class="fas fa-venus"></i></span>
                 , {{this.user.memberinfo.age}}세)</div>
-            <div class="like_btn" @click="like(this.user.memberid)"><i class="fas fa-heart"></i></div>
+            <div v-if="followedOrNot" class="like_btn" @click="unlike(this.user.id)"><i class="fas fa-heart"></i></div>    
+            <div v-else class="like_btn" @click="like(this.user.memberid)"><i class="far fa-heart"></i></div>    
         </div>
         <div class="result-card-body">
             <div class="body-content">주량: {{this.user.memberinfo.alcohol.replace('[','').replace(']','')}}</div>
@@ -16,7 +17,7 @@
             <div class="body-content">성격: {{this.user.memberinfo.personality.replace('[','').replace(']','')}}</div>
             <div class="body-content">취미: {{this.user.memberinfo.hobby.replace('[','').replace(']','')}}</div>
             <div class="body-content">사는곳: {{userRegion}}</div>
-            <div class="body-content">MBTI: {{this.user.memberinfo.mymbti}}km 이내에 있습니다.</div>
+            <div class="body-content">MBTI: {{this.user.memberinfo.mymbti}}</div>
         </div>
         <div class="card-footer">
             <div class="card-button">
@@ -29,7 +30,7 @@
 <script>
 import { reactive } from '@vue/reactivity'
 import router from '../../../router'
-import { useStore } from 'vuex'
+import { useStore, mapGetters } from 'vuex'
     export default {  
         name: 'FollowDetail.vue',
         props: {
@@ -47,7 +48,25 @@ import { useStore } from 'vuex'
                 } else {
                     return false
                 }
-            }
+            },
+            followedOrNot() {
+                var flag = false;
+                this.followed.forEach(element => {
+                    if(element.follower_id==this.user.id) {
+                        console.log("일치")
+                        flag = true
+                    }
+                });
+                if(flag) {
+                    return true
+                } else {
+                    return false
+                }
+            },
+            ...mapGetters({
+            followed: 'getUsersIFollowed'
+            })
+
         },
         setup() {
             const store = useStore()
@@ -55,15 +74,23 @@ import { useStore } from 'vuex'
             const back=function(){
                 router.push("/main")
             }
+
             const like=function(memberid){//팔로우~
                 console.log("팔로우~~")
                 console.log(memberid)
                 store.dispatch("like",memberid)
             }
-            return { state, back, like }
+            const unlike = function(memberid) {
+                console.log("언팔")
+                store.dispatch('unlike', memberid)
+            }
+            return { state, back, like, unlike }
         },
     }
 </script>
 
 <style>
+.like-btn {
+    color: #ff4e7e;
+}
 </style>

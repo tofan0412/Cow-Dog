@@ -830,17 +830,27 @@ export function getFollowUsers({state,commit}){
     .catch(err => {
       console.log(err)
     })  
-
-
-
-
 }
 
+export function AmIFollowed({ state, commit }) {
+  console.log("내가 누구를 팔로우 했는지 확인하기")
+  const url='/like/AmIFollowed/?id=' + state.userId
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+    .then(res => {
+      commit("AM_I_FOLLOWED", res.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
 
-
-
-
-export function like({state},payload){
+export function like({state, commit},payload){
   console.log(state.userId)
   console.log("팔로우 합니다~")
   console.log(payload)
@@ -857,10 +867,27 @@ export function like({state},payload){
     }
   })
     .then(res => {
-      console.log(res)
-      if(res.data.message=="SUCCESS"){
-        alert("팔로우 성공")
-      }
+      commit("AM_I_FOLLOWED", res.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+
+}
+export function unlike({state, commit},payload){
+  console.log(state.userId)
+  console.log("언팔로우 합니다~")
+  console.log(payload)
+  const url='/like/follow/' + state.userId + '/' + payload
+  axios({
+    url: url,
+    method: 'delete',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    }
+  })
+    .then(res => {
+      commit("AM_I_FOLLOWED", res.data)
     })
     .catch(err => {
       console.log(err)

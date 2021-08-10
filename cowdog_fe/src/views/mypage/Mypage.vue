@@ -1,5 +1,4 @@
 <template>
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
 <div class="mypage">
   <div class="upward">
     <div class="profile-img-box">
@@ -17,7 +16,7 @@
           33 followers
         </div>
         <div class="followings">
-          34 following
+          {{followed}}
         </div>
       </div>
       <div class="hashtag" style="display:flex">
@@ -62,6 +61,7 @@ import MyInfo from "./components/MyInfo.vue"
 import Follow from "./components/Follow.vue"
 import EachOther from "./components/Eachother.vue"
 import Setting from "./components/Setting.vue"
+import { mapGetters } from 'vuex'
 export default {
   name: 'Mypage',
   components: {
@@ -76,9 +76,15 @@ export default {
       activeName: 'myinfo'
     }
   },
+  computed: {
+    ...mapGetters({
+      followed: 'getUsersIFollowed'
+    })
+  },
   setup() {
     const store = useStore()
     const myinfo = store.state.myinfo
+    store.dispatch('AmIFollowed') // 내가 팔로우한 유저 usersIFollowed에 저장
 
     return { myinfo,
       getMyInfo:()=>{

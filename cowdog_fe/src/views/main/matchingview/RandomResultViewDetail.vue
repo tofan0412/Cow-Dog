@@ -109,11 +109,10 @@ line-height: 1.2em;
 .card-button {
     display: block;
 }
-.like-btn {
+.like_btn {
     color: #ff4e7e;
 }
-.like-btn:hover {
-    color: #323545;
+.like_btn:hover {
     cursor: pointer;
 }
 .card-matcing-btn{
