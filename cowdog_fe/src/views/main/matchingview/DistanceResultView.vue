@@ -1,25 +1,27 @@
 <template>
-    <div v-if="state.distanceUsers" class="random_user_view"  >
-        <el-row>
-            <el-col :span="8"  v-for="user in distanceUsersPaginated" :key="user.id" style="display: inline-table;">
-                <distance-result-view-detail :user="user" />
-            </el-col>
-        </el-row>
-    </div>
-    <div class="pagination" style="margin:0 auto; margin-top:10px">
-    <el-pagination
-    background
-    layout="prev, pager, next"
-    :page-size=pageSize
-    :total="distanceUsers.length"
-    v-model:current-page="currentPage">
-    </el-pagination>
-  </div>
-    <div v-if="state.distanceUsers[0]==null" class="no_user">
-        <h1 style="margin-top:20%">거리에 해당되는 사람이 없습니다!!!</h1>
-    </div>
-     <div>
-        <el-button class="back" @click="back">뒤로 가기</el-button>
+    <div class="result-view">
+        <div v-if="state.distanceUsers[0]==null" class="no_user">
+            <h1 style="margin-top:10%">거리에 해당되는 사람이 없습니다!!!</h1>
+        </div>
+        <div v-else>
+            <div class="random-cards-wrapper">
+                <div class="each-card" v-for="user in distanceUsersPaginated" :key="user.id">
+                    <distance-result-view-detail :user="user" />
+                </div>   
+            </div>
+            <div class="pagination" style="margin:0 auto; margin-top:10px">
+                <el-pagination
+                background
+                layout="prev, pager, next"
+                :page-size=pageSize
+                :total="distanceUsers.length"
+                v-model:current-page="currentPage">
+                </el-pagination>
+            </div>
+        </div>
+        <div>
+            <el-button class="back" @click="back">뒤로 가기</el-button>
+        </div>
     </div>
 </template>
 
@@ -74,25 +76,4 @@ export default {
 
 </script>
 <style>
-.random_user_view{
-    margin: 0 auto;
-}
-.back{
-    margin: 0 auto;
-    margin-top: 40px;
-}
-.el-card.is-always-shadow, .el-card.is-hover-shadow:focus, .el-card.is-hover-shadow:hover {
-    -webkit-box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
-    box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
-    margin: 0 auto;
-}
-
-.no_user{
-    width: 500px;
-    height: 650px;
-    margin: 0 auto;
-    background-color: rgb(196, 196, 196,15%);
-    border: 1px solid rgb(196, 196, 196,15%);
-    border-radius: 5%;
-}
 </style>
