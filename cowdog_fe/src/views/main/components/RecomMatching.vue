@@ -98,10 +98,12 @@ export default{
 }
 .recom_btn {
     width: 90%;
+    margin-left: 0 !important;
     margin-top: 20px;
     border: 2px solid #323545;
     color: #323545;
     background-color: white;
+    border-radius: 5px;
 }
 .recom_btn:hover
 {
