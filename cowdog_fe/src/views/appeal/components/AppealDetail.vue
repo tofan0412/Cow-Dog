@@ -102,6 +102,12 @@ export default {
         memberId: this.article.memberId,
         content: this.state.commentContent,
       }
+
+      // 빈칸인 경우 입력 방지
+      if ( this.state.commentContent === '') {
+        alert("내용을 입력해 주세요.")
+        return
+      }
       
       this.state.store.dispatch("createArticleComment", { comment: comment })
     },

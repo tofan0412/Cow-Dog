@@ -34,8 +34,6 @@ public class ArticleController {
     	for(int i=0; i<list.size(); i++) {
     		System.out.println(list.toString());
     	}
-    	
-    	
         return articleService.findAll();
     }
 

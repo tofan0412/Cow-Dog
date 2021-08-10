@@ -34,10 +34,4 @@ public class ArticleCommentController {
         }
     }
 
-    @GetMapping("")
-    public List<Article_Comments> findByArticleNo(@RequestParam("articleNo") Long articleNo) {
-
-    }
-
-
 }

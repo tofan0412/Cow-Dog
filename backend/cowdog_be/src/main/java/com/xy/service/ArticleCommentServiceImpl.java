@@ -20,7 +20,6 @@ public class ArticleCommentServiceImpl implements ArticleCommentService {
     @Autowired
     ArticleCommentRepository articleCommentRepository;
 
-
     @Override
     public Long create(Map map) {
         Article_Comments comment = new Article_Comments();
