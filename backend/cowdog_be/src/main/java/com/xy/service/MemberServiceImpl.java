@@ -119,8 +119,13 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public Member getMemberById(long id) {
-		return memRepo.getById(id);
 		
+		if(memRepo.existsById(id)) {
+			return memRepo.getById(id);
+		}
+		
+		
+		return null;
 	}
 
 	@Override

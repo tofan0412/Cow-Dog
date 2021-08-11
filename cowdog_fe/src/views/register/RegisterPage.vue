@@ -531,7 +531,7 @@ export default {
             files = this.$refs.imgfiles.files;
             this.url=files[0].name
             console.log(files);
-           
+
         },
          initMap() {
                 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 

@@ -42,7 +42,8 @@ public class Article {
 	private String title;
 	private String content;
 	private Timestamp regtime;
-	private String image;
+	private String file_path;
+	private String imgFullPath;
 	private double longitude;
 	private double distance;
 	private String address;

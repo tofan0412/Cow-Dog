@@ -13,6 +13,7 @@ import MyInfo from '../views/mypage/components/MyInfo.vue'
 import Eachother from '../views/mypage/components/Eachother.vue'
 import Follow from '../views/mypage/components/Follow.vue'
 import FollowDetail from '../views/mypage/components/FollowDetail.vue'
+import EachotherDetail from '../views/mypage/components/EachotherDetail.vue'
 import Setting from '../views/mypage/components/Setting.vue'
 import Update from '../views/mypage/components/Update.vue'
 import FindingPassword from '../views/findpassword/FindingPassword.vue'
@@ -121,6 +122,11 @@ const routes = [
         path:'/mypage/eachother',
         name:'Eachother',
         component:Eachother
+      },
+      {
+        path:'/mypage/eachotherDetail',
+        name:'EachotherDetail',
+        component:EachotherDetail
       },
       {
         path:'/mypage/follow',

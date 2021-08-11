@@ -19,9 +19,7 @@
     <div v-if="state.followUsers[0]===null" class="no_user">
         <h1 style="margin-top:20%">나를 팔로우 하는 사람이 없습니다!!!</h1>
     </div>
-     <div>
-        <el-button class="back" @click="back">뒤로 가기</el-button>
-    </div>
+    
 </template>
 
 <script>

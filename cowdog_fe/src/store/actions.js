@@ -373,7 +373,7 @@ export function checklogin({ state }) {
 }
 
 export function createArticle({ state, commit }, payload) {
-
+  console.log(payload)
   const url = "/appeal/create"
   axios({
     url: url,
@@ -426,6 +426,7 @@ export function getArticles({ state, commit }) {
     console.log("날짜 전처리 시작합니다.")
     for (let i = 0; i < resp.data.length; i++) {
       console.log(resp.data[i].regtime)
+      console.log(resp.data[i])
       const date = new Date(resp.data[i].regtime).toDateString()
       resp.data[i].regtime = date
     }
@@ -830,13 +831,32 @@ export function getFollowUsers({state,commit}){
     .catch(err => {
       console.log(err)
     })  
-
-
-
-
 }
 
+export function getFollowEachOther({state,commit}){
 
+  console.log(state.userId)
+  console.log("나랑 맞팔로우 한 사람 가져오기")
+  const url='/like/getFollowEachOther/?id='+state.userId
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+    .then(res => {
+      console.log(res)
+      if(res.data.message=="SUCCESS"){
+        console.log(res.data.list[0])
+        commit("SET_EACH_OTHER_FOLLOW_USER",res.data.list)
+      }
+      
+    })
+    .catch(err => {
+      console.log(err)
+    })  
+}
 
 
 
@@ -852,8 +872,8 @@ export function like({state},payload){
       Authorization:"Bearer "+state.accessToken
     },
     data: {
-     memberid:state.userId,//팔로우를 하는 사람
-     followid:payload//팔로우 당하는 사람
+     memberid:payload,//팔로우를 당하는 사람
+     followerid:state.userId//팔로우를 하는 사람
     }
   })
     .then(res => {
@@ -865,5 +885,38 @@ export function like({state},payload){
     .catch(err => {
       console.log(err)
     })
+
+}
+
+
+export function requestLiveMessage({state},payload){
+  console.log(state.userId)
+  console.log(payload)
+  
+  const url='/live/requestMessage'
+  axios({
+    url: url,
+    method: 'post',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+    data: {
+     from:state.userId,//라이브 채팅 요쳥 메시지를 보내는 사람
+     to:payload//라이브 채팅 요청 메시지를 받는 사람
+    }
+  })
+    .then(res => {
+      console.log(res)
+      if(res.data.message=="SUCCESS"){
+        alert("팔로우 성공")
+      }
+    })
+    .catch(err => {
+      console.log(err)
+    })
+
+
+
+
 
 }

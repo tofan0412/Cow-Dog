@@ -51,26 +51,20 @@
 
 
         <!-- 이미지 업로드 -->
-        <el-upload
-        class="upload-demo"
-        action=""
-        :on-preview="handlePreview"
-        :on-remove="handleRemove"
-        :file-list="fileList"
-        list-type="picture"
-        style="align: start;"
-        >
-        <el-button size="small" type="primary">Click to upload</el-button>
+        <div class="button-and-img-name">
+          <label class="img-upload-btn" for="imgfiles"><i class="fas fa-arrow-circle-up"></i>&nbsp;사진 업로드</label>
+          <input type="file" id="imgfiles" ref="imgfiles" v-on:change="handleFileUpload()" multiple style="display:none"/>
+          <div class="img-file-uploaded">{{ url }}</div>
+        </div>
         <!-- 하단에 표시할 작은 툴팁 메세지 -->
         <template #tip>
           <div class="el-upload__tip">
             jpg/png files with a size less than 500kb
           </div>
         </template>
-        </el-upload>
 
         <div style="margin-top: 20px;"></div>
-        <el-button default type="button" @click="create()">작성</el-button>
+        <el-button default type="button" @click="create">작성</el-button>
       </el-form>
     </el-col>
   </el-row>
@@ -79,13 +73,32 @@
 <script>
 import { useStore } from 'vuex'
 import { reactive, ref, onMounted } from 'vue'
-
+import axios from 'axios'
+let files=[]
 export default {
 name: 'AppealCreate',
+  data(){
+    return{
+      files:[],
+    }
+  },
+  methods:{
+    handleFileUpload() {
+              console.log(this.$refs.imgfiles.files)
+              files = this.$refs.imgfiles.files;
+              this.url=files[0].name
+              console.log(files);
+          },
+  },
 setup() {
   const articleForm = ref(null)
   const store = useStore()
   const state = reactive({
+    headerInfo: {
+        'Access-Control-Allow-Origin': '*',
+        Authorization:"Bearer "+store.getters.getUserToken,
+        ContentType: 'multipart/form-data'
+    },
     articleForm: {
       title: '',
       content: '',
@@ -102,45 +115,77 @@ setup() {
         { required: true, message: '내용을 입력하세요', trigger: 'blur' }
       ],
     },
-    // 업로드하는 이미지 리스트
-    fileList: [],
+    
     store: store,
   })
   onMounted(() => {
     store.dispatch("checklogin")
   })
+  const ImageUpload=function(){  
+        console.log("이미지 업로드~")
+        console.log(files)
+        console.log(files[0])
+        console.log(state.articleForm.member_id)
+        for (var i = 0; i < files.length; i++) {
+            let formData = new FormData();
+            formData.append('title', "profile");
+            formData.append('files', files[i]);
+            formData.append('userId',state.articleForm.writer)
+            axios.post('http://localhost:8080/cowdog/appeal/imageListImgaeUpload',
+            
+            formData, {
+                headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization:"Bearer "+store.getters.getUserToken
+                },
+            }
+            )  
+            .then(function() {
+            console.log('SUCCESS!!');
+            })
+            .catch(function() {
+                console.log('FAILURE!!');
+                    });
+            }
+    }
 
-  return {
-    state,
-    articleForm
-  }
-},
-methods: {
-  create() {
-    if (this.state.articleForm.title == '') {
+    const create=function(){
+      console.log("글 작성~")
+    if (state.articleForm.title == '') {
       alert("제목 입력")
       return
     }
-    if (this.state.articleForm.content == '') {
+    if (state.articleForm.content == '') {
       alert("내용 입력")
       return
     }
-    this.state.store.dispatch("createArticle", 
-        { title: this.state.articleForm.title, 
-        content: this.state.articleForm.content, 
-        member_id: this.state.articleForm.member_id ,
-        writer: this.state.articleForm.writer} )
-  },
-  // 파일 업로드 관련 메서드
-  handleRemove(file, fileList) {
-    console.log(file, fileList)
-    
 
-  },
-  handlePreview(file) {
-    this.state.fileList.push(file)
-  },
+    ImageUpload()
 
+    state.store.dispatch("createArticle", 
+        { title: state.articleForm.title, 
+        content: state.articleForm.content, 
+        member_id: state.articleForm.member_id ,
+        writer: state.articleForm.writer} )
+  
+    }
+    const handleRemove=function(file){
+        console.log(file)
+    }
+    const handlePreview=function(file){
+      console.log(file)
+      this.state.fileList.push(file)
+    }
+
+  return {
+    state,
+    articleForm,
+    ImageUpload,
+    create,
+    handleRemove,
+    handlePreview
+  }
 },
+
 }
 </script>

@@ -11,10 +11,9 @@
                     <span>취미: {{this.user.memberinfo.hobby.replace('[','').replace(']','')}}</span><br>
                     <span>사는곳: {{this.user.memberinfo.address}}</span><br>
                     <span>MBTI: {{this.user.memberinfo.mymbti}}</span><br>
-                    <div style="margin-top:50px;">
-                        <el-button  class="like_btn" @click="like"><i class="fas fa-heart" style="font-size:10px"></i></el-button>
-
-                    </div>
+                </div>
+                 <div style="margin-top:50px;">
+                        <el-button  class="like_btn"><i class="fas fa-heart" style="font-size:10px">여기에는 언파 버튼</i></el-button>
                 </div>
             </div>
         </el-card>
@@ -26,7 +25,7 @@ import { reactive } from '@vue/reactivity'
 import router from '../../../router'
 
 export default {  
-  name: 'FollowDetail.vue',
+  name: 'EachotherDetail.vue',
   props: {
       user: Object,
 },

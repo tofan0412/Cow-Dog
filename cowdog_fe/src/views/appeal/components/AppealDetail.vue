@@ -12,11 +12,19 @@
     <el-row justify="start">
       {{ this.article.regtime }}
     </el-row>
+    <el-row justify="start">
+      
+    </el-row>
   </el-header>
   
   <el-main style="margin-top: 30px;">
     <el-row justify="start" style="min-height: 150px;">
       {{ this.article.content }}
+    </el-row>
+    <el-row justify="start" style="min-height: 150px;">
+      <div style="width:100px; height:130px;">
+        <img class="profile" :src="this.article.file_path"><br>
+      </div>
     </el-row>
   </el-main>
 

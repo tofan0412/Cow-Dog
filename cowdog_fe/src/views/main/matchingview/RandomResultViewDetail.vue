@@ -11,8 +11,8 @@
                     <span>취미: {{this.user.memberinfo.hobby.replace('[','').replace(']','')}}</span><br>
                     <span>사는곳: {{this.user.memberinfo.address}}</span><br>
                     <div style="margin-top:50px;">
-                        <el-button  class="random-matcing-btn"><i class="fas fa-video" style="font-size:20px"></i>  화상챗 요청</el-button>
-                        <el-button  class="like_btn"><i class="fas fa-heart" style="font-size:20px"></i></el-button>
+                        <el-button  class="random-matcing-btn" @click="requestLiveMessage(this.user.memberid)"><i class="fas fa-video" style="font-size:20px"></i>  화상챗 요청</el-button>
+                        <el-button  class="like_btn" @click="like(this.user.memberid)"><i class="fas fa-heart" style="font-size:20px"></i></el-button>
 
                     </div>
                 </div>
@@ -24,22 +24,34 @@
 <script>
 import { reactive } from '@vue/reactivity'
 import router from '../../../router'
+import { useStore } from 'vuex'
 
 export default {  
   name: 'RandomResultViewDetail.vue',
   props: {
       user: Object,
-},
+    },
   setup() {
+    const store=useStore()
     const state = reactive({
       
     })
     const back=function(){
         router.push("/main")
     }
+    const requestLiveMessage=function(memberid){
+        console.log(store.getters.getUserInfo.memberid)
+        console.log(memberid)
+        store.dispatch("requestLiveMessage",{from:store.getters.getUserInfo.memberid,to:memberid})
+    }
+    const like=function(memberid){//팔로우~
+        console.log("팔로우~~")
+        console.log(memberid)
+        store.dispatch("like",memberid)//팔로우를 당하는 사람
+    }
     
     return {
-      state,back
+      state,back,requestLiveMessage,like
     }
   },
   methods: {},

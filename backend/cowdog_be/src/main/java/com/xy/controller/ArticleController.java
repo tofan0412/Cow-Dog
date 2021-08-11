@@ -1,8 +1,12 @@
 package com.xy.controller;
 
+import com.xy.S3.S3SServiceImpl;
 import com.xy.common.response.BaseResponseBody;
 import com.xy.entity.Article;
+import com.xy.entity.Image;
 import com.xy.service.ArticleService;
+import com.xy.service.ImageService;
+
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -12,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,7 +29,10 @@ public class ArticleController {
 
     @Autowired
     ArticleService articleService;
-
+    @Autowired
+	S3SServiceImpl s3sSer;
+    @Autowired
+	ImageService imgaeSer;
     /**
      * 게시글 조회
      * @return 모든 게시글
@@ -39,7 +48,28 @@ public class ArticleController {
         return articleService.findAll();
     }
 
-
+    @PostMapping(value="/ImgaeUpload", headers = ("content-type=multipart/*"))
+	public void execWrite(Image files) throws IOException {
+		System.out.println("여기는 이미지 업로드");
+		System.out.println(files.toString());
+	  }
+    
+    
+    @PostMapping("/imageListImgaeUpload")
+	public void execWrite(Image image, MultipartFile files,String userId) throws IOException {
+		System.out.println("여기는 게시판 이미지 업로드");
+		System.out.println(image.toString());
+	    System.out.println(files);
+	    System.out.println(userId);
+	    // for (int i = 0; i < files.length; i++) {
+	    String imgPath = s3sSer.upload(image.getFile_path(), files);
+	    image.setFile_path("https://" + "d2ukkf315368dk.cloudfront.net" + "/" + imgPath);
+	    // }
+	    imgaeSer.ArticleImageUpload(image, userId);
+	  }
+     
+    
+    
     @PostMapping("/create")
     @Transactional // 트랜잭션 설정
     public ResponseEntity<? extends BaseResponseBody> create(@RequestBody HashMap<String, Object> map) {
@@ -47,6 +77,7 @@ public class ArticleController {
         // 작성된 게시글 번호 또는 0L을 반환한다.
         Long result = articleService.create(map);
 
+        
         if ( result != 0L) {
             // 성공 시 작성된 게시글 번호를 반환
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, Long.toString(result)));

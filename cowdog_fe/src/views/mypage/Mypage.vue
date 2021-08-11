@@ -48,7 +48,7 @@
   <div>
     <el-tabs v-model="activeName">
       <el-tab-pane label="상세정보" name="myinfo"><MyInfo /></el-tab-pane>
-      <el-tab-pane label="팔로우" name="follow"><Follow /></el-tab-pane>
+      <el-tab-pane label="팔로워" name="follow"><Follow /></el-tab-pane>
       <el-tab-pane label="맞팔로우" name="eachother"><EachOther /></el-tab-pane>
       <el-tab-pane label="계정설정" name="account-setting"><Setting /></el-tab-pane>
     </el-tabs>

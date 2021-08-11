@@ -87,5 +87,13 @@ public class ArticleServiceImpl implements ArticleService {
         }
     }
 
+	@Override
+	public Article getArticle(String writer) {
+		
+		
+		
+		return articleRepository.findArticleByWriter(writer);
+	}
+
 
 }
