@@ -13,11 +13,15 @@
       </div>
       <div class="follow" style="display:flex">
         <div class="followers">
-          {{followers.length}} followers
+          팔로워 {{followers.length}}
         </div>
         <div class="followings">
-          {{followings.length}} followings
+          팔로잉 {{followings.length}}
         </div>
+        <div class="follow-each-other">
+          맞팔 {{eachOtherFollowUsers.length}}
+        </div>
+
       </div>
       <div class="hashtag" style="display:flex">
         <div class="personality-item">
@@ -47,7 +51,7 @@
   <div>
     <el-tabs v-model="activeName">
       <el-tab-pane label="상세정보" name="myinfo"><my-info /></el-tab-pane>
-      <el-tab-pane label="팔로우" name="follow"><follow /></el-tab-pane>
+      <el-tab-pane label="팔로워" name="follow"><follow /></el-tab-pane>
       <el-tab-pane label="맞팔로우" name="eachother"><each-other /></el-tab-pane>
       <el-tab-pane label="계정설정" name="account-setting"><setting /></el-tab-pane>
     </el-tabs>
@@ -79,8 +83,8 @@ export default {
   computed: {
     ...mapGetters({
       followings: 'getUsersIFollowed', // 내가 팔로우하는 사람들
-      followers: 'getFollowUsers' // 나를 팔로우하는 사람들
-
+      followers: 'getFollowUsers', // 나를 팔로우하는 사람들
+      eachOtherFollowUsers: 'getEachOtherFollowUsers' // 맞팔한 사람들
     })
   },
   setup() {
@@ -139,11 +143,15 @@ export default {
   font-size: 1.2rem;
 }
 .profile-info .followers {
-  margin: 0 1rem;
+  margin: 0 0.5rem 0 1rem;
   font-weight: bold;
 }
 .profile-info .followings {
-  margin: 0 1rem;
+  margin: 0 0.5rem;
+  font-weight: bold;
+}
+.profile-info .follow-each-other {
+  margin: 0 0.5rem;
   font-weight: bold;
 }
 .hashtag {

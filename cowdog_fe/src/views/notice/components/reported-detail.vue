@@ -1,5 +1,5 @@
 <template>
-  <el-button type="text" @click="dialogVisible = true">자세히</el-button>
+  <el-button class="admin-component-detail" type="text" @click="dialogVisible = true">자세히</el-button>
   <el-dialog
     class="reported-dialog"
     title="상세보기"
@@ -72,6 +72,10 @@
 </script>
 
 <style>
+.admin-component-detail {
+  color: #323545;
+  font-weight: bold;
+}
 .el-dialog {
   text-align: left;
   border-radius: 10px;

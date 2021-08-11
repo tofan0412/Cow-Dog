@@ -1,6 +1,6 @@
 <template>
 <div>
-  <el-button type="text" @click="dialogVisible = true">자세히</el-button>
+  <el-button class="admin-component-detail" type="text" @click="dialogVisible = true">자세히</el-button>
   <el-dialog
     class="notice-detail"
     title="상세보기"
@@ -85,6 +85,10 @@ import router from '../../../router'
 </script>
 
 <style scoped>
+.admin-component-detail {
+  color: #323545;
+  font-weight: bold;
+}
 .el-dialog {
   text-align: left;
   border-radius: 10px;
@@ -131,5 +135,15 @@ img {
 
 .dialog-footer {
   justify-content: flex-end;
+}
+.dialog-footer .el-button {
+  color: #323545;
+  font-weight: bold;
+  border: 1px solid #323545;
+}
+.dialog-footer .el-button:hover {
+  color: #ff4e7e;
+  font-weight: bold;
+  border: 1px solid #ff4e7e;
 }
 </style>

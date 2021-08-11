@@ -31,6 +31,7 @@ import AppealCreate from '../views/appeal/components/AppealCreate'
 import AppealDetail from '../views/appeal/components/AppealDetail'
 import AppealList from '../views/appeal/components/AppealList'
 import AppealUpdate from '../views/appeal/components/AppealUpdate'
+import store from '../store/index'
 
 const routes = [
   
@@ -156,6 +157,7 @@ const routes = [
     path: '/admin',
     name: 'Admin',
     component: Admin,
+    meta: { manager: false },
     children: [
         {
           path: '/admin/notice',
@@ -214,5 +216,14 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.manager && !store.getters.getUserInfo.manager) {
+    alert('관리자만 접근이 가능합니다.');
+    next('/main');
+    return;
+  }
+  next();
+});
 
 export default router

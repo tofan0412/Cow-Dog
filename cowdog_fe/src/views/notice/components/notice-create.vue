@@ -16,7 +16,7 @@
     <h3>이미지 첨부 옵션(추가)</h3>
   </div>
   <el-form-item>
-    <el-button type="primary" @click="submitForm('ruleForm')">작성</el-button>
+    <el-button @click="submitForm('ruleForm')">작성</el-button>
   </el-form-item>
 </el-form>
 </template>
@@ -58,17 +58,9 @@
 </script>
 
 <style scoped>
-
 .el-button {
-  border-color: #323545;
-  color: #323545;
+  width: 10%;
 }
-
-.el-button:hover {
-  border-color: #ff4e7e;
-  color: #ff4e7e;
-}
-
 .el-button:focus {
   background: #ffffff;
   border-color: #ff4e7e;

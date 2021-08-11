@@ -100,6 +100,15 @@ export default {
     justify-content: space-between;
     align-items: baseline;
   }
+  .batch .el-button {
+    color: #323545;
+    font-weight: bold;
+    border: 2px solid #323545;
+  }
+  .batch .el-button:hover {
+    color: #FF4E7E;
+    border: 2px solid #FF4E7E;
+  }
   .notice-list {
     width: 60vw;
   }
@@ -142,5 +151,24 @@ export default {
   .card-footer {
     text-align: right;
   }
+  .el-button:hover {
+    color: #FF4E7E;
+  }
 
+  .el-button--primary {
+    color: #323545;
+    font-weight: bold;
+  }
+  .el-button--primary:hover {
+    color: #ff4e7e;
+    border: 1px solid #ff4e7e;
+  }
+  .el-button--default {
+    color: #323545;
+    font-weight: bold;
+  }
+  .el-button--default:hover {
+    color: #ff4e7e;
+    border: 1px solid #ff4e7e;
+  }
 </style>
