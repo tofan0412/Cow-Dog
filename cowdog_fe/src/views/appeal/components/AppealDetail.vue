@@ -1,31 +1,65 @@
 <template>
   <el-container class="el-container" direction="vertical">
-    <el-header class="el-header">
-      <!-- 작성자 정보 -->
-      <el-row>
-        <el-col>
-          <img class="profile" :src="myinfo.file_path"> {{ this.article.writer }}
-        </el-col>
-      </el-row>
+
+    <!-- 작성자 정보 -->
+    <el-row justify="start" align="middle">
+      <!-- 사용자가 등록한 이미지가 존재하는 경우 -->
+      <el-col :span="2" v-if="state.file_path !== null" style="align: center;">
+        <img 
+        class="profile"
+        :src="state.file_path"
+        style=
+        "
+        position: relative;
+        top: 8px;
+        border-radius: 70%;
+        margin: 5px;"
+        >&nbsp;
+      </el-col>
       
-      <!-- 게시글 제목 -->
-      <el-row>
-        <el-col>
-          <h3><strong>{{ this.article.title }}</strong></h3>
-        </el-col>
-      </el-row>
-      <!-- 작성일 정보 -->
-      <el-row>
-        <el-col style="font-size: 12px; color: grey">
-          {{ this.article.regtime }}
-        </el-col>
-      </el-row>
-      <el-divider/>
-    </el-header>
+      <!-- 사용자가 등록한 이미지가 존재하지 않는 경우 -->
+      <el-col :span="2" v-if="state.file_path === null" style="align: center;">
+        <img 
+        class="profile"  
+        :src="require('@/assets/images/defaultProfile.png')"
+        style=
+        "
+        position: relative;
+        top: 8px;
+        align: center;
+        border-radius: 70%;
+        margin: 5px;"
+        >&nbsp;
+      </el-col>
+
+      <el-col :span="4">
+        <span>{{ this.article.writer }}</span>
+      </el-col>
+      <el-col :span="18" style="text-align: end;">
+        <i class="el-icon-user" style="font-size: 25px; margin-right: 10px;"></i>
+      </el-col>
+      
+    </el-row>
+    
+    <!-- 게시글 제목 -->
+    <div class="header">
+    <el-row>
+      <el-col style="text-align: start;">
+        <h3><strong>{{ this.article.title }}</strong></h3>
+      </el-col>
+    </el-row>
+    <!-- 작성일 정보 -->
+    <el-row> 
+      <el-col style="text-align: start; font-size: 12px; color: grey">
+        {{ this.article.regtime }}
+      </el-col>
+    </el-row>
+    </div>
+
     
 
     <!-- 본문 내용 -->
-    <el-main class="el-main" style="margin-top:30px;">
+    <el-main class="el-main">
       <el-row justify="end" v-if="this.state.loginId === this.article.memberId">
         <!-- Button Group -->
         <el-button size="mini" round @click="updateArticlePage(this.article)"><i class="el-icon-edit">수정</i></el-button>
@@ -67,7 +101,7 @@
       <div v-if="!state.default">
         <el-row v-for="(comment, index) in state.comments" :key="index" justify="space-between">
           <el-col :span="22" v-if="index < 3" style="text-align: start;">
-            <strong>{{ comment.id }}</strong> {{ comment.content }} <span style="color: grey; font-size: 13px;">-{{ comment.regtime }}</span>
+            <strong>{{ comment.id }}</strong> {{ comment.content }} <span style="color: grey; font-size: 12px;">-{{ comment.regtime }}</span>
           </el-col>
           <el-col :span="2" v-if="index < 3">
             <!-- 내가 작성한 댓글에 대해서만 삭제 가능하다. -->
@@ -99,7 +133,7 @@
       <el-divider/>
       <el-row align="middle">
         <el-col :span="22">
-          <el-input size="mini" class="elinput" v-model="state.commentContent" placeholder="댓글 달기..." />
+          <el-input size="mini" class="elinput" v-model="state.commentContent" placeholder="댓글 달기..." @keyup.enter="createComment()"/>
         </el-col>
         <el-col :span="2">
           <p id="commentCreateBtn" @click="createComment()" style="cursor: pointer;">게시</p>
@@ -125,7 +159,7 @@ export default {
       store: store,
       loginId: store.getters.getUserId,
       articleNo: props.article.articleNo,
-      userInfo: [],
+      file_path: '',
       commentContent: '',
       comments: [],
       default: false,
@@ -153,9 +187,15 @@ export default {
       console.log(err)
     })
 
-    // 게시글 마다 회원 정보를 조회한다.
-
-
+    // 게시글 마다 회원 정보를 조회한다. 회원이 등록한 이미지 정보를 출력하기 위해!
+    state.store.dispatch("getUserInfo", { userId : props.article.memberId })
+    .then(resp => {
+      // 회원이 등록한 프로필 이미지 정보를 불러온다.
+      state.file_path = resp.data.file_path
+    })
+    .catch(err => {
+      console.log(err)
+    })
     return {
       state
     }
@@ -233,12 +273,15 @@ export default {
   border-radius: 0.45rem;
   height: auto;
 }
-.el-header > *{
-  margin: 5px;
-  text-align: start;
+.header{
+  padding: 15px;
+  padding-top: 0px;
+} 
+.el-main{
+  padding: 15px;
 }
+
 .el-main > *{
-  margin: 5px;
   margin-top: 7px;
 }
 #commentCreateBtn{

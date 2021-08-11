@@ -35,14 +35,13 @@ public class Article {
 	private Long memberId;
 
 	@JsonManagedReference
-	@OneToMany(mappedBy = "articleno", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "articleno", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Article_Comments> comments;// 이 게시물에 댓글들
 	
 	private String title;
 	private String content;
 	private Timestamp regtime;
 	private String image;
-	private double longitude;
 	private double distance;
 	private String address;
 	private String tags;

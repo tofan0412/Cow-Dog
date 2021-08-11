@@ -20,6 +20,19 @@ export function getMyInfo({state,commit}){
   })
 }
 
+export function getUserInfo({ state }, payload) {
+  console.log("게시글 작성자 정보를 조회합니다. : {" + payload.userId + "}")
+  const url = "/mem/mypage?userId=" + payload.userId
+  return axios({
+    url: url,
+    method: "GET",
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    }
+  })
+  
+}
+
 export function setUserInfo({state, commit}) {
   // console.log("로그인 성공! 유저 정보를 vuex store에 저장합니다..")
   axios.get("/mem/mypage/?userId="+state.userId,{
