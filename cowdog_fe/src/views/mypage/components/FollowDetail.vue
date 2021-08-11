@@ -79,6 +79,8 @@ import { useStore, mapGetters } from 'vuex'
                 console.log("팔로우~~")
                 console.log(memberid)
                 store.dispatch("like",memberid)
+                store.dispatch("getFollowEachOther")
+                store.dispatch("getFollowUsers")
             }
             const unlike = function(memberid) {
                 console.log("언팔")

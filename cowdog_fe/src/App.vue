@@ -54,6 +54,9 @@ export default ({
       },
       getMyInfo:()=>{
         store.dispatch('getMyInfo')
+        store.dispatch('getFollowEachOther')
+        store.dispatch("getFollowUsers")
+        console.log("실행 완료입니다")
       },
       GetFollowUsers:()=>{
           store.dispatch("getFollowUsers")

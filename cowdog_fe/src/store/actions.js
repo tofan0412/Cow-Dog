@@ -903,7 +903,7 @@ export function like({state, commit},payload){
 
 
 
-export function unlike({state, commit},payload){
+export function unlike({state, commit},payload){//payload -> 카드에 있는 사람 아이디 내가 언팔 하고 싶은 사림
   console.log(state.userId)
   console.log("언팔로우 합니다~")
   console.log(payload)

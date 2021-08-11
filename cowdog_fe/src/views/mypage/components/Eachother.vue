@@ -1,6 +1,5 @@
 <template>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
-    <div v-if="state.eachOtherFollowUsers" class="random_user_view"  >
+    <div v-if="state.eachOtherFollowUsers" class="followview"  >
         <el-row>
             <el-col :span="8"  v-for="user in eachOtherFollowUsersPaginated" :key="user.id" style="display: inline-table;">
                 <eachother-detail :user="user" />
