@@ -13,10 +13,10 @@
       </div>
       <div class="follow" style="display:flex">
         <div class="followers">
-          33 followers
+          {{followers.length}} followers
         </div>
         <div class="followings">
-          {{followed}}
+          {{followings.length}} followings
         </div>
       </div>
       <div class="hashtag" style="display:flex">
@@ -78,7 +78,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      followed: 'getUsersIFollowed'
+      followings: 'getUsersIFollowed',
+      followers: 'getFollowUsers'
+
     })
   },
   setup() {
