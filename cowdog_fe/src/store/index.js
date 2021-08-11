@@ -18,6 +18,7 @@ const state = {
   recomUsers:[],
   followUsers:[],
   eachOtherFollowUsers:[],
+  usersIFollowed: [],
 }
 
 const root = createStore({

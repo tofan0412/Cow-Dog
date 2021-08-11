@@ -859,8 +859,25 @@ export function getFollowEachOther({state,commit}){
 }
 
 
+export function AmIFollowed({ state, commit }) {
+  console.log("내가 누구를 팔로우 했는지 확인하기")
+  const url='/like/AmIFollowed/?id=' + state.userId
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+    .then(res => {
+      commit("AM_I_FOLLOWED", res.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
 
-export function like({state},payload){
+export function like({state, commit},payload){
   console.log(state.userId)
   console.log("팔로우 합니다~")
   console.log(payload)
@@ -877,40 +894,29 @@ export function like({state},payload){
     }
   })
     .then(res => {
-      console.log(res)
-      if(res.data.message=="SUCCESS"){
-        alert("팔로우 성공")
-        router.push('/mypage/follow')
-      }
+      commit("AM_I_FOLLOWED", res.data)
     })
     .catch(err => {
       console.log(err)
     })
-
 }
 
 
-export function requestLiveMessage({state},payload){
+
+export function unlike({state, commit},payload){
   console.log(state.userId)
+  console.log("언팔로우 합니다~")
   console.log(payload)
-  
-  const url='/live/requestMessage'
+  const url='/like/follow/' + payload + '/' + state.userId
   axios({
     url: url,
-    method: 'post',
+    method: 'delete',
     headers:{
       Authorization:"Bearer "+state.accessToken
-    },
-    data: {
-     from:state.userId,//라이브 채팅 요쳥 메시지를 보내는 사람
-     to:payload//라이브 채팅 요청 메시지를 받는 사람
     }
   })
     .then(res => {
-      console.log(res)
-      if(res.data.message=="SUCCESS"){
-        alert("팔로우 성공")
-      }
+      commit("AM_I_FOLLOWED", res.data)
     })
     .catch(err => {
       console.log(err)

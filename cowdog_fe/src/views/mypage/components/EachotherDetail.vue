@@ -13,7 +13,7 @@
                     <span>MBTI: {{this.user.memberinfo.mymbti}}</span><br>
                 </div>
                  <div style="margin-top:50px;">
-                        <el-button  class="like_btn"><i class="fas fa-heart" style="font-size:10px">여기에는 언파 버튼</i></el-button>
+                        <el-button  class="like_btn"><i class="fas fa-heart" style="font-size:10px">여기에는 언팔 버튼</i></el-button>
                 </div>
             </div>
         </el-card>
@@ -59,16 +59,7 @@ export default {
     border-color: #FF427E;
     width: 50%;
 }
-.like_btn{
-    border-radius:50%;
-    color:#FF427E ;
-    border-color: #FF427E;
-    width: 100px;
-}
-.like_btn:hover{
-     color:white ;
-    background-color: #FF427E;
-}
+
 .random-matcing-btn:hover{
   color:white ;
     background-color: #FF427E;

@@ -43,3 +43,6 @@ export function getFollowUsers(state){
 export function getEachOtherFollowUsers(state){
 	return state.eachOtherFollowUsers
 }
+export function getUsersIFollowed(state){
+	return state.usersIFollowed
+}

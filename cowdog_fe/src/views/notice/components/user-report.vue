@@ -83,43 +83,14 @@ export default {
 </script>
 
 <style scoped>
-  .title {
-    text-align: left;
-    margin-left: 10px;
-  }
-
-  .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-  }
-
-  .text {
-    font-size: 14px;
-  }
-
-  .item {
-    margin-bottom: 18px;
-  }
-
-  .container {
-    width: 60vw;
-  }
-
-  .batch {
-    justify-content: space-between;
-    align-items: baseline;
-  }
   .reportedUser-list {
     width: 80vw;
   }
 
-  .box-card {
-    width: 100%;
-  }
-
-  .el-card {
+  .reportedUser-list .el-card {
     margin: 10px;
+    width: 100%;
+    height: 20%;
   }
 
   .el-pagination.is-background .el-pager li:not(.disabled).active {
@@ -131,22 +102,6 @@ export default {
     width: 80vw;
   }
 
-  .card-body {
-    /* 글자 수 제한을 넘어가면 ... 처리, 좌측 정렬 /
-    / https://junistory.blogspot.com/2017/06/css-ellipsis.html 참조 */
-    text-align: left;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    word-wrap:break-word;
-    height: 16px;
-  }
-
-  .card-footer {
-    text-align: right;
-  }
 
   .button {
     color: #323545;

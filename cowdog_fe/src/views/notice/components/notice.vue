@@ -56,7 +56,7 @@ export default {
   methods: {
     moveToNoticeCreate() {
       router.push('/admin/noticeCreate')
-    }
+    },
   },
 
   computed: {
@@ -108,8 +108,12 @@ export default {
     width: 100%;
   }
 
-  .el-card {
-    margin: 10px;
+  .notice-list .el-card {
+    width: 100%;
+    height: 30%;
+  }
+  .notice-list .el-card.is-always-shadow {
+    margin: 10px auto;
   }
 
   .el-pagination.is-background .el-pager li:not(.disabled).active {
@@ -132,43 +136,11 @@ export default {
     -webkit-box-orient: vertical;
     word-wrap:break-word;
     line-height: 1.2em;
-    height: 3.6em;
+    height: 3.6.em;
   }
 
   .card-footer {
     text-align: right;
-  }
-
-  .button {
-    color: #323545;
-    font-weight: bold;
-  }
-
-  .button:hover {
-    color: #FF4E7E;
-  }
-
-  .create {
-    color: #323545;
-    font-weight: bold;
-  }
-  .create:hover {
-    background-color: #FFFFFF;
-    border-color: #FF4E7E;
-    color: #FF4E7E;
-  }
-
-  .el-button {
-    color: #323545;
-    font-weight: bold;
-  }
-
-  .el-button:hover {
-    color: #FF4E7E;
-  }
-  
-  .el-button:focus {
-    color: #FF4E7E;
   }
 
 </style>

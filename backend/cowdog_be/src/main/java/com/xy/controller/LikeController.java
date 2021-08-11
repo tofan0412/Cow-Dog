@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +22,7 @@ import com.xy.repository.MemberRepository;
 import com.xy.service.FollowService;
 import com.xy.service.FollowServiceImpl;
 import com.xy.service.MemberService;
+import com.amazonaws.services.datapipeline.model.Query;
 import com.xy.api.response.DistanceMatchingUserGetRes;
 import com.xy.api.response.MemberListGetRes;
 import com.xy.common.response.BaseResponseBody;
@@ -35,9 +40,14 @@ public class LikeController {
 	@Autowired
 	FollowServiceImpl followSer;
 	
+	@GetMapping("/AmIFollowed")
+	public List<Follow> AmIFollowed(@RequestParam("id") long id) {
+		System.out.println("내가 누구를 팔로우 했지?");
+		return followSer.amIFollowed(id);
+	}
 	
 	@PostMapping("/follow")
-	public ResponseEntity<? extends BaseResponseBody> Follow(@RequestBody Map<String, String> map) {
+	public List<Follow> Follow(@RequestBody Map<String, String> map) {
 		
 		System.out.println(map.toString());
 		
@@ -48,10 +58,9 @@ public class LikeController {
 		follow.setFollower_id(From);
 		if(followSer.save(follow)!=null) {
 			
-			return ResponseEntity.ok(BaseResponseBody.of(200, "SUCCESS"));
+			return AmIFollowed(From);
 		}
-		return ResponseEntity.ok(BaseResponseBody.of(200, "FAIL"));
-		
+		return AmIFollowed(From);
 	}
 	
 	
@@ -99,6 +108,11 @@ public class LikeController {
 
 	}
 	
+	@DeleteMapping("/follow/{member_id}/{follow_id}")//member_id ->카드에 있는 사람,, follow_id -> 로그인 한 사람
+	public List<Follow> Unfollow(@PathVariable("member_id") long memberid, @PathVariable("follow_id") long followid) {
+		System.out.println("삭제 시작합니다?");
+		followSer.unFollow(memberid, followid);
+		return followSer.amIFollowed(followid);
+	}
 	
-
 }

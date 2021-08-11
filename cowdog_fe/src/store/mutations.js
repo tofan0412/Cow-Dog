@@ -6,7 +6,7 @@ export const GET_NOTICES = (state, noticeDatas) => {
 }
 export const GET_MYINFO = (state, myinfoData) => {
     state.myinfo = myinfoData
-    router.push('/mypage') // Admin 클릭 => notices가 로드되고 난 후에 notice 페이지로 push
+    router.push('/mypage')
 }
 export const GET_REPORTED_USERS = (state, reportedUserDatas) => {
     state.reportedUsers = reportedUserDatas
@@ -73,4 +73,7 @@ export const SET_EACH_OTHER_FOLLOW_USER=(state,eachOtherFollowUsers)=>{
     console.log(eachOtherFollowUsers)
     state.eachOtherFollowUsers=eachOtherFollowUsers;
     console.log(state.eachOtherFollowUsers)
+}
+export const AM_I_FOLLOWED = (state, usersIFollowed) => {
+    state.usersIFollowed = usersIFollowed;
 }

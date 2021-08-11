@@ -2,7 +2,7 @@ package com.xy.service;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -153,5 +153,32 @@ public class FollowServiceImpl implements FollowService {
 
 		return resultList;
 	}
+
+	
+	@Override
+	public List<Follow> amIFollowed(long id) {
+		System.out.println("팔로우 하는 사"+id);
+		String jpql="select distinct f from Follow as f where f.follower_id=:id";
+		TypedQuery<Follow> query=em.createQuery(jpql, Follow.class);
+		query.setParameter("id", id);
+		System.out.println("내가 팔로우 하는 사람들:   "+query.getResultList().toString());
+		return query.getResultList();
+	}
+	
+	@Override
+	@Transactional
+	public int unFollow(long memberid, long followid) {
+		System.out.println("로그인 한 사람:   "+followid);
+		System.out.println("언팔을 당하는 사람:   "+memberid);
+		//followid : 로그인 한 사람,  memberid: 언팔을 당하는 사람
+		String jpql="delete from Follow m where m.member_id=:memberid and m.follower_id=:followid";
+		Query query = em.createQuery(jpql).setParameter("memberid", memberid).setParameter("followid", followid);
+		int rows = query.executeUpdate();
+		return rows;
+	}
+	
+	
+	
+	
 
 }

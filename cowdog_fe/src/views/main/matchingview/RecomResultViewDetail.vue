@@ -1,41 +1,76 @@
 <template>
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
-        <el-card :body-style="{ padding: '0px', margin:'5px' }">
+    <div class="result-card">
+        <div class="result-card-img">
             <img :src="this.user.file_path" class="profiile_image">
-            <div style="padding: 14px;">
-                <h2>{{this.user.memberid}},  {{this.user.memberinfo.age}},  {{this.user.memberinfo.gender}}</h2>
-                <div class="bottom clearfix">
-                    <span>주량: {{this.user.memberinfo.alcohol.replace('[','').replace(']','')}}</span><br>
-                    <span>종교: {{this.user.memberinfo.religion.replace('[','').replace(']','')}}</span><br>
-                    <span>성격: {{this.user.memberinfo.personality.replace('[','').replace(']','')}}</span><br>
-                    <span>취미: {{this.user.memberinfo.hobby.replace('[','').replace(']','')}}</span><br>
-                    <span>사는곳: {{this.user.memberinfo.address}}</span><br>
-                    <span>MBTI: {{this.user.memberinfo.mymbti}}</span><br>
-                    <div style="margin-top:50px;">
-                        <el-button  class="random-matcing-btn" @click="liveOn"><i class="fas fa-video" style="font-size:20px"></i>  화상챗 요청</el-button>
-                        <el-button  class="like_btn" @click="like(this.user.memberid)"><i class="fas fa-heart" style="font-size:10px"></i></el-button>
-
-                    </div>
-                </div>
+        </div>
+        <div class="result-card-main-info">
+            <div>{{this.user.memberid}}
+                (<span v-if="genderIcon"><i class="fas fa-mars"></i></span>
+                <span v-else><i class="fas fa-venus"></i></span>
+                , {{this.user.memberinfo.age}}세)</div>
+            <div v-if="followedOrNot" class="like_btn" @click="unlike(this.user.id)"><i class="fas fa-heart"></i></div>
+            <div v-else class="like_btn" @click="like(this.user.memberid)"><i class="far fa-heart"></i></div>
+        </div>
+        <div class="result-card-body">
+            <div class="body-content">주량: {{this.user.memberinfo.alcohol.replace('[','').replace(']','')}}</div>
+            <div class="body-content">종교: {{this.user.memberinfo.religion.replace('[','').replace(']','')}}</div>
+            <div class="body-content">성격: {{this.user.memberinfo.personality.replace('[','').replace(']','')}}</div>
+            <div class="body-content">취미: {{this.user.memberinfo.hobby.replace('[','').replace(']','')}}</div>
+            <div class="body-content">사는곳: {{userRegion}}</div>
+            <div class="body-content">MBTI: {{this.user.memberinfo.mymbti}}</div>
+        </div>
+        <div class="card-footer">
+            <div class="card-button">
+                <div class="card-matcing-btn"><i class="fas fa-video"></i> 화상챗 요청</div>
             </div>
-        </el-card>
-     
+        </div>
+    </div>
 </template>
+
 
 <script>
 import { reactive } from '@vue/reactivity'
 import router from '../../../router'
-import { useStore } from 'vuex'
-
-export default {  
+import { useStore, mapGetters } from 'vuex'
+export default {
   name: 'RecomResultViewDetail.vue',
   props: {
       user: Object,
-},
+  },
+  computed: {
+    userRegion() {
+        var userRegionSplit = this.user.memberinfo.address.split(' ')
+        var userRegion = userRegionSplit[0] + ' ' + userRegionSplit[1]
+        return userRegion
+    },
+    genderIcon() {
+        if(this.user.memberinfo.gender == "남자"){
+            return true
+        } else {
+            return false
+        }
+    },
+    followedOrNot() {
+        var flag = false;
+        this.followed.forEach(element => {
+            if(element.member_id==this.user.id) {
+                console.log("일치")
+                flag = true
+            }
+        });
+        if(flag) {
+            return true
+        } else {
+            return false
+        }
+    },
+    ...mapGetters({
+    followed: 'getUsersIFollowed'
+    })
+  },
   setup() {
-    const store=useStore()
+    const store = useStore()
     const state = reactive({
-      
     })
     const back=function(){
         router.push("/main")
@@ -43,53 +78,18 @@ export default {
     const like=function(memberid){//팔로우~
         console.log("팔로우~~")
         console.log(memberid)
-        store.dispatch("like",memberid)//팔로우를 당하는 사람
+        store.dispatch("like",memberid)
     }
-    
-    return {
-      state,back,like
+    const unlike = function(memberid) {
+        console.log("언팔")
+        store.dispatch('unlike', memberid)
     }
+
+    return { state, back, like, unlike }
   },
-  methods: {},
   }
 </script>
 
+
 <style>
-.el-card{
-   
-    margin: 0 auto;
-    margin-left: 50px;
-    width: 500px;
-    height: 700px;
-}
-.random-matcing-btn{
-    border-radius:10%;
-    color:#FF427E ;
-    border-color: #FF427E;
-    width: 50%;
-}
-.like_btn{
-    border-radius:50%;
-    color:#FF427E ;
-    border-color: #FF427E;
-    width: 50px;
-}
-.like_btn:hover{
-     color:white ;
-    background-color: #FF427E;
-}
-.random-matcing-btn:hover{
-  color:white ;
-    background-color: #FF427E;
-}
-.profiile_image{
-    width: 250px;
-    height: 300px;
-    display: block;
-    margin: 0 auto;
-}
-.back{
-    margin: 0 auto;
-    margin-top: 40px;
-}
 </style>
