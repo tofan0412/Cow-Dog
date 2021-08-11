@@ -44,9 +44,9 @@
         <!-- 추가한 태그를 표시하는 곳.. -->
         <el-row style="min-height: 60px; margin-bottom: 20px;" justify="start" align="top">
           <el-col 
-          :span="2"
+          :span="3"
           v-for="tag in state.articleForm.tags" :key="tag"
-          style="color: black; margin: 1px; font-size:13px; padding: 2px; border-radius: 0.2rem;"
+          style="color: black; margin: 1px; font-size:13px; padding: 2px; border-radius: 0.2rem; cursor: pointer;"
           @click="removeTag(tag)"
           >
             {{ tag }}
@@ -84,7 +84,7 @@
 </template>
 <script>
 import { useStore } from 'vuex'
-import { reactive, ref, onMounted } from 'vue'
+import { reactive, ref } from 'vue'
 
 export default {
 name: 'AppealCreate',
@@ -114,9 +114,8 @@ setup() {
       ],
     },
   })
-  onMounted(() => {
-    store.dispatch("checklogin")
-  })
+
+  store.dispatch("checklogin")
 
   return {
     state,
@@ -133,11 +132,20 @@ methods: {
       alert("내용 입력")
       return
     }
+
+    // 작성한 내용을 axios 요청하기 전에, 태그 리스트를 하나의 String으로 변환한다.
+    let result = ''
+    for (let i = 0; i < this.state.articleForm.tags.length; i++) {
+      result += this.state.articleForm.tags[i]
+    }
+
     this.state.store.dispatch("createArticle", 
         { title: this.state.articleForm.title, 
         content: this.state.articleForm.content, 
         member_id: this.state.articleForm.member_id ,
-        writer: this.state.articleForm.writer} )
+        writer: this.state.articleForm.writer,
+        tags: result,
+        } )
   },
   // 파일 업로드 관련 메서드
   handleRemove(file, fileList) {
@@ -159,7 +167,7 @@ methods: {
     }
 
     // 입력하지 않고 엔터 누른 경우 금지
-    if (this.state.articleForm.tagKeyword.trim() === ''){
+    if (this.state.articleForm.tagKeyword.trim() === '' || this.state.articleForm.tagKeyword.trim() === '#'){
       alert("추가할 태그를 입력해 주세요")
       return
     }

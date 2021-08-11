@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class ArticleCommentServiceImpl implements ArticleCommentService {
@@ -19,6 +21,16 @@ public class ArticleCommentServiceImpl implements ArticleCommentService {
 
     @Autowired
     ArticleCommentRepository articleCommentRepository;
+
+    @Override
+    public List<Article_Comments> findComments(Long articleNo) {
+        Article article = articleService.findArticleByArticleNo(articleNo);
+
+        // Null일 수도 있다.
+        List<Article_Comments> comments = article.getComments();
+
+        return comments;
+    }
 
     @Override
     public Long create(Map map) {
@@ -55,4 +67,11 @@ public class ArticleCommentServiceImpl implements ArticleCommentService {
             return 0L;
         }
     }
+
+    @Override
+    public String deleteComment(Long commentNo) {
+        articleCommentRepository.deleteById(commentNo);
+        return "SUCCESS";
+    }
+
 }

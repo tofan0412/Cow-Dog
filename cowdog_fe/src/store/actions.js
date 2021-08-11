@@ -373,7 +373,8 @@ export function checklogin({ state }) {
 }
 
 export function createArticle({ state, commit }, payload) {
-
+  console.log(payload.tags)
+  
   const url = "/appeal/create"
   axios({
     url: url,
@@ -385,7 +386,8 @@ export function createArticle({ state, commit }, payload) {
       title: payload.title,
       content: payload.content,
       member_id: payload.member_id,
-      writer:payload.writer
+      writer: payload.writer,
+      tags: payload.tags
     }
   })
   .then(resp => {
@@ -428,6 +430,8 @@ export function getArticles({ state, commit }) {
       const date = new Date(resp.data[i].regtime).toDateString()
       resp.data[i].regtime = date
     }
+    
+    
 
     commit("SET_ARTICLES", resp.data)
   })
@@ -546,7 +550,7 @@ export function deleteArticle({ state, commit }, payload) {
 
 export function createArticleComment({ state }, payload) {
   const url = '/appealComment/create'
-  axios({
+  return axios({
     url: url,
     method: "POST",
     headers:{
@@ -558,11 +562,29 @@ export function createArticleComment({ state }, payload) {
       content: payload.comment.content,
     }
   })
-  .then(resp => {
-    console.log(resp)
+}
+
+export function findComments({ state }, payload) {
+
+  const articleNo = payload.articleNo
+  const url = '/appealComment/findComments?articleNo=' + articleNo
+  return axios({
+    url: url,
+    method: "GET",
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    }, 
   })
-  .catch(err => {
-    console.log(err)
+}
+
+export function deleteComment({ state }, payload) {
+  const url = '/appealComment/deleteComment?commentNo=' + payload.commentNo
+  return axios({
+    url: url,
+    method: "DELETE",
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    }, 
   })
 }
 

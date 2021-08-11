@@ -25,9 +25,6 @@ public class MemberInfo {
 	@GeneratedValue
 	private Long id;
 	
-	
-	
-	
 	private String age;
 	private String gender;
 	private boolean smoking;

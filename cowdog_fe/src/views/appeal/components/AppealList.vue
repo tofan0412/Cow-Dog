@@ -31,9 +31,13 @@ export default {
     store.dispatch("checklogin")
     
     // 게시글 목록 갱신
+    store.dispatch("getArticles")
+    state.articleList = store.getters.getArticles
+    
     onMounted(() => {
-      store.dispatch("getArticles")
-      state.articleList = store.getters.getArticles
+      
+
+
     })
 
     return {

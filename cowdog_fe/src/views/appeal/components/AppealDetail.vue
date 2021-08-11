@@ -4,7 +4,7 @@
       <!-- 작성자 정보 -->
       <el-row>
         <el-col>
-          {{ this.article.writer }}
+          <img class="profile" :src="myinfo.file_path"> {{ this.article.writer }}
         </el-col>
       </el-row>
       
@@ -36,29 +36,73 @@
         {{ this.article.content }}
       </el-row>
       
+      <!-- 태그 부분 -->
+      <el-row style="color: #9F81F7; font-size: 15px; margin-top: 20px;">
+        <div v-for="tag in state.tags" :key="tag" style="cursor: pointer;">
+          <strong>{{ tag }}</strong>&nbsp;&nbsp;
+        </div>
+        
+      </el-row>
+
       <!-- 댓글 부분 -->
       <el-row style="color: gray; font-size: 15px; margin-top: 20px;">
-        댓글 ??개 모두 보기
+        <!-- 댓글이 1개 이상 존재하는 경우 -->
+        <div v-if="state.comments.length > 0" style="cursor: pointer; margin:3px;">
+          <div v-if="!state.default" @click="state.default = true">
+            댓글 {{ state.comments.length }}개 모두 보기
+          </div>
+          <div v-else @click="state.default = false">
+            댓글 숨기기
+          </div>          
+        </div>
+
+        <!-- 댓글이 작성되지 않은 경우 -->
+        <div v-else>
+          아직 작성된 댓글이 없습니다.
+        </div>
       </el-row>
-      <el-row>
-        댓글1
-      </el-row>
-      <el-row>
-        댓글1
-      </el-row>
-      <el-row>
-        댓글1
-      </el-row>
-      <el-row>
-        댓글1
-      </el-row>
+      
+
+      <!-- 기본 3개만 보여주기 -->
+      <div v-if="!state.default">
+        <el-row v-for="(comment, index) in state.comments" :key="index" justify="space-between">
+          <el-col :span="22" v-if="index < 3" style="text-align: start;">
+            <strong>{{ comment.id }}</strong> {{ comment.content }} <span style="color: grey; font-size: 13px;">-{{ comment.regtime }}</span>
+          </el-col>
+          <el-col :span="2" v-if="index < 3">
+            <!-- 내가 작성한 댓글에 대해서만 삭제 가능하다. -->
+            <span 
+            v-if="comment.id === this.state.store.getters.getUserInfo.memberid" 
+            style="color:#ff4e7e; cursor: pointer;"
+            @click="deleteComment(comment.no)"
+            >x</span>
+          </el-col>
+        </el-row>
+      </div>
+
+      <!-- 모든 댓글 다 보여주기 -->
+      <div v-if="state.default">
+        <el-row v-for="(comment, index) in state.comments" :key="index" justify="space-between">
+          <el-col :span="22" style="text-align: start;">
+            <strong>{{ comment.id }}</strong> {{ comment.content }} <span style="color: grey; font-size: 12px;">-{{ comment.regtime }}</span>
+          </el-col>
+          <el-col :span="2">
+            <span 
+            v-if="comment.id === this.state.store.getters.getUserInfo.memberid" 
+            style="color:#ff4e7e; cursor: pointer;"
+            @click="deleteComment(comment.no)"
+            >x</span>
+          </el-col>
+        </el-row>
+      </div>
+
       <el-divider/>
       <el-row align="middle">
         <el-col :span="22">
           <el-input size="mini" class="elinput" v-model="state.commentContent" placeholder="댓글 달기..." />
         </el-col>
         <el-col :span="2">
-          <p id="commentCreateBtn" @click="createComment()">게시</p>
+          <p id="commentCreateBtn" @click="createComment()" style="cursor: pointer;">게시</p>
         </el-col>
         
       </el-row>
@@ -75,14 +119,43 @@ export default {
   props: {
       article: Object,
     },
-  setup() {
+  setup(props) {
     const store = useStore()
     const state = reactive({
       store: store,
       loginId: store.getters.getUserId,
+      articleNo: props.article.articleNo,
+      userInfo: [],
       commentContent: '',
+      comments: [],
+      default: false,
+      tags: [],
+      
     })
+
+    // 태그 처리
+    if (props.article.tags !== null) {
+      // # 앞, 뒤로 분할해서 0번째 인덱스가 공백이 들어간다. 따라서 slice 사용
+      const tags = props.article.tags.split('#').slice(1)
+      for (let i = 0; i < tags.length; i++) {
+        tags[i] = '#' + tags[i]
+      }
+      state.tags = tags
+    }
     
+
+    // 게시글마다 댓글 조회한다.
+    state.store.dispatch("findComments", { articleNo: props.article.articleNo })
+    .then(resp => {
+      state.comments = resp.data
+    })
+    .catch(err => {
+      console.log(err)
+    })
+
+    // 게시글 마다 회원 정보를 조회한다.
+
+
     return {
       state
     }
@@ -93,13 +166,16 @@ export default {
       // 페이지 새로고침
       return window.location.reload()
     },
+    // 페이지 갱신
     updateArticlePage(article) {
       this.state.store.dispatch("updateArticlePage", { article : article })
     },
+    
+    // 댓글 작성
     createComment() {
       const comment = {
         articleNo: this.article.articleNo,
-        memberId: this.article.memberId,
+        memberId: this.state.store.getters.getUserId,
         content: this.state.commentContent,
       }
 
@@ -110,6 +186,41 @@ export default {
       }
       
       this.state.store.dispatch("createArticleComment", { comment: comment })
+      .then(resp => {
+        console.log(resp)
+        // 댓글 작성후 작성한 내용 없애준다.
+        this.state.commentContent = ''
+      })
+      .catch(err => {
+        console.log(err)
+      })
+
+      // 댓글 작성 이후 페이지 갱신해야 한다.
+      this.state.store.dispatch("findComments", { articleNo: this.state.articleNo })
+      .then(resp => {
+        this.state.comments = resp.data
+        // 페이지 새로고침
+        this.$router.go();
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
+
+    deleteComment(commentNo) {
+      console.log("삭제하고자 하는 댓글 : ", commentNo)
+      const result = confirm("댓글을 삭제하시겠습니까?")
+      if (result) {
+        this.state.store.dispatch("deleteComment", { commentNo: commentNo })
+        .then(resp => {
+          console.log(resp.data)
+          // 페이지 새로고침
+          this.$router.go();
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      }
     },
 
   },
