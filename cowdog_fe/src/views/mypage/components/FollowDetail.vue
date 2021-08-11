@@ -12,8 +12,7 @@
                     <span>사는곳: {{this.user.memberinfo.address}}</span><br>
                     <span>MBTI: {{this.user.memberinfo.mymbti}}</span><br>
                     <div style="margin-top:50px;">
-                        <el-button  class="like_btn" @click="like"><i class="fas fa-heart" style="font-size:10px"></i></el-button>
-
+                        <el-button  class="like_btn" @click="like(this.user.memberid)"><i class="fas fa-heart" style="font-size:10px"></i></el-button>
                     </div>
                 </div>
             </div>
@@ -24,6 +23,7 @@
 <script>
 import { reactive } from '@vue/reactivity'
 import router from '../../../router'
+import { useStore } from 'vuex'
 
 export default {  
   name: 'FollowDetail.vue',
@@ -31,15 +31,22 @@ export default {
       user: Object,
 },
   setup() {
+    const store= useStore()
     const state = reactive({
       
     })
     const back=function(){
         router.push("/main")
     }
+    const like=function(memberid){//팔로우~
+        console.log("팔로우~~")
+        console.log(memberid)
+        store.dispatch("like",memberid)//팔로우를 당하는 사람
+        this.$router.push('/mypage/follow')
+    }
     
     return {
-      state,back
+      state,back,like
     }
   },
   methods: {},

@@ -35,7 +35,7 @@ export default ({
     };
      
   },
-  
+ 
   methods: {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
@@ -46,10 +46,8 @@ export default ({
     const logout =function(){
       console.log("로그아웃")
       store.dispatch("userLogout",{id:store.getters.getUserId})
-      
-      
-      
     }
+
     return {
       logout,
       getNotices: () => {
@@ -60,7 +58,7 @@ export default ({
       },
       GetFollowUsers:()=>{
           store.dispatch("getFollowUsers")
-        },
+      },
      
     }
   },

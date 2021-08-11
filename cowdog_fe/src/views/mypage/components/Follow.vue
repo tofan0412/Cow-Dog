@@ -8,14 +8,14 @@
         </el-row>
     </div>
     <div class="pagination" style="margin:0 auto; margin-top:10px">
-    <el-pagination
-    background
-    layout="prev, pager, next"
-    :page-size=pageSize
-    :total="followUsers.length"
-    v-model:current-page="currentPage">
-    </el-pagination>
-  </div>
+        <el-pagination
+        background
+        layout="prev, pager, next"
+        :page-size=pageSize
+        :total="followUsers.length"
+        v-model:current-page="currentPage">
+        </el-pagination>
+    </div>
     <div v-if="state.followUsers[0]===null" class="no_user">
         <h1 style="margin-top:20%">나를 팔로우 하는 사람이 없습니다!!!</h1>
     </div>
@@ -49,6 +49,11 @@ export default ({
             var start = 0 + (this.currentPage-1) * this.pageSize
             var end = this.currentPage * this.pageSize
             return this.followUsers.slice(start, end) //기본값 0~5번
+        },
+
+        getFollowerusers({store}) {
+            
+            return store.dispatch("getFollowUsers")
         },
 
         ...mapGetters({

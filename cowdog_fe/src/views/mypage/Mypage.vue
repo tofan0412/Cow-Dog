@@ -84,9 +84,6 @@ export default {
       getMyInfo:()=>{
         store.dispatch('getMyInfo')
       },
-      GetFollowUsers:()=>{
-        store.dispatch("getFollowUsers")
-      },
     }
   },
 

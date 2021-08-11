@@ -880,6 +880,7 @@ export function like({state},payload){
       console.log(res)
       if(res.data.message=="SUCCESS"){
         alert("팔로우 성공")
+        router.push('/mypage/follow')
       }
     })
     .catch(err => {

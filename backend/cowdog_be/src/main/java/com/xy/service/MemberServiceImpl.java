@@ -46,7 +46,7 @@ public class MemberServiceImpl implements MemberService{
 		newMemberInfo.setGender(member.get("gender").toString());
 		newMemberInfo.setHobby(member.get("hobby").toString());
 		newMemberInfo.setMbti(member.get("mbti").toString());
-		newMemberInfo.setMymbti(member.get("mymbti").toString());
+		newMemberInfo.setMymbti(member.get("mymbti").toString().toUpperCase());
 		newMemberInfo.setLatitude((double)member.get("latitude"));
 		newMemberInfo.setLongitude((double)member.get("longitude"));
 		newMemberInfo.setPersonality(member.get("personality").toString());
