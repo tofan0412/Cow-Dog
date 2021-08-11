@@ -50,12 +50,12 @@ public class LikeController {
 		
 		System.out.println(map.toString());
 		
-		long From=Long.parseLong(map.get("memberid").toString());//팔로우를 하는사람
-		Member to=memSer.getMemberByMemberId(map.get("followid"));//팔로우를 당하는사람
+		long From=Long.parseLong(map.get("followid").toString());//팔로우를 하는사람
+		Member to=memSer.getMemberByMemberId(map.get("memberid"));//팔로우를 당하는사람
 		
 		Follow follow=new Follow();
-		follow.setMember_id(From);
-		follow.setFollower_id(to.getId());
+		follow.setMember_id(to.getId());
+		follow.setFollower_id(From);
 		if(followSer.save(follow)!=null) {	
 			return AmIFollowed(From);
 		}

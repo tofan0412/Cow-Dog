@@ -136,43 +136,11 @@ export default {
     -webkit-box-orient: vertical;
     word-wrap:break-word;
     line-height: 1.2em;
-    height: 3.6em;
+    height: 3.6.em;
   }
 
   .card-footer {
     text-align: right;
-  }
-
-  .button {
-    color: #323545;
-    font-weight: bold;
-  }
-
-  .button:hover {
-    color: #FF4E7E;
-  }
-
-  .create {
-    color: #323545;
-    font-weight: bold;
-  }
-  .create:hover {
-    background-color: #FFFFFF;
-    border-color: #FF4E7E;
-    color: #FF4E7E;
-  }
-
-  .el-button {
-    color: #323545;
-    font-weight: bold;
-  }
-
-  .el-button:hover {
-    color: #FF4E7E;
-  }
-  
-  .el-button:focus {
-    color: #FF4E7E;
   }
 
 </style>

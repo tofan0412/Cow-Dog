@@ -45,7 +45,7 @@ public class FollowServiceImpl implements FollowService{
 	
 	@Override
 	public List<Follow> amIFollowed(long id) {
-		String jpql="select distinct f from Follow as f where f.member_id=:id";
+		String jpql="select distinct f from Follow as f where f.follow_id=:id";
 		TypedQuery<Follow> query=em.createQuery(jpql, Follow.class);
 		query.setParameter("id", id);
 		return query.getResultList();
@@ -57,7 +57,6 @@ public class FollowServiceImpl implements FollowService{
 		String jpql="delete from Follow m where m.member_id=:memberid and m.follower_id=:followid";
 		Query query = em.createQuery(jpql).setParameter("memberid", memberid).setParameter("followid", followid);
 		int rows = query.executeUpdate();
-		
 		return rows;
 	}
 	

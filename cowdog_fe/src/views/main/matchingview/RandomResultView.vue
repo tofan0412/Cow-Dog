@@ -1,7 +1,7 @@
 <template>
     <div class="result-view">
         <div v-if="randomUsersPaginated[0]==null">
-            <h1 style="margin-top:10%">접속중인 유저가 없습니다.</h1>
+            <h1 style="padding-top:10%">접속중인 유저가 없습니다.</h1>
         </div>
         <div v-else>
             <div class="random-cards-wrapper">

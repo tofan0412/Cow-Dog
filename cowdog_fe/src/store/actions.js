@@ -862,8 +862,8 @@ export function like({state, commit},payload){
       Authorization:"Bearer "+state.accessToken
     },
     data: {
-     memberid:state.userId,//팔로우를 하는 사람
-     followid:payload//팔로우 당하는 사람
+      followid:state.userId,//로그인한 사람
+      memberid:payload//팔로우 당하는 사람
     }
   })
     .then(res => {

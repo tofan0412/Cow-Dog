@@ -13,10 +13,10 @@
       </div>
       <div class="follow" style="display:flex">
         <div class="followers">
-          {{followers.length}} followers
+          <!-- {{followers}} followers -->
         </div>
         <div class="followings">
-          {{followings.length}} followings
+          {{followings}} followings
         </div>
       </div>
       <div class="hashtag" style="display:flex">
@@ -78,8 +78,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      followings: 'getUsersIFollowed',
-      followers: 'getFollowUsers'
+      followings: 'getUsersIFollowed', // 내가 팔로우하는 사람들
+      followers: 'getFollowUsers' // 나를 팔로우하는 사람들
 
     })
   },

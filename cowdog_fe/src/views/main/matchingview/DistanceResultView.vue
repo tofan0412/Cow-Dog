@@ -1,7 +1,7 @@
 <template>
     <div class="result-view">
         <div v-if="state.distanceUsers[0]==null" class="no_user">
-            <h1 style="margin-top:10%">거리에 해당되는 사람이 없습니다!!!</h1>
+            <h1 style="padding-top:10%">거리에 해당되는 사람이 없습니다!!!</h1>
         </div>
         <div v-else>
             <div class="random-cards-wrapper">

@@ -2,7 +2,7 @@
 <div class="result-view">
 
     <div v-if="state.recomUsers[0]==null" class="no_user">
-        <h1 style="margin-top:10%">매칭 조건이 맞는 사람이 없습니다!</h1>
+        <h1 style="padding-top:10%">매칭 조건이 맞는 사람이 없습니다!</h1>
     </div>
     <div v-else>
         <div class="random-cards-wrapper">
