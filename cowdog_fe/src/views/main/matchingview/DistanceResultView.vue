@@ -20,7 +20,7 @@
             </div>
         </div>
         <div>
-            <el-button class="back" @click="back">뒤로 가기</el-button>
+            <el-button class="back" @click="back()">뒤로 가기</el-button>
         </div>
     </div>
 </template>

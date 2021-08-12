@@ -6,7 +6,7 @@
     <i class="fas fa-random match-icon"></i>
     <i class="fas fa-thumbs-up match-icon"></i>
   </div>
-  <el-tabs class="main-tabs" v-model="activeName" @tab-click="handleClick">
+  <el-tabs class="main-tabs" v-model="activeMatching" @tab-click="handleClick">
     <el-tab-pane label="지역매칭" name="지역매칭"><distance-matching /></el-tab-pane>
     <el-tab-pane label="랜덤매칭" name="랜덤매칭"><random-matching /></el-tab-pane>
     <el-tab-pane label="맞춤매칭" name="맞춤매칭"><recom-matching /></el-tab-pane>
@@ -24,7 +24,7 @@ import { useStore } from 'vuex'
 export default{
     data() {
       return {
-        activeName: 'first'
+        activeName: ''
       };
     },
     methods: {
