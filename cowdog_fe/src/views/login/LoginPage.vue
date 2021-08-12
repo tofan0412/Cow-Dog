@@ -258,9 +258,8 @@ export default {
               alert("정지된 계정입니다.")
             }
             else{
-              alert("로그인 성공")
-              console.log(result.data.id)
-              console.log(result.data.accessToken)
+              // console.log(result.data.id)
+              // console.log(result.data.accessToken)
               // var login_user={}
               // login_user.userId=result.data.id
               // login_user.accessToken=result.data.accessToken

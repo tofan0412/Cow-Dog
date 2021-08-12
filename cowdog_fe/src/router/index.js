@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Test from '../components/Test.vue'
 import Admin from '../views/notice/Admin.vue'
+import NoticeForUser from '../views/notice/notice-for-user.vue'
 import Notice from '../views/notice/components/notice.vue'
 import NoticeCreate from '../views/notice/components/notice-create.vue'
 import NoticeUpdate from '../views/notice/components/notice-update.vue'
@@ -163,6 +164,14 @@ const routes = [
 
     ]
   },
+
+  // 유저가 보는 공지사항 페이지
+  {
+    path: '/notices',
+    name: 'Notices',
+    component: NoticeForUser,
+  },
+  // 관리자 페이지
   {
     path: '/admin',
     name: 'Admin',
@@ -219,7 +228,7 @@ const routes = [
     path: '/appeal/update',
     name: 'AppealUpdate',
     component: AppealUpdate,
-  },  
+  },
 ]
 
 const router = createRouter({

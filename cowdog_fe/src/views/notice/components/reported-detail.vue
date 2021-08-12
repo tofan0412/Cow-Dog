@@ -25,7 +25,8 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">취소</el-button>
-        <el-button @click="deleteUser(reportedUserData.reportedId)">사용자 제재</el-button>
+        <el-button @click="deleteUser(reportedUserData.reportedId)">사용자 삭제</el-button>
+        <el-button @click="suspendUser(reportedUserData.reportedId)">사용자 정지</el-button>
       </span>
     </template>
   </el-dialog>
@@ -61,6 +62,17 @@
           .then(res => {
             console.log(res)
             this.$store.dispatch('deleteReportedUser', {"user_id": reportedId, "user_long_id": reportedId})
+            this.dialogVisible = false
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      },
+      suspendUser(reportedId) {
+        this.$confirm('정말로 제재하시겠습니까?')
+          .then(res => {
+            console.log(res)
+            this.$store.dispatch('suspendReportedUser', {"user_id": reportedId, "user_long_id": reportedId})
             this.dialogVisible = false
           })
           .catch(err => {

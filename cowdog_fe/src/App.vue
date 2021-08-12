@@ -6,8 +6,9 @@
       class="el-menu-demo"
       mode="horizontal"
       @select="handleSelect"
-      text-color="#ff4e7e"
-      active-text-color="#ff4e7e">
+      text-color="#323545"
+      active-text-color="#ff4e7e"
+      >
       <div v-if="!this.$store.state.userId" style="display:flex; justify-content: space-between">
         <el-menu-item index="/login" class="navMenu-logo"><img class="nav-logo" :src="require('@/assets/images/cowanddog.png')" alt="logo" style="max-width: 100%; height:auto;"></el-menu-item>
         <div style="display:flex">
@@ -19,8 +20,9 @@
         <div style="display:flex">
           <el-menu-item index="/main" class="navMenu-logo"><img class="nav-logo" :src="require('@/assets/images/cowanddog.png')" alt="logo" style="max-width: 100%; height:auto;"></el-menu-item>
           <el-menu-item index="/main" class="navMenu">매칭</el-menu-item>
+          <el-menu-item index="/notices" class="navMenu">공지사항</el-menu-item>
           <el-menu-item index="/Appeal" class="navMenu">게시판</el-menu-item>
-          <el-menu-item index="/admin/notice" class="navMenu" @click="getNotices">관리자</el-menu-item> <!-- 배포 전 숨기기 -->
+          <el-menu-item index="" class="navMenu" @click="getNotices">관리자</el-menu-item> <!-- 배포 전 숨기기 -->
           
           <el-menu-item index="/test" class="navMenu">test</el-menu-item>
         </div>
@@ -102,9 +104,14 @@ body {
   font-weight: bold;
   color: inherit;
 }
-
 .el-menu.el-menu--horizontal {
-    border-bottom: 0px #e6e6e6;
+    border-bottom: 0px;
+}
+.el-menu-item:hover {
+  background: #f0f2f5;
+}
+.el-menu-item:focus {
+  background: #fff;
 }
 html::-webkit-scrollbar {
   width: 10px;
