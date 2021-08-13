@@ -67,3 +67,7 @@ export const SET_FOLLOW_USER=(state,followUsers)=>{
     state.followUsers=followUsers;
     console.log(state.followUsers)
 }
+
+export const SET_SEARCH_RESULT= (state, searchResults) => {
+    state.searchResults = searchResults
+}

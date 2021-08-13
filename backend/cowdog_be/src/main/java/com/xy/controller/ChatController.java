@@ -3,7 +3,7 @@ package com.xy.controller;
 import com.xy.common.response.BaseResponseBody;
 import com.xy.entity.ChatMessage;
 import com.xy.repository.MemberRepository;
-import com.xy.service.ChatRoomJoinService;
+//import com.xy.service.ChatRoomJoinService;
 import com.xy.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
@@ -28,22 +28,22 @@ public class ChatController {
 	@Autowired
 	MemberRepository memRepo;
 	
-    @Autowired
-    ChatRoomJoinService	chatRoomJoinService;
+//    @Autowired
+//    ChatRoomJoinService	chatRoomJoinService;
     
     
-    //채팅방 개설
-    @PostMapping("/newChat")
-    public ResponseEntity<? extends BaseResponseBody> newChat(@RequestParam("receiver") String user1, @RequestParam("sender") String user2){
-    	Long chatRoomId = chatRoomJoinService.newRoom(user1,user2);
-    	
-        if ( chatRoomId != 0L) {
-            // 성공 시 생성된 방 Id 리턴
-            return ResponseEntity.status(200).body(BaseResponseBody.of(200, Long.toString(chatRoomId)));
-        }
-        else {
-            return ResponseEntity.status(500).body(BaseResponseBody.of(500, "FAIL"));
-        }
-//    	return "redirect:/personalChat/" + chatRoomId; String return 일때의 라인
-    }
+//    //채팅방 개설
+//    @PostMapping("/newChat")
+//    public ResponseEntity<? extends BaseResponseBody> newChat(@RequestParam("receiver") String user1, @RequestParam("sender") String user2){
+//    	Long chatRoomId = chatRoomJoinService.newRoom(user1,user2);
+//
+//        if ( chatRoomId != 0L) {
+//            // 성공 시 생성된 방 Id 리턴
+//            return ResponseEntity.status(200).body(BaseResponseBody.of(200, Long.toString(chatRoomId)));
+//        }
+//        else {
+//            return ResponseEntity.status(500).body(BaseResponseBody.of(500, "FAIL"));
+//        }
+////    	return "redirect:/personalChat/" + chatRoomId; String return 일때의 라인
+//    }
 }

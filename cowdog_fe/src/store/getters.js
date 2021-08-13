@@ -26,6 +26,10 @@ export function getArticles (state) {
 	return state.articles
 }
 
+export function getSearchResults (state) {
+	return state.searchResults
+}
+
 export function getRandomUser(state){
 	return state.randomUsers
 }

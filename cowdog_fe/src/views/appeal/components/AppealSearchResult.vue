@@ -20,7 +20,15 @@
       </el-row>
     </el-menu>
   
-  <el-row>
+  <el-row justify="center" v-if="state.articleList.length !== 0" style="margin-bottom: 10px;">
+    <el-col :span="12" style="text-align:start;">
+      <span style="font-size: 30px; font-weight: bold;">#{{ state.lastKeyword }}&nbsp;</span>에 대한 검색 결과 :
+      <strong>{{ this.state.articleList.length }}</strong> 개
+    </el-col>
+  </el-row>
+
+  <!-- 검색 결과가 존재하는 경우 -->
+  <el-row v-if="state.articleList.length !== 0">
     <el-col :span="12" :offset="6"> <!-- offset 설정하면 왼쪽 기준으로 공백 크기 설정 -->
       <div v-for="article in state.articleList" :key="article.articleno"> <!-- 왜 key에다가 콜론을 해줘야 하지..? -->
         <appealDetail :article="article"/>
@@ -28,15 +36,27 @@
     </el-col>
   </el-row>
 
-  <!-- 글 작성 버튼 하단 고정 -->
+  <!-- 검색 결과가 존재하지 않는 경우 -->
+  <div v-else style="margin: 50px;">
+    <el-row justify="center">
+      <i class="el-icon-document-delete" style="font-size: 200px;"></i>
+    </el-row>
+    <el-row justify="center" style="margin: 25px;">
+      검색 결과가 존재하지 않습니다😥
+    </el-row>
+  </div>
+
   <el-row style="margin-top: 50px;">
     <el-button 
     type="danger" plain 
     @click="createArticle()" 
     style="color: black; width: 100%; position: fixed; bottom: 0;">새 게시글 작성하기</el-button>
   </el-row>
+
+  
 </template>
 <script>
+import { useRoute } from 'vue-router'
 import { reactive } from '@vue/reactivity'
 import { useStore } from 'vuex'
 import router from '../../../router'
@@ -51,6 +71,7 @@ export default {
     const store = useStore()
     const state = reactive({
       searchKeyword: '',
+      lastKeyword: '',
       articleList: {
         type: Array,
       },
@@ -58,9 +79,12 @@ export default {
     })
     store.dispatch("checklogin")
     
-    // 게시글 목록 갱신
-    store.dispatch("getArticles")
-    state.articleList = store.getters.getArticles
+    // 검색 결과를 articleList에 추가한다.
+    state.articleList = store.getters.getSearchResults
+
+    // 검색한 키워드를 표시하기 위해 ...
+    const route = useRoute()
+    state.lastKeyword = route.params.searchKeyword
 
     return {
       state

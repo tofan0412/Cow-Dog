@@ -445,9 +445,6 @@ export function getArticles({ state, commit }) {
       const date = new Date(resp.data[i].regtime).toDateString()
       resp.data[i].regtime = date
     }
-    
-    
-
     commit("SET_ARTICLES", resp.data)
   })
   .catch(err => {
@@ -562,6 +559,39 @@ export function deleteArticle({ state, commit }, payload) {
   }
   
 }
+
+
+export function appealSearch({ state, commit }, payload) {
+  const url = '/appeal/search?searchKeyword=' + payload.searchKeyword
+
+  // 검색 결과를 tag로 갖는 게시글 목록을 불러온다.
+  axios({
+    url: url,
+    method: 'GET',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+  .then(resp => {
+    console.log("검색 결과는", resp.data)
+    commit("SET_SEARCH_RESULT", resp.data)
+    
+    // 마찬가지로 날짜 전처리
+    for (let i = 0; i < resp.data.length; i++) {
+      const date = new Date(resp.data[i].regtime).toDateString()
+      resp.data[i].regtime = date
+    }
+    
+    // 검색 결과 페이지에서 다시 검색한 것이라면, router.go를 해야 한다.
+    router.push({name: 'AppealSearchResult', params: { searchKeyword : payload.searchKeyword }})
+    
+  })
+  .catch(err => {
+    console.log(err)
+  })
+
+}
+
 
 export function createArticleComment({ state }, payload) {
   const url = '/appealComment/create'
