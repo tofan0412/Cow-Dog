@@ -10,7 +10,7 @@
     <div class="reported_id">제목: {{ noticeDetailData.title }}</div>
     <br>
     <br>
-    <div class="reported_reason">내용</div>
+    <pre class="reported_reason">내용</pre>
     <br>
     <div class="reported_content">{{ noticeDetailData.content }}</div>
     <br>

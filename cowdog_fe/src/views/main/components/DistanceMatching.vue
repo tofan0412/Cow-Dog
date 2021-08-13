@@ -4,6 +4,8 @@
             <br>
             <h2>롱디는 그만, 나와 가까운 사람 찾기!</h2>
         </div>
+        <br><br>
+        <h3>매칭을 원하는 거리를 선택해주세요</h3>
         <div class="block">
             <el-slider
             v-model="state.distance"
@@ -69,7 +71,7 @@ export default{
 }
 .block{
     width: 80%;
-    margin: 10% auto;
+    margin: 5% auto;
 }
 .distance-circle{
     display: inline-block;

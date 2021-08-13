@@ -87,7 +87,18 @@ export default ({
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #323545;
+}
+
+pre {
+  font-size: 16px;
+  font-family: SeoulNamsanM;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #323545;
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 body {

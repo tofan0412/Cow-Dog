@@ -11,7 +11,7 @@
     <br>
     <div class="reported_reason">신고 사유</div>
     <br>
-    <div class="reported_content">{{ reportedUserData.content }}</div>
+    <pre class="reported_content">{{ reportedUserData.content }}</pre>
     <br>
     <br>
 

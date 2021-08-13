@@ -12,7 +12,7 @@
     <br>
     <div class="reported_reason">내용</div>
     <br>
-    <div class="reported_content">{{ noticeDetailData.content }}</div>
+    <pre class="reported_content">{{ noticeDetailData.content }}</pre>
     <br>
     <br>
 
@@ -100,9 +100,12 @@ import router from '../../../router'
 .reported_reason {
   font-size: 16px;
   color: black;
+  font-weight: bold;
 }
 .reported_content {
   font-weight: normal;
+  line-height: 1.5rem;
+  height: 6rem;
 }
 .reported_img_box {
   width: 100%;

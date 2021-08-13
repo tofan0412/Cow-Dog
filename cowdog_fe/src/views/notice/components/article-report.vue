@@ -12,7 +12,7 @@
             <span>신고 대상 번호: {{ reportedArticle.reportedArticleNo }}</span>
           </div>
         </template>
-        <div class="card-body">{{ reportedArticle.content }}</div>
+        <pre class="card-body">{{ reportedArticle.content }}</pre>
         <br>
         <div class="card-footer">
           <el-button class="button" type="text"><reportedArticleDetail :reportedArticleData="reportedArticle" /></el-button>

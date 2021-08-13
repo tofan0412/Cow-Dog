@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="bg">
   <div class="container">
     <div class="batch" style="display:flex">
     </div>
@@ -8,10 +8,10 @@
         <el-card class="box-card">
           <template #header>
             <div class="card-header">
-              <span>{{ notice.title }}</span>
+              <span style="font-weight:bold">{{ notice.title }}</span>
             </div>
           </template>
-          <div class="card-body">{{ notice.content }}</div>
+          <pre class="card-body">{{ notice.content }}</pre>
           <br>
           <div class="card-footer">
             <notice-detail-for-user :noticeDetailData="notice" />
@@ -33,9 +33,7 @@
 </template>
 
 <script>
-// import { useStore } from 'vuex'
 import { mapGetters } from 'vuex'
-// import router from '../../../router'
 import NoticeDetailForUser from './components/notice-detail-for-user.vue'
 export default {
   data() {
@@ -57,8 +55,13 @@ export default {
     },
     ...mapGetters({
       notices: 'getNotices'
-    })
+    }),
   },
+  methods: {
+    // noticeContent(content) {
+    //   return content.replace("\n", "<br/>")
+    // }
+  }
 }
 </script>
 
@@ -74,5 +77,7 @@ export default {
   display: block;
   margin: 0 auto;
 }
-
+/* .bg {
+  background: #f0f2f5;
+} */
 </style>

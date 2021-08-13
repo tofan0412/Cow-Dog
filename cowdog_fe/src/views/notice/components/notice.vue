@@ -13,7 +13,7 @@
               <span>{{ notice.title }}</span>
             </div>
           </template>
-          <div class="card-body">{{ notice.content }}</div>
+          <pre class="card-body">{{ notice.content }}</pre>
           <br>
           <div class="card-footer">
             <noticeDetail :noticeDetailData="notice" />
@@ -141,11 +141,11 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     word-wrap:break-word;
-    line-height: 1.2em;
-    height: 3.6.em;
+    line-height: 1.5rem;
+    height: 6rem;
   }
 
   .card-footer {

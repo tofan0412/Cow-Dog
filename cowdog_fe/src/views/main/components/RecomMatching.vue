@@ -8,12 +8,12 @@
 
        <el-button class="recom_btn" @click="alcohol"><i class="fas fa-wine-glass-alt"></i> 주량이 맞는 사람</el-button>
        <el-button class="recom_btn" @click="sameHobby"><i class="fas fa-utensils"></i> 취미가 비슷한 사람</el-button>
-       <el-button class="recom_btn" @click="wantMale"><i class="fas fa-male"></i> 멋있는 남자를 만나고 싶은 사람</el-button>
-       <el-button class="recom_btn" @click="wantFemale"><i class="fas fa-female"></i> 이쁜 여자를 만나고 싶은 사람</el-button>
-       <el-button class="recom_btn" @click="nonSmoking"><i class="fas fa-smoking-ban"></i> 비흡연자 만나고 싶은 사람~</el-button>
+       <el-button class="recom_btn" @click="wantMale"><i class="fas fa-male"></i> 멋진 남성을 만나고 싶은 사람</el-button>
+       <el-button class="recom_btn" @click="wantFemale"><i class="fas fa-female"></i> 아름다운 여성을 만나고 싶은 사람</el-button>
+       <el-button class="recom_btn" @click="nonSmoking"><i class="fas fa-smoking-ban"></i> 비흡연자를 만나고 싶은 사람</el-button>
        <el-button class="recom_btn" @click="sameReligion"><i class="fas fa-pray"></i> 종교가 같은 사람</el-button>
-       <el-button class="recom_btn" @click="sameMbti"><i class="fas fa-file-alt"></i> MBTI 맞는 사람</el-button>
-       <el-button class="recom_btn" @click="samePersonality"><i class="fas fa-equals"></i> 성격 맞는 사람</el-button>
+       <el-button class="recom_btn" @click="sameMbti"><i class="fas fa-file-alt"></i> MBTI가 나와 맞는 사람</el-button>
+       <el-button class="recom_btn" @click="samePersonality"><i class="fas fa-equals"></i> 성격이 나와 맞는 사람</el-button>
     </div>
 </template>
 <script lang="ts">
@@ -85,25 +85,24 @@ export default{
 .recom-container{
     
     border-radius: 10px;
-    width: 500px;
+    width: 50%;
     height: 700px;
     margin: 5% auto;
-    margin-top:100px;
     background-color: white
 }
 .recom_btn span {
     font-weight: bold;
     font-size: 14px;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 }
 .recom_btn {
-    width: 90%;
+    width: 80%;
     margin-left: 0 !important;
     margin-top: 20px;
     border: 2px solid #323545;
     color: #323545;
     background-color: white;
-    border-radius: 5px;
+    border-radius: 10px;
 }
 .recom_btn:hover
 {

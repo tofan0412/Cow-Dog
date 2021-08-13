@@ -54,7 +54,7 @@ export default{
 <style >
 .random-container{
     border-radius: 10px;
-    width: 40%;
+    width: 50%;
     height: 350px;
     margin: 5% auto;
     background: white;

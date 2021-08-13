@@ -1,4 +1,5 @@
 <template>
+
 <div class="main-top">
   <h1 class="main-intro">다양한 매칭을 통해 인연을 만나세요</h1>
   <div style="display:flex; justify-content:center; margin:3%">
@@ -6,7 +7,8 @@
     <i class="fas fa-random match-icon"></i>
     <i class="fas fa-thumbs-up match-icon"></i>
   </div>
-  <el-tabs class="main-tabs" v-model="activeMatching" @tab-click="handleClick">
+  <el-tabs class="main-tabs" v-model="activeName" @tab-click="handleClick">
+    <el-tab-pane label="사용법" name="사용법"><explanation /></el-tab-pane>
     <el-tab-pane label="지역매칭" name="지역매칭"><distance-matching /></el-tab-pane>
     <el-tab-pane label="랜덤매칭" name="랜덤매칭"><random-matching /></el-tab-pane>
     <el-tab-pane label="맞춤매칭" name="맞춤매칭"><recom-matching /></el-tab-pane>
@@ -19,12 +21,13 @@ import { reactive } from 'vue'
 import RandomMatching from './components/RandomMatching.vue'
 import DistanceMatching from './components/DistanceMatching.vue'
 import RecomMatching from './components/RecomMatching.vue'
+import Explanation from './components/Explanation.vue'
 import { useStore } from 'vuex'
 
 export default{
     data() {
       return {
-        activeName: ''
+        activeName: "사용법"
       };
     },
     methods: {
@@ -32,7 +35,7 @@ export default{
         console.log(tab, event);
       }
     },
-    components : { RandomMatching, DistanceMatching, RecomMatching },
+    components : { RandomMatching, DistanceMatching, RecomMatching, Explanation },
 
     setup() {
         const store=useStore()
@@ -81,8 +84,21 @@ export default{
   font-size: 100px;
   margin: 5%;
   color: #323545;
+  transform: scale(1);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  transition: all 0.3s ease-in-out;
 }
-.main-wrapper{
-    margin-top: 50px;
+.match-icon:hover {
+  color: #FF4e7E;
+  transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  -o-transform: scale(1.2);
+  transition: all 0.3s ease-in-out;
 }
+
 </style>
