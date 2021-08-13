@@ -19,7 +19,7 @@
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import { reactive, ref, onMounted } from 'vue'
-
+import Swal from 'sweetalert2'
 export default {
 name: 'AppealCreate',
 setup() {
@@ -68,11 +68,11 @@ setup() {
 methods: {
   update() {
     if (this.state.articleForm.title == '') {
-      alert("제목 입력")
+      Swal.fire("제목 입력")
       return
     }
     if (this.state.articleForm.content == '') {
-      alert("내용 입력")
+      Swal.fire("제목 입력")
       return
     }
 

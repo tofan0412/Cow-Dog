@@ -142,7 +142,7 @@ public class MemberServiceImpl implements MemberService{
 		System.out.println(id);
 		
 		//자신 빼고 지금 로그인한 유저 쿼리
-		String jpql="select m from Member as m where m.login='true' and m.id is not :id";
+		String jpql="select m from Member as m where m.login='1' and m.id is not :id";
 		TypedQuery<Member> query=em.createQuery(jpql,Member.class);
 		query.setParameter("id", id);
 		return query.getResultList();

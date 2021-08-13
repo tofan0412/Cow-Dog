@@ -57,22 +57,22 @@
                                 <div class="input-name">종교를 선택해 주세요</div>
                                     <ul>
                                         <li><label class="checkbox">
-                                            <input v-model="state.form.religion" id="무교" value="무교" type="checkbox">
+                                            <input v-model="state.form.religion" id="무교" value="무교" type="radio">
                                             <span class="icon"></span><span class="text">무교</span>
                                             </label>
                                         </li>
                                         <li><label class="checkbox">
-                                            <input v-model="state.form.religion" id="기독교" value="기독교" type="checkbox">
+                                            <input v-model="state.form.religion" id="기독교" value="기독교" type="radio">
                                             <span class="icon"></span><span class="text">기독교</span>
                                             </label>
                                         </li>
                                         <li><label class="checkbox">
-                                            <input v-model="state.form.religion" id="천주교" value="천주교" type="checkbox">
+                                            <input v-model="state.form.religion" id="천주교" value="천주교" type="radio">
                                             <span class="icon"></span><span class="text">천주교</span>
                                             </label>
                                         </li>
                                         <li><label class="checkbox">
-                                            <input v-model="state.form.religion" id="불교" value="불교" type="checkbox">
+                                            <input v-model="state.form.religion" id="불교" value="불교" type="radio">
                                             <span class="icon"></span><span class="text">불교</span>
                                             </label>
                                         </li>
@@ -458,7 +458,7 @@
                         </ul>
                     </div>
                     <el-button class="register-btn" @click="clickRegister">회원가입</el-button>
-                </div>
+                    </div>
                 <div class="register-right-half">
                     <div class="register-img-box">
                         <img class="register-img-item" :src="require('@/assets/images/regist_img5.png')">
@@ -476,6 +476,7 @@ import { reactive,ref } from 'vue'
 import { useStore } from 'vuex'
 import router from "@/router";
 import axios from 'axios'
+import Swal from 'sweetalert2'
 var geocoder
 let road=''
 let old=''
@@ -752,7 +753,7 @@ export default {
             }
     }
     const clickRegister = function () {
-        state.loading = true
+        
         var dist=0
         if(state.form.distance==2){
             console.log(state.form.distance)
@@ -780,23 +781,28 @@ export default {
             }
         console.log("회원가입 검사")
         if (valid) {
-           
-          console.log('submit')
-          store.dispatch('requestRegister', { id:state.form.id, nickname:state.form.nickname, password:state.form.password, 
-                                            email:state.form.email, age:state.form.age,  religion:state.form.religion, mbti:state.form.mbti,
-                                            personality:state.form.personality, hobby:state.form.hobby, gender:state.form.gender, smoking:state.form.smoking,
-                                            alcohol:state.form.alcohol,address:state.form.address,latitude:latitude,longitude:longitude,distance:dist,mymbti:state.form.mymbti})
-          .then(function () {
-            profileImageUpload()
-            state.loading = false
-            alert("회원가입 성공")
-            router.push({name:"Login"})
-          })
-          .catch(function () {
-            alert("")
-          })
-        } else {
-          alert('회원가입 형식이 올바르지 않습니다.')
+           if(latitude===0 && longitude===0){
+               Swal.fire('!!!' ,'지도에서 자신의 위치를 클릭하세요!!!');
+           }
+            else if(latitude!==0 && longitude!==0){
+                console.log('submit')
+                state.loading = true
+                store.dispatch('requestRegister', { id:state.form.id, nickname:state.form.nickname, password:state.form.password, 
+                                                    email:state.form.email, age:state.form.age,  religion:state.form.religion, mbti:state.form.mbti,
+                                                    personality:state.form.personality, hobby:state.form.hobby, gender:state.form.gender, smoking:state.form.smoking,
+                                                    alcohol:state.form.alcohol,address:state.form.address,latitude:latitude,longitude:longitude,distance:dist,mymbti:state.form.mymbti})
+                .then(function () {
+                    profileImageUpload()
+                    state.loading = false
+                    Swal.fire('SUCCESS' ,'회원가입 성공');
+                    router.push({name:"Login"})
+                })
+                .catch(function () {
+                    alert("")
+                })
+            } 
+        }else {
+          Swal.fire('FAIL' ,'회원가입 형식이 올바르지 않습니다.');  
         }
       });
     }

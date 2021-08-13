@@ -51,10 +51,11 @@
 
 
         <!-- 이미지 업로드 -->
-        <div class="button-and-img-name">
-          <label class="img-upload-btn" for="imgfiles"><i class="fas fa-arrow-circle-up"></i>&nbsp;사진 업로드</label>
-          <input type="file" id="imgfiles" ref="imgfiles" v-on:change="handleFileUpload()" multiple style="display:none"/>
-          <div class="img-file-uploaded">{{ url }}</div>
+        <div class="input-name profile-comment">함께 올릴 사진을 선택하세요</div>
+          <div class="button-and-img-name">
+          <div class="appeal-img-preview-box"><img class="appeal-img-preview" :src="imagePreview"></div>
+          <div class="img-upload-btn-box"><label class="img-upload-btn" for="imgfiles"><i class="fas fa-arrow-circle-up"></i>&nbsp;업로드</label></div>
+          <input type="file" id="imgfiles" ref="imgfiles" @change="handleFileUpload" multiple style="display:none"/>
         </div>
         <!-- 하단에 표시할 작은 툴팁 메세지 -->
         <template #tip>
@@ -74,20 +75,26 @@
 import { useStore } from 'vuex'
 import { reactive, ref, onMounted } from 'vue'
 import axios from 'axios'
+import Swal from 'sweetalert2'
+
 let files=[]
 export default {
 name: 'AppealCreate',
   data(){
     return{
+      imagePreview: "#",
       files:[],
+      url:null,
     }
   },
   methods:{
-    handleFileUpload() {
-              console.log(this.$refs.imgfiles.files)
-              files = this.$refs.imgfiles.files;
-              this.url=files[0].name
-              console.log(files);
+    handleFileUpload(e) {
+            const file = e.target.files[0]
+            this.imagePreview = URL.createObjectURL(file)
+            console.log(this.$refs.imgfiles.files)
+            files = this.$refs.imgfiles.files;
+            this.url=files[0].name
+            console.log(files);
           },
   },
 setup() {
@@ -152,11 +159,11 @@ setup() {
     const create=function(){
       console.log("글 작성~")
     if (state.articleForm.title == '') {
-      alert("제목 입력")
+      Swal.fire("!!!","제목 입력")
       return
     }
     if (state.articleForm.content == '') {
-      alert("내용 입력")
+      Swal.fire("!!!","내용 입력")
       return
     }
 
@@ -189,3 +196,18 @@ setup() {
 
 }
 </script>
+
+<style scoped>
+.appeal-img-preview-box {
+    width: 70%;
+    height: 200px;
+    border-radius: none;
+    overflow: hidden;
+    border: 2px dashed #ff4e7e;
+    margin: 10px auto;
+}
+.appeal-img-preview{
+  width: 100%;
+  height: 200px;
+}
+</style>

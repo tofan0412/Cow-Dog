@@ -1,6 +1,6 @@
 <template>
     <div class="follow-view">
-        <div v-if="state.followUsers[0]==null" class="no_user">
+        <div v-if="followUsers[0]==null" class="no_user">
             <h1>나를 팔로우 하는 사람이 없습니다!!!</h1>
         </div>
         <div v-else>

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import $axios from 'axios'
 import router from '../router'
+import Swal from 'sweetalert2'
 // import cookies from 'vue-cookies'
 
 export function getMyInfo({state,commit}){
@@ -44,12 +45,12 @@ export function Authentication({ state },payload){
   .then(res=>{
     console.log("비밀번호 초기화 메일 성공")
     if(res.data==="SUCCESS"){
-      alert("비밀번호 초기화 성공 메일을 확인해주세요")
+      Swal.fire('SUCCESS' ,'비밀번호 초기화 성공, 메일을 확인해주세요');
     }else if(res.date==="NOT_EXISTS_EMAIL"){
-      alert("입력하신 이메일이 정확하지 않습니다.")
+      Swal.fire('FAIL' ,'입력하신 이메일이 정확하지 않습니다.');
     }
     else if(res.data==="FAIL"){
-      alert("비밀번호 초기화 실패")
+      Swal.fire('FAIL' ,'비밀번호 초기화 실패');
     }
   })
   .catch(err=>{
@@ -97,13 +98,13 @@ export function changePassword({state},payload){
   .then(res=>{
     console.log("비밀번호 변경 성공")
     if(res.data==="SUCCESS"){
-      alert("비밀번호 변경 성공, 다시 로그인 해주세요")
+      Swal.fire('SUCCESS' ,'비밀번호 변경 성공, 다시 로그인 해주세요');
       state.userId=''
       state.accessToken=''
       state.myinfo=[]
       router.push({name:"Login"})
     }else if(res.data==="FAIL"){
-      alert("현재 비밀번호가 틀립니다. 다시 확인해주세요")
+      Swal.fire('FAIL' ,'현재 비밀번호가 틀립니다. 다시 확인해주세요');
     }
   })
   .catch(err=>{
@@ -121,13 +122,13 @@ export function deleteMember({state},payload){
     .then(res=>{
       console.log("회원 탈퇴 성공")
       if(res.data==="SUCCESS"){
-        alert("회원을 탈퇴 하셨습니다.")
+        Swal.fire('SUCCESS' ,'회원을 탈퇴 하셨습니다.');
         state.userId=''
         state.accessToken=''
         state.myinfo=[]
         router.push({name:"Login"})
       }else if(res.data==="FAIL"){
-        alert("탈퇴 실패?? 가 뜨면 백엔드 문제")
+        Swal.fire('SUCCESS' ,'탈퇴 실패?? 가 뜨면 백엔드 문제');
       }
     })
     .catch(err=>{
@@ -366,7 +367,7 @@ export function deleteReportedArticle({ state, commit }, payload) {
 export function checklogin({ state }) {
   const accessToken = state.accessToken
   if (accessToken == '') {
-    alert("로그인 해주세요.")
+    Swal.fire('FAIL' ,'로그인 해주세요.');
     router.push("/login")
     return
   }
@@ -463,7 +464,7 @@ export function userLogout({state,commit},payload){
     .then(res => {
       console.log(res.data)
       if(res.data==="SUCCESS"){
-        alert("로그아웃")
+        Swal.fire('SUCCESS' ,'로그아웃');
         commit("USER_LOGOUT")
       }
     })
@@ -504,7 +505,7 @@ export function updateArticle({ state }, payload) {
 export function deleteArticle({ state, commit }, payload) {
   // 현재 로그인한 사용자와 게시글을 작성한 사용자의 PK 비교 
   if (payload.memberId !== state.userId) {
-    alert("권한이 없습니다.")
+    Swal.fire('FAIL' ,'권한이 없습니다.');
     return
   }
   else{
@@ -917,6 +918,47 @@ export function unlike({state, commit},payload){//payload -> 카드에 있는 �
   })
     .then(res => {
       commit("AM_I_FOLLOWED", res.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+
+
+
+
+
+}
+
+export function getNotification({state,commit}, payload){
+  const url='/notificaion/getNotification/?id=' + payload
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+    .then(res => {
+      console.log(res.data)
+      commit("SET_NOTIFICATION", res.data.list)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
+
+export function checkNotification({state}, payload){
+  const url='/notificaion/checkNotification/?id=' + payload
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+    .then(res => {
+      console.log(res.data)
+      router.push('')
     })
     .catch(err => {
       console.log(err)

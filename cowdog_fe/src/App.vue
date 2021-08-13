@@ -18,33 +18,80 @@
       <el-menu-item index="/register" class="navMenu">Register</el-menu-item>
       <el-menu-item index="/mypage" class="navMenu" @click="getMyInfo">mypage</el-menu-item>
       <el-menu-item index="/test" class="navMenu">test</el-menu-item>
+      
+      <el-menu-item v-if="notifications.length==0"  class="navMenu" @click="state.dialogVisible = true"><i class="fas fa-envelope-open"></i></el-menu-item>
+      <el-menu-item v-else class="navMenu" @click="state.dialogVisible = true"><i class="fas fa-envelope"></i> {{notifications.length}}</el-menu-item>
     </el-menu>
+          <el-dialog
+          class="notice-detail"
+          title="알림"
+          v-model="state.dialogVisible"
+          width="70%"
+          >
+            <div  v-for="user in notifications" :key="user.id">
+                <div style="display:inline;">
+                  <p>{{user.mem.memberid}} 님이 팔로우를 걸었습니다.</p>
+                  <el-button @click="checkNotification(user.id)">확인</el-button>
+                </div>
+            </div>   
+            <br>
+            <br>
+            
+            <br>
+
+
+        </el-dialog>
   </div>
+
+  
   
   <router-view/>
 </template>
 
 <script>
-import { useStore } from 'vuex'
+import { reactive } from '@vue/reactivity';
+import { onMounted } from '@vue/runtime-core';
+import { mapGetters, useStore } from 'vuex'
 export default ({
 
   data() {
     return {
       activeIndex: '1',
+      dialogVisible: false
     };
      
   },
+
  
   methods: {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     }
   },
+  computed: {
+    ...mapGetters({
+      notifications: 'getNotifications', // 내가 팔로우하는 사람들
+
+    })
+  },
   setup() {
+    const state=reactive({
+      dialogVisible:false
+    })
+    onMounted(() => {
+       store.dispatch("getNotification",store.getters.getUserId)//알림 뭐 왔나 백엔드에서 가져오는거
+    })
     const store = useStore()
     const logout =function(){
       console.log("로그아웃")
       store.dispatch("userLogout",{id:store.getters.getUserId})
+    }
+    const checkNotification=function(id){
+      console.log(id)
+      console.log("알림 확인")
+      store.dispatch("checkNotification",id)
+      state.dialogVisible=false
+      store.dispatch("getNotification",store.getters.getUserId)
     }
 
     return {
@@ -61,6 +108,8 @@ export default ({
       GetFollowUsers:()=>{
           store.dispatch("getFollowUsers")
       },
+     checkNotification,
+     state
      
     }
   },

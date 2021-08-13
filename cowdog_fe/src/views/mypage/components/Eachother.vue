@@ -16,7 +16,7 @@
     </el-pagination>
     
   </div>
-    <div v-if="state.eachOtherFollowUsers[0]===null" class="no_user">
+    <div v-if="eachOtherFollowUsers[0]===null" class="no_user">
         <h1 style="margin-top:20%">맞팔로우인 사람이 없습니다!!!</h1>
     </div>
     

@@ -205,6 +205,7 @@
 import { reactive,ref } from 'vue'
 import { useStore } from 'vuex'
 import router from "@/router"
+import Swal from 'sweetalert2'
 import FindingPasswordModal from "../findpassword/FindingPasswordModal.vue"
 export default {
   name: "LoginPage",
@@ -250,15 +251,15 @@ export default {
           .then(function (result) {
             console.log(result.data)
            if(result.data.message==="NOT_EXISTS_USER"){
-              alert("회원이 아닙니다.")
+             Swal.fire('FAIL' ,'회원이 아닙니다.');
             }
             else if(result.data.message==="PASSWORD_INCORRECT"){
-              alert("아이디나 비밀번호를 확인해주세요")
+              Swal.fire('FAIL' ,'아이디나 비밀번호를 확인해주세요');
             }else if(result.data.message==="ISSUSPENDED"){
-              alert("정지된 계정입니다.")
+              Swal.fire('ISSUSPENDED' ,'정지된 계정입니다.');
             }
             else{
-              alert("로그인 성공")
+              Swal.fire('SUCCESS' ,'로그인 성공');
               console.log(result.data.id)
               console.log(result.data.accessToken)
               // var login_user={}
@@ -274,11 +275,11 @@ export default {
             }
           })
           .catch(function () {
-            alert("회원정보가 없습니다.")
+            Swal.fire('FAIL' ,'회원정보가 없습니다.');
           })
         } else {
           state.form.isLoading=false
-          alert('로그인 형식이 올바르지 않습니다.')
+          Swal.fire('FAIL' ,'로그인 형식이 올바르지 않습니다.');
         }
       });
     }

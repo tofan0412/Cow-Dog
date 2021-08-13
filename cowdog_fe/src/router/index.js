@@ -31,9 +31,15 @@ import AppealCreate from '../views/appeal/components/AppealCreate'
 import AppealDetail from '../views/appeal/components/AppealDetail'
 import AppealList from '../views/appeal/components/AppealList'
 import AppealUpdate from '../views/appeal/components/AppealUpdate'
+import App from '../App.vue'
 
 const routes = [
   
+  {
+    path:'/app',
+    name:'App',
+    component:App
+  },
   {
     path: '/test',
     name: 'Test',

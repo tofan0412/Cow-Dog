@@ -27,9 +27,21 @@ export const GET_LOGIN_USER=(state,login_user)=>{
 }
 
 export const USER_LOGOUT=(state)=>{
-    state.accessToken=''
-    state.userId=''
-    state.myinfo=[]
+    state.articles= "기본값",
+    state.notices= "기본값",
+    state.reportedUsers= '기본값',
+    state.reportedArticles= '기본값',
+    state.noticeDetailData= '기본값',
+    state.myinfo=[],//유저 정보
+    state.accessToken='',// 토큰
+    state.userId='',//유저 pk 값
+    state.randomUsers=[],
+    state.distanceUsers=[],
+    state.recomUsers=[],
+    state.followUsers=[],
+    state.eachOtherFollowUsers=[],
+    state.usersIFollowed= [],
+    state.notifications=[],
     router.push('/login')
 }
 
@@ -76,4 +88,8 @@ export const SET_EACH_OTHER_FOLLOW_USER=(state,eachOtherFollowUsers)=>{
 }
 export const AM_I_FOLLOWED = (state, usersIFollowed) => {
     state.usersIFollowed = usersIFollowed;
+}
+
+export const SET_NOTIFICATION=(state, notifications) => {
+    state.notifications = notifications;
 }

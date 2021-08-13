@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xy.entity.Member;
+import com.xy.entity.Notification;
 import com.xy.repository.MemberRepository;
+import com.xy.repository.NotificationRepository;
 import com.xy.service.FollowService;
 import com.xy.service.FollowServiceImpl;
 import com.xy.service.MemberService;
@@ -36,7 +38,8 @@ public class LikeController {
 	MemberService memSer;
 	@Autowired
 	MemberRepository memRepo;
-	
+	@Autowired
+	NotificationRepository notiRepo;
 	@Autowired
 	FollowServiceImpl followSer;
 	
@@ -54,6 +57,12 @@ public class LikeController {
 		long From=Long.parseLong(map.get("followerid").toString());//팔로우를 하는사람
 		Member to=memSer.getMemberByMemberId(map.get("memberid"));//팔로우를 당하는사람
 		Follow follow=new Follow();
+		Notification notification=new Notification();
+		notification.setFlag(false);
+		notification.setSender(From);
+		notification.setReceiver(to.getId());
+		notiRepo.save(notification);
+		
 		follow.setMember_id(to.getId());
 		follow.setFollower_id(From);
 		if(followSer.save(follow)!=null) {

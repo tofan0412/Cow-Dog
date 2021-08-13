@@ -46,3 +46,7 @@ export function getEachOtherFollowUsers(state){
 export function getUsersIFollowed(state){
 	return state.usersIFollowed
 }
+
+export function getNotifications(state){
+	return state.notifications;
+}
