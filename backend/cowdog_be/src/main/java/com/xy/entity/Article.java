@@ -42,7 +42,5 @@ public class Article {
 	private String content;
 	private Timestamp regtime;
 	private String image;
-	private double distance;
-	private String address;
 	private String tags;
 }

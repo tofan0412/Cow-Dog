@@ -1,4 +1,23 @@
 <template>
+    <el-menu
+      :router="true"
+      :default-active="activeIndex"
+      class="el-menu-demo"
+      mode="horizontal"
+      @select="handleSelect"
+      background-color="white"
+      style="position: sticky; top: 0; z-index: 1;"
+    >
+      <el-row justify="center" align="middle" style="margin: 10px;">
+        <el-col :span="8">
+          <el-input placeholder="#검색할 태그를 입력하세요." v-model="input"></el-input>
+        </el-col>
+        
+      </el-row>
+    </el-menu>
+  
+  
+  
   <el-row>
     <el-col :span="12" :offset="6"> <!-- offset 설정하면 왼쪽 기준으로 공백 크기 설정 -->
       <div v-for="article in state.articleList" :key="article.articleno"> <!-- 왜 key에다가 콜론을 해줘야 하지..? -->
@@ -13,7 +32,6 @@ import { reactive } from '@vue/reactivity'
 import { useStore } from 'vuex'
 import router from '../../../router'
 import appealDetail from './AppealDetail.vue'
-import { onMounted } from 'vue'
 
 export default {
   name: 'BOARDLIST',  
@@ -33,12 +51,6 @@ export default {
     // 게시글 목록 갱신
     store.dispatch("getArticles")
     state.articleList = store.getters.getArticles
-    
-    onMounted(() => {
-      
-
-
-    })
 
     return {
       state

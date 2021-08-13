@@ -5,38 +5,21 @@
     <el-row justify="start" align="middle">
       <!-- 사용자가 등록한 이미지가 존재하는 경우 -->
       <el-col :span="2" v-if="state.file_path !== null" style="align: center;">
-        <img 
-        class="profile"
-        :src="state.file_path"
-        style=
-        "
-        position: relative;
-        top: 8px;
-        border-radius: 70%;
-        margin: 5px;"
-        >&nbsp;
+        <img class="profile" :src="state.file_path">&nbsp;
       </el-col>
       
       <!-- 사용자가 등록한 이미지가 존재하지 않는 경우 -->
       <el-col :span="2" v-if="state.file_path === null" style="align: center;">
-        <img 
-        class="profile"  
-        :src="require('@/assets/images/defaultProfile.png')"
-        style=
-        "
-        position: relative;
-        top: 8px;
-        align: center;
-        border-radius: 70%;
-        margin: 5px;"
+        <img class="profile" :src="require('@/assets/images/defaultProfile.png')"
         >&nbsp;
       </el-col>
 
       <el-col :span="4">
         <span>{{ this.article.writer }}</span>
       </el-col>
-      <el-col :span="18" style="text-align: end;">
-        <i class="el-icon-user" style="font-size: 25px; margin-right: 10px;"></i>
+      <!-- 게시글 삭제, 회원 정보 조회 -->
+      <el-col :span="18" style="text-align: end; padding-right: 10px;">
+        <i class="el-icon-more-outline" style="font-size: 25px; margin-right: 10px;" @click="centerDialogVisible = true"></i>
       </el-col>
       
     </el-row>
@@ -45,7 +28,7 @@
     <div class="header">
     <el-row>
       <el-col style="text-align: start;">
-        <h3><strong>{{ this.article.title }}</strong></h3>
+        <h2><strong>{{ this.article.title }}</strong></h2>
       </el-col>
     </el-row>
     <!-- 작성일 정보 -->
@@ -56,8 +39,6 @@
     </el-row>
     </div>
 
-    
-
     <!-- 본문 내용 -->
     <el-main class="el-main">
       <el-row justify="end" v-if="this.state.loginId === this.article.memberId">
@@ -65,8 +46,9 @@
         <el-button size="mini" round @click="updateArticlePage(this.article)"><i class="el-icon-edit">수정</i></el-button>
         <el-button size="mini" round @click="deleteArticle(this.article)"><i class="el-icon-delete">삭제</i></el-button> 
       </el-row>
-      
-      <el-row style="text-align: justify;">
+
+      <el-row style="text-align: justify; margin-top: 70px; margin-bottom: 70px; white-space:pre-wrap;">
+        <!-- 이미지 있으면 이 곳에 올려야 함.. -->
         {{ this.article.content }}
       </el-row>
       
@@ -142,11 +124,48 @@
       </el-row>
     </el-main>
   </el-container>
+
+  <!-- modal창 -->
+  <el-dialog
+    title=""
+    v-model="centerDialogVisible"
+    width="30%"
+    destroy-on-close
+    show-close="false"
+    top="17%"
+    center
+    >
+    <div class="dialog" style= "cursor: pointer; font-size: 20px;">
+      <el-row @click="goToReportPage()">
+        <el-col>
+          <span style="color: red;">게시글 신고</span>
+          <el-divider></el-divider>
+        </el-col>
+      </el-row>
+      <el-row @click="true">
+        <el-col>
+          <span>사용자 조회</span>
+          <el-divider></el-divider>
+        </el-col>
+      </el-row>
+      <el-row @click="centerDialogVisible = false">
+        <el-col>
+          <span>취소</span>
+        </el-col>
+      </el-row>
+    </div>
+    <!-- <template #footer>
+      <span class="dialog-footer">
+      </span>
+    </template> -->
+
+  </el-dialog>
 </template>
 
 <script>
-import { reactive } from '@vue/reactivity'
+import { reactive, ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
+import router from '../../../router'
 
 export default {  
   name: 'ArticleDetail',
@@ -156,6 +175,7 @@ export default {
   setup(props) {
     const store = useStore()
     const state = reactive({
+      
       store: store,
       loginId: store.getters.getUserId,
       articleNo: props.article.articleNo,
@@ -197,7 +217,8 @@ export default {
       console.log(err)
     })
     return {
-      state
+      state,
+      centerDialogVisible: ref(false),
     }
   },
   methods: {
@@ -262,6 +283,9 @@ export default {
         })
       }
     },
+    goToReportPage(){
+      router.push("/admin/article-report")
+    }
 
   },
   }
@@ -274,8 +298,8 @@ export default {
   height: auto;
 }
 .header{
-  padding: 15px;
-  padding-top: 0px;
+  padding-left: 15px;
+  padding-right: 15px;
 } 
 .el-main{
   padding: 15px;
@@ -287,6 +311,16 @@ export default {
 #commentCreateBtn{
   color: #323545;
   font-weight: bold;
+}
+.profile {
+  position: relative;
+  top: 8px;
+  border-radius: 70%;
+  margin: 5px;
+}
+.dialog > *{
+  margin: 5px;
+  text-align: center;
 }
 
 </style>

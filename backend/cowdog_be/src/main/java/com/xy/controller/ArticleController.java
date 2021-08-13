@@ -30,11 +30,8 @@ public class ArticleController {
      */
     @GetMapping("")
     public List<Article> findAll() {
-    	List<Article> list=articleService.findAll();
-    	for(int i=0; i<list.size(); i++) {
-    		System.out.println(list.toString());
-    	}
-        return articleService.findAll();
+    	List<Article> list = articleService.findAll();
+        return list;
     }
 
 

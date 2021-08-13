@@ -21,7 +21,6 @@ export function getMyInfo({state,commit}){
 }
 
 export function getUserInfo({ state }, payload) {
-  console.log("게시글 작성자 정보를 조회합니다. : {" + payload.userId + "}")
   const url = "/mem/mypage?userId=" + payload.userId
   return axios({
     url: url,
@@ -427,7 +426,7 @@ export function createArticle({ state, commit }, payload) {
 }
 
 export function getArticles({ state, commit }) {  
-  console.log("게시글 목록 가져옵니다..")
+  console.log("게시글 목록 가져옵니다.")
   const url = "/appeal"
   axios({
     url: url,
@@ -437,8 +436,11 @@ export function getArticles({ state, commit }) {
     },
   })
   .then(resp => {
+    // 시간 순으로 잘 불러왔는가? 
+    console.log("조회 결과: ", resp.data)
+
+
     // 날짜 전처리 필요하다...
-    console.log("날짜 전처리 시작합니다.")
     for (let i = 0; i < resp.data.length; i++) {
       const date = new Date(resp.data[i].regtime).toDateString()
       resp.data[i].regtime = date
