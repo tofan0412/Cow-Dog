@@ -5,15 +5,83 @@
             <br>
             <h2>지금 만나보고 싶은 이성을 골라본다면?</h2>
         </div>
+        <div class="recom-btns">
 
-       <el-button class="recom_btn" @click="alcohol"><i class="fas fa-wine-glass-alt"></i> 주량이 맞는 사람</el-button>
-       <el-button class="recom_btn" @click="sameHobby"><i class="fas fa-utensils"></i> 취미가 비슷한 사람</el-button>
-       <el-button class="recom_btn" @click="wantMale"><i class="fas fa-male"></i> 멋진 남성을 만나고 싶은 사람</el-button>
-       <el-button class="recom_btn" @click="wantFemale"><i class="fas fa-female"></i> 아름다운 여성을 만나고 싶은 사람</el-button>
-       <el-button class="recom_btn" @click="nonSmoking"><i class="fas fa-smoking-ban"></i> 비흡연자를 만나고 싶은 사람</el-button>
-       <el-button class="recom_btn" @click="sameReligion"><i class="fas fa-pray"></i> 종교가 같은 사람</el-button>
-       <el-button class="recom_btn" @click="sameMbti"><i class="fas fa-file-alt"></i> MBTI가 나와 맞는 사람</el-button>
-       <el-button class="recom_btn" @click="samePersonality"><i class="fas fa-equals"></i> 성격이 나와 맞는 사람</el-button>
+            <div class="간격">
+                <a class="neon-btn" @click="alcohol">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <i class="fas fa-wine-glass-alt"></i> 주량이 맞는 사람
+                </a>
+            </div>
+
+            <div class="간격">
+                <a class="neon-btn" @click="sameHobby">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <i class="fas fa-utensils"></i> 취미가 비슷한 사람
+                </a>
+            </div>
+            
+            <div class="간격">
+                <a class="neon-btn" @click="wantMale">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <i class="fas fa-male"></i> 멋진 남성을 만나고 싶은 사람
+                </a>
+            </div>
+            <div class="간격">
+                <a class="neon-btn" @click="wantFemale">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <i class="fas fa-female"></i> 아름다운 여성을 만나고 싶은 사람
+                </a>
+            </div>
+            <div class="간격">
+                <a class="neon-btn" @click="nonSmoking">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <i class="fas fa-smoking-ban"></i> 비흡연자를 만나고 싶은 사람
+                </a>
+            </div>
+            <div class="간격">
+                <a class="neon-btn" @click="sameReligion">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <i class="fas fa-pray"></i> 종교가 같은 사람
+                </a>
+            </div>
+            <div class="간격">
+                <a class="neon-btn" @click="sameMbti">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <i class="fas fa-file-alt"></i> MBTI가 나와 맞는 사람
+                </a>
+            </div>
+            <div class="간격">
+                <a class="neon-btn" @click="samePersonality">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <i class="fas fa-equals"></i> 성격이 나와 맞는 사람
+                </a>
+            </div>
+        </div>
     </div>
 </template>
 <script lang="ts">
@@ -22,12 +90,12 @@ import { useStore } from 'vuex'
 
 
 export default{
-     setup() {
+    setup() {
         const store=useStore()
         const state = reactive({
-           
-
-
+            
+            
+            
 
 
         })
@@ -86,28 +154,21 @@ export default{
     
     border-radius: 10px;
     width: 50%;
-    height: 700px;
     margin: 5% auto;
     background-color: white
 }
-.recom_btn span {
-    font-weight: bold;
-    font-size: 14px;
-    letter-spacing: 0.5px;
+.recom-btns {
+    padding: 3%;
 }
-.recom_btn {
-    width: 80%;
-    margin-left: 0 !important;
-    margin-top: 20px;
-    border: 2px solid #323545;
-    color: #323545;
-    background-color: white;
-    border-radius: 10px;
+.recom-btns .neon-btn {
+    width: 70%;
+    font-size: 16px;
 }
-.recom_btn:hover
-{
-    background-color: white;
-    color: #FF4E7E;
-    border: 2px solid;
+.recom-btns .neon-btn:hover {
+    cursor: pointer;
+}
+
+.간격 {
+    height: 5rem;
 }
 </style>

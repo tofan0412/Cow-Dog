@@ -100,6 +100,15 @@ pre {
   margin-top: 0;
   margin-bottom: 0;
 }
+span {
+  font-family: SeoulNamsanM;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #323545;
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
 
 body {
   margin: 0;
