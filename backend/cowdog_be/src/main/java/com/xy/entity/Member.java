@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -44,7 +45,7 @@ public class Member {
 	
 //	@OneToMany(mappedBy = "member_id")//이 멤버가 쓴 게시물들
 //	private List<Article> articles=new ArrayList<Article>();
-	
+
 	@Column(name="password")
 	private String password;
 	private String nickname;

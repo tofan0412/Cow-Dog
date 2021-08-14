@@ -265,6 +265,7 @@ export default {
               // 유저 PK와 토큰 정보를 store에 저장한다.
               store.commit("GET_LOGIN_USER",{userId:result.data.id,accessToken:result.data.accessToken})
               // 유저 정보(myPage에 출력되는 정보)를 store에 저장한다.
+
               store.dispatch("setUserInfo")
 
               router.push({name:"Main"}) //로그인 성공하면 메인페이지로 이동

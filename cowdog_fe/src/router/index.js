@@ -35,6 +35,7 @@ import AppealUpdate from '../views/appeal/components/AppealUpdate'
 import App from '../App.vue'
 import store from '../store/index'
 import VideoChat from '../views/main/matchingview/VideoChat.vue'
+import AppealSearchResult from '../views/appeal/components/AppealSearchResult'
 
 const routes = [
   {
@@ -242,7 +243,13 @@ const routes = [
     path: '/appeal/update',
     name: 'AppealUpdate',
     component: AppealUpdate,
-  },
+  }, 
+  {
+    // 동적 라우팅
+    path: '/appeal/searchResult',
+    name: 'AppealSearchResult',
+    component: AppealSearchResult,
+  }, 
 ]
 
 const router = createRouter({

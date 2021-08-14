@@ -5,10 +5,12 @@ import com.xy.entity.Member;
 import com.xy.repository.ArticleRepository;
 import com.xy.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.sound.midi.SysexMessage;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -24,13 +26,13 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<Article> findAll() {
-        return articleRepository.findAll();
+        return articleRepository.findAll(Sort.by(Sort.Direction.DESC, "articleNo"));
     }
 
     @Override
     public Long create(Map map) {
         // 1. 사용자 정보 찾기
-    	
+
         System.out.println();
         System.out.println("SERVICEC   "+map.toString());
       
@@ -39,6 +41,10 @@ public class ArticleServiceImpl implements ArticleService {
         article.setTitle((String) map.get("title"));
         article.setContent((String) map.get("content"));
         article.setWriter(map.get("writer").toString());
+        // 태그 설정하기
+        System.out.println(":::::::::::::::::::::::::::::::::::::::"+map.get("tags").toString());
+        String tags = (String) map.get("tags");
+        article.setTags(tags);
 
         // 작성일 입력
         Timestamp now = new Timestamp(System.currentTimeMillis());
@@ -87,11 +93,27 @@ public class ArticleServiceImpl implements ArticleService {
         }
     }
 
+    @Override
+    public List<Article> findByTagsContains(String keyword) {
+    	List<Article> list=articleRepository.findAll();
+    	List<Article> resultList=new ArrayList<Article>();
+    	for(int i=0 ; i<list.size(); i++) {
+    		if(list.get(i).getTags().contains(keyword)) {
+    			System.out.println("before resultList size::"+resultList.size());
+    			System.out.println("결과~!!!!!!:"+list.get(i).toString());
+    			resultList.add(list.get(i));
+    			System.out.println("after resultList size::"+resultList.size());
+    		}
+    	}
+    	
+		System.out.println("final resultList size::"+resultList.size());
+
+    	System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!:"+resultList.toString());
+        return resultList;
+    }
+
 	@Override
-	public Article getArticle(String writer) {
-		
-		
-		
+	public Article findArticlebyWriter(String writer) {
 		return articleRepository.findArticleByWriter(writer);
 	}
 

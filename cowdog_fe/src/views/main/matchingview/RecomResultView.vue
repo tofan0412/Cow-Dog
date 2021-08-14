@@ -57,7 +57,7 @@ export default {
     },
 
     setup() {
-        
+        store.dispatch("getNotification",store.getters.getUserId)//알림 뭐 왔나 백엔드에서 가져오는거
         const store=useStore()
          const state = reactive({
            recomUsers:store.getters.getRecomUser

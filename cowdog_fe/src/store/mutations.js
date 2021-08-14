@@ -93,3 +93,6 @@ export const AM_I_FOLLOWED = (state, usersIFollowed) => {
 export const SET_NOTIFICATION=(state, notifications) => {
     state.notifications = notifications;
 }
+export const SET_SEARCH_RESULT= (state, searchResults) => {
+    state.searchResults = searchResults
+}

@@ -55,7 +55,7 @@ public class ImageServiceImpl implements ImageService{
 		
 		System.out.println("게시판 이미지 업로드~");
 		System.out.println(image.toString());
-		Article article=articleSer.getArticle(userId);
+		Article article=articleSer.findArticlebyWriter(userId);
 		System.out.println(article.toString());
 		article.setFile_path(image.getFile_path());
 		article.setImgFullPath(image.getImgFullPath());

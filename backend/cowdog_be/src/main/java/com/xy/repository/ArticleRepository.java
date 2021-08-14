@@ -11,4 +11,6 @@ import java.util.List;
 public interface ArticleRepository extends JpaRepository<Article, Long> {
     public Article findArticleByArticleNo(Long articleNo);
     public Article findArticleByWriter(String writer);
+    public List<Article> findByTagsContains(String keyword);
+
 }

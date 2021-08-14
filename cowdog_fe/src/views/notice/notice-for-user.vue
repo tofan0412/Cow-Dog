@@ -66,6 +66,7 @@ export default {
   setup() {
     const store=useStore()
     store.dispatch('getNotices') // actions/getNotices에 dispatch
+    store.dispatch("getNotification",store.getters.getUserId)//알림 뭐 왔나 백엔드에서 가져오는거
 
   }
 }

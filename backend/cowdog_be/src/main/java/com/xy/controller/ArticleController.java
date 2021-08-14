@@ -39,13 +39,8 @@ public class ArticleController {
      */
     @GetMapping("")
     public List<Article> findAll() {
-    	List<Article> list=articleService.findAll();
-    	for(int i=0; i<list.size(); i++) {
-    		System.out.println(list.toString());
-    	}
-    	
-    	
-        return articleService.findAll();
+    	List<Article> list = articleService.findAll();
+        return list;
     }
 
     @PostMapping(value="/ImgaeUpload", headers = ("content-type=multipart/*"))
@@ -108,6 +103,13 @@ public class ArticleController {
         Long result = articleService.update(map);
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, Long.toString(result)));
+    }
+
+    @GetMapping("/search")
+    public List<Article> findByTagsContains(@RequestParam("searchKeyword") String keyword) {
+        System.out.println("검색 키워드는 {" + keyword + "} 입니다.");
+        List<Article> result = articleService.findByTagsContains(keyword);
+        return result;
     }
 
 

@@ -32,40 +32,49 @@
         </el-form-item>
         
         <!-- 태그 -->
-        <el-form-item label="Tags" prop="tag" >
+        <el-form-item label="Tags" prop="tag" id="tagForm">
           <el-input
-          class="elinput" id="tagText"
-          v-model="state.articleForm.tagKeyword" 
-          autocomplete="off" 
-          placeholder="#태그를 입력해 주세요.(최대 10개)"
-          style="width: 100%;"
+          class="elinput"
+          v-model="state.articleForm.tagKeyword"
+          placeholder="#태그를 입력해 주세요. (최대 10개, 태그당 최대 길이 10자)"
+          maxlength="10"
           @keyup.enter="enterTag()"
           />
         </el-form-item>
         <!-- 추가한 태그를 표시하는 곳.. -->
-        <div style="min-height: 60px;">
-
-        </div>
+        <el-row style="min-height: 60px; margin-bottom: 20px;" justify="start" align="top">
+          <el-col 
+          :span="3"
+          v-for="tag in state.articleForm.tags" :key="tag"
+          style="color: black; margin: 1px; font-size:13px; padding: 2px; border-radius: 0.2rem; cursor: pointer;"
+          @click="removeTag(tag)"
+          >
+            {{ tag }}
+          </el-col>
+        </el-row>
 
         <!-- 지도 -->
 
 
         <!-- 이미지 업로드 -->
-        <div class="input-name profile-comment">함께 올릴 사진을 선택하세요</div>
+        <!-- <div class="input-name profile-comment">함께 올릴 사진을 선택하세요</div>
           <div class="button-and-img-name">
           <div class="appeal-img-preview-box"><img class="appeal-img-preview" :src="imagePreview"></div>
           <div class="img-upload-btn-box"><label class="img-upload-btn" for="imgfiles"><i class="fas fa-arrow-circle-up"></i>&nbsp;업로드</label></div>
           <input type="file" id="imgfiles" ref="imgfiles" @change="handleFileUpload" multiple style="display:none"/>
-        </div>
+        </div> -->
+
+        <!-- <el-button size="small" type="primary">Click to upload</el-button> -->
         <!-- 하단에 표시할 작은 툴팁 메세지 -->
-        <template #tip>
+        <!-- <template #tip>
           <div class="el-upload__tip">
             jpg/png files with a size less than 500kb
           </div>
-        </template>
+        </template> -->
+       
 
         <div style="margin-top: 20px;"></div>
-        <el-button default type="button" @click="create">작성</el-button>
+        <el-button default type="button" @click="create()">작성</el-button>
       </el-form>
     </el-col>
   </el-row>
@@ -73,39 +82,33 @@
 </template>
 <script>
 import { useStore } from 'vuex'
-import { reactive, ref, onMounted } from 'vue'
+import { reactive, ref } from 'vue'
 import axios from 'axios'
-import Swal from 'sweetalert2'
-
 let files=[]
 export default {
 name: 'AppealCreate',
-  data(){
+data(){
     return{
       imagePreview: "#",
       files:[],
       url:null,
     }
   },
-  methods:{
-    handleFileUpload(e) {
-            const file = e.target.files[0]
-            this.imagePreview = URL.createObjectURL(file)
-            console.log(this.$refs.imgfiles.files)
-            files = this.$refs.imgfiles.files;
-            this.url=files[0].name
-            console.log(files);
-          },
-  },
+
 setup() {
   const articleForm = ref(null)
   const store = useStore()
+  const tagDOM = ref('$tagForm')
+  console.log(tagDOM)
+
   const state = reactive({
     headerInfo: {
         'Access-Control-Allow-Origin': '*',
         Authorization:"Bearer "+store.getters.getUserToken,
         ContentType: 'multipart/form-data'
     },
+    fileList: [],
+    store: store,
     articleForm: {
       title: '',
       content: '',
@@ -122,28 +125,38 @@ setup() {
         { required: true, message: '내용을 입력하세요', trigger: 'blur' }
       ],
     },
-    
-    store: store,
   })
-  onMounted(() => {
-    store.dispatch("checklogin")
-  })
-  const ImageUpload=function(){  
-        console.log("이미지 업로드~")
+  return {
+    state,
+    articleForm,
+  }
+},
+methods: {
+  handleFileUpload(e) {
+            const file = e.target.files[0]
+            this.imagePreview = URL.createObjectURL(file)
+            console.log(this.$refs.imgfiles.files)
+            files = this.$refs.imgfiles.files;
+            this.url=files[0].name
+            console.log(files);
+          },
+
+  ImageUpload(){
+      console.log("이미지 업로드~")
         console.log(files)
         console.log(files[0])
-        console.log(state.articleForm.member_id)
+        console.log(this.state.articleForm.member_id)
         for (var i = 0; i < files.length; i++) {
             let formData = new FormData();
             formData.append('title', "profile");
             formData.append('files', files[i]);
-            formData.append('userId',state.articleForm.writer)
+            formData.append('userId',this.state.articleForm.writer)
             axios.post('http://localhost:8080/cowdog/appeal/imageListImgaeUpload',
             
             formData, {
                 headers: {
                 'Content-Type': 'multipart/form-data',
-                Authorization:"Bearer "+store.getters.getUserToken
+                Authorization:"Bearer "+this.state.store.getters.getUserToken
                 },
             }
             )  
@@ -154,60 +167,80 @@ setup() {
                 console.log('FAILURE!!');
                     });
             }
-    }
-
-    const create=function(){
-      console.log("글 작성~")
-    if (state.articleForm.title == '') {
-      Swal.fire("!!!","제목 입력")
+  },
+  create() {
+    if (this.state.articleForm.title == '') {
+      alert("제목 입력")
       return
     }
-    if (state.articleForm.content == '') {
-      Swal.fire("!!!","내용 입력")
+    if (this.state.articleForm.content == '') {
+      alert("내용 입력")
+      return
+    }
+    // this.ImageUpload()
+    // 작성한 내용을 axios 요청하기 전에, 태그 리스트를 하나의 String으로 변환한다.
+    let result = ''
+    for (let i = 0; i < this.state.articleForm.tags.length; i++) {
+      result += this.state.articleForm.tags[i]
+    }
+
+    this.state.store.dispatch("createArticle", 
+        { title: this.state.articleForm.title, 
+        content: this.state.articleForm.content, 
+        member_id: this.state.articleForm.member_id ,
+        writer: this.state.articleForm.writer,
+        tags: result,
+        } )
+
+    this.ImageUpload()
+  },
+
+
+  enterTag() {
+    // 태그가 10개를 초과하는 경우 반환
+    const tags = this.state.articleForm.tags
+
+    if ( tags.length === 10 ) {
+      alert("태그는 최대 10개까지 등록할 수 있습니다.")
       return
     }
 
-    ImageUpload()
-
-    state.store.dispatch("createArticle", 
-        { title: state.articleForm.title, 
-        content: state.articleForm.content, 
-        member_id: state.articleForm.member_id ,
-        writer: state.articleForm.writer} )
-  
-    }
-    const handleRemove=function(file){
-        console.log(file)
-    }
-    const handlePreview=function(file){
-      console.log(file)
-      this.state.fileList.push(file)
+    // 입력하지 않고 엔터 누른 경우 금지
+    if (this.state.articleForm.tagKeyword.trim() === '' || this.state.articleForm.tagKeyword.trim() === '#'){
+      alert("추가할 태그를 입력해 주세요")
+      return
     }
 
-  return {
-    state,
-    articleForm,
-    ImageUpload,
-    create,
-    handleRemove,
-    handlePreview
+    // #을 포함하지 않거나, #이 가장 앞에 오지 않은 경우
+    if ( this.state.articleForm.tagKeyword.trim().indexOf('#') === -1 || this.state.articleForm.tagKeyword.trim().indexOf('#') !== 0 ){
+      alert("올바른 위치에 # 태그를 사용해주세요.")
+    }
+    // 조건에 부합하는 경우 tags에 추가한다. 
+    else {
+      // 이미 리스트에 있는지 검사
+      for (let i = 0; i < tags.length; i++) {
+        if ( tags[i] === this.state.articleForm.tagKeyword.trim() ) {
+          alert("이미 존재하는 태그입니다.")
+          this.state.articleForm.tagKeyword = ''
+          return
+        }
+      }
+
+      tags.push(this.state.articleForm.tagKeyword.trim())
+      this.state.articleForm.tagKeyword = ''
+      console.log(tags)
+    }
+  },
+  removeTag(tag) {
+    console.log(tag)
+    // 찾아서 없애기
+    for (let i = 0; i < this.state.articleForm.tags.length; i++) {
+      if (tag === this.state.articleForm.tags[i]) {
+        this.state.articleForm.tags.splice(i, 1)
+      }
+    }
   }
-},
 
+},
 }
 </script>
-
-<style scoped>
-.appeal-img-preview-box {
-    width: 70%;
-    height: 200px;
-    border-radius: none;
-    overflow: hidden;
-    border: 2px dashed #ff4e7e;
-    margin: 10px auto;
-}
-.appeal-img-preview{
-  width: 100%;
-  height: 200px;
-}
-</style>
