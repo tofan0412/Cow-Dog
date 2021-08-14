@@ -1,6 +1,8 @@
 import { createApp } from 'vue'
 import App from './App.vue';
+import mitt from 'mitt';
 import VueSweetalert2 from 'vue-sweetalert2';
+import ChatModal from "./components/ChatModal.vue"
 
 // If you don't need the styles, do not connect
 import 'sweetalert2/dist/sweetalert2.min.css';
@@ -178,6 +180,8 @@ const components = [
   ElTransfer,
   ElTree,
   ElUpload,
+
+  ChatModal,
 ]
 
 const plugins = [
@@ -191,8 +195,14 @@ const plugins = [
 const app = createApp(App).use(router).use(store).use(axios).use(VueAxios).use(VueSweetalert2)
 components.forEach(component => {
   app.component(component.name, component)
+  app.component("ChatModal", ChatModal)
 })
 
+// for event bus
+const emitter = mitt();
+app.config.globalProperties.emitter = emitter;
+
+// for plugin
 plugins.forEach(plugin => {
   app.use(plugin)
 })

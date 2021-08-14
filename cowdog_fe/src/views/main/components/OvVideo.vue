@@ -17,8 +17,8 @@ export default {
 </script>
 
 <style scoped>
-video{
-	width:80%;
-	height:auto;
+video {
+	width:100%;
+	height:100%;
 }
 </style>

@@ -1,25 +1,5 @@
 <template>
 	<div id="" class="main-container">
-		<!-- <div id="join" v-if="!session">
-			<div id="img-div"><img src="resources/images/openvidu_grey_bg_transp_cropped.png" /></div>
-			<div id="join-dialog" class="jumbotron vertical-center">
-				<h1>Join a video session</h1>
-				<div class="form-group">
-					<p>
-						<label>Participant</label>
-						<input v-model="myUserName" class="form-control" type="text" required>
-					</p>
-					<p>
-						<label>Session</label>
-						<input v-model="mySessionId" class="form-control" type="text" required>
-					</p>
-					<p class="text-center">
-						<button class="btn btn-lg btn-success" @click="joinSession()">Join!</button>
-					</p>
-				</div>
-			</div>
-		</div> -->
-
 		<div v-if="session && invited">
 			<div class="result-card">
 				<div class="result-card-img">
@@ -40,136 +20,151 @@
 		</div>
 
 		<div id="session" v-if="session && !invited" class="video-container" v-bind:class="{chatCreate:!chatStatus&&!gameStatus, cmCreate:startStatus2}">
-			<div class="header1">
-				<div class="header2">화상 채팅</div>
-			</div>
-			<!-- <div id="session-header">
-				<input class="btn btn-large btn-primary" type="button" @click="refreshSession" value="refresh">
-				<input class="btn btn-large btn-primary" type="button" @click="refuseMeeting" value="refresh2">
-			</div> -->
-			<!-- <div id="session-header">
-				<h1 id="session-title">{{ mySessionId }}</h1>
-				<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
-			</div> -->
-			<div class="col-md-6 video">
-				<user-video :stream-manager="mainStreamManager"/>
-			</div>
-			<div class="col-md-6 video" v-if="matchAccept">
-				<!-- <user-video :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/> -->
-				<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
-			</div>
-						
-			<!-- <button @click="micControll">test</button> -->
-			<div class="nav">
-			</div>
-			<div class="nav1">
-				<button class="btncss" @click="videoControll">
-				얼굴변조
-				</button>
-				<button class="btncss" @click="voiceControll">
-				<Icon v-if="voiceStatus" icon="ic:baseline-record-voice-over" color="white" width="30" height="30"/>
-				<Icon v-else icon="ic:round-voice-over-off" color="white" width="30" height="30"/>
-				<label class="la-cs">목소리변조</label>
-				</button>
-				<button class="btncss" @click="micControll">
-					<Icon v-if="micStatus" icon="bi:mic-fill" color="white" width="30" height="30"/>
-					<Icon v-else icon="bi:mic-mute-fill" color="white" width="30" height="30"/>
-					<label v-if="micStatus" class="la-cs">음소거</label>
-					<label v-else class="la-cs">음소거 해제</label>
-				</button>
-				<button class="btncss" @click="vidControll">
-					<Icon v-if="vidStatus" icon="bi:camera-video-fill" color="white" width="30" height="30"/>
-					<Icon v-else icon="bi:camera-video-off-fill" color="white" width="30" height="30"/>
-					<label v-if="vidStatus" class="la-cs">카메라 끄기</label>
-					<label v-else class="la-cs">카메라 켜기</label>
-				</button>
-				<button class="btncss" @click="chatControll">
-					<Icon icon="bi:chat-dots" color="white" width="30" height="30" />
-					<label class="la-cs">채팅</label>
-				</button>
-				<button class="btncss" @click="gameControll">
-					<Icon icon="ion:game-controller-outline" color="white" width="30" height="30" />
-					<label class="la-cs">게임</label>
-				</button>
-				<button class="btncss" @click="leaveSession">
-					<Icon icon="ant-design:close-circle-filled" color="red" width="30" height="30" />
-					<label class="la-cs">나가기</label>
-				</button>
-			</div>
-		</div>
-
-		<div id="chatbox" class="chat-container" v-if="chatStatus && session && !invited">
-				<div class="chat-detail">
-				<div class="chatheader">
-					<span>채팅</span>
-					<!-- <span id="exit-chat">X</span> -->
+			<div class="video-chat-box">
+				<div class="header">
+					<div class="video-header">화상채팅</div>
+					<div class="chat-header">채팅 & 게임</div>
+				</div>
+				<!-- 비디오 부분 + 채팅 body -->
+				<div class="bodies">
+					<!-- Video1 -->
+					<div class="videos">
+						<div class="video">
+							<user-video :stream-manager="mainStreamManager"/>
+						</div>
+						<!-- Video2 -->
+						<div class="video" v-if="matchAccept">
+							<!-- <user-video :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/> -->
+							<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
+						</div>			
 					</div>
-				<div ref="chatmain" class="chatmain">
-					<div v-for="(chat,index) in chatdata" :key="index">
-						
-						<div class="my-chat-box" v-if="myUserName == chat.userId">
-							<div class="chat-block">
-							<span class="my-chat-time">{{chat.now}}</span>
-								<div class="my-chat">
-									<span>{{chat.msg}}</span>
+					<div class="chat-body">
+						<div id="chatbox" class="chat-container" v-if="chatStatus && session && !invited">
+								<div class="chat-detail">
+									
+									<div ref="chatmain" class="chat-main">
+										<div v-for="(chat,index) in chatdata" :key="index">
+											
+											<div v-if="myUserName == chat.userId" class="my-chat-box">
+												<div class="chat-block">
+													<div class="my-chat-time">{{ chat.now }}</div>
+													<div class="my-chat">{{chat.msg}}</div>
+												</div>
+											</div>
+											<div v-else class="opp-chat-box" >
+												<div class="opp-name">{{chat.userId}}</div>
+												<div class="opp-block">
+													<div class="opp-chat">{{chat.msg}}</div>
+													<div class="opp-chat-time">{{chat.now}}</div>
+												</div>
+											</div>
+										</div>
+									</div>		
+							</div>
+						</div>
+						<div class="game-container" v-if="gameStatus && session && !invited">
+							<h3 v-if="!startStatus || !startStatus2">게임을 골라주세요!</h3>
+							<div class="" v-if="!startStatus && !startStatus2" @click="startGame">
+								<div v-if="!isReadyBal" class="start-btn">밸런스 게임</div>
+								<div v-else class="start-btn">준비완료</div>
+							</div>
+							<div class="" v-if="!startStatus2 && !startStatus" @click="startGame2">
+								<div v-if="!isReadyCat" class="start-btn">캐치마인드</div>
+								<div v-else class="start-btn">준비완료</div>
+							</div>
+
+							<div class="a-or-b-game" v-if="startStatus">
+								<h3>밸런스 게임</h3>
+								<h5>바꿀 수 없습니다. 신중히 골라주세요!</h5>
+								<div class="select-box" @click="selectA">
+									{{A_item}}
 								</div>
+								<div class="select-box" @click="selectB">
+									{{B_item}}
+								</div>
+
+								<div class="select-result">
+									<div v-for="(game,index) in gamedata" :key="index">
+										<div class="select-comment">
+											<span>{{game.userId}}님이 {{game.select}}를 선택하셨습니다.</span>
+										</div>
+									</div>
+								</div>	
+								<div class="next-problem" @click="nextProblem">다음문제</div>
 							</div>
-							<!-- <div class="my-chat-time">
-								<span>{{chat.now}}</span><br>
-							</div> -->
-						</div>
-						<div class="opp-chat-box" v-else>
-							<div class="opp-block">
-								<!-- <img class="user-profile" src="./assets/img/micoff.png" alt=""> -->
-								<span class="opp-name">{{chat.userId}}</span>
-							</div>
-							<div class="opp-chat">
-								<span>{{chat.msg}}</span>
-							</div>
-							<span class="opp-chat-time">{{chat.now}}</span>
 						</div>
 					</div>
 				</div>
-				
-				<div class="send-box input-group">
-					<input class="chat-bar form-control" v-model="msg" type="text" placeholder="메세지를 입력해주세요" @keydown.enter="sendMsg">
-					<span class="input-group-btn">
-					<button class="send-btn btn btn-default" @click="sendMsg"><Icon icon="cil:send" color="white" width="20" heigth="20"/></button>
-					</span>
-				</div>
-			</div>
-		</div>
 
-		<div class="game-container" v-if="gameStatus && session && !invited">
-			<div class="" v-if="!startStatus && !startStatus2" @click="startGame">
-				<button v-if="!isReadyBal" class="start-btn">밸런스 게임</button>
-				<button v-else class="start-btn">준비완료</button>
-			</div>
-			<div class="" v-if="!startStatus2 && !startStatus" @click="startGame2">
-				<button v-if="!isReadyCat" class="start-btn">캐치마인드</button>
-				<button v-else class="start-btn">준비완료</button>
-			</div>
-			<div class="" v-if="startStatus">
-				<div class="select-box" @click="selectA">
-					{{A_item}}
-				</div>
-				<div class="select-box" @click="selectB">
-					{{B_item}}
-				</div>
+				<div class="footers">
+					<div class="nav">
+						<div class="main-btn" style="display:flex">
+							<div class="btn-css" @click="videoControll">
+								<i class="far fa-grin-stars"></i>
+								<div class="btn-exp">얼굴변조</div>
+							</div>
 
-				<div class="select-result">
-					<div v-for="(game,index) in gamedata" :key="index">
-						<div>
-							<span>{{game.userId}}님이 {{game.select}}를 선택하셨습니다.</span>
+							<div class="btn-css" @click="voiceControll">
+								<Icon v-if="voiceStatus" icon="ic:baseline-record-voice-over"/>
+								<Icon v-else icon="ic:round-voice-over-off"/>
+								<div class="btn-exp">목소리 필터</div>
+							</div>
+
+							<div class="btn-css" @click="micControll">
+								<i v-if="micStatus" class="fas fa-microphone"></i>
+								<i v-else class="fas fa-microphone-slash"></i>
+								<div v-if="micStatus">음소거 ON</div>
+								<div v-else>음소거 OFF</div>
+							</div>
+
+							<div class="btn-css" @click="vidControll">
+								<i v-if="vidStatus" class="fas fa-video"></i>
+								<i v-else class="fas fa-video-slash"></i>
+								<div v-if="vidStatus" class="btn-exp">카메라 OFF</div>
+								<div v-else class="btn-exp">카메라 ON</div>
+							</div>
+
+							<div class="btn-css" @click="chatControll">
+								<i class="far fa-comment-dots"></i>
+								<div class="btn-exp">채팅</div>
+							</div>
+							<div class="btn-css" @click="gameControll">
+								<i class="fas fa-gamepad"></i>
+								<div class="btn-exp">게임</div>
+							</div>
+						</div>
+						<div class="chat-exit">
+							<div class="exit-btn" @click="leaveSession">
+								<!-- <Icon icon="ant-design:close-circle-filled"/> -->
+								<div class="exit-exp">나가기</div>
+							</div>
 						</div>
 					</div>
+					<div class="send-box">
+						<input class="send-input" v-model="msg" type="text" placeholder="메세지를 입력해주세요" @keydown.enter="sendMsg">
+						<i class="send-icon fas fa-reply" @click="sendMsg"></i>
+					</div>
 				</div>
-				
-				<button @click="nextProblem">다음문제</button>
 			</div>
 		</div>
 		<div v-if="startStatus2 && myTurn">제시어:{{problem}}</div>
-		<div class="draw-container" v-bind:class="{catDis:!startStatus2}">	
+		<div class="draw-container" v-bind:class="{catDis:!startStatus2}">
+
+<!-- <el-dialog
+  title="Catch Mind"
+  v-model="startStatus2"
+  width="70%"
+  :before-close="handleClose">
+  
+
+	
+  <template #footer>
+    <span class="dialog-footer">
+      <el-button @click="startStatus2 = false">Cancel</el-button>
+    </span>
+  </template>
+</el-dialog> -->
+
     <canvas
       id="myCanvas"
       width="560"
@@ -290,7 +285,16 @@ export default {
 	},
 	mounted() {
     var c = document.getElementById("myCanvas");
-	this.canvas = c.getContext(`2d`);
+		this.canvas = c.getContext(`2d`);
+		this.emitter.on("agree-meeting", agree => {
+			if(agree) {
+				console.log("동의")
+				this.agreeMeeting()
+			} else {
+				console.log("거절")
+				this.refuseMeeting()
+			}
+		})
 	},
 	methods: {
 		refreshSession(){
@@ -334,7 +338,7 @@ export default {
 			setTimeout(() => {
 				this.leaveSession();
 				router.push({name:'Main'});
-			}, 2000);
+			}, 1000);
 		},
 		voiceControll(){
 			this.getData(this.mySessionId);
@@ -388,7 +392,7 @@ export default {
 			})
 		},
 		chatControll(){
-			this.chatStatus = !this.chatStatus;
+			this.chatStatus = true;
 			this.gameStatus = false;
 			if(this.chatStatus){
 				setTimeout(this.chatscroll,10);
@@ -426,6 +430,7 @@ export default {
 			})
 		},
 		nextProblem(){
+			console.log(this.gamedata)
 			if(!this.nextStatus && this.isSelected){ 
 				alert("상대방이 선택하지 않았습니다.");
 				return;
@@ -908,216 +913,240 @@ export default {
 	}
 }
 </script>
-<style scoped>
-.main-container{
-	width:100%;
+<style>
+.main-container {
+	height: 100%;
 }
-.video-container{
-	width:75%;
-	float:left;
-	padding:30px;
+.video-container {
+	height: 100%;
+	padding: 2%;
 }
-.game-container{
-	float:right;
-	width:22%;
-	padding:2%;
-	border:2px solid #FF427E;
-	margin-top:5%;
-	margin-right:2%;
+.video-chat-box {
+	height: 100%;
 }
-.chat-container{
-	float:right !important;
-	width:25% !important;
-	padding:2% !important;
-} 
-.chatCreate{
-	width:90%;
-	
+/* header css */
+.header{
+	display: flex;
+	padding: 5px;
+	font-weight: bold;
 }
-/* #chatbox{
-	position: absolute;
-	z-index: 100;
-	top:12%;
-	left:80%;
-	width: 300px;
-	height:700px;
-} */
-.chatmain{
-  position: relative !important;
-  width: 100%;
-  height: 500px;
-  background-color:#ffe2ed;
-  overflow: auto;
-  padding: 10px;
+.video-header {
+	width: 75%;
+	text-align: center;
 }
-/* .chat-bar{
-	/* margin-left:5px;
-	margin-top:5px;
-	margin-bottom: 5px;
-	width:80%;
-	height:5%; */
-.send-btn{
-	/* padding-top:5px;
-	width:18%;
-	height:5%; */
-	background-color: #FF427E;
-	/* border-radius: 3px; */
-	border-color: #FF427E;
+.chat-header{
+	width: 25%;
+	text-align: center;
 }
-.header1{
-	background-color: #FF427E;
+
+/* body css */
+.bodies {
+	display: flex;
+	height: 80%;
+	background: #f0f2f5;
+}
+.videos {
+	display: flex;
+	width: 75%;
+	height: 100%;
+	background: #f0f2f5;
+}
+.video {
+	width: 50%;
+	height: 100%;
+	margin: 3px;
+}
+.chat-body {
+	width: 25%;
+	height: 100%;
+}
+.chat-block {
+	display: flex;
+	justify-content: flex-end;
+	padding: 3px;
+	margin: 10px;
+}
+.my-chat-time {
+	font-size: 10px;
+	font-weight: bold;
+	width: 25%;
+	text-align: right;
+	margin-right: 5px;
+	align-self: flex-end;
+}
+.my-chat {
+	/* background: #fef01b; */
+	background: #ff4e7e;
 	color: white;
-	text-align: center;
-	width:100%;
-	height:40px;
-	vertical-align:middle;
+	padding: 2%;
+	border-radius: 5px;
+	text-align: left;
+	word-break: break-all;
+}
+.opp-chat-box {
+	padding: 3px;
+	margin: 10px;
+}
+.opp-block {
+	display: flex;
+}
+.opp-name {
+	font-size: 12px;
+	font-weight: bold;
+	text-align: left;
+}
+.opp-chat {
+	background: white;
+	padding: 2%;
+	border-radius: 5px;
+	text-align: left;
+	word-break: break-all;
+}
+.opp-chat-time {
+	font-size: 10px;
+	font-weight: bold;
+	text-align: left;
+	margin-left: 5px;
+	width: 25%;
+	align-self: flex-end;
+}
+
+/* footers css */
+.footers {
+	display: flex;
+	width: 98%;
+	background: #f0f2f5;
+	padding: 1%;
+}
+.nav{
+	width: 75%;
+	display: flex; justify-content: space-between;
+}
+.send-box {
+	width: 25%;
+}
+.send-input {
+	width: 85%;
+	height: 90%;
+	border: 0;
+	border-radius: 5px;
+	margin: 1%;
+	padding-left: 3%;
+}
+.send-input:focus {
+	outline: none;
+}
+.send-icon {
 	font-size: 20px;
-	margin-bottom: 20px;
+	color: #ff4e7e;
 }
-.header2{
-	padding-top:5px;
+.send-icon:hover {
+	transform: scale(1.1);
+	cursor: pointer;
 }
-.chatheader{
-	background-color:#ffe2ed;
-	text-align: center;
+.btn-css {
+	padding: 1%;
+	background: white;
+	width: 70px;
+	border-radius: 5px;
+	color: #323545;
+	font-size: 14px;
+	font-weight: bold;
 }
-.nav1{
-	background-color: #323545;
-	text-align: center;
-	vertical-align: middle;
-	height: 10%;
+.main-btn {
+	width: 60%;
+	justify-content: space-between;
+	align-self: center;
+	margin:0 1%;
 }
-.btncss{
-	margin-top:1%;
-	margin-right:15px;
-	background-color: #323545;
-	border: #323545;
-	height:70%;
-	width:9%;
+.chat-exit {
+	width: 7%;
+	align-self: center;
+	margin-right: 1%;
 }
-.btncss:hover{
+.exit-btn {
+	display: flex;
+	background: red;
+	color: white;
+	font-weight: bold;
+	justify-content: center;
+	border-radius: 5px;
+	height: 45px;
+}
+.exit-exp {
+	align-self: center;
+}
+.exit-btn:hover {
+	transform: scale(1.1);
+	cursor:pointer;
+}
+.btn-css:hover{
 	transform: scale(1.1);
     cursor:pointer;
 }
-.blk{
-	height:20px;
-}
-.la-cs{
-	display: block;
-	margin-top: 4px;
-	width:100%;
-	height:25%;
-	color: #FFFFFF;
-	
-}
-#exit-chat{
-	float:right;
-}
-.chat-detail{
-	width:80%;
-	background-color: #F5F5F5;
-}
-.send-box{
-	border-top: 1px solid white;
-}
-@media(max-height: 700px) and (max-width: 1400px){
-		.la-cs{
-			display: none;
-		}
-}
-.select-box{
-	border-color: #FF427E;
-	border-radius: 2px;
-	border:1px solid;
-	color:#FF427E;
-	margin: 3%;
-	text-align: center;
-	height:20%;
-	margin-top:15%;
-	padding-top: 15%;
-	font-size:30px;
 
+/* game css */
+.game-container{
+	width:100%;
+}
+
+.start-btn {
+	padding: 5%;
+	width: 80%;
+	margin: 10% auto;
+	font-weight: bold;
+	font-size: 16px;
+	border: 0;
+	border-radius: 5px;
+	background: #fff;
+	color: #323545
+}
+.start-btn:hover {
+	cursor: pointer;
+	transform: scale(1.1);
+}
+
+/* game1 - A or B Game */
+.select-box {
+	padding: 5%;
+	margin: 5%;
+	background: white;
+	font-weight: bold;
+	border-radius: 5px;
 }
 .select-box:hover{
 	transform: scale(1.1);
-    cursor:pointer;
-}
-.start-btn{
-	border-color: #FF427E;
-	border-radius: 2px;
-	border:1px solid;
-	color:#FF427E;
-	margin: 3%;
-	text-align: center;
-	height: 50px;
-	width:50px;
-}
-.opp-chat{
-	border-radius: 2px;
-	border:2px #FF427E;
-	background-color: white;
-}
-.my-chat{
-	border:2px white;
-	background-color: #FF427E;
-	color:white;
-    box-shadow: -1px 1px 0 rgba(0,0,0,0.3);
-	padding-right: 4px;
-	padding-left:  4px;
-	padding: 0.8rem;
-    border-radius: 1rem;
-
-	display: inline-block;
-	
-}
-.my-chat-time{
-	color: black;
-	font-size: 5px;
-	margin-right: 4px;
-}
-.my-chat-box{
-	margin-bottom: 4px;
-	overflow:hidden;
-}
-.test{
-	overflow:hidden;
-}
-.chat-block{
-	float:right;
-}
-.user-profile{
-	width: 30px;
-	height: 30px;
-	border-radius: 3px;
-	
+	cursor: pointer;
+	border: 1px solid #ff4e7e;
 }
 
-.opp-chat{
-	border-radius: 3px;
-	border:2px black;
-	background-color: white;
-	color:black;
-    box-shadow: 1px 1px 0 rgba(0,0,0,0.3);
-	padding-right: 4px;
-	padding-left:  4px;
+.select-result {
+	margin: 5%;
+}
+.select-comment {
+	border: 2px solid #ff4e7e;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 5px;
+	border-radius: 5px;
+	margin: 5%;
+}
+.next-problem {
+	width: 80%;
+	margin: 10% auto;
+	padding: 3%;
+	border: 2px solid #323545;
+	background: #fff;
+	border-radius: 5px;
+	color: #323545;
+	font-weight: bold;
+}
+.next-problem:hover {
+	cursor: pointer;
+	color: #ff4e7e;
+	border: 2px solid #ff4e7e;
+}
 
-	float:left;
-    padding:0.8rem;
-    border-radius:1rem;
-	
-}
-.opp-chat-box{
-	clear: both;
-}
-.opp-chat-time{
-	color: black;
-	font-size: 5px;
-	margin-left: 4px;
-	line-height: 5.5;
-}
-.opp-block{
-	margin-bottom: 3px;
-}
 #myCanvas {
   border: 1px solid grey;
 }
@@ -1159,4 +1188,6 @@ export default {
 .catDis{
 	visibility: hidden;
 }
+
+
 </style>
