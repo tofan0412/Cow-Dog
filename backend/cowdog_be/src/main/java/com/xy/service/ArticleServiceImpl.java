@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.sound.midi.SysexMessage;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -41,6 +42,7 @@ public class ArticleServiceImpl implements ArticleService {
         article.setContent((String) map.get("content"));
         article.setWriter(map.get("writer").toString());
         // 태그 설정하기
+        System.out.println(":::::::::::::::::::::::::::::::::::::::"+map.get("tags").toString());
         String tags = (String) map.get("tags");
         article.setTags(tags);
 
@@ -93,7 +95,21 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<Article> findByTagsContains(String keyword) {
-        return articleRepository.findByTagsContains(keyword);
+    	List<Article> list=articleRepository.findAll();
+    	List<Article> resultList=new ArrayList<Article>();
+    	for(int i=0 ; i<list.size(); i++) {
+    		if(list.get(i).getTags().contains(keyword)) {
+    			System.out.println("before resultList size::"+resultList.size());
+    			System.out.println("결과~!!!!!!:"+list.get(i).toString());
+    			resultList.add(list.get(i));
+    			System.out.println("after resultList size::"+resultList.size());
+    		}
+    	}
+    	
+		System.out.println("final resultList size::"+resultList.size());
+
+    	System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!:"+resultList.toString());
+        return resultList;
     }
 
 

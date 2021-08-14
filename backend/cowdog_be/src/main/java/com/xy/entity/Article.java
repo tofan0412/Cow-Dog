@@ -25,6 +25,7 @@ import com.sun.xml.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Article {
 	
 	@Id
