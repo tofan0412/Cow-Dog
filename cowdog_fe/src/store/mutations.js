@@ -67,3 +67,9 @@ export const SET_FOLLOW_USER=(state,followUsers)=>{
     state.followUsers=followUsers;
     console.log(state.followUsers)
 }
+
+export const SET_CAHTROOM_ID=(state,chatRoomId)=>{
+    console.log(chatRoomId)
+    state.chatRoomId=chatRoomId;
+    console.log(state.chatRoomId)
+}

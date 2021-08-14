@@ -17,6 +17,7 @@ const state = {
   distanceUsers:[],
   recomUsers:[],
   followUsers:[],
+  chatRoomId:'',//챗룸Id
 }
 
 const root = createStore({

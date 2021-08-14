@@ -923,3 +923,32 @@ export function like({state},payload){
     })
 
 }
+
+export function createRoom({state,commit},payload){
+  console.log('createRoom',  payload)
+  console.log(payload.user1)
+  console.log(payload.user2)
+  axios.post("/chat/newChat",{user1:payload.user1, user2:payload.user2}
+    ,{
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    }
+  })
+  .then(res=>{
+    console.log("일단 백엔드 거쳐왔음")
+    console.log(res.status)
+    console.log(res.data)
+    if(res.data.statusCode==200){
+      console.log(res.data.message)
+      commit('SET_CAHTROOM_ID', res.data.message);
+      alert("채팅룸 생성 성공")
+      // router.push({name:"Login"})
+    }else if(res.data.statusCode==500){
+      alert("채팅룸 생성 실패 시발럼아")
+    }
+  })
+  .catch(err=>{
+    console.log(err)
+    return err
+  })
+}
