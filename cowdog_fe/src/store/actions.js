@@ -20,6 +20,18 @@ export function getMyInfo({state,commit}){
   })
 }
 
+export function getUserInfo({ state }, payload) {
+  const url = "/mem/mypage?userId=" + payload.userId
+  return axios({
+    url: url,
+    method: "GET",
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    }
+  })
+  
+}
+
 export function setUserInfo({state, commit}) {
   // console.log("로그인 성공! 유저 정보를 vuex store에 저장합니다..")
   axios.get("/mem/mypage/?userId="+state.userId,{
@@ -373,7 +385,8 @@ export function checklogin({ state }) {
 }
 
 export function createArticle({ state, commit }, payload) {
-
+  console.log(payload.tags)
+  
   const url = "/appeal/create"
   axios({
     url: url,
@@ -385,7 +398,8 @@ export function createArticle({ state, commit }, payload) {
       title: payload.title,
       content: payload.content,
       member_id: payload.member_id,
-      writer:payload.writer
+      writer: payload.writer,
+      tags: payload.tags
     }
   })
   .then(resp => {
@@ -412,7 +426,7 @@ export function createArticle({ state, commit }, payload) {
 }
 
 export function getArticles({ state, commit }) {  
-  console.log("게시글 목록 가져옵니다..")
+  console.log("게시글 목록 가져옵니다.")
   const url = "/appeal"
   axios({
     url: url,
@@ -422,14 +436,15 @@ export function getArticles({ state, commit }) {
     },
   })
   .then(resp => {
+    // 시간 순으로 잘 불러왔는가? 
+    console.log("조회 결과: ", resp.data)
+
+
     // 날짜 전처리 필요하다...
-    console.log("날짜 전처리 시작합니다.")
     for (let i = 0; i < resp.data.length; i++) {
-      console.log(resp.data[i].regtime)
       const date = new Date(resp.data[i].regtime).toDateString()
       resp.data[i].regtime = date
     }
-
     commit("SET_ARTICLES", resp.data)
   })
   .catch(err => {
@@ -543,6 +558,79 @@ export function deleteArticle({ state, commit }, payload) {
     }
   }
   
+}
+
+
+export function appealSearch({ state, commit }, payload) {
+  const url = '/appeal/search?searchKeyword=' + payload.searchKeyword
+
+  // 검색 결과를 tag로 갖는 게시글 목록을 불러온다.
+  axios({
+    url: url,
+    method: 'GET',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+  .then(resp => {
+    console.log("검색 결과는", resp.data)
+    commit("SET_SEARCH_RESULT", resp.data)
+    
+    // 마찬가지로 날짜 전처리
+    for (let i = 0; i < resp.data.length; i++) {
+      const date = new Date(resp.data[i].regtime).toDateString()
+      resp.data[i].regtime = date
+    }
+    
+    // 검색 결과 페이지에서 다시 검색한 것이라면, router.go를 해야 한다.
+    router.push({name: 'AppealSearchResult', params: { searchKeyword : payload.searchKeyword }})
+    
+  })
+  .catch(err => {
+    console.log(err)
+  })
+
+}
+
+
+export function createArticleComment({ state }, payload) {
+  const url = '/appealComment/create'
+  return axios({
+    url: url,
+    method: "POST",
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+    data: {
+      articleNo: payload.comment.articleNo,
+      memberId: payload.comment.memberId,
+      content: payload.comment.content,
+    }
+  })
+}
+
+export function findComments({ state }, payload) {
+
+  const articleNo = payload.articleNo
+  const url = '/appealComment/findComments?articleNo=' + articleNo
+  return axios({
+    url: url,
+    method: "GET",
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    }, 
+  })
+}
+
+export function deleteComment({ state }, payload) {
+  const url = '/appealComment/deleteComment?commentNo=' + payload.commentNo
+  return axios({
+    url: url,
+    method: "DELETE",
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    }, 
+  })
 }
 
 

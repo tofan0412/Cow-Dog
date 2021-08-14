@@ -32,20 +32,26 @@
         </el-form-item>
         
         <!-- 태그 -->
-        <el-form-item label="Tags" prop="tag" >
+        <el-form-item label="Tags" prop="tag" id="tagForm">
           <el-input
-          class="elinput" id="tagText"
-          v-model="state.articleForm.tagKeyword" 
-          autocomplete="off" 
-          placeholder="#태그를 입력해 주세요.(최대 10개)"
-          style="width: 100%;"
+          class="elinput"
+          v-model="state.articleForm.tagKeyword"
+          placeholder="#태그를 입력해 주세요. (최대 10개, 태그당 최대 길이 10자)"
+          maxlength="10"
           @keyup.enter="enterTag()"
           />
         </el-form-item>
         <!-- 추가한 태그를 표시하는 곳.. -->
-        <div style="min-height: 60px;">
-
-        </div>
+        <el-row style="min-height: 60px; margin-bottom: 20px;" justify="start" align="top">
+          <el-col 
+          :span="3"
+          v-for="tag in state.articleForm.tags" :key="tag"
+          style="color: black; margin: 1px; font-size:13px; padding: 2px; border-radius: 0.2rem; cursor: pointer;"
+          @click="removeTag(tag)"
+          >
+            {{ tag }}
+          </el-col>
+        </el-row>
 
         <!-- 지도 -->
 
@@ -78,14 +84,19 @@
 </template>
 <script>
 import { useStore } from 'vuex'
-import { reactive, ref, onMounted } from 'vue'
+import { reactive, ref } from 'vue'
 
 export default {
 name: 'AppealCreate',
 setup() {
   const articleForm = ref(null)
   const store = useStore()
+  const tagDOM = ref('$tagForm')
+  console.log(tagDOM)
+
   const state = reactive({
+    fileList: [],
+    store: store,
     articleForm: {
       title: '',
       content: '',
@@ -102,13 +113,9 @@ setup() {
         { required: true, message: '내용을 입력하세요', trigger: 'blur' }
       ],
     },
-    // 업로드하는 이미지 리스트
-    fileList: [],
-    store: store,
   })
-  onMounted(() => {
-    store.dispatch("checklogin")
-  })
+
+  store.dispatch("checklogin")
 
   return {
     state,
@@ -125,11 +132,20 @@ methods: {
       alert("내용 입력")
       return
     }
+
+    // 작성한 내용을 axios 요청하기 전에, 태그 리스트를 하나의 String으로 변환한다.
+    let result = ''
+    for (let i = 0; i < this.state.articleForm.tags.length; i++) {
+      result += this.state.articleForm.tags[i]
+    }
+
     this.state.store.dispatch("createArticle", 
         { title: this.state.articleForm.title, 
         content: this.state.articleForm.content, 
         member_id: this.state.articleForm.member_id ,
-        writer: this.state.articleForm.writer} )
+        writer: this.state.articleForm.writer,
+        tags: result,
+        } )
   },
   // 파일 업로드 관련 메서드
   handleRemove(file, fileList) {
@@ -140,6 +156,51 @@ methods: {
   handlePreview(file) {
     this.state.fileList.push(file)
   },
+
+  enterTag() {
+    // 태그가 10개를 초과하는 경우 반환
+    const tags = this.state.articleForm.tags
+
+    if ( tags.length === 10 ) {
+      alert("태그는 최대 10개까지 등록할 수 있습니다.")
+      return
+    }
+
+    // 입력하지 않고 엔터 누른 경우 금지
+    if (this.state.articleForm.tagKeyword.trim() === '' || this.state.articleForm.tagKeyword.trim() === '#'){
+      alert("추가할 태그를 입력해 주세요")
+      return
+    }
+
+    // #을 포함하지 않거나, #이 가장 앞에 오지 않은 경우
+    if ( this.state.articleForm.tagKeyword.trim().indexOf('#') === -1 || this.state.articleForm.tagKeyword.trim().indexOf('#') !== 0 ){
+      alert("올바른 위치에 # 태그를 사용해주세요.")
+    }
+    // 조건에 부합하는 경우 tags에 추가한다. 
+    else {
+      // 이미 리스트에 있는지 검사
+      for (let i = 0; i < tags.length; i++) {
+        if ( tags[i] === this.state.articleForm.tagKeyword.trim() ) {
+          alert("이미 존재하는 태그입니다.")
+          this.state.articleForm.tagKeyword = ''
+          return
+        }
+      }
+
+      tags.push(this.state.articleForm.tagKeyword.trim())
+      this.state.articleForm.tagKeyword = ''
+      console.log(tags)
+    }
+  },
+  removeTag(tag) {
+    console.log(tag)
+    // 찾아서 없애기
+    for (let i = 0; i < this.state.articleForm.tags.length; i++) {
+      if (tag === this.state.articleForm.tags[i]) {
+        this.state.articleForm.tags.splice(i, 1)
+      }
+    }
+  }
 
 },
 }

@@ -5,6 +5,7 @@ import com.xy.entity.Member;
 import com.xy.repository.ArticleRepository;
 import com.xy.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.sound.midi.SysexMessage;
@@ -24,13 +25,13 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<Article> findAll() {
-        return articleRepository.findAll();
+        return articleRepository.findAll(Sort.by(Sort.Direction.DESC, "articleNo"));
     }
 
     @Override
     public Long create(Map map) {
         // 1. 사용자 정보 찾기
-    	
+
         System.out.println();
         System.out.println("SERVICEC   "+map.toString());
       
@@ -39,6 +40,9 @@ public class ArticleServiceImpl implements ArticleService {
         article.setTitle((String) map.get("title"));
         article.setContent((String) map.get("content"));
         article.setWriter(map.get("writer").toString());
+        // 태그 설정하기
+        String tags = (String) map.get("tags");
+        article.setTags(tags);
 
         // 작성일 입력
         Timestamp now = new Timestamp(System.currentTimeMillis());
@@ -85,6 +89,11 @@ public class ArticleServiceImpl implements ArticleService {
         else {
             return 0L;
         }
+    }
+
+    @Override
+    public List<Article> findByTagsContains(String keyword) {
+        return articleRepository.findByTagsContains(keyword);
     }
 
 

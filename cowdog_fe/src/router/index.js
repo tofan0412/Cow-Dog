@@ -30,6 +30,7 @@ import AppealCreate from '../views/appeal/components/AppealCreate'
 import AppealDetail from '../views/appeal/components/AppealDetail'
 import AppealList from '../views/appeal/components/AppealList'
 import AppealUpdate from '../views/appeal/components/AppealUpdate'
+import AppealSearchResult from '../views/appeal/components/AppealSearchResult'
 
 const routes = [
   
@@ -201,7 +202,13 @@ const routes = [
     path: '/appeal/update',
     name: 'AppealUpdate',
     component: AppealUpdate,
-  },  
+  }, 
+  {
+    // 동적 라우팅
+    path: '/appeal/searchResult',
+    name: 'AppealSearchResult',
+    component: AppealSearchResult,
+  }, 
 ]
 
 const router = createRouter({

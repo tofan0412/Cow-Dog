@@ -259,7 +259,7 @@ export default {
             }
             else{
               alert("로그인 성공")
-              console.log(result.data.id)
+              console.log("로그인한 사용자 아이디는: ", result.data.id)
               console.log(result.data.accessToken)
               // var login_user={}
               // login_user.userId=result.data.id
@@ -268,6 +268,7 @@ export default {
               // 유저 PK와 토큰 정보를 store에 저장한다.
               store.commit("GET_LOGIN_USER",{userId:result.data.id,accessToken:result.data.accessToken})
               // 유저 정보(myPage에 출력되는 정보)를 store에 저장한다.
+
               store.dispatch("setUserInfo")
 
               router.push({name:"Admin"}) //로그인 성공하면 메인페이지로 이동
