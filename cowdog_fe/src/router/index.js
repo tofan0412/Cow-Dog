@@ -31,6 +31,8 @@ import AppealDetail from '../views/appeal/components/AppealDetail'
 import AppealList from '../views/appeal/components/AppealList'
 import AppealUpdate from '../views/appeal/components/AppealUpdate'
 
+import DirectMessage from '../views/mypage/components/DirectMessage.vue'
+
 const routes = [
   
   {
@@ -142,6 +144,11 @@ const routes = [
         path:'/mypage/update',
         name:'update',
         component:Update
+      },
+      {
+        path:'/mypage/DirectMessage',
+        name:'DirectMessage',
+        component:DirectMessage
       },
 
     ]

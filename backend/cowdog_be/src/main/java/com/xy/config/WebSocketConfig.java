@@ -32,14 +32,4 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 		//크로스 오리진 설정, 위 라인 크로스 오리진 오류시에 아래 라인으로 대체 예정
 //		registry.addEndpoint("/chat").setAllowedOrigins("http://localhost:8080").withSockJS();
 	}
-	
-//    @Override
-//    public void configureMessageBroker(MessageBrokerRegistry config) {
-//    	config.setApplicationDestinationPrefixes("/app");
-//        config.enableSimpleBroker("/topic");
-//    	config.setApplicationDestinationPrefixes("/pub");
-//        config.enableSimpleBroker("/sub");
-//    }
-
-
 }
