@@ -34,14 +34,15 @@ import AppealList from '../views/appeal/components/AppealList'
 import AppealUpdate from '../views/appeal/components/AppealUpdate'
 import App from '../App.vue'
 import store from '../store/index'
+import VideoChat from '../views/main/matchingview/VideoChat.vue'
 
 const routes = [
-  
   {
     path:'/app',
     name:'App',
     component:App
   },
+  
   {
     path: '/test',
     name: 'Test',
@@ -128,10 +129,15 @@ const routes = [
     ]
   },
   {
+    path:'/videochat',
+    name:'VideoChat',
+    component:VideoChat,
+  },
+  {
     path:'/mypage',
     name: 'Mypage',
-    component:Mypage,
     meta: { isLogin: true },
+    component:Mypage,
     children:[
       {
         path:'/mypage/myinfo',

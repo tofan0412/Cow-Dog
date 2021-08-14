@@ -169,6 +169,18 @@ public class MemberController {
 		return mem;
 	}
 	
+	@GetMapping("/getOppInfo")
+	public Member getOppInfo(@RequestParam("userId") String id) {
+		System.out.println("현재 로그인한 유저 정보 내놔~~");
+		System.out.println(id);
+		Member mem=memRepo.getBymemberid(id);
+		System.out.println(mem.toString());
+		return mem;
+	}
+	
+	
+	
+	
 	
 	
 	@PutMapping("/changePassword")

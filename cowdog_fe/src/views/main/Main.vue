@@ -1,5 +1,4 @@
 <template>
-
 <div class="main-top">
   <h1 class="main-intro">다양한 매칭을 통해 인연을 만나세요</h1>
   <div style="display:flex; justify-content:center; margin:3%">
@@ -17,12 +16,19 @@
 </template>
 
 <script>
-import { reactive } from 'vue'
+import { reactive, onMounted} from 'vue'
 import RandomMatching from './components/RandomMatching.vue'
 import DistanceMatching from './components/DistanceMatching.vue'
 import RecomMatching from './components/RecomMatching.vue'
 import Explanation from './components/Explanation.vue'
 import { useStore } from 'vuex'
+import router from '../../router';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+
+const OPENVIDU_SERVER_URL = "https://i5b104.p.ssafy.io:9090";
+const OPENVIDU_SERVER_SECRET = "cowdog123";
+
 
 export default{
     data() {
@@ -46,9 +52,40 @@ export default{
         })
         store.dispatch('AmIFollowed') // 내가 팔로우한 유저 usersIFollowed에 저장
         store.dispatch("getNotification",store.getters.getUserId)//알림 뭐 왔나 백엔드에서 가져오는거
+      
+        onMounted(() => {
+          axios.get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`, {
+						auth: {
+							username: 'OPENVIDUAPP',
+							password: OPENVIDU_SERVER_SECRET,
+						},
+					}).then(response=>{
+            let content = response.data.content;
+	
+						for(let i=0;i<content.length;i++){
+							if(content[i].id==store.getters.getUserInfo.memberid){
+                Swal.fire({
+                    position: 'middle',
+                    icon: 'question',
+                    title: '누군가가 화상회의를 걸어왔어요!',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(response=>{
+									router.push({name:'VideoChat'});
+                  console.log(response);
+                  
+                })
+								return;                            
+              }
+						}
+            
+          })
+        })
+        
         return{
             state
         }
+
     },
 }
 </script>

@@ -21,7 +21,7 @@
         </div>
         <div class="card-footer">
             <div class="card-button">
-                <div class="card-matcing-btn"><i class="fas fa-video"></i> 화상챗 요청</div>
+                <div class="card-matcing-btn" @click="liveOn(this.user.memberid)"><i class="fas fa-video"></i> 화상챗 요청</div>
             </div>
         </div>
     </div>
@@ -84,8 +84,11 @@ export default {
         console.log("언팔")
         store.dispatch('unlike', memberid)
     }
-
-    return { state, back, like, unlike }
+    const liveOn=function(id){//화상 요청~
+        console.log("들억자ㅣ나")
+        router.push({name: 'VideoChat',query:{opp:id}})
+    }
+    return {state, back, like, unlike,liveOn}
   },
   }
 </script>
