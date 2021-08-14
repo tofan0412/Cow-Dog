@@ -11,10 +11,10 @@
             <div class="title-box">
               <img class="cowdog-title" alt="cow dog logo" :src="require('@/assets/images/onlyTitle.png')">
             </div>
-            <el-form-item prop="id"  :label-width="state.formLabelWidth" >
+            <el-form-item prop="id" :label-width="state.formLabelWidth" @keyup.enter="clickLogin">
               <el-input class="elinput" v-model="state.form.id" autocomplete="on"  placeholder="아이디"></el-input>
             </el-form-item>
-            <el-form-item prop="password"  :label-width="state.formLabelWidth">
+            <el-form-item prop="password" :label-width="state.formLabelWidth" @keyup.enter="clickLogin">
               <el-input class="elinput" v-model="state.form.password" autocomplete="off" show-password  placeholder="비밀번호"></el-input>
             </el-form-item>
           </el-form>
@@ -92,18 +92,18 @@
   }
 
   .login-background .el-button--default {
-    border-color: rgb(255,149,178);
+    border-color: #323545;
   }
 
   .login-background .el-button--default:hover {
-    background: rgb(255,149,178);
-    border-color: rgb(255,149,178);
-    color: white;
+    /* background: #ff4e7e; */
+    color: #ff4e7e;
+    border-color: #ff4e7e;
   }
 
   .login-background .el-button--default:focus {
-    background: rgb(255,149,178);
-    border-color: rgb(255,149,178);
+    background: #ff4e7e;
+    border-color: #ff4e7e;
     color: white;
   }
 
@@ -240,7 +240,7 @@ export default {
     })
 
     const clickLogin = function () {
-      
+
       state.form.isLoading=true;
       // 로그인 클릭 시 validate 체크 후 그 결과 값에 따라, 로그인 API 호출 또는 경고창 표시
       loginForm.value.validate((valid) => {
@@ -259,9 +259,6 @@ export default {
               Swal.fire('ISSUSPENDED' ,'정지된 계정입니다.');
             }
             else{
-              Swal.fire('SUCCESS' ,'로그인 성공');
-              console.log(result.data.id)
-              console.log(result.data.accessToken)
               // var login_user={}
               // login_user.userId=result.data.id
               // login_user.accessToken=result.data.accessToken
@@ -271,7 +268,7 @@ export default {
               // 유저 정보(myPage에 출력되는 정보)를 store에 저장한다.
               store.dispatch("setUserInfo")
 
-              router.push({name:"Admin"}) //로그인 성공하면 메인페이지로 이동
+              router.push({name:"Main"}) //로그인 성공하면 메인페이지로 이동
             }
           })
           .catch(function () {

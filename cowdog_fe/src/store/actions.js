@@ -305,6 +305,20 @@ export function deleteReportedUser({ state, commit }, payload) {
     })
 }
 
+export function suspendReportedUser({ state, commit }, payload) {
+  const url = '/user-report/user/' + payload.user_id + '/' + payload.user_long_id // user의 id를 payload로
+  axios({
+    url: url, method: 'patch', headers: {Authorization:"Bearer "+state.accessToken}, 
+  })
+    .then(res => {
+      console.log(res.data)
+      commit('GET_REPORTED_USERS', res.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
+
 // 게시글 신고 관련 actions
 export function getReportedArticles({ state, commit }) {
   const url = '/article-report'

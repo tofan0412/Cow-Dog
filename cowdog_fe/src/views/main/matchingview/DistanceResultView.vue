@@ -20,7 +20,7 @@
             </div>
         </div>
         <div>
-            <el-button class="back" @click="back">뒤로 가기</el-button>
+            <el-button class="back" @click="back()">뒤로 가기</el-button>
         </div>
     </div>
 </template>
@@ -35,7 +35,7 @@ export default {
         data() {
         return {
         // for pagination
-        pageSize: 3, // 한 페이지에 나오는 게시물 수
+        pageSize: 8, // 한 페이지에 나오는 게시물 수
         currentPage: 1, // 현재 페이지(v-model 적용)
         }
     },

@@ -10,9 +10,9 @@
     <div class="reported_id">제목: {{ noticeDetailData.title }}</div>
     <br>
     <br>
-    <div class="reported_reason">내용</div>
+    <pre class="reported_reason">내용</pre>
     <br>
-    <pre class="reported_content">{{ noticeDetailData.content }}</pre>
+    <div class="reported_content">{{ noticeDetailData.content }}</div>
     <br>
     <br>
 
@@ -23,23 +23,11 @@
       <!-- 첨부 이미지가 있으면 보여주기 -->
       <img :src="require('@/assets/images/user_report_example_image.png')" alt="reportedScreenImage">
     </div>
-
-    <template #footer>
-      <div class="dialog-footer" style="display:flex">
-        <div style="margin-right:5px">
-          <el-button @click="moveToDetailUpdate(noticeDetailData)">수정</el-button>
-        </div>
-        <div>
-          <el-button @click="handleDelete(noticeDetailData.noticeNo)">삭제</el-button>
-        </div>
-      </div>
-    </template>
   </el-dialog>
 </div>
 </template>
 
 <script>
-import router from '../../../router'
   export default {
     data() {
       return {
@@ -51,36 +39,6 @@ import router from '../../../router'
         type: Object
       }
     },
-    methods: {
-      moveToDetailUpdate(noticeDetailData) {
-        this.dialogVisible = false
-        router.push( 
-          {name: 'UpdateNotice', params: { noticeNo: noticeDetailData.noticeNo, title: noticeDetailData.title, content:noticeDetailData.content }})
-      },
-      handleClose(done) {
-        this.$confirm('Are you sure to close this dialog?')
-          .then(res => {
-            done();
-            console.log(res)
-            this.dialogVisible = false
-          })
-          .catch(res => {
-            console.log(res)
-          }); 
-      },
-      handleDelete(noticeNo) {
-        this.$confirm('정말로 삭제하시겠습니까?')
-          .then(res => {
-            console.log(res)
-            this.dialogVisible = false
-            this.$store.dispatch('deleteNotice', noticeNo)
-            this.$router.push('/admin/notice')
-          })
-          .catch(err => {
-            console.log(err)
-          })
-      }
-    }
   };
 </script>
 
@@ -100,12 +58,9 @@ import router from '../../../router'
 .reported_reason {
   font-size: 16px;
   color: black;
-  font-weight: bold;
 }
 .reported_content {
   font-weight: normal;
-  line-height: 1.5rem;
-  height: 6rem;
 }
 .reported_img_box {
   width: 100%;

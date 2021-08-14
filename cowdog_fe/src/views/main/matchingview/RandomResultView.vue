@@ -36,7 +36,7 @@ export default {
     data() {
     return {
       // for pagination
-      pageSize: 6, // 한 페이지에 나오는 게시물 수
+      pageSize: 8, // 한 페이지에 나오는 게시물 수
       currentPage: 1, // 현재 페이지(v-model 적용)
     }
   },
@@ -75,6 +75,7 @@ export default {
 .result-view {
     width: 100%;
     background: #f0f2f5;
+    height: 60vw;
 }
 .random-cards-wrapper {
     display: flex;
@@ -88,5 +89,8 @@ export default {
     margin: 5%;
     width: 20%;
     border: 2px solid #323545;
+}
+.back:hover {
+    border: 2px solid #ff4e7e
 }
 </style>

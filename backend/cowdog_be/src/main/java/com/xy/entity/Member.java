@@ -55,6 +55,7 @@ public class Member {
 	private String title;
 	private String imgFullPath;
 	private boolean login;
+	private boolean manager;
 //	public void addArticle(Article article) {
 //		this.articles.add(article);
 //		if(article.getMember_id()!=this) {

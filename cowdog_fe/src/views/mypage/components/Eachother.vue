@@ -1,25 +1,28 @@
 <template>
-    <div v-if="state.eachOtherFollowUsers" class="followview"  >
-        <el-row>
-            <el-col :span="8"  v-for="user in eachOtherFollowUsersPaginated" :key="user.id" style="display: inline-table;">
+<div class="follow-view">
+
+    <div v-if="eachOtherFollowUsers[0]==null" class="no_user">
+        <h1>맞팔로우한 사람이 없습니다.</h1>
+    </div>
+    <div v-else class="follow-view">
+        <div class="random-cards-wrapper">
+            <div class="each-card" v-for="user in eachOtherFollowUsersPaginated" :key="user.id">
                 <eachother-detail :user="user" />
-            </el-col>
-        </el-row>
+            </div>   
+        </div>
+        <div class="pagination" style="margin:0 auto; margin-top:10px">
+        <el-pagination
+        background
+        layout="prev, pager, next"
+        :page-size=pageSize
+        :total="eachOtherFollowUsers.length"
+        v-model:current-page="currentPage">
+        </el-pagination>
+        </div>
     </div>
-    <div class="pagination" style="margin:0 auto; margin-top:10px">
-    <el-pagination
-    background
-    layout="prev, pager, next"
-    :page-size=pageSize
-    :total="eachOtherFollowUsers.length"
-    v-model:current-page="currentPage">
-    </el-pagination>
-    
-  </div>
-    <div v-if="eachOtherFollowUsers[0]===null" class="no_user">
-        <h1 style="margin-top:20%">맞팔로우인 사람이 없습니다!!!</h1>
-    </div>
-    
+
+ 
+</div>
 </template>
 
 <script>
@@ -34,7 +37,7 @@ export default ({
      data() {
         return {
             // for pagination
-            pageSize: 6, // 한 페이지에 나오는 게시물 수
+            pageSize: 4, // 한 페이지에 나오는 게시물 수
             currentPage: 1, // 현재 페이지(v-model 적용)
         }
     },

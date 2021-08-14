@@ -30,7 +30,8 @@ export default {
     store.dispatch("checklogin")
     // vuex의 store의 변수 중에서 게시글 목록을 별도로 저장한다.
     store.dispatch("getArticles")
-    
+    store.dispatch("getNotification",store.getters.getUserId)//알림 뭐 왔나 백엔드에서 가져오는거
+
     state.articleList = store.getters.getArticles
 
     return {

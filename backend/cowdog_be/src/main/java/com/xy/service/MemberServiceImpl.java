@@ -70,6 +70,7 @@ public class MemberServiceImpl implements MemberService{
 //		SimpleDateFormat fourteen_format = new SimpleDateFormat("yyyy-MM-dd-HH"); 
 		newMember.setOnlinetime(stringDatetime);
 		newMember.setPassword(passwordEncoder.encode(member.get("password").toString()));//패스워드 인코드
+		newMember.setManager(false);
 		
 		
 		
