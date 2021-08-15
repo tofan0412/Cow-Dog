@@ -11,6 +11,7 @@
     <el-tab-pane label="지역매칭" name="지역매칭"><distance-matching /></el-tab-pane>
     <el-tab-pane label="랜덤매칭" name="랜덤매칭"><random-matching /></el-tab-pane>
     <el-tab-pane label="맞춤매칭" name="맞춤매칭"><recom-matching /></el-tab-pane>
+    <ChatModal />
   </el-tabs>
 </div>
 </template>
@@ -22,7 +23,7 @@ import DistanceMatching from './components/DistanceMatching.vue'
 import RecomMatching from './components/RecomMatching.vue'
 import Explanation from './components/Explanation.vue'
 import { useStore } from 'vuex'
-import router from '../../router';
+// import router from '../../router';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
@@ -71,8 +72,9 @@ export default{
                     showConfirmButton: false,
                     timer: 1500
                 }).then(response=>{
-									router.push({name:'VideoChat'});
+									// router.push({name:'VideoChat'});
                   console.log(response);
+                  store.state.centerDialogVisible = true
                   
                 })
 								return;                            

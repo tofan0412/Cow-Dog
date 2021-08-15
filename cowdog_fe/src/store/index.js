@@ -21,7 +21,7 @@ const state = {
   eachOtherFollowUsers:[],
   usersIFollowed: [],
   notifications:[],
-
+  centerDialogVisible: false,
 }
 
 const root = createStore({
