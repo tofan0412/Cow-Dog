@@ -25,10 +25,10 @@
           <el-menu-item index="/admin" class="navMenu" @click="getNotices">관리자</el-menu-item> <!-- 배포 전 숨기기 -->
         </div>
         <div style="display:flex; margin-right: 3%">
-          <el-menu-item v-if="notifications.length==0"  class="navMenu" @click="state.dialogVisible = true"><i class="fas fa-envelope-open"></i></el-menu-item>
-          <el-menu-item v-else class="navMenu" @click="state.dialogVisible = true"><i class="fas fa-envelope"></i> {{notifications.length}}</el-menu-item>
+          <el-menu-item index="##" v-if="notifications.length==0"  class="navMenu" @click="state.dialogVisible = true"><i class="fas fa-envelope-open"></i></el-menu-item>
+          <el-menu-item index="##" v-else class="navMenu" @click="state.dialogVisible = true"><i class="fas fa-envelope"></i> {{notifications.length}}</el-menu-item>
           <el-menu-item index="/mypage" class="navMenu" @click="getMyInfo">마이페이지</el-menu-item>
-          <el-menu-item class="navMenu" @click="logout()">로그아웃</el-menu-item>
+          <el-menu-item index="#" class="navMenu" @click="logout()">로그아웃</el-menu-item>
         </div>
       </div>
     </el-menu>

@@ -39,6 +39,11 @@ import AppealSearchResult from '../views/appeal/components/AppealSearchResult'
 
 const routes = [
   {
+    path: '',
+    name: 'main',
+    component: Main
+  },
+  {
     path:'/app',
     name:'App',
     component:App

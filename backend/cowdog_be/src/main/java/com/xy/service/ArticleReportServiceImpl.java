@@ -25,7 +25,6 @@ public class ArticleReportServiceImpl implements ArticleReportService {
 		Timestamp date_now = new Timestamp(System.currentTimeMillis());
 		newArticleReport.setRegtime(date_now);
 		newArticleReport.setReportedArticleNo(request.getReportedArticleNo());
-		newArticleReport.setArticleUrl(request.getArticleUrl());
 		if(articleReportRepo.save(newArticleReport)!=null) {
 			return "SUCCESS";
 		}

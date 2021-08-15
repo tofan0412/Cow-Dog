@@ -47,6 +47,7 @@ export const USER_LOGOUT=(state)=>{
 
 export const SET_ARTICLES = (state, articles) => {
     state.articles = articles
+    router.push({name: "AppealList"})
 }
 
 export const SET_USERINFO = (state, data) => {

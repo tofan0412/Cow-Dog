@@ -93,7 +93,7 @@ export default {
   }
 
   .container {
-    width: 60vw;
+    width: 100%;
   }
 
   .batch {
@@ -110,7 +110,7 @@ export default {
     border: 2px solid #FF4E7E;
   }
   .notice-list {
-    width: 60vw;
+    width: 100%;
   }
 
   .box-card {

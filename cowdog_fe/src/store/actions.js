@@ -509,7 +509,7 @@ export function updateArticlePage({ state }, payload) {
   router.push({name: 'AppealUpdate', params: { articleNo: payload.article.articleNo }})
 }
 
-export function updateArticle({ state }, payload) {
+export function updateArticle({ state, commit }, payload) {
   const url = '/appeal/update'
   axios({
     url: url,
@@ -525,7 +525,21 @@ export function updateArticle({ state }, payload) {
   })
   .then(resp => {
     console.log(resp)
-    // 목록을 수정한다.
+    // 목록을 갱신한다.
+    axios({
+      url: "/appeal",
+      method: 'GET',
+      headers:{
+        Authorization:"Bearer "+state.accessToken
+      },
+    })
+    .then(resp => {
+      console.log("게시글 목록 갱신: ", resp.data)
+      commit("SET_ARTICLES", resp.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
   })
   .catch(err => {
     console.log(err)

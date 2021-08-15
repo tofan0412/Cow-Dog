@@ -147,48 +147,35 @@
 				</div>
 			</div>
 		</div>
-		<div v-if="startStatus2 && myTurn">제시어:{{problem}}</div>
-		<div class="draw-container" v-bind:class="{catDis:!startStatus2}">
 
-<!-- <el-dialog
-  title="Catch Mind"
-  v-model="startStatus2"
-  width="70%"
-  :before-close="handleClose">
-  
-
-	
-  <template #footer>
-    <span class="dialog-footer">
-      <el-button @click="startStatus2 = false">Cancel</el-button>
-    </span>
-  </template>
-</el-dialog> -->
-
-    <canvas
-      id="myCanvas"
-      width="560"
-      height="360"
-      @mousedown="beginDrawing"
-      @mousemove="keepDrawing"
-      @mouseup="stopDrawing"
-    />
-    <div class="draw-tool">
-		<table class="draw-opt">
-			<tr>
-				<td><Icon class="colorBtn" icon="akar-icons:circle-fill" color="black" @click="colorChange('black')" width="24" height="24"/></td>
-				<td><Icon class="colorBtn" icon="akar-icons:circle-fill" color="red" @click="colorChange('red')" width="24" height="24"/></td>
-				<td><Icon class="colorBtn" icon="akar-icons:circle-fill" color="blue" @click="colorChange('blue')" width="24" height="24"/></td>
-				<td><Icon class="colorBtn" icon="akar-icons:circle-fill" color="yellow" @click="colorChange('yellow')" width="24" height="24"/></td>
-				<td><Icon class="colorBtn" icon="akar-icons:circle-fill" color="green" @click="colorChange('green')" width="24" height="24"/></td>
-				<td><Icon class="colorBtn" icon="bi:eraser" @click="colorChange('white')" width="24" height="24"/></td>
-				<td><button class="removeBtn" @click="allDelete">전체 지우기</button></td>
-		</tr>
-		</table>
-    </div>
-	<button @click="startCM" v-if="!catchMindStatus">시작</button>
-	<div >남은 시간:{{count}}</div>
-	</div>
+		<div v-if="startStatus2" class="catch-mind-game">
+			<div v-if="startStatus2 && myTurn">제시어:{{problem}}</div>
+			<div class="draw-container" v-bind:class="{catDis:!startStatus2}">
+				<canvas
+					id="myCanvas"
+					width="560"
+					height="360"
+					@mousedown="beginDrawing"
+					@mousemove="keepDrawing"
+					@mouseup="stopDrawing"
+				/>
+				<div class="draw-tool">
+				<table class="draw-opt">
+					<tr>
+						<td><Icon class="colorBtn" icon="akar-icons:circle-fill" color="black" @click="colorChange('black')" width="24" height="24"/></td>
+						<td><Icon class="colorBtn" icon="akar-icons:circle-fill" color="red" @click="colorChange('red')" width="24" height="24"/></td>
+						<td><Icon class="colorBtn" icon="akar-icons:circle-fill" color="blue" @click="colorChange('blue')" width="24" height="24"/></td>
+						<td><Icon class="colorBtn" icon="akar-icons:circle-fill" color="yellow" @click="colorChange('yellow')" width="24" height="24"/></td>
+						<td><Icon class="colorBtn" icon="akar-icons:circle-fill" color="green" @click="colorChange('green')" width="24" height="24"/></td>
+						<td><Icon class="colorBtn" icon="bi:eraser" @click="colorChange('white')" width="24" height="24"/></td>
+						<td><button class="removeBtn" @click="allDelete">전체 지우기</button></td>
+				</tr>
+				</table>
+				</div>
+			<button @click="startCM" v-if="!catchMindStatus">시작</button>
+			<div >남은 시간:{{count}}</div>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -916,6 +903,8 @@ export default {
 <style>
 .main-container {
 	height: 100%;
+	width: 100%;
+	display: flex;
 }
 .video-container {
 	height: 100%;

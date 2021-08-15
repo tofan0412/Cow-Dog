@@ -15,7 +15,4 @@ public class ArticleReportPostReq {
 	String title;
 	@ApiModelProperty(name="content", example="신고 내용")
 	String content;
-	//url을 적도록 하자.
-	@ApiModelProperty(name="article url", example="article url")
-	String articleUrl;
 }

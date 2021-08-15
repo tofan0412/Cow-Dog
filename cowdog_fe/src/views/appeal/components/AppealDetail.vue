@@ -1,8 +1,8 @@
 <template>
-  <el-container class="el-container" direction="vertical">
+  <el-container class="article-container" direction="vertical">
 
     <!-- 작성자 정보 -->
-    <el-row justify="start" align="middle">
+    <el-row justify="start" align="middle" class="writer-info">
       <!-- 사용자가 등록한 이미지가 존재하는 경우 -->
       <el-col :span="2" v-if="state.file_path !== null" style="align: center;">
         <img class="profile" :src="state.file_path">&nbsp;
@@ -25,49 +25,43 @@
     </el-row>
     
     <!-- 게시글 제목 -->
-    <div class="header">
-    <el-row>
-      <el-col style="text-align: start;">
-        <h2><strong>{{ this.article.title }}</strong></h2>
-      </el-col>
-    </el-row>
-    <!-- 작성일 정보 -->
-    <el-row> 
-      <el-col style="text-align: start; font-size: 12px; color: grey">
+    <div class="article-header">
+      <div class="article-title">
+        {{ this.article.title }}
+      </div>
+      <!-- 작성일 정보 -->
+      <div class="article-created-day">
         {{ this.article.regtime }}
-      </el-col>
-    </el-row>
+      </div>
     </div>
 
     <!-- 본문 내용 -->
     <el-main class="el-main">
-      <el-row justify="end" v-if="this.state.loginId === this.article.memberId">
-        <!-- Button Group -->
-        <el-button size="mini" round @click="updateArticlePage(this.article)"><i class="el-icon-edit">수정</i></el-button>
-        <el-button size="mini" round @click="deleteArticle(this.article)"><i class="el-icon-delete">삭제</i></el-button> 
-      </el-row>
-
       <el-row style="text-align: justify; margin-top: 70px; margin-bottom: 70px; white-space:pre-wrap;">
-        {{this.article.file_path}}
+        <!-- {{this.article.file_path}} --> <!-- 이미지는 가능하면 추후 추가 예정 -->
         {{ this.article.content }}
       </el-row>
-      
       <!-- 태그 부분 -->
       <el-row style="color: #9F81F7; font-size: 15px; margin-top: 20px;">
         <div v-for="tag in state.tags" :key="tag" style="cursor: pointer;">
           <strong>{{ tag }}</strong>&nbsp;&nbsp;
         </div>
-        
+      </el-row>
+      <!-- 수정 / 삭제 -->
+      <el-row class="article-button-group" justify="end" v-if="this.state.loginId === this.article.memberId">
+        <!-- Button Group -->
+        <div class="article-button" @click="updateArticlePage(this.article)">수정</div>
+        <div class="article-button" @click="deleteArticle(this.article)">삭제</div>
       </el-row>
 
       <!-- 댓글 부분 -->
       <el-row style="color: gray; font-size: 15px; margin-top: 20px;">
         <!-- 댓글이 1개 이상 존재하는 경우 -->
         <div v-if="state.comments.length > 0" style="cursor: pointer; margin:3px;">
-          <div v-if="!state.default" @click="state.default = true">
-            댓글 {{ state.comments.length }}개 모두 보기
+          <div v-if="!state.default&&(state.comments.length > 3)" @click="state.default = true">
+            댓글 {{ state.comments.length }}개 모두 보기 <!-- 댓글이 네 개 이상이면 나타나야 한다. -->
           </div>
-          <div v-else @click="state.default = false">
+          <div v-else-if="state.comments.length > 3 && state.default == true" @click="state.default = false">
             댓글 숨기기
           </div>          
         </div>
@@ -173,6 +167,7 @@ export default {
       article: Object,
     },
   setup(props) {
+    console.log("props 확인: " + props)
     const store = useStore()
     const state = reactive({
       
@@ -184,23 +179,21 @@ export default {
       comments: [],
       default: false,
       tags: [],
-      
     })
-
     // 태그 처리
     if (props.article.tags !== null) {
       // # 앞, 뒤로 분할해서 0번째 인덱스가 공백이 들어간다. 따라서 slice 사용
+      console.log(props.article)
       const tags = props.article.tags.split('#').slice(1)
       for (let i = 0; i < tags.length; i++) {
         tags[i] = '#' + tags[i]
       }
       state.tags = tags
     }
-    
-
     // 게시글마다 댓글 조회한다.
     state.store.dispatch("findComments", { articleNo: props.article.articleNo })
     .then(resp => {
+      console.log(resp.data)
       state.comments = resp.data
     })
     .catch(err => {
@@ -216,11 +209,10 @@ export default {
     .catch(err => {
       console.log(err)
     })
-    return {
-      state,
-      centerDialogVisible: ref(false),
-    }
+
+    return { state, centerDialogVisible: ref(false) }
   },
+
   methods: {
     deleteArticle() {
       this.state.store.dispatch("deleteArticle", { articleNo: this.article.articleNo, memberId: this.article.memberId })
@@ -255,17 +247,16 @@ export default {
       .catch(err => {
         console.log(err)
       })
-
-      // 댓글 작성 이후 페이지 갱신해야 한다.
-      this.state.store.dispatch("findComments", { articleNo: this.state.articleNo })
-      .then(resp => {
-        this.state.comments = resp.data
-        // 페이지 새로고침
-        this.$router.go();
-      })
-      .catch(err => {
-        console.log(err)
-      })
+      setTimeout(() => {
+        this.state.store.dispatch("findComments", { articleNo: this.state.articleNo })
+        .then(resp => {
+          console.log(resp.data)
+          this.state.comments = resp.data
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      }, 100)
     },
 
     deleteComment(commentNo) {
@@ -275,12 +266,20 @@ export default {
         this.state.store.dispatch("deleteComment", { commentNo: commentNo })
         .then(resp => {
           console.log(resp.data)
-          // 페이지 새로고침
-          this.$router.go();
         })
         .catch(err => {
           console.log(err)
         })
+      setTimeout(() => {
+        this.state.store.dispatch("findComments", { articleNo: this.state.articleNo })
+        .then(resp => {
+          console.log(resp.data)
+          this.state.comments = resp.data
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      }, 100)
       }
     },
     goToReportPage(){
@@ -288,25 +287,64 @@ export default {
     }
 
   },
+
   }
 </script>
 <style>
-.el-container{
-  margin: 10px;
-  border: 1px solid black;
+.article-container{
+  margin: 1%;
+  padding: 1%;
+  border: 2px solid #f0f2f5;
   border-radius: 0.45rem;
   height: auto;
 }
-.header{
-  padding-left: 15px;
-  padding-right: 15px;
-} 
+
+.writer-info {
+  font-weight: bold;
+  font-size: 16px;
+  padding: 1%;
+}
+
+.article-header{
+  display: flex;
+  justify-content: space-between;
+}
+.article-title {
+  font-weight: bold;
+  font-size: 24px;
+  margin-left: 3%;
+}
+.article-created-day {
+  margin-right: 3%;
+  font-size: 12px;
+  font-weight: bold;
+}
 .el-main{
   padding: 15px;
 }
 
 .el-main > *{
   margin-top: 7px;
+}
+
+.article-button-group .el-button--default {
+  border: 1px solid #323545;
+  color: #323545;
+}
+.article-button-group .el-button--default:hover {
+  border: 1px solid #ff4e7e;
+}
+.article-button {
+  font-weight: bold;
+  font-size: 14px;
+  padding: 1%;
+  margin: 1%;
+  border-radius: 5px;
+}
+.article-button:hover {
+  background: #ff4e7e;
+  color: white;
+  cursor: pointer;
 }
 #commentCreateBtn{
   color: #323545;
@@ -315,12 +353,18 @@ export default {
 .profile {
   position: relative;
   top: 8px;
-  border-radius: 70%;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
   margin: 5px;
 }
 .dialog > *{
   margin: 5px;
   text-align: center;
+}
+.el-icon-more-outline:hover {
+  color: #ff4e7e;
+  cursor: pointer;
 }
 
 </style>
