@@ -5,7 +5,7 @@ import * as mutations from './mutations'
 import * as actions from './actions'
 import createPersistedState from 'vuex-persistedstate'
 const state = {
-  articles: "기본값",
+  articles: [],
   searchResults: "기본값",
   notices: "기본값",
   reportedUsers: '기본값',

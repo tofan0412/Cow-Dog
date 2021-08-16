@@ -63,7 +63,7 @@ import router from '../../../router'
 import appealDetail from './AppealDetail.vue'
 
 export default {
-  name: 'BOARDLIST',  
+  name: 'AppealSearchResult',  
   components: {
     appealDetail,
   }, 
@@ -77,7 +77,11 @@ export default {
       },
       store: store
     })
-    store.dispatch("checklogin")
+
+    if (store.getters.getUserToken === '') {
+      alert("로그인 해주세요.")
+      router.push("/login")
+    }
     
     // 검색 결과를 articleList에 추가한다.
     state.articleList = store.getters.getSearchResults
@@ -93,7 +97,6 @@ export default {
   },
   methods: {
     createArticle() {
-      this.state.store.dispatch("checklogin")
       router.push("/appeal/create")
     },
     appealSearch() {

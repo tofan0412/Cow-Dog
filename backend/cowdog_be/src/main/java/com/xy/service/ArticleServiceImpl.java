@@ -68,9 +68,8 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public String deleteArticle(Long articleNo) {
+    public void deleteArticle(Long articleNo) {
         articleRepository.deleteById(articleNo);
-        return "SUCCESS";
     }
 
     @Override

@@ -59,6 +59,13 @@
         </div>
         
       </el-row>
+      
+
+      <!-- 좋아요 버튼 -->
+      <el-row>
+        <i></i>
+      </el-row>
+
 
       <!-- 댓글 부분 -->
       <el-row style="color: gray; font-size: 15px; margin-top: 20px;">
@@ -136,7 +143,7 @@
     center
     >
     <div class="dialog" style= "cursor: pointer; font-size: 20px;">
-      <el-row @click="goToReportPage()">
+      <el-row @click="centerDialogVisible = false; reportDialogVisible = true">
         <el-col>
           <span style="color: red;">게시글 신고</span>
           <el-divider></el-divider>
@@ -154,12 +161,48 @@
         </el-col>
       </el-row>
     </div>
-    <!-- <template #footer>
-      <span class="dialog-footer">
-      </span>
-    </template> -->
+</el-dialog>
 
-  </el-dialog>
+  <!-- 게시글 신고 페이지 modal창 -->
+  <el-dialog
+    class="reportForm"
+    title="게시글 신고"
+    v-model="reportDialogVisible"
+    width="30%"
+    destroy-on-close
+    show-close="false"
+    top="17%"
+    center
+    >
+    <div class="dialog" style= "cursor: pointer; font-size: 20px;">
+      <el-row>
+        <el-col>
+          <el-input class="elinput" v-model="state.reportArticle.title" placeholder="제목"/>
+        </el-col>
+      </el-row>
+      
+      <el-row>
+        <el-col>
+          <el-input class="textarea" 
+          resize="none"
+          maxlength="250" 
+          show-word-limit
+          rows="15"
+          v-model="state.reportArticle.content" 
+          autocomplete="off"
+          placeholder="신고 사유" />
+        </el-col>
+      </el-row>
+      
+      <el-row @click="reportArticle(); reportDialogVisible = false">
+        <el-col>
+          <span>제출</span>
+        </el-col>
+      </el-row>
+    </div>
+</el-dialog>
+
+
 </template>
 
 <script>
@@ -184,10 +227,14 @@ export default {
       comments: [],
       default: false,
       tags: [],
+      reportArticle: {
+        title: '',
+        content: '',
+      }
       
     })
 
-    // 태그 처리
+    // 태그 처리    
     if (props.article.tags !== null) {
       // # 앞, 뒤로 분할해서 0번째 인덱스가 공백이 들어간다. 따라서 slice 사용
       const tags = props.article.tags.split('#').slice(1)
@@ -219,13 +266,12 @@ export default {
     return {
       state,
       centerDialogVisible: ref(false),
+      reportDialogVisible: ref(false),
     }
   },
   methods: {
     deleteArticle() {
       this.state.store.dispatch("deleteArticle", { articleNo: this.article.articleNo, memberId: this.article.memberId })
-      // 페이지 새로고침
-      return window.location.reload()
     },
     // 페이지 갱신
     updateArticlePage(article) {
@@ -285,6 +331,16 @@ export default {
     },
     goToReportPage(){
       router.push("/admin/article-report")
+    },
+    reportArticle() {
+      this.state.store.dispatch("postArticleReport", { 
+        title: this.state.reportArticle.title, 
+        content: this.state.reportArticle.content, 
+        reportedArticleNo: this.state.articleNo, 
+        articleUrl: '', 
+      })
+      alert("신고 완료되었습니다.")
+      return
     }
 
   },
@@ -321,6 +377,9 @@ export default {
 .dialog > *{
   margin: 5px;
   text-align: center;
+}
+.reportForm *{
+  margin-top: 10px;
 }
 
 </style>

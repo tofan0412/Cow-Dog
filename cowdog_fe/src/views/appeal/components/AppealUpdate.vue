@@ -18,7 +18,8 @@
 <script>
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
-import { reactive, ref, onMounted } from 'vue'
+import { reactive, ref } from 'vue'
+import router from '../../../router'
 
 export default {
 name: 'AppealCreate',
@@ -44,6 +45,11 @@ setup() {
     store: store,
   })
 
+  if (store.getters.getUserToken === '') {
+    alert("로그인 해주세요.")
+    router.push("/login")
+  }
+
   // 대상 게시글 정보를 불러온다. 
   const route = useRoute()
   state.articleForm.articleNo = route.params.articleNo
@@ -55,10 +61,7 @@ setup() {
     state.articleForm.content = result.data.content
   })
 
-  onMounted(() => {
-    store.dispatch("checklogin")
 
-  })
 
   return {
     state,

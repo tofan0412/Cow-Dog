@@ -10,7 +10,7 @@
       text-color="#ff4e7e"
       active-text-color="#ff4e7e">
       <el-menu-item index="/" class="navMenu">Home</el-menu-item>
-      <el-menu-item index="/Appeal" class="navMenu">Appeal</el-menu-item>
+      <el-menu-item index="aa" class="navMenu" @click="getArticles">Appeal</el-menu-item>
       <el-menu-item index="" class="navMenu" @click="getNotices">Admin</el-menu-item>
      <!-- 나중에 거의 완성 되면 로그인 빼고 다 막아야 한다~ -->
       <el-menu-item index="/main" class="navMenu">Main</el-menu-item>
@@ -59,8 +59,11 @@ export default ({
         store.dispatch('getMyInfo')
       },
       GetFollowUsers:()=>{
-          store.dispatch("getFollowUsers")
-        },
+        store.dispatch("getFollowUsers")
+      },
+      getArticles: () => {
+        store.dispatch("getArticles")
+      }
      
     }
   },

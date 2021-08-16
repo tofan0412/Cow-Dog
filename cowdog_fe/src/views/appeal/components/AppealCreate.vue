@@ -85,6 +85,7 @@
 <script>
 import { useStore } from 'vuex'
 import { reactive, ref } from 'vue'
+import router from '../../../router'
 
 export default {
 name: 'AppealCreate',
@@ -115,7 +116,10 @@ setup() {
     },
   })
 
-  store.dispatch("checklogin")
+  if (store.getters.getUserToken === '') {
+    alert("로그인 해주세요.")
+    router.push("/login")
+  }
 
   return {
     state,

@@ -375,15 +375,6 @@ export function deleteReportedArticle({ state, commit }, payload) {
     })
 }
 
-export function checklogin({ state }) {
-  const accessToken = state.accessToken
-  if (accessToken == '') {
-    alert("로그인 해주세요.")
-    router.push("/login")
-    return
-  }
-}
-
 export function createArticle({ state, commit }, payload) {
   console.log(payload.tags)
   
@@ -414,7 +405,6 @@ export function createArticle({ state, commit }, payload) {
     })
     .then(resp => {
       commit("SET_ARTICLES", resp.data)
-      router.push("/appeal")
     })
     .catch(err => {
       console.log(err)
@@ -426,30 +416,32 @@ export function createArticle({ state, commit }, payload) {
 }
 
 export function getArticles({ state, commit }) {  
-  console.log("게시글 목록 가져옵니다.")
-  const url = "/appeal"
-  axios({
-    url: url,
-    method: 'GET',
-    headers:{
-      Authorization:"Bearer "+state.accessToken
-    },
-  })
-  .then(resp => {
-    // 시간 순으로 잘 불러왔는가? 
-    console.log("조회 결과: ", resp.data)
-
-
-    // 날짜 전처리 필요하다...
-    for (let i = 0; i < resp.data.length; i++) {
-      const date = new Date(resp.data[i].regtime).toDateString()
-      resp.data[i].regtime = date
-    }
-    commit("SET_ARTICLES", resp.data)
-  })
-  .catch(err => {
-    console.log(err)
-  })
+  // 로그인 여부 확인
+  const accessToken = state.accessToken
+  if (accessToken === '') {
+    alert("로그인 해주세요.")
+    router.push("/login")
+  }
+  else {
+    console.log("게시글 목록 가져옵니다.")
+    const url = "/appeal"
+    axios({
+      url: url,
+      method: 'GET',
+      headers:{
+        Authorization:"Bearer "+state.accessToken
+      },
+    })
+    .then(resp => {
+      // 시간 순으로 잘 불러왔는가? 
+      console.log("게시글 조회 결과: ", resp.data)
+  
+      commit("SET_ARTICLES", resp.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
 }
 
 export function getArticle({ state }, payload){
@@ -522,7 +514,6 @@ export function deleteArticle({ state, commit }, payload) {
     return
   }
   else{
-
     const answer = confirm("게시글을 삭제하시겠습니까?")
     if (answer) {
       const url = "/appeal/delete?articleNo=" + payload.articleNo
@@ -534,23 +525,8 @@ export function deleteArticle({ state, commit }, payload) {
         },
       })
       .then(resp => {
-        console.log("게시글 삭제 완료!!!", resp)
-        
-        // 게시글 목록 갱신
-        axios({
-          url: "/appeal",
-          method: 'GET',
-          headers:{
-            Authorization:"Bearer "+state.accessToken
-          },
-        })
-        .then(resp => {
-          console.log("게시글 목록 갱신: ", resp.data)
-          commit("SET_ARTICLES", resp.data)
-        })
-        .catch(err => {
-          console.log(err)
-        })
+        // 데이터 갱신
+        commit("SET_ARTICLES", resp.data)
       })
       .catch(err => {
         console.log(err)

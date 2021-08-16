@@ -20,13 +20,33 @@
       </el-row>
     </el-menu>
   
-  <el-row>
-    <el-col :span="12" :offset="6"> <!-- offset 설정하면 왼쪽 기준으로 공백 크기 설정 -->
-      <div v-for="article in state.articleList" :key="article.articleno"> <!-- 왜 key에다가 콜론을 해줘야 하지..? -->
-        <appealDetail :article="article"/>
-      </div>
-    </el-col>
-  </el-row>
+  <div v-if="state.articles.length !== 0 ">
+    <el-row>
+      <el-col :span="12" :offset="6"> <!-- offset 설정하면 왼쪽 기준으로 공백 크기 설정 -->
+        <!-- 게시글 객체가 존재하지 않을 수도 있다. v-if의 경우 조건에 맞지 않으면 렌더링을 하지 않음 -->
+        <div>
+          <div v-for="article in state.articles" :key="article.articleno"> <!-- 왜 key에다가 콜론을 해줘야 하지..? -->
+            <appealDetail :article="article"/>
+          </div>
+        </div>
+
+      </el-col>
+    </el-row>
+  </div>
+
+  <div v-else style="vertical-align: middle;">
+    <el-row justify="center" style="margin: 10px;">
+      <i class="el-icon-warning-outline" style="font-size: 250px;" />
+    </el-row>
+    <br>
+    <el-row justify="center" style="margin: 10px;">
+      작성된 게시글이 아직 없습니다.
+    </el-row>
+    <br>
+    <el-row justify="center" style="margin: 10px;">
+      <el-button default plain @click="createArticle()">게시글 작성하기</el-button>
+    </el-row>    
+  </div>
 
   <!-- 글 작성 버튼 하단 고정 -->
   <el-row style="margin-top: 50px;">
@@ -36,14 +56,16 @@
     style="color: black; width: 100%; position: fixed; bottom: 0;">새 게시글 작성하기</el-button>
   </el-row>
 </template>
+
 <script>
 import { reactive } from '@vue/reactivity'
 import { useStore } from 'vuex'
 import router from '../../../router'
 import appealDetail from './AppealDetail.vue'
 
+
 export default {
-  name: 'BOARDLIST',  
+  name: 'AppealList',  
   components: {
     appealDetail,
   }, 
@@ -51,25 +73,21 @@ export default {
     const store = useStore()
     const state = reactive({
       searchKeyword: '',
-      articleList: {
-        type: Array,
-      },
-      store: store
+      store: store,
+      articles: store.getters.getArticles,
     })
-    store.dispatch("checklogin")
-    
-    // 게시글 목록 갱신
-    store.dispatch("getArticles")
-    state.articleList = store.getters.getArticles
 
+    if (store.getters.getUserToken === '') {
+      alert("로그인 해주세요.")
+      router.push("/login")
+    }
+  
     return {
       state
-    }
-    
+    }    
   },
   methods: {
     createArticle() {
-      this.state.store.dispatch("checklogin")
       router.push("/appeal/create")
     },
     appealSearch() {

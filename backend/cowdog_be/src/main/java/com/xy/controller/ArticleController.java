@@ -60,10 +60,11 @@ public class ArticleController {
 
     @DeleteMapping("/delete")
     @Transactional
-    public String deleteArticle(@RequestParam("articleNo") Long articleNo){
+    public List<Article> deleteArticle(@RequestParam("articleNo") Long articleNo){
         System.out.println("삭제를 시작합니다. : " + articleNo);
-        String result = articleService.deleteArticle(articleNo);
-        return result;
+        // 게시글 삭제
+        articleService.deleteArticle(articleNo);
+        return articleService.findAll();
     }
 
     @PutMapping("/update")
