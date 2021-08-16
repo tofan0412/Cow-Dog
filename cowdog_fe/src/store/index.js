@@ -6,7 +6,6 @@ import * as actions from './actions'
 import createPersistedState from 'vuex-persistedstate'
 const state = {
   articles: [],
-  searchResults: "기본값",
   notices: "기본값",
   reportedUsers: '기본값',
   reportedArticles: '기본값',

@@ -396,19 +396,7 @@ export function createArticle({ state, commit }, payload) {
   .then(resp => {
     console.log("create result: ", resp)
     // 게시글 목록 재업로드
-    axios({
-      url: "/appeal",
-      method: 'GET',
-      headers:{
-        Authorization:"Bearer "+state.accessToken
-      },
-    })
-    .then(resp => {
-      commit("SET_ARTICLES", resp.data)
-    })
-    .catch(err => {
-      console.log(err)
-    })    
+    getArticles({ state, commit })
   })
   .catch(err => {
     console.log(err)
@@ -433,9 +421,15 @@ export function getArticles({ state, commit }) {
       },
     })
     .then(resp => {
-      // 시간 순으로 잘 불러왔는가? 
-      console.log("게시글 조회 결과: ", resp.data)
-  
+      // 태그 전처리하기 -> 태그 개별 항목 검색 위해...
+      for (let i = 0; i < resp.data.length; i++) {
+        if (resp.data[i].tags !== null) {
+          const tags = resp.data[i].tags.split('#').slice(1)
+          resp.data[i].tags = tags
+        }
+      }
+      console.log("게시글 목록 결과:", resp.data)
+
       commit("SET_ARTICLES", resp.data)
     })
     .catch(err => {
@@ -480,11 +474,10 @@ export function userLogout({state,commit},payload){
 
 export function updateArticlePage({ state }, payload) {
   console.log(state)
-  console.log(payload.article.articleNo)
   router.push({name: 'AppealUpdate', params: { articleNo: payload.article.articleNo }})
 }
 
-export function updateArticle({ state }, payload) {
+export function updateArticle({ state, commit }, payload) {
   const url = '/appeal/update'
   axios({
     url: url,
@@ -501,6 +494,7 @@ export function updateArticle({ state }, payload) {
   .then(resp => {
     console.log(resp)
     // 목록을 수정한다.
+    getArticles({ state, commit })
   })
   .catch(err => {
     console.log(err)
@@ -525,7 +519,7 @@ export function deleteArticle({ state, commit }, payload) {
         },
       })
       .then(resp => {
-        // 데이터 갱신
+        // 데이터 갱신. 백엔드에서 목록을 가져오기 때문에 getArticles를 호출할 필요가 없다.
         commit("SET_ARTICLES", resp.data)
       })
       .catch(err => {
@@ -533,41 +527,20 @@ export function deleteArticle({ state, commit }, payload) {
       })
     }
   }
-  
 }
 
-
-export function appealSearch({ state, commit }, payload) {
+export function appealSearch({ state }, payload) {
   const url = '/appeal/search?searchKeyword=' + payload.searchKeyword
-
   // 검색 결과를 tag로 갖는 게시글 목록을 불러온다.
-  axios({
+  return axios({
     url: url,
     method: 'GET',
     headers:{
-      Authorization:"Bearer "+state.accessToken
+      Authorization:"Bearer " + state.accessToken
     },
-  })
-  .then(resp => {
-    console.log("검색 결과는", resp.data)
-    commit("SET_SEARCH_RESULT", resp.data)
-    
-    // 마찬가지로 날짜 전처리
-    for (let i = 0; i < resp.data.length; i++) {
-      const date = new Date(resp.data[i].regtime).toDateString()
-      resp.data[i].regtime = date
-    }
-    
-    // 검색 결과 페이지에서 다시 검색한 것이라면, router.go를 해야 한다.
-    router.push({name: 'AppealSearchResult', params: { searchKeyword : payload.searchKeyword }})
-    
-  })
-  .catch(err => {
-    console.log(err)
   })
 
 }
-
 
 export function createArticleComment({ state }, payload) {
   const url = '/appealComment/create'

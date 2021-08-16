@@ -55,7 +55,7 @@
       <!-- 태그 부분 -->
       <el-row style="color: #9F81F7; font-size: 15px; margin-top: 20px;">
         <div v-for="tag in state.tags" :key="tag" style="cursor: pointer;">
-          <strong>{{ tag }}</strong>&nbsp;&nbsp;
+          <strong>#{{ tag }}</strong>&nbsp;&nbsp;
         </div>
         
       </el-row>
@@ -149,12 +149,6 @@
           <el-divider></el-divider>
         </el-col>
       </el-row>
-      <el-row @click="true">
-        <el-col>
-          <span>사용자 조회</span>
-          <el-divider></el-divider>
-        </el-col>
-      </el-row>
       <el-row @click="centerDialogVisible = false">
         <el-col>
           <span>취소</span>
@@ -226,24 +220,13 @@ export default {
       commentContent: '',
       comments: [],
       default: false,
-      tags: [],
+      tags: props.article.tags,
       reportArticle: {
         title: '',
         content: '',
       }
       
-    })
-
-    // 태그 처리    
-    if (props.article.tags !== null) {
-      // # 앞, 뒤로 분할해서 0번째 인덱스가 공백이 들어간다. 따라서 slice 사용
-      const tags = props.article.tags.split('#').slice(1)
-      for (let i = 0; i < tags.length; i++) {
-        tags[i] = '#' + tags[i]
-      }
-      state.tags = tags
-    }
-    
+    })    
 
     // 게시글마다 댓글 조회한다.
     state.store.dispatch("findComments", { articleNo: props.article.articleNo })
@@ -341,7 +324,8 @@ export default {
       })
       alert("신고 완료되었습니다.")
       return
-    }
+    },
+
 
   },
   }
