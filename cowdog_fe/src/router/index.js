@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Test from '../components/Test.vue'
 import Admin from '../views/notice/Admin.vue'
+import NoticeForUser from '../views/notice/notice-for-user.vue'
 import Notice from '../views/notice/components/notice.vue'
 import NoticeCreate from '../views/notice/components/notice-create.vue'
 import NoticeUpdate from '../views/notice/components/notice-update.vue'
@@ -13,6 +14,7 @@ import MyInfo from '../views/mypage/components/MyInfo.vue'
 import Eachother from '../views/mypage/components/Eachother.vue'
 import Follow from '../views/mypage/components/Follow.vue'
 import FollowDetail from '../views/mypage/components/FollowDetail.vue'
+import EachotherDetail from '../views/mypage/components/EachotherDetail.vue'
 import Setting from '../views/mypage/components/Setting.vue'
 import Update from '../views/mypage/components/Update.vue'
 import FindingPassword from '../views/findpassword/FindingPassword.vue'
@@ -30,8 +32,22 @@ import AppealCreate from '../views/appeal/components/AppealCreate'
 import AppealDetail from '../views/appeal/components/AppealDetail'
 import AppealList from '../views/appeal/components/AppealList'
 import AppealUpdate from '../views/appeal/components/AppealUpdate'
+import App from '../App.vue'
+import store from '../store/index'
+import VideoChat from '../views/main/matchingview/VideoChat.vue'
 
 const routes = [
+  {
+    path: '',
+    name: 'login',
+    component: Main,
+    meta: { mainCheck: true }
+  },
+  {
+    path:'/app',
+    name:'App',
+    component:App
+  },
   
   {
     path: '/test',
@@ -41,12 +57,14 @@ const routes = [
   {
     path:'/login',
     name:'Login',
-    component:LoginPage
+    component:LoginPage,
+    meta: {loginCheck: true}
   },
   {
     path:'/register',
     name:'Register',
-    component:RegisterPage
+    component:RegisterPage,
+    meta: { loginCheck: true }
   },
   {
     path:'/findingpassword',
@@ -57,38 +75,47 @@ const routes = [
   {
     path:'/recomResultView',
     name:'RecomResultView',
-    component:RecomResultView
+    component:RecomResultView,
+    meta: { isLogin: true }
   },
   {
     path:'/recomResultViewDetail',
     name:'RecomResultViewDetail',
-    component:RecomResultViewDetail
+    component:RecomResultViewDetail,
+    meta: { isLogin: true }
   },
   
   {
     path:'/randomResultView',
     name:'RandomResultView',
-    component:RandomResultView
+    component:RandomResultView,
+    meta: { isLogin: true }
   },
   {
     path:'/randomResultViewDetail',
     name:'RandomResultViewDetail',
-    component:RandomResultViewDetail
+    component:RandomResultViewDetail,
+    meta: { isLogin: true }
   },
   {
     path:'/distanceResultView',
     name:'DistanceResultView',
-    component:DistanceResultView
+    component:DistanceResultView,
+    meta: { isLogin: true }
   },
   {
     path:'/distanceResultViewDetail',
     name:'DistanceResultViewDetail',
-    component:DistanceResultViewDetail
+    component:DistanceResultViewDetail,
+    meta: { isLogin: true }
   },
   {
     path:'/main',
     name:'Main',
     component:Main,
+    meta: 
+      { isLogin: true},
+
     children:[
       {
         path:'/main/randomMatching',
@@ -108,8 +135,14 @@ const routes = [
     ]
   },
   {
+    path:'/videochat',
+    name:'VideoChat',
+    component:VideoChat,
+  },
+  {
     path:'/mypage',
     name: 'Mypage',
+    meta: { isLogin: true },
     component:Mypage,
     children:[
       {
@@ -121,6 +154,11 @@ const routes = [
         path:'/mypage/eachother',
         name:'Eachother',
         component:Eachother
+      },
+      {
+        path:'/mypage/eachotherDetail',
+        name:'EachotherDetail',
+        component:EachotherDetail
       },
       {
         path:'/mypage/follow',
@@ -146,10 +184,19 @@ const routes = [
 
     ]
   },
+
+  // 유저가 보는 공지사항 페이지
+  {
+    path: '/notices',
+    name: 'Notices',
+    component: NoticeForUser,
+  },
+  // 관리자 페이지
   {
     path: '/admin',
     name: 'Admin',
     component: Admin,
+    meta: { manager: true },
     children: [
         {
           path: '/admin/notice',
@@ -208,5 +255,34 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.mainCheck && !store.state.userId) {
+    next('/login');
+  }
+  if (to.meta.manager && !store.getters.getUserInfo.manager) {
+    alert('관리자만 접근이 가능합니다.');
+    next('/main');
+    return;
+  }
+  // 회원가입, 로그인 페이지는 로그인 한 상태에서 접근 불가
+  if (to.meta.loginCheck && store.state.userId) {
+    alert('로그아웃 상태에서만 접근 가능합니다.');
+    next('/main');
+    return;
+  }
+
+  if (to.meta.isLogin && !store.state.userId) {
+    alert('로그인 해주세요.');
+    next('/login');
+    return;
+  }
+
+
+
+
+
+  next();
+});
 
 export default router

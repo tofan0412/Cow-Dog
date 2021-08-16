@@ -1,6 +1,7 @@
 import axios from 'axios'
 import $axios from 'axios'
 import router from '../router'
+import Swal from 'sweetalert2'
 // import cookies from 'vue-cookies'
 
 export function getMyInfo({state,commit}){
@@ -56,12 +57,12 @@ export function Authentication({ state },payload){
   .then(res=>{
     console.log("비밀번호 초기화 메일 성공")
     if(res.data==="SUCCESS"){
-      alert("비밀번호 초기화 성공 메일을 확인해주세요")
+      Swal.fire('SUCCESS' ,'비밀번호 초기화 성공, 메일을 확인해주세요');
     }else if(res.date==="NOT_EXISTS_EMAIL"){
-      alert("입력하신 이메일이 정확하지 않습니다.")
+      Swal.fire('FAIL' ,'입력하신 이메일이 정확하지 않습니다.');
     }
     else if(res.data==="FAIL"){
-      alert("비밀번호 초기화 실패")
+      Swal.fire('FAIL' ,'비밀번호 초기화 실패');
     }
   })
   .catch(err=>{
@@ -109,13 +110,13 @@ export function changePassword({state},payload){
   .then(res=>{
     console.log("비밀번호 변경 성공")
     if(res.data==="SUCCESS"){
-      alert("비밀번호 변경 성공, 다시 로그인 해주세요")
+      Swal.fire('SUCCESS' ,'비밀번호 변경 성공, 다시 로그인 해주세요');
       state.userId=''
       state.accessToken=''
       state.myinfo=[]
       router.push({name:"Login"})
     }else if(res.data==="FAIL"){
-      alert("현재 비밀번호가 틀립니다. 다시 확인해주세요")
+      Swal.fire('FAIL' ,'현재 비밀번호가 틀립니다. 다시 확인해주세요');
     }
   })
   .catch(err=>{
@@ -133,13 +134,13 @@ export function deleteMember({state},payload){
     .then(res=>{
       console.log("회원 탈퇴 성공")
       if(res.data==="SUCCESS"){
-        alert("회원을 탈퇴 하셨습니다.")
+        Swal.fire('SUCCESS' ,'회원을 탈퇴 하셨습니다.');
         state.userId=''
         state.accessToken=''
         state.myinfo=[]
         router.push({name:"Login"})
       }else if(res.data==="FAIL"){
-        alert("탈퇴 실패?? 가 뜨면 백엔드 문제")
+        Swal.fire('SUCCESS' ,'탈퇴 실패?? 가 뜨면 백엔드 문제');
       }
     })
     .catch(err=>{
@@ -316,6 +317,20 @@ export function deleteReportedUser({ state, commit }, payload) {
     })
 }
 
+export function suspendReportedUser({ state, commit }, payload) {
+  const url = '/user-report/user/' + payload.user_id + '/' + payload.user_long_id // user의 id를 payload로
+  axios({
+    url: url, method: 'patch', headers: {Authorization:"Bearer "+state.accessToken}, 
+  })
+    .then(res => {
+      console.log(res.data)
+      commit('GET_REPORTED_USERS', res.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
+
 // 게시글 신고 관련 actions
 export function getReportedArticles({ state, commit }) {
   const url = '/article-report'
@@ -463,7 +478,7 @@ export function userLogout({state,commit},payload){
     .then(res => {
       console.log(res.data)
       if(res.data==="SUCCESS"){
-        alert("로그아웃")
+        Swal.fire('SUCCESS' ,'로그아웃');
         commit("USER_LOGOUT")
       }
     })
@@ -504,7 +519,7 @@ export function updateArticle({ state, commit }, payload) {
 export function deleteArticle({ state, commit }, payload) {
   // 현재 로그인한 사용자와 게시글을 작성한 사용자의 PK 비교 
   if (payload.memberId !== state.userId) {
-    alert("권한이 없습니다.")
+    Swal.fire('FAIL' ,'권한이 없습니다.');
     return
   }
   else{
@@ -867,17 +882,53 @@ export function getFollowUsers({state,commit}){
     .catch(err => {
       console.log(err)
     })  
+}
 
+export function getFollowEachOther({state,commit}){
 
-
-
+  console.log(state.userId)
+  console.log("나랑 맞팔로우 한 사람 가져오기")
+  const url='/like/getFollowEachOther/?id='+state.userId
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+    .then(res => {
+      console.log(res)
+      if(res.data.message=="SUCCESS"){
+        console.log(res.data.list[0])
+        commit("SET_EACH_OTHER_FOLLOW_USER",res.data.list)
+      }
+      
+    })
+    .catch(err => {
+      console.log(err)
+    })  
 }
 
 
+export function AmIFollowed({ state, commit }) {
+  console.log("내가 누구를 팔로우 했는지 확인하기")
+  const url='/like/AmIFollowed/?id=' + state.userId
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+    .then(res => {
+      commit("AM_I_FOLLOWED", res.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
 
-
-
-export function like({state},payload){
+export function like({state, commit},payload){
   console.log(state.userId)
   console.log("팔로우 합니다~")
   console.log(payload)
@@ -889,18 +940,82 @@ export function like({state},payload){
       Authorization:"Bearer "+state.accessToken
     },
     data: {
-     memberid:state.userId,//팔로우를 하는 사람
-     followid:payload//팔로우 당하는 사람
+     memberid:payload,//팔로우를 당하는 사람
+     followerid:state.userId//팔로우를 하는 사람
     }
   })
     .then(res => {
-      console.log(res)
-      if(res.data.message=="SUCCESS"){
-        alert("팔로우 성공")
-      }
+      commit("AM_I_FOLLOWED", res.data)
     })
     .catch(err => {
       console.log(err)
     })
+}
+
+
+
+export function unlike({state, commit},payload){//payload -> 카드에 있는 사람 아이디 내가 언팔 하고 싶은 사림
+  console.log(state.userId)
+  console.log("언팔로우 합니다~")
+  console.log(payload)
+  const url='/like/follow/' + payload + '/' + state.userId
+  axios({
+    url: url,
+    method: 'delete',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    }
+  })
+    .then(res => {
+      commit("AM_I_FOLLOWED", res.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+
+
+
+
+
+}
+
+export function getNotification({state,commit}, payload){
+  const url='/notificaion/getNotification/?id=' + payload
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+    .then(res => {
+      console.log(res.data)
+      commit("SET_NOTIFICATION", res.data.list)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
+
+export function checkNotification({state}, payload){
+  const url='/notificaion/checkNotification/?id=' + payload
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+    .then(res => {
+      console.log(res.data)
+      router.push('')
+    })
+    .catch(err => {
+      console.log(err)
+    })
+
+
+
+
 
 }

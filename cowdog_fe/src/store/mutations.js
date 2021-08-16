@@ -2,11 +2,11 @@ import router from '../router'
 export const GET_NOTICES = (state, noticeDatas) => {
     state.notices = noticeDatas
     console.log(noticeDatas)
-    router.push('/admin/notice') // Admin 클릭 => notices가 로드되고 난 후에 notice 페이지로 push
+    // router.push('/admin/notice') // Admin 클릭 => notices가 로드되고 난 후에 notice 페이지로 push
 }
 export const GET_MYINFO = (state, myinfoData) => {
     state.myinfo = myinfoData
-    router.push('/mypage') // Admin 클릭 => notices가 로드되고 난 후에 notice 페이지로 push
+    router.push('/mypage')
 }
 export const GET_REPORTED_USERS = (state, reportedUserDatas) => {
     state.reportedUsers = reportedUserDatas
@@ -27,9 +27,21 @@ export const GET_LOGIN_USER=(state,login_user)=>{
 }
 
 export const USER_LOGOUT=(state)=>{
-    state.accessToken=''
-    state.userId=''
-    state.myinfo=[]
+    state.articles= "기본값",
+    state.notices= "기본값",
+    state.reportedUsers= '기본값',
+    state.reportedArticles= '기본값',
+    state.noticeDetailData= '기본값',
+    state.myinfo=[],//유저 정보
+    state.accessToken='',// 토큰
+    state.userId='',//유저 pk 값
+    state.randomUsers=[],
+    state.distanceUsers=[],
+    state.recomUsers=[],
+    state.followUsers=[],
+    state.eachOtherFollowUsers=[],
+    state.usersIFollowed= [],
+    state.notifications=[],
     router.push('/login')
 }
 
@@ -45,9 +57,8 @@ export const SET_ARTICLES = (state, articles) => {
         router.go();
     }
     else {
-        router.push('/appeal')
+        router.push({name: "AppealList"})
     }
-    
 }
 
 export const SET_USERINFO = (state, data) => {
@@ -79,4 +90,20 @@ export const SET_FOLLOW_USER=(state,followUsers)=>{
     console.log(followUsers)
     state.followUsers=followUsers;
     console.log(state.followUsers)
+}
+
+export const SET_EACH_OTHER_FOLLOW_USER=(state,eachOtherFollowUsers)=>{
+    console.log(eachOtherFollowUsers)
+    state.eachOtherFollowUsers=eachOtherFollowUsers;
+    console.log(state.eachOtherFollowUsers)
+}
+export const AM_I_FOLLOWED = (state, usersIFollowed) => {
+    state.usersIFollowed = usersIFollowed;
+}
+
+export const SET_NOTIFICATION=(state, notifications) => {
+    state.notifications = notifications;
+}
+export const SET_SEARCH_RESULT= (state, searchResults) => {
+    state.searchResults = searchResults
 }

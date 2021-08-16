@@ -119,7 +119,7 @@ public class MemberController {
 			return ResponseEntity.status(404).body(BaseResponseBody.of(404, "NOT_EXISTS_USER"));
 		}
 		if(mem.isIssuspended()) {
-			return ResponseEntity.status(404).body(BaseResponseBody.of(200, "ISSUSPENDED"));//계정 정지되어 있으면
+			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "ISSUSPENDED"));//계정 정지되어 있으면
 		}
 		// 로그인 요청한 유저로부터 입력된 패스워드 와 디비에 저장된 유저의 암호화된 패스워드가 같은지 확인.(유효한 패스워드인지 여부 확인)
 		if (passwordEncoder.matches(password, mem.getPassword())) {
@@ -168,6 +168,18 @@ public class MemberController {
 		System.out.println(mem.toString());
 		return mem;
 	}
+	
+	@GetMapping("/getOppInfo")
+	public Member getOppInfo(@RequestParam("userId") String id) {
+		System.out.println("현재 로그인한 유저 정보 내놔~~");
+		System.out.println(id);
+		Member mem=memRepo.getBymemberid(id);
+		System.out.println(mem.toString());
+		return mem;
+	}
+	
+	
+	
 	
 	
 	

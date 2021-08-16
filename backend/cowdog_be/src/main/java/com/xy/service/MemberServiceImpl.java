@@ -46,7 +46,7 @@ public class MemberServiceImpl implements MemberService{
 		newMemberInfo.setGender(member.get("gender").toString());
 		newMemberInfo.setHobby(member.get("hobby").toString());
 		newMemberInfo.setMbti(member.get("mbti").toString());
-		newMemberInfo.setMymbti(member.get("mymbti").toString());
+		newMemberInfo.setMymbti(member.get("mymbti").toString().toUpperCase());
 		newMemberInfo.setLatitude((double)member.get("latitude"));
 		newMemberInfo.setLongitude((double)member.get("longitude"));
 		newMemberInfo.setPersonality(member.get("personality").toString());
@@ -70,6 +70,7 @@ public class MemberServiceImpl implements MemberService{
 //		SimpleDateFormat fourteen_format = new SimpleDateFormat("yyyy-MM-dd-HH"); 
 		newMember.setOnlinetime(stringDatetime);
 		newMember.setPassword(passwordEncoder.encode(member.get("password").toString()));//패스워드 인코드
+		newMember.setManager(false);
 		
 		
 		
@@ -119,8 +120,13 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public Member getMemberById(long id) {
-		return memRepo.getById(id);
 		
+		if(memRepo.existsById(id)) {
+			return memRepo.getById(id);
+		}
+		
+		
+		return null;
 	}
 
 	@Override
@@ -137,7 +143,7 @@ public class MemberServiceImpl implements MemberService{
 		System.out.println(id);
 		
 		//자신 빼고 지금 로그인한 유저 쿼리
-		String jpql="select m from Member as m where m.login='true' and m.id is not :id";
+		String jpql="select m from Member as m where m.login='1' and m.id is not :id";
 		TypedQuery<Member> query=em.createQuery(jpql,Member.class);
 		query.setParameter("id", id);
 		return query.getResultList();

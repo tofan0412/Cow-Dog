@@ -54,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		System.out.println("sdfasf");
 		    http.csrf().disable().authorizeRequests().antMatchers("/cowdog/mem/login","/cowdog/mem/confirmId",
 		    		"/cowdog/mem/confirmNickname","/cowdog/mem/register","/cowdog/mem/profileImgaeUpload","/ cowdog/mem/getImageList"
-		    		,"/cowdog/EmailAuthentication/searchPassword", "cowdog/mem/logout")//회원로그인 , 회원가입 , 아이디 검사, 닉네임 검사는 요청 받아들인다.
+		    		,"/cowdog/EmailAuthentication/searchPassword", "cowdog/mem/logout","/","cowdog/")//회원로그인 , 회원가입 , 아이디 검사, 닉네임 검사는 요청 받아들인다.
 		    .permitAll().anyRequest().authenticated()//나머지 요청은 토큰을 확인
 		    .and().exceptionHandling().and().sessionManagement()
 		    .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

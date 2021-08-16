@@ -1,5 +1,4 @@
 <template>
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
 <div class="mypage">
   <div class="upward">
     <div class="profile-img-box">
@@ -14,11 +13,15 @@
       </div>
       <div class="follow" style="display:flex">
         <div class="followers">
-          33 followers
+          팔로워 {{followers.length}}
         </div>
         <div class="followings">
-          34 following
+          팔로잉 {{followings.length}}
         </div>
+        <div class="follow-each-other">
+          맞팔 {{eachOtherFollowUsers.length}}
+        </div>
+
       </div>
       <div class="hashtag" style="display:flex">
         <div class="personality-item">
@@ -47,10 +50,10 @@
   <!-- tabs -->
   <div>
     <el-tabs v-model="activeName">
-      <el-tab-pane label="상세정보" name="myinfo"><MyInfo /></el-tab-pane>
-      <el-tab-pane label="팔로우" name="follow"><Follow /></el-tab-pane>
-      <el-tab-pane label="맞팔로우" name="eachother"><EachOther /></el-tab-pane>
-      <el-tab-pane label="계정설정" name="account-setting"><Setting /></el-tab-pane>
+      <el-tab-pane label="상세정보" name="myinfo"><my-info /></el-tab-pane>
+      <el-tab-pane label="팔로워" name="follow"><follow /></el-tab-pane>
+      <el-tab-pane label="맞팔로우" name="eachother"><each-other /></el-tab-pane>
+      <el-tab-pane label="계정설정" name="account-setting"><setting /></el-tab-pane>
     </el-tabs>
   </div>
 </div>
@@ -62,6 +65,7 @@ import MyInfo from "./components/MyInfo.vue"
 import Follow from "./components/Follow.vue"
 import EachOther from "./components/Eachother.vue"
 import Setting from "./components/Setting.vue"
+import { mapGetters } from 'vuex'
 export default {
   name: 'Mypage',
   components: {
@@ -76,16 +80,22 @@ export default {
       activeName: 'myinfo'
     }
   },
+  computed: {
+    ...mapGetters({
+      followings: 'getUsersIFollowed', // 내가 팔로우하는 사람들
+      followers: 'getFollowUsers', // 나를 팔로우하는 사람들
+      eachOtherFollowUsers: 'getEachOtherFollowUsers' // 맞팔한 사람들
+    })
+  },
   setup() {
     const store = useStore()
     const myinfo = store.state.myinfo
+    store.dispatch('AmIFollowed') // 내가 팔로우한 유저 usersIFollowed에 저장
+    store.dispatch("getNotification",store.getters.getUserId)//알림 뭐 왔나 백엔드에서 가져오는거
 
     return { myinfo,
       getMyInfo:()=>{
         store.dispatch('getMyInfo')
-      },
-      GetFollowUsers:()=>{
-        store.dispatch("getFollowUsers")
       },
     }
   },
@@ -134,11 +144,15 @@ export default {
   font-size: 1.2rem;
 }
 .profile-info .followers {
-  margin: 0 1rem;
+  margin: 0 0.5rem 0 1rem;
   font-weight: bold;
 }
 .profile-info .followings {
-  margin: 0 1rem;
+  margin: 0 0.5rem;
+  font-weight: bold;
+}
+.profile-info .follow-each-other {
+  margin: 0 0.5rem;
   font-weight: bold;
 }
 .hashtag {

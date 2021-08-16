@@ -5,7 +5,7 @@
       class="el-menu-demo"
       mode="horizontal"
       @select="handleSelect"
-      background-color="white"
+      background-color=""
       style="position: sticky; top: 0; z-index: 1;"
     >
       <el-row justify="center" align="middle" style="margin: 10px;">
@@ -71,30 +71,22 @@
 
   </div>
 
-
-
-
   <!-- 글 작성 버튼 하단 고정 -->
-  <el-row style="margin-top: 50px;">
-    <el-button 
-    type="danger" plain 
-    @click="createArticle()" 
-    style="color: black; width: 100%; position: fixed; bottom: 0;">새 게시글 작성하기</el-button>
-  </el-row>
+  <div class="bottom-create-bar" @click="createArticle()">새 게시글 작성하기</div>
 </template>
 
 <script>
 import { reactive } from '@vue/reactivity'
-import { useStore } from 'vuex'
+import {  useStore, mapGetters } from 'vuex'
 import router from '../../../router'
 import appealDetail from './AppealDetail.vue'
-
 
 export default {
   name: 'AppealList',  
   components: {
     appealDetail,
   }, 
+  
   setup() {
     const store = useStore()
     const state = reactive({
@@ -110,6 +102,9 @@ export default {
       alert("로그인 해주세요.")
       router.push("/login")
     }
+
+    store.dispatch("getArticles") // vuex의 store의 변수 중에서 게시글 목록을 별도로 저장한다.
+    store.dispatch("getNotification",store.getters.getUserId) //알림 뭐 왔나 백엔드에서 가져오는거
   
     return {
       state
@@ -140,10 +135,31 @@ export default {
       .catch(err => {
         console.log(err)
       })
-    },  
+    },
+    computed: {
+      ...mapGetters({
+        articleList: 'getArticles', // 알림
+      })
+    }
   }
+  
 }
 </script>
 
 <style>
+.bottom-create-bar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 1%;
+  border: 1px solid #f0f2f5;
+  background: #f0f2f5;
+  font-weight: bold;
+}
+
+.bottom-create-bar:hover {
+  color: white;
+  background: #ff4e7e;
+  cursor: pointer;
+}
 </style>

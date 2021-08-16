@@ -1,5 +1,5 @@
 <template>
-  <el-button type="text" @click="dialogVisible = true">자세히</el-button>
+  <el-button class="admin-component-detail" type="text" @click="dialogVisible = true">자세히</el-button>
   <el-dialog
     class="reported-dialog"
     title="상세보기"
@@ -11,7 +11,7 @@
     <br>
     <div class="reported_reason">신고 사유</div>
     <br>
-    <div class="reported_content">{{ reportedUserData.content }}</div>
+    <pre class="reported_content">{{ reportedUserData.content }}</pre>
     <br>
     <br>
 
@@ -25,7 +25,8 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">취소</el-button>
-        <el-button @click="deleteUser(reportedUserData.reportedId)">사용자 제재</el-button>
+        <el-button @click="deleteUser(reportedUserData.reportedId)">사용자 삭제</el-button>
+        <el-button @click="suspendUser(reportedUserData.reportedId)">사용자 정지</el-button>
       </span>
     </template>
   </el-dialog>
@@ -66,12 +67,27 @@
           .catch(err => {
             console.log(err)
           })
+      },
+      suspendUser(reportedId) {
+        this.$confirm('정말로 제재하시겠습니까?')
+          .then(res => {
+            console.log(res)
+            this.$store.dispatch('suspendReportedUser', {"user_id": reportedId, "user_long_id": reportedId})
+            this.dialogVisible = false
+          })
+          .catch(err => {
+            console.log(err)
+          })
       }
     }
   };
 </script>
 
 <style>
+.admin-component-detail {
+  color: #323545;
+  font-weight: bold;
+}
 .el-dialog {
   text-align: left;
   border-radius: 10px;

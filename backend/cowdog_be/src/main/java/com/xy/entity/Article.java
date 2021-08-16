@@ -38,8 +38,9 @@ public class Article {
 	@JsonManagedReference
 	@OneToMany(mappedBy = "articleno", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Article_Comments> comments;// 이 게시물에 댓글들
-	
+	private String file_path;
 	private String title;
+	private String imgFullPath;
 	private String content;
 	private Timestamp regtime;
 	private String image;

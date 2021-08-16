@@ -1,26 +1,28 @@
 <template>
-  <h1>게시글 수정</h1>
-  <div>사용자: {{ state.articleForm.member_id }}</div>
-  <el-form :model="state.articleForm" :rules="state.rules" ref="articleForm">
-    <el-form-item prop="title" :label-width="state.formLabelWidth">
-      <label for="title">제목</label>
-      <el-input class="elinput" v-model="state.articleForm.title" autocomplete="off"  placeholder="제목"></el-input>
-    </el-form-item>
-    <br>
-    <el-form-item prop="content" :label-width="state.formLabelWidth">
-      <label for="content">내용</label>
-      <el-input class="el-textarea" v-model="state.articleForm.content" autocomplete="off"  placeholder="내용"></el-input>
-    </el-form-item>
-    <button type="button" @click="update()">수정</button>
-  </el-form>
-
+  <div class="article-update-background">
+    <h1>게시글 수정</h1>
+    <div class="article-update-container">
+      <el-form class="article-update-form" :model="state.articleForm" :rules="state.rules" ref="articleForm">
+        <el-form-item prop="title">
+          <label for="title" class="title-label">제목</label>
+          <el-input type="text" class="article-title-update" v-model="state.articleForm.title"></el-input>
+        </el-form-item>
+        <br>
+        <el-form-item prop="content">
+          <label for="content" class="content-label">내용</label>
+          <el-input type="textarea" class="article-content-update" v-model="state.articleForm.content" rows="20"></el-input>
+        </el-form-item>
+        <div class="article-update-button" @click="update()">수정</div>
+      </el-form>
+    </div>
+  </div>
 </template>
 <script>
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import { reactive, ref } from 'vue'
 import router from '../../../router'
-
+import Swal from 'sweetalert2'
 export default {
 name: 'AppealCreate',
 setup() {
@@ -62,7 +64,6 @@ setup() {
   })
 
 
-
   return {
     state,
     articleForm
@@ -71,11 +72,11 @@ setup() {
 methods: {
   update() {
     if (this.state.articleForm.title == '') {
-      alert("제목 입력")
+      Swal.fire("제목 입력")
       return
     }
     if (this.state.articleForm.content == '') {
-      alert("내용 입력")
+      Swal.fire("제목 입력")
       return
     }
 
@@ -85,7 +86,54 @@ methods: {
         content: this.state.articleForm.content, 
         member_id: this.state.articleForm.member_id ,
         writer: this.state.articleForm.writer})
+    
   }
 },
 }
 </script>
+
+<style>
+.article-update-background {
+  background: #f0f2f5;
+  padding: 2%;
+}
+.article-update-container {
+  width: 60%;
+  margin: 0 auto;
+  padding: 3%;
+  border-radius: 10px;
+  background: #fff;
+}
+.title-label {
+  display: block;
+  font-weight: bold;
+  font-size: 20px;
+  text-align: left;
+}
+.content-label {
+  display: block;
+  font-weight: bold;
+  font-size: 20px;
+  text-align: left;
+}
+.article-update-container .el-input__inner {
+  border: 0;
+  border-bottom: 1px solid #f0f2f5;
+  border-radius: 0;
+  padding: 0;
+}
+.article-update-button {
+  width: 90%;
+  margin: 0 auto;
+  padding: 1%;
+  font-weight: bold;
+  font-size: 14px;
+  border: 2px solid #ff4e7e;
+  border-radius: 5px;
+}
+.article-update-button:hover {
+  cursor: pointer;
+  background: #ff4e7e;
+  color: #fff;
+}
+</style>

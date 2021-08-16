@@ -25,7 +25,6 @@ public class ArticleReportServiceImpl implements ArticleReportService {
 		Timestamp date_now = new Timestamp(System.currentTimeMillis());
 		newArticleReport.setRegtime(date_now);
 		newArticleReport.setReportedArticleNo(request.getReportedArticleNo());
-		newArticleReport.setArticleUrl(request.getArticleUrl());
 		if(articleReportRepo.save(newArticleReport)!=null) {
 			return "SUCCESS";
 		}
@@ -45,6 +44,8 @@ public class ArticleReportServiceImpl implements ArticleReportService {
 	// 유저 삭제(유저 삭제 후 유저 관련 신고도 삭제)
 	@Override
 	public void deleteReportedArticle(String reportedArticleNo, Long reportedArticleLongNo) {
+		System.out.println(reportedArticleNo);
+		System.out.println(reportedArticleLongNo);
 		articleReportRepo.deleteByReportedArticleNo(reportedArticleNo); // userId와 관련된 userReport 모두 삭제
 		articleRepo.deleteById(reportedArticleLongNo);
 	}

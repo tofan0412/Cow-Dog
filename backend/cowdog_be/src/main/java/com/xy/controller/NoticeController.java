@@ -54,7 +54,7 @@ public class NoticeController {
 	}
 	
 	@PutMapping("")
-	public List<Notice> delete(@RequestBody NoticeUpdatePutReq noticeUpdateReq) {
+	public List<Notice> update(@RequestBody NoticeUpdatePutReq noticeUpdateReq) {
 		noticeService.updateNotice(noticeUpdateReq);
 		return noticeService.getNoticeList();
 	}

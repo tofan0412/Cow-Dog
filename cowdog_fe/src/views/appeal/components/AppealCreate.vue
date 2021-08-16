@@ -57,23 +57,21 @@
 
 
         <!-- 이미지 업로드 -->
-        <el-upload
-        class="upload-demo"
-        action=""
-        :on-preview="handlePreview"
-        :on-remove="handleRemove"
-        :file-list="fileList"
-        list-type="picture"
-        style="align: start;"
-        >
-        <el-button size="small" type="primary">Click to upload</el-button>
+        <!-- <div class="input-name profile-comment">함께 올릴 사진을 선택하세요</div>
+          <div class="button-and-img-name">
+          <div class="appeal-img-preview-box"><img class="appeal-img-preview" :src="imagePreview"></div>
+          <div class="img-upload-btn-box"><label class="img-upload-btn" for="imgfiles"><i class="fas fa-arrow-circle-up"></i>&nbsp;업로드</label></div>
+          <input type="file" id="imgfiles" ref="imgfiles" @change="handleFileUpload" multiple style="display:none"/>
+        </div> -->
+
+        <!-- <el-button size="small" type="primary">Click to upload</el-button> -->
         <!-- 하단에 표시할 작은 툴팁 메세지 -->
-        <template #tip>
+        <!-- <template #tip>
           <div class="el-upload__tip">
             jpg/png files with a size less than 500kb
           </div>
-        </template>
-        </el-upload>
+        </template> -->
+       
 
         <div style="margin-top: 20px;"></div>
         <el-button default type="button" @click="create()">작성</el-button>
@@ -86,9 +84,19 @@
 import { useStore } from 'vuex'
 import { reactive, ref } from 'vue'
 import router from '../../../router'
+import axios from 'axios'
+let files=[]
 
 export default {
 name: 'AppealCreate',
+data(){
+    return{
+      imagePreview: "#",
+      files:[],
+      url:null,
+    }
+  },
+
 setup() {
   const articleForm = ref(null)
   const store = useStore()
@@ -96,6 +104,11 @@ setup() {
   console.log(tagDOM)
 
   const state = reactive({
+    headerInfo: {
+        'Access-Control-Allow-Origin': '*',
+        Authorization:"Bearer "+store.getters.getUserToken,
+        ContentType: 'multipart/form-data'
+    },
     fileList: [],
     store: store,
     articleForm: {
@@ -123,10 +136,46 @@ setup() {
 
   return {
     state,
-    articleForm
+    articleForm,
   }
 },
 methods: {
+  handleFileUpload(e) {
+            const file = e.target.files[0]
+            this.imagePreview = URL.createObjectURL(file)
+            console.log(this.$refs.imgfiles.files)
+            files = this.$refs.imgfiles.files;
+            this.url=files[0].name
+            console.log(files);
+          },
+
+  ImageUpload(){
+      console.log("이미지 업로드~")
+        console.log(files)
+        console.log(files[0])
+        console.log(this.state.articleForm.member_id)
+        for (var i = 0; i < files.length; i++) {
+            let formData = new FormData();
+            formData.append('title', "profile");
+            formData.append('files', files[i]);
+            formData.append('userId',this.state.articleForm.writer)
+            axios.post('http://localhost:8080/cowdog/appeal/imageListImgaeUpload',
+            
+            formData, {
+                headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization:"Bearer "+this.state.store.getters.getUserToken
+                },
+            }
+            )  
+            .then(function() {
+            console.log('SUCCESS!!');
+            })
+            .catch(function() {
+                console.log('FAILURE!!');
+                    });
+            }
+  },
   create() {
     if (this.state.articleForm.title == '') {
       alert("제목 입력")
@@ -136,7 +185,7 @@ methods: {
       alert("내용 입력")
       return
     }
-
+    // this.ImageUpload()
     // 작성한 내용을 axios 요청하기 전에, 태그 리스트를 하나의 String으로 변환한다.
     let result = ''
     for (let i = 0; i < this.state.articleForm.tags.length; i++) {
@@ -150,16 +199,10 @@ methods: {
         writer: this.state.articleForm.writer,
         tags: result,
         } )
-  },
-  // 파일 업로드 관련 메서드
-  handleRemove(file, fileList) {
-    console.log(file, fileList)
-    
 
+    this.ImageUpload()
   },
-  handlePreview(file) {
-    this.state.fileList.push(file)
-  },
+
 
   enterTag() {
     // 태그가 10개를 초과하는 경우 반환

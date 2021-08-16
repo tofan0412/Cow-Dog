@@ -12,4 +12,5 @@ public interface ArticleService {
     public void deleteArticle(Long articleNo);
     public Long update(Map map);
     public List<Article> findByTagsContains(String keyword);
+    public Article findArticlebyWriter(String writer);
 }

@@ -12,7 +12,7 @@
             <span>신고 대상 번호: {{ reportedArticle.reportedArticleNo }}</span>
           </div>
         </template>
-        <div class="card-body">{{ reportedArticle.content }}</div>
+        <pre class="card-body">{{ reportedArticle.content }}</pre>
         <br>
         <div class="card-footer">
           <el-button class="button" type="text"><reportedArticleDetail :reportedArticleData="reportedArticle" /></el-button>
@@ -66,7 +66,7 @@ export default {
   // 신고 POST 예시
   methods: {
     ArticleReport() {
-      this.$store.dispatch('postArticleReport', {"title": "정지시켜주세요.", "content": "악질이에요.", "reportedArticleNo": "173", "articleUrl": "http://www.naver.com"})
+      this.$store.dispatch('postArticleReport', {"title": "정지시켜주세요.", "content": "악질이에요.", "reportedArticleNo": "182", "articleUrl": "http://www.naver.com"})
     },
     // 게시글 신고 삭제(게시글 삭제 아님)
     deleteArticleReport(articleReportNo) {
@@ -81,33 +81,6 @@ export default {
 </script>
 
 <style scoped>
-  .title {
-    text-align: left;
-    margin-left: 10px;
-  }
-
-  .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-  }
-
-  .text {
-    font-size: 14px;
-  }
-
-  .item {
-    margin-bottom: 18px;
-  }
-
-  .container {
-    width: 60vw;
-  }
-
-  .batch {
-    justify-content: space-between;
-    align-items: baseline;
-  }
   .reportedArticle-list {
     width: 80vw;
   }
@@ -121,63 +94,11 @@ export default {
     height: 20%;
     margin: 10px;
   }
-
-  .el-pagination.is-background .el-pager li:not(.disabled).active {
-    background-color: #FF4E7E;
-    color: #FFF;
-  }
-
-  .pagination {
-    width: 80vw;
-  }
-
-  .card-body {
-    /* 글자 수 제한을 넘어가면 ... 처리, 좌측 정렬 /
-    / https://junistory.blogspot.com/2017/06/css-ellipsis.html 참조 */
-    text-align: left;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    word-wrap:break-word;
-    height: 16px;
-  }
-
-  .card-footer {
-    text-align: right;
-  }
-
-  .button {
-    color: #323545;
-    font-weight: bold;
-  }
-
-  .button:hover {
-    color: #FF4E7E;
-  }
-
-  .create {
-    color: #323545;
-    font-weight: bold;
-  }
-  .create:hover {
-    background-color: #FFFFFF;
-    border-color: #FF4E7E;
-    color: #FF4E7E;
-  }
-
   .el-button {
     color: #323545;
     font-weight: bold;
   }
-
-  .el-button:hover {
-    color: #FF4E7E;
+  .pagination {
+    width: 80vw;
   }
-
-  .el-button:focus {
-    color: #FF4E7E;
-  }
-
 </style>
