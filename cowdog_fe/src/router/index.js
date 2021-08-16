@@ -40,8 +40,9 @@ import AppealSearchResult from '../views/appeal/components/AppealSearchResult'
 const routes = [
   {
     path: '',
-    name: 'main',
-    component: Main
+    name: 'login',
+    component: Main,
+    meta: { mainCheck: true }
   },
   {
     path:'/app',
@@ -263,6 +264,9 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  if (to.meta.mainCheck && !store.state.userId) {
+    next('/login');
+  }
   if (to.meta.manager && !store.getters.getUserInfo.manager) {
     alert('관리자만 접근이 가능합니다.');
     next('/main');

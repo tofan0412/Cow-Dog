@@ -79,12 +79,18 @@ import { useStore, mapGetters } from 'vuex'
                 console.log("팔로우~~")
                 console.log(memberid)
                 store.dispatch("like",memberid)
-                store.dispatch("getFollowEachOther")
-                store.dispatch("getFollowUsers")
+                setTimeout(() => {
+                    store.dispatch("getFollowEachOther")
+                    store.dispatch("getFollowUsers")
+                }, 50)
             }
             const unlike = function(memberid) {
                 console.log("언팔")
                 store.dispatch('unlike', memberid)
+                setTimeout(() => {
+                    store.dispatch("getFollowEachOther")
+                    store.dispatch("getFollowUsers")
+                }, 50)
             }
             return { state, back, like, unlike }
         },

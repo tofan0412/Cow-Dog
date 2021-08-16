@@ -350,7 +350,7 @@ export default {
   color: #323545;
   font-weight: bold;
 }
-.profile {
+.writer-info .profile {
   position: relative;
   top: 8px;
   width: 50px;

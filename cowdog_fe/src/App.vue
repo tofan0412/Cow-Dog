@@ -21,7 +21,7 @@
           <el-menu-item index="/main" class="navMenu-logo"><img class="nav-logo" :src="require('@/assets/images/cowanddog.png')" alt="logo" style="max-width: 100%; height:auto;"></el-menu-item>
           <el-menu-item index="/main" class="navMenu">매칭</el-menu-item>
           <el-menu-item index="/notices" class="navMenu" @click="getNotices">공지사항</el-menu-item>
-          <el-menu-item index="/appeal"  class="navMenu">게시판</el-menu-item>
+          <el-menu-item index="/###"  class="navMenu" @click="getArticles">게시판</el-menu-item>
           <el-menu-item index="/admin" class="navMenu" @click="getNotices">관리자</el-menu-item> <!-- 배포 전 숨기기 -->
         </div>
         <div style="display:flex; margin-right: 3%">
@@ -39,7 +39,7 @@
           width="70%"
           >
             <div  v-for="user in notifications" :key="user.id">
-                <div style="display:inline;">
+                <div style="display:flex; justify-content:space-between; margin:1%">
                   <p>{{user.mem.memberid}} 님이 팔로우를 걸었습니다.</p>
                   <el-button @click="checkNotification(user.id)">확인</el-button>
                 </div>
@@ -96,10 +96,10 @@ export default ({
       console.log(id)
       console.log("알림 확인")
       store.dispatch("checkNotification",id)
-      state.dialogVisible=false
+      // state.dialogVisible=false
       setTimeout(() => {
         store.dispatch("getNotification",store.getters.getUserId)
-      }, 1000)
+      }, 100)
       }
     return {
       logout,
@@ -114,6 +114,9 @@ export default ({
       },
       GetFollowUsers:()=>{
           store.dispatch("getFollowUsers")
+      },
+      getArticles: () => {
+        store.dispatch('getArticles')
       },
      
      state,

@@ -24,8 +24,8 @@
 
 <script>
 import { reactive } from "@vue/reactivity"
-import { onMounted } from "@vue/runtime-core"
-import { mapGetters, useStore } from "vuex"
+// import { onMounted } from "@vue/runtime-core"
+import { mapGetters } from "vuex"
 import router from "../../../router"
 import FollowDetail from "./FollowDetail.vue"
 
@@ -50,12 +50,6 @@ export default ({
             var end = this.currentPage * this.pageSize
             return this.followUsers.slice(start, end) //기본값 0~5번
         },
-
-        getFollowerusers({store}) {
-            
-            return store.dispatch("getFollowUsers")
-        },
-
         ...mapGetters({
             followUsers: 'getFollowUsers'
         })
@@ -66,17 +60,17 @@ export default ({
 
     setup() {
         
-        const store=useStore()
+        // const store=useStore()
         const state = reactive({
-           followUsers:store.getters.getFollowUsers
+        //    followUsers:store.getters.getFollowUsers
         })
         const back=function(){
             router.push("/main")
         }
-        onMounted(() => {
-            store.dispatch("getFollowUsers")
-            state.followUsers=store.getters.getFollowUsers
-        })
+        // onMounted(() => {
+        //     store.dispatch("getFollowUsers")
+        //     state.followUsers=store.getters.getFollowUsers
+        // })
         return{
             state, back
         }
