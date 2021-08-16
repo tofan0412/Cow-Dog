@@ -445,6 +445,12 @@ export function getArticles({ state, commit }) {
       }
       console.log("게시글 목록 결과:", resp.data)
 
+      // 날짜 전처리
+      for (let i = 0; i < resp.data.length; i++) {
+        const date = new Date(resp.data[i].regtime).toDateString()
+        resp.data[i].regtime = date
+      }
+
       commit("SET_ARTICLES", resp.data)
     })
     .catch(err => {

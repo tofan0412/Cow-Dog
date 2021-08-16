@@ -46,19 +46,10 @@ export const USER_LOGOUT=(state)=>{
 }
 
 export const SET_ARTICLES = (state, articles) => {
-    // 날짜 전처리 필요하다...
-    for (let i = 0; i < articles.length; i++) {
-        const date = new Date(articles[i].regtime).toDateString()
-        articles[i].regtime = date
-    }
     state.articles = articles
     // 만약 현재 위치와 동일하다면
-    if (router.currentRoute.value.fullPath === '/appeal') {
-        router.go();
-    }
-    else {
-        router.push({name: "AppealList"})
-    }
+    router.push({name: "AppealList"})
+    
 }
 
 export const SET_USERINFO = (state, data) => {
