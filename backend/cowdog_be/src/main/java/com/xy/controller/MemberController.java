@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.xy.entity.Article;
+import com.xy.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -46,6 +48,8 @@ public class MemberController {
 
 	@Autowired
 	MemberService memSer;
+	@Autowired
+	ArticleService articleSer;
 	@Autowired
 	S3SServiceImpl s3sSer;
 	@Autowired
@@ -177,11 +181,7 @@ public class MemberController {
 		System.out.println(mem.toString());
 		return mem;
 	}
-	
-	
-	
-	
-	
+
 	
 	@PutMapping("/changePassword")
 	public String getMemberPassword(@RequestBody Map<String, String> map) {
@@ -231,7 +231,41 @@ public class MemberController {
 		return "SUCCESS";
 	}
 	
-	
+	@GetMapping("/like")
+	public ResponseEntity<? extends BaseResponseBody> like(@RequestBody Map<String, String> map) {
+		long id = Long.parseLong(map.get("id"));
+		long articleNo = Long.parseLong(map.get("articleNo"));
+
+		Article article = articleSer.findArticleByArticleNo(articleNo);
+		Member member = memSer.getMemberById(id);
+
+		// 좋아요를 클릭한 게시글을 회원의 ManyToMany 컬럼에 추가
+		member.getArticles().add(article);
+
+		// 멤버 저장
+		if (memRepo.save(member) != null) {
+			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SUCCESS"));
+		} else {
+			return ResponseEntity.status(200).body(BaseResponseBody.of(500, "FAIL"));
+		}
+	}
+
+	@GetMapping("/likeCheck")
+	public String likeCheck(@RequestBody Map<String, String> map) {
+		long id = Long.parseLong(map.get("id"));
+		long articleNo = Long.parseLong(map.get("articleNo"));
+
+		Article article = articleSer.findArticleByArticleNo(articleNo);
+		Member member = memSer.getMemberById(id);
+		// 회원이 해당 게시글을 좋아요 눌렀는지 확인
+
+		if (member.getArticles().contains(article)) {
+			return "포함";
+		}else {
+			return "미포함";
+		}
+	}
+
 	
 	
 

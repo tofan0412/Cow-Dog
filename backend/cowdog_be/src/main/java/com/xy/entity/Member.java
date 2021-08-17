@@ -55,7 +55,7 @@ public class Member {
 	@JoinTable(name = "MEMBER_ARTICLE",
 			joinColumns = @JoinColumn(name = "id"),
 			inverseJoinColumns = @JoinColumn(name = "articleNo"))
-	private List<Article> articles;
+	private List<Article> articles = new ArrayList<>(); // 다대다 관계
 
 //	public void addArticle(Article article) {
 //		this.articles.add(article);

@@ -1,6 +1,7 @@
 package com.xy.entity;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -38,4 +39,8 @@ public class Article {
 	private Timestamp regtime;
 	private String image;
 	private String tags;
+
+	@ManyToMany(mappedBy = "members")
+	private List<Member> members = new ArrayList<>(); // 다대다 관계
+
 }
