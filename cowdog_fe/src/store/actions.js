@@ -178,6 +178,23 @@ export function getNotices ({ state, commit }) {
       console.log(err)
     })    
 }
+export function getNoticesForUser ({ state, commit }) {
+  const url = '/notice'
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+    .then(res => {
+      console.log(res)
+      commit('GET_NOTICES_FOR_USER', res.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })    
+}
 
 export function postNotice({ state, commit }, payload) {
   console.log(payload)
@@ -422,7 +439,7 @@ export function getArticles({ state, commit }) {
   // 로그인 여부 확인
   const accessToken = state.accessToken
   if (accessToken === '') {
-    alert("로그인 해주세요.")
+    Swal.fire('접근 제한!', '로그인 해주세요.')
     router.push("/login")
   }
   else {

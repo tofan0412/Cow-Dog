@@ -85,7 +85,7 @@ setup() {
   })
 
   if (store.getters.getUserToken === '') {
-    alert("로그인 해주세요.")
+    Swal.fire('로그인 해주세요.')
     router.push("/login")
   }
 
@@ -127,7 +127,7 @@ methods: {
       return
     }
     if (this.state.articleForm.content == '') {
-      Swal.fire("제목 입력")
+      Swal.fire("내용 입력")
       return
     }
 
@@ -153,26 +153,26 @@ methods: {
     const tags = this.state.articleForm.tags
 
     if ( tags.length === 10 ) {
-      alert("태그는 최대 10개까지 등록할 수 있습니다.")
+      Swal.fire("태그는 최대 10개 입력 가능합니다")
       return
     }
 
     // 입력하지 않고 엔터 누른 경우 금지
     if (this.state.articleForm.tagKeyword.trim() === '' || this.state.articleForm.tagKeyword.trim() === '#'){
-      alert("추가할 태그를 입력해 주세요")
+      Swal.fire("추가할 태그를 입력해주세요")
       return
     }
 
     // #을 포함하지 않거나, #이 가장 앞에 오지 않은 경우
     if ( this.state.articleForm.tagKeyword.trim().indexOf('#') === -1 || this.state.articleForm.tagKeyword.trim().indexOf('#') !== 0 ){
-      alert("올바른 위치에 # 태그를 사용해주세요.")
+      Swal.fire("올바른 위치에 #태그를 사용해주세요")
     }
     // 조건에 부합하는 경우 tags에 추가한다. 
     else {
       // 이미 리스트에 있는지 검사
       for (let i = 0; i < tags.length; i++) {
         if ( tags[i] === this.state.articleForm.tagKeyword.trim() ) {
-          alert("이미 존재하는 태그입니다.")
+          Swal.fire("이미 존재하는 태그입니다")
           this.state.articleForm.tagKeyword = ''
           return
         }

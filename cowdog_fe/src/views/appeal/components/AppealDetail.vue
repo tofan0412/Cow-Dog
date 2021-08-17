@@ -195,6 +195,7 @@
 import { reactive, ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
 import router from '../../../router'
+import Swal from 'sweetalert2'
 
 export default {  
   name: 'ArticleDetail',
@@ -286,7 +287,7 @@ export default {
 
       // 빈칸인 경우 입력 방지
       if ( this.state.commentContent === '') {
-        alert("내용을 입력해 주세요.")
+        Swal.fire('내용을 입력해주세요.')
         return
       }
       
@@ -344,7 +345,7 @@ export default {
         reportedArticleNo: this.state.articleNo, 
         articleUrl: '', 
       })
-      alert("신고 완료되었습니다.")
+      Swal.fire('신고 완료되었습니다.')
       return
     },
 

@@ -51,7 +51,7 @@ import { useStore } from 'vuex'
                 }
             })
             .catch(function(err){
-                alert(err)
+                console.log(err)
             })
             }
         }

@@ -8,7 +8,7 @@
         <el-card class="box-card">
           <template #header>
             <div class="card-header">
-              <span style="font-weight:bold">{{ notice.title }}</span>
+              <div class="userNoticeTitle" style="font-weight:bold">{{ notice.title }}</div>
             </div>
           </template>
           <pre class="card-body">{{ notice.content }}</pre>
@@ -54,7 +54,7 @@ export default {
       return this.notices.slice(start, end) //기본값 0~5번
     },
     ...mapGetters({
-      notices: 'getNotices'
+      notices: 'getNoticesForUser'
     }),
   },
   methods: {
@@ -65,7 +65,6 @@ export default {
 
   setup() {
     const store=useStore()
-    store.dispatch('getNotices') // actions/getNotices에 dispatch
     store.dispatch("getNotification",store.getters.getUserId)//알림 뭐 왔나 백엔드에서 가져오는거
 
   }

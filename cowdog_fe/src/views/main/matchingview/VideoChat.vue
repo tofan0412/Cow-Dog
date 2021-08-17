@@ -1,12 +1,17 @@
 <template>
 	<div id="" class="main-container">
 		<div v-if="session && invited">
+			<br><br>
 			<div class="result-card">
+				<h2>만남을 원하시나요?</h2>
 				<div class="result-card-img">
 					<img :src=file_path class="profiile_image"> 
 				</div>
 				<div class="result-card-main-info">
-					<div> {{memberid}} {{memberinfo.age}}세</div>  
+					<div> {{memberid}} ({{memberinfo.age}}세, 
+						<span v-if="genderIcon"><i class="fas fa-mars"></i></span>
+            <span v-else><i class="fas fa-venus"></i></span>)
+					</div>  
 				</div>
 				<div class="result-card-body">
 					<div class="body-content">주량: {{memberinfo.alcohol.replace('[','').replace(']','')}}</div>
@@ -14,8 +19,10 @@
 					<div class="body-content">성격: {{memberinfo.personality.replace('[','').replace(']','')}}</div>
 					<div class="body-content">취미: {{memberinfo.hobby.replace('[','').replace(']','')}}</div>
 				</div>
-			<button @click="agreeMeeting">수락하기</button>
-			<button @click="refuseMeeting">거절하기</button>
+				<div class="meeting-btns" style="display:flex; justify-content:center">
+					<div class="meeting-agree-btn" @click="agreeMeeting">수락하기</div>
+					<div class="meeting-deny-btn" @click="refuseMeeting">거절하기</div>
+				</div>
 			</div> 
 		</div>
 
@@ -239,7 +246,6 @@ export default {
 			invited:false,
 			user:undefined,
 			file_path:'',
-			genderIcon:'',
 			memberinfo:'',
 			memberid:'',
 			dist:'',
@@ -265,7 +271,14 @@ export default {
 	},
 	computed: {
     ...mapGetters(['getUserInfo','getUserToken','getMatchStatus']),
-	...mapMutations(['SET_MATCHSTATUS']),
+		...mapMutations(['SET_MATCHSTATUS']),
+		genderIcon() {
+				if(this.memberinfo.gender == "남자"){
+						return true
+				} else {
+						return false
+				}
+		}
 	},
 	created(){
 		this.mySessionId = this.$route.query.opp;
@@ -296,6 +309,7 @@ export default {
 		},
 		agreeMeeting(){
 			this.matchAccept=true;
+			this.$store.state.matchAccept = true;
 			this.invited=false;
 			this.session.signal({
 				data: 'agree',
@@ -305,6 +319,7 @@ export default {
 		},
 		refuseMeeting(){
 			this.matchAccept=false;
+			this.$store.state.matchAccept = false;
 			this.session.signal({
 				data: 'refuse',
 				to:[],
@@ -406,11 +421,11 @@ export default {
 		nextProblem(){
 			console.log(this.gamedata)
 			if(!this.nextStatus && this.isSelected){ 
-				alert("상대방이 선택하지 않았습니다.");
+				Swal.fire('상대방이 선택하지 않았습니다')
 				return;
 			}
 			else if(!this.nextStatus && !this.isSelected){
-				alert("둘중 하나를 선택하세용")
+				Swal.fire('둘 중 하나를 선택하세용')
 			}
 			this.nextStatus=false;
 			this.isSelected=false;
@@ -539,7 +554,7 @@ export default {
 						this.gamedata=[];
 					}
 					else{
-						alert("게임 끝~");
+						Swal.fire('게임 종료!');
 						this.gameStart=[];
 						this.gamedata=[];
 						this.startStatus = false;
@@ -553,14 +568,14 @@ export default {
 				//this.AcceptInfo.push("reject");
 				
 				if(this.mySessionId!=this.myUserName && event.data=="refuse"){
-					alert("상대방이 거절하였습니다.");
+					Swal.fire('상대방이 거절하였습니다.')
 					setTimeout(() => {
 						this.leaveSession();
 						router.push({name:'Main'});
 					}, 1000);
 				}
 				else if(!this.invited && event.data=="agree" &&(this.mySessionId != this.myUserName)){
-					alert("상대방이 수락하였습니다.")
+					Swal.fire('상대방이 수락하였습니다.')
 					this.matchAccept=true;
 				}
 				
@@ -715,7 +730,6 @@ export default {
 			this.publisher = undefined;
 			this.subscribers = [];
 			this.OV = undefined;
-
 			window.removeEventListener('beforeunload', this.leaveSession);
 
 			router.push({name:"Main"});
@@ -823,14 +837,12 @@ export default {
 								this.invited=true;
 								this.myTurn=true;
 								// // this.SET_MATCHSTATUS(true);
-								// this.$store.commit("SET_MATCHSTATUS",true);
 								console.log(response);
 								return;
 							
                             }
 						}
 						this.joinSession();
-						this.$store.commit("SET_MATCHSTATUS",true);
 
 					})
 					.then(data => resolve(data.id))
@@ -997,6 +1009,42 @@ export default {
 }
 </script>
 <style>
+.result-card {
+	border: 2px solid #f0f2f5;
+	margin: 0 auto;
+}
+.meeting-agree-btn {
+	padding: 3%;
+	margin: 2%;
+	border: 1px solid #FF4e7e;
+	border-radius: 5px;
+	font-weight: bold;
+}
+.meeting-agree-btn:hover {
+	background: #ff4e7e;
+	cursor: pointer;
+	color: #fff;
+}
+.meeting-deny-btn {
+	padding: 3%;
+	margin: 2%;
+	border: 1px solid #323545;
+	border-radius: 5px;
+	font-weight: bold;
+}
+.meeting-deny-btn:hover {
+	cursor: pointer;
+	background: #323545;
+	color: #f0f2f5;
+}
+.result-card-body {
+	padding: 4%;
+}
+.result-card-body .body-content {
+	font-weight: bold;
+	margin: 2%;
+}
+
 .main-container {
 	height: 100%;
 }

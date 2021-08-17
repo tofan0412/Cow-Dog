@@ -18,9 +18,9 @@
     <div class="reported_reason">게시글 url</div>
     <br>
     <!-- image box -->
-    <div class="reported_url_box">
+    <!-- <div class="reported_url_box">
       <a :href="reportedArticleData.articleUrl">{{ reportedArticleData.articleUrl }}</a>
-    </div>
+    </div> -->
 
     <template #footer>
       <span class="dialog-footer">
