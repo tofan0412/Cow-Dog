@@ -21,7 +21,7 @@
           <el-menu-item index="/main" class="navMenu-logo"><img class="nav-logo" :src="require('@/assets/images/cowanddog.png')" alt="logo" style="max-width: 100%; height:auto;"></el-menu-item>
           <el-menu-item index="/main" class="navMenu">매칭</el-menu-item>
           <el-menu-item index="/notices" class="navMenu" @click="getNoticesForUser">공지사항</el-menu-item>
-          <el-menu-item index="/###"  class="navMenu" @click="getArticles">게시판</el-menu-item>
+          <el-menu-item index="###"  class="navMenu" @click="getArticles">게시판</el-menu-item>
           <el-menu-item index="####" class="navMenu" @click="getNotices">관리자</el-menu-item> <!-- 배포 전 숨기기 -->
         </div>
         <div style="display:flex; margin-right: 3%">
@@ -80,7 +80,6 @@ export default ({
   computed: {
     ...mapGetters({
       notifications: 'getNotifications', // 알림
-
     })
   },
   setup() {

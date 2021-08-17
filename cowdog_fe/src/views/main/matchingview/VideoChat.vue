@@ -309,6 +309,7 @@ export default {
 		},
 		agreeMeeting(){
 			this.matchAccept=true;
+			this.$store.state.matchAccept = true;
 			this.invited=false;
 			this.session.signal({
 				data: 'agree',
@@ -318,6 +319,7 @@ export default {
 		},
 		refuseMeeting(){
 			this.matchAccept=false;
+			this.$store.state.matchAccept = false;
 			this.session.signal({
 				data: 'refuse',
 				to:[],
@@ -419,11 +421,11 @@ export default {
 		nextProblem(){
 			console.log(this.gamedata)
 			if(!this.nextStatus && this.isSelected){ 
-				alert("상대방이 선택하지 않았습니다.");
+				Swal.fire('상대방이 선택하지 않았습니다')
 				return;
 			}
 			else if(!this.nextStatus && !this.isSelected){
-				alert("둘중 하나를 선택하세용")
+				Swal.fire('둘 중 하나를 선택하세용')
 			}
 			this.nextStatus=false;
 			this.isSelected=false;
@@ -552,7 +554,7 @@ export default {
 						this.gamedata=[];
 					}
 					else{
-						alert("게임 끝~");
+						Swal.fire('게임 종료!');
 						this.gameStart=[];
 						this.gamedata=[];
 						this.startStatus = false;
@@ -566,14 +568,14 @@ export default {
 				//this.AcceptInfo.push("reject");
 				
 				if(this.mySessionId!=this.myUserName && event.data=="refuse"){
-					alert("상대방이 거절하였습니다.");
+					Swal.fire('상대방이 거절하였습니다.')
 					setTimeout(() => {
 						this.leaveSession();
 						router.push({name:'Main'});
 					}, 1000);
 				}
 				else if(!this.invited && event.data=="agree" &&(this.mySessionId != this.myUserName)){
-					alert("상대방이 수락하였습니다.")
+					Swal.fire('상대방이 수락하였습니다.')
 					this.matchAccept=true;
 				}
 				
@@ -728,7 +730,6 @@ export default {
 			this.publisher = undefined;
 			this.subscribers = [];
 			this.OV = undefined;
-
 			window.removeEventListener('beforeunload', this.leaveSession);
 
 			router.push({name:"Main"});
@@ -836,14 +837,12 @@ export default {
 								this.invited=true;
 								this.myTurn=true;
 								// // this.SET_MATCHSTATUS(true);
-								// this.$store.commit("SET_MATCHSTATUS",true);
 								console.log(response);
 								return;
 							
                             }
 						}
 						this.joinSession();
-						this.$store.commit("SET_MATCHSTATUS",true);
 
 					})
 					.then(data => resolve(data.id))

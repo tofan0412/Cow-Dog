@@ -439,7 +439,7 @@ export function getArticles({ state, commit }) {
   // 로그인 여부 확인
   const accessToken = state.accessToken
   if (accessToken === '') {
-    alert("로그인 해주세요.")
+    Swal.fire('접근 제한!', '로그인 해주세요.')
     router.push("/login")
   }
   else {

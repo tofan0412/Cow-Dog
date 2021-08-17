@@ -48,7 +48,7 @@ setup() {
   })
 
   if (store.getters.getUserToken === '') {
-    alert("로그인 해주세요.")
+    Swal.fire('로그인 해주세요.')
     router.push("/login")
   }
 
@@ -76,7 +76,7 @@ methods: {
       return
     }
     if (this.state.articleForm.content == '') {
-      Swal.fire("제목 입력")
+      Swal.fire("내용 입력")
       return
     }
 

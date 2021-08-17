@@ -35,6 +35,7 @@ import AppealUpdate from '../views/appeal/components/AppealUpdate'
 import App from '../App.vue'
 import store from '../store/index'
 import VideoChat from '../views/main/matchingview/VideoChat.vue'
+import Swal from 'sweetalert2'
 
 const routes = [
   {
@@ -261,19 +262,19 @@ router.beforeEach((to, from, next) => {
     next('/login');
   }
   if (to.meta.manager && !store.getters.getUserInfo.manager) {
-    alert('관리자만 접근이 가능합니다.');
+    Swal.fire('FAIL', '관리자만 접근이 가능합니다.')
     next('/main');
     return;
   }
   // 회원가입, 로그인 페이지는 로그인 한 상태에서 접근 불가
   if (to.meta.loginCheck && store.state.userId) {
-    alert('로그아웃 상태에서만 접근 가능합니다.');
+    Swal.fire('FAIL', '로그아웃 상태에서만 접근이 가능합니다.')
     next('/main');
     return;
   }
 
   if (to.meta.isLogin && !store.state.userId) {
-    alert('로그인 해주세요.');
+    Swal.fire('FAIL', '로그인 해주세요.')
     next('/login');
     return;
   }

@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2'
   export default {
     data() {
       return {
@@ -42,7 +43,7 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('작성이 완료되었습니다.');
+            Swal.fire('작성 완료', '공지사항 작성이 완료되었습니다.')
             this.$store.dispatch('postNotice', {"title": this.ruleForm.title, "content": this.ruleForm.content})
           } else {
             console.log('error submit!!');

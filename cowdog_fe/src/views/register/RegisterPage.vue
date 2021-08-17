@@ -640,7 +640,7 @@ export default {
         }
       })
       .catch(function(err){
-        alert(err)
+        console.log(err)
       })
       }
     }
@@ -657,7 +657,7 @@ export default {
         }
       })
       .catch(function(err){
-        alert(err)
+        console.log(err)
       })
       }
     }
@@ -797,8 +797,8 @@ export default {
                     Swal.fire('SUCCESS' ,'회원가입 성공');
                     router.push({name:"Login"})
                 })
-                .catch(function () {
-                    alert("")
+                .catch(function (err) {
+                    console.log(err)
                 })
             } 
         }else {
