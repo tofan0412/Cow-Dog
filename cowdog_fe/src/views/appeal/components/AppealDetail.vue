@@ -53,14 +53,7 @@
         <div class="article-button" @click="updateArticlePage(this.article)">수정</div>
         <div class="article-button" @click="deleteArticle(this.article)">삭제</div>
       </el-row>
-      
-
-      <!-- 좋아요 버튼 -->
-      <el-row>
-        <i></i>
-      </el-row>
-
-
+    
       <!-- 댓글 부분 -->
       <el-row style="color: gray; font-size: 15px; margin-top: 20px;">
         <!-- 댓글이 1개 이상 존재하는 경우 -->
@@ -84,7 +77,7 @@
       <div v-if="!state.default">
         <el-row v-for="(comment, index) in state.comments" :key="index" justify="space-between">
           <el-col :span="22" v-if="index < 3" style="text-align: start;">
-            <strong>{{ comment.id }}</strong> {{ comment.content }} <span style="color: grey; font-size: 12px;">-{{ comment.regtime }}</span>
+            <strong>{{ comment.id }}</strong> {{ comment.content }} <span style="color: grey; font-size: 12px;">.....{{ comment.regtime }}</span>
           </el-col>
           <el-col :span="2" v-if="index < 3">
             <!-- 내가 작성한 댓글에 대해서만 삭제 가능하다. -->
@@ -101,7 +94,7 @@
       <div v-if="state.default">
         <el-row v-for="(comment, index) in state.comments" :key="index" justify="space-between">
           <el-col :span="22" style="text-align: start;">
-            <strong>{{ comment.id }}</strong> {{ comment.content }} <span style="color: grey; font-size: 12px;">-{{ comment.regtime }}</span>
+            <strong>{{ comment.id }}</strong> {{ comment.content }} <span style="color: grey; font-size: 12px;">.....{{ comment.regtime }}</span>
           </el-col>
           <el-col :span="2">
             <span 
@@ -140,6 +133,12 @@
       <el-row @click="centerDialogVisible = false; reportDialogVisible = true">
         <el-col>
           <span style="color: red;">게시글 신고</span>
+          <el-divider></el-divider>
+        </el-col>
+      </el-row>
+      <el-row @click="centerDialogVisible = false; articleLike()">
+        <el-col>
+          <span>게시글 좋아요</span>
           <el-divider></el-divider>
         </el-col>
       </el-row>
@@ -335,9 +334,11 @@ export default {
       }, 100)
       }
     },
+
     goToReportPage(){
       router.push("/admin/article-report")
     },
+
     reportArticle() {
       this.state.store.dispatch("postArticleReport", { 
         title: this.state.reportArticle.title, 
@@ -349,6 +350,16 @@ export default {
       return
     },
 
+    articleLike() {
+      // 사용자 PK
+      const id = this.state.loginId
+      // 게시글 PK
+      const articleNo = this.state.articleNo
+
+      console.log("사용자 PK: ", id, ", 게시글 PK: ", articleNo)
+
+    },
+
 
   },
 
@@ -356,9 +367,13 @@ export default {
 </script>
 <style>
 .article-container{
-  margin: 1%;
+  background-color: white;
+  margin: 0 auto;
+  margin-top: 2%;
+  margin-bottom: 2%;
   padding: 1%;
-  border: 2px solid #f0f2f5;
+  width: 700px;
+  border: 5px solid #f0f2f5;
   border-radius: 0.45rem;
   height: auto;
 }
