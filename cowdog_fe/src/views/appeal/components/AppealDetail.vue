@@ -44,7 +44,7 @@
       <!-- 태그 부분 -->
       <el-row style="color: #9F81F7; font-size: 15px; margin-top: 20px;">
         <div v-for="tag in state.tags" :key="tag" style="cursor: pointer;">
-          <strong>#{{ tag }}</strong>&nbsp;&nbsp;
+          <strong @click="$emit('send-tag', tag)">#{{ tag }}</strong>&nbsp;&nbsp;
         </div>
       </el-row>
       <!-- 수정 / 삭제 -->
@@ -202,10 +202,10 @@ import Swal from 'sweetalert2'
 export default {  
   name: 'ArticleDetail',
   props: {
-      article: Object,
-    },
+    article: Object,
+  },
+  
   setup(props) {
-    console.log("props 확인: " + props)
     const store = useStore()
     const state = reactive({
       
@@ -222,12 +222,12 @@ export default {
         content: '',
       }
       
-    })    
+    })
+    console.log("태그 확인: ", props.article.tags)    
 
     // 게시글마다 댓글 조회한다.
     state.store.dispatch("findComments", { articleNo: props.article.articleNo })
     .then(resp => {
-      console.log(resp.data)
       state.comments = resp.data
     })
     .catch(err => {

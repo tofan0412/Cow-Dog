@@ -517,6 +517,8 @@ export function updateArticlePage({ state }, payload) {
 
 export function updateArticle({ state, commit }, payload) {
   const url = '/appeal/update'
+
+  console.log("수정할 태그는: ", payload.tags)
   axios({
     url: url,
     method: "PUT",
@@ -527,6 +529,7 @@ export function updateArticle({ state, commit }, payload) {
       articleNo: payload.articleNo,
       title: payload.title,
       content: payload.content,
+      tags: payload.tags,
     }
   })
   .then(resp => {
@@ -577,7 +580,6 @@ export function appealSearch({ state }, payload) {
       Authorization:"Bearer " + state.accessToken
     },
   })
-
 }
 
 export function createArticleComment({ state }, payload) {
