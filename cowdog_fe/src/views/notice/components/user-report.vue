@@ -69,16 +69,12 @@ export default {
   // 신고 POST 예시
   methods: {
     userReport() {
-      this.$store.dispatch('postUserReport', {"title": "정지시켜주세요.", "content": "악질이에요.", "reportedId": "201"})
+      this.$store.dispatch('postUserReport', {"title": "정지시켜주세요.", "content": "악질이에요.", "reportedId": "54"})
     },
     deleteUserReport(userReportNo) {
       this.$confirm('정말로 신고를 삭제하시겠습니까?')
-        .then(res => {
-          console.log(res)
+        .then(() => {
           this.$store.dispatch('deleteUserReport', userReportNo)
-        })
-        .catch(err => {
-          console.log(err)
         })
     }
   },

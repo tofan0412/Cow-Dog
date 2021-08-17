@@ -57,21 +57,9 @@ import router from '../../../router'
         router.push( 
           {name: 'UpdateNotice', params: { noticeNo: noticeDetailData.noticeNo, title: noticeDetailData.title, content:noticeDetailData.content }})
       },
-      handleClose(done) {
-        this.$confirm('Are you sure to close this dialog?')
-          .then(res => {
-            done();
-            console.log(res)
-            this.dialogVisible = false
-          })
-          .catch(res => {
-            console.log(res)
-          }); 
-      },
       handleDelete(noticeNo) {
         this.$confirm('정말로 삭제하시겠습니까?')
-          .then(res => {
-            console.log(res)
+          .then(() => {
             this.dialogVisible = false
             this.$store.dispatch('deleteNotice', noticeNo)
             this.$router.push('/admin/notice')

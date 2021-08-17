@@ -394,12 +394,11 @@ export function postArticleReport({ state }, payload) {
 
 export function deleteReportedArticle({ state, commit }, payload) {
   console.log(payload)
-  const url = '/article-report/reported-article/' + payload.reportedArticleNo + '/' + payload.reportedArticleLongNo
+  const url = '/article-report/reported-article/' + payload.reportedArticleNo + '/' + payload.reportedArticleLongNo + '/' + payload.reportedArticleArticleNo
   axios({
     url: url, method: 'delete', headers:{ Authorization:"Bearer "+state.accessToken},
   })
     .then(res => {
-      console.log(res.data)
       commit('GET_REPORTED_ARTICLES', res.data)
     })
     .catch(err => {

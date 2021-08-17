@@ -71,7 +71,7 @@ export default {
     deleteArticleReport(articleReportNo) {
       this.$confirm('정말로 신고를 삭제하시겠습니까?')
         .then(res => {
-          console.log(res)
+          res
           this.$store.dispatch('deleteArticleReport', articleReportNo)
         })
     }

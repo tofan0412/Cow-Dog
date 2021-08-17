@@ -2,10 +2,15 @@ package com.xy.service;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 import com.xy.api.request.UserReportPostReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.xy.entity.Member;
 import com.xy.entity.UserReport;
 import com.xy.repository.MemberRepository;
 import com.xy.repository.UserReportRepository;
@@ -18,6 +23,8 @@ public class UserReportServiceImpl implements UserReportService{ // NoticeServic
 	@Autowired
 	MemberRepository memberRepo;
 	
+	@PersistenceContext
+	EntityManager em;
 	
 	@Override
 	public String createUserReport(UserReportPostReq request) {
@@ -54,6 +61,9 @@ public class UserReportServiceImpl implements UserReportService{ // NoticeServic
 	// 유저 삭제(유저 삭제 후 유저 관련 신고도 삭제)
 	@Override
 	public void deleteReportedUser(String userId, Long userLongId) {
+//		String jpql = "select from Member m where m.id=:userLongId";
+//		List<Member> resultList = em.createQuery(jpql, Member.class).setParameter("userLongId", userLongId).getResultList();
+//		resultList.
 		userReportRepo.deleteByReportedId(userId); // userId와 관련된 userReport 모두 삭제
 		memberRepo.deleteById(userLongId);
 	}
