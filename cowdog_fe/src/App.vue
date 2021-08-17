@@ -80,12 +80,8 @@ export default ({
   computed: {
     ...mapGetters({
       notifications: 'getNotifications', // 알림
-<<<<<<< HEAD
-    })
-=======
       matchStatus: 'getMatchStatus'
     }),
->>>>>>> catchmind
   },
   setup() {
     const state=reactive({
