@@ -86,7 +86,6 @@ import axios from 'axios'
 import Swal from 'sweetalert2'
 
 let files=[]
-import Swal from 'sweetalert2'
 
 export default {
 name: 'AppealCreate',
