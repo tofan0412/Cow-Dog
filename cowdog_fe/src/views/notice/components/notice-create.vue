@@ -12,9 +12,6 @@
     </el-form-item>
   </div>
 
-  <div class="notice-image">
-    <h3>이미지 첨부 옵션(추가)</h3>
-  </div>
   <el-form-item>
     <el-button @click="submitForm('ruleForm')">작성</el-button>
   </el-form-item>
@@ -65,9 +62,5 @@
   background: #ffffff;
   border-color: #ff4e7e;
   color: #ff4e7e;
-}
-
-.notice-image {
-  text-align: left;
 }
 </style>

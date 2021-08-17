@@ -5,7 +5,8 @@
         <h1 class="title">공지사항</h1>
         <div><el-button class="create" @click="moveToNoticeCreate">Create</el-button></div>
     </div>
-    <div class="notice-list">
+    <div v-if="!noticesPaginated.length"><h3>공지사항이 없습니다!</h3></div>
+    <div v-else class="notice-list">
       <div v-for="(notice, idx) in noticesPaginated" :key="idx">
         <el-card class="box-card">
           <template #header>
@@ -20,17 +21,16 @@
           </div>
         </el-card>
       </div>
+      <div class="pagination">
+        <el-pagination
+        background
+        layout="prev, pager, next"
+        :page-size=pageSize
+        :total="notices.length"
+        v-model:current-page="currentPage">
+        </el-pagination>
+      </div>
     </div>
-  </div>
-
-  <div class="pagination">
-    <el-pagination
-    background
-    layout="prev, pager, next"
-    :page-size=pageSize
-    :total="notices.length"
-    v-model:current-page="currentPage">
-    </el-pagination>
   </div>
 </div>
 </template>
@@ -131,7 +131,7 @@ export default {
   }
 
   .pagination {
-    width: 60vw;
+    margin: 0 auto;
   }
 
   .card-body {

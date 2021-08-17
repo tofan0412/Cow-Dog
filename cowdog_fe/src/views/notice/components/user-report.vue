@@ -4,7 +4,10 @@
   <div class="batch" style="display:flex">
       <h1 class="title">유저 신고 관리</h1>
   </div>
-  <div class="reportedUser-list">
+  <div v-if="!reportedUsersPaginated.length">
+    <h3>유저 신고가 없습니다!</h3>
+  </div>
+  <div v-else class="reportedUser-list">
     <div v-for="(reportedUser, idx) in reportedUsersPaginated" :key="idx">
       <el-card class="box-card">
         <template #header>
@@ -20,16 +23,16 @@
         </div>
       </el-card>
     </div>
+    <div class="pagination">
+      <el-pagination
+      background
+      layout="prev, pager, next"
+      :page-size=pageSize
+      :total="reportedUsers.length"
+      v-model:current-page="currentPage">
+      </el-pagination>
+    </div>  
   </div>
-  <div class="pagination">
-    <el-pagination
-    background
-    layout="prev, pager, next"
-    :page-size=pageSize
-    :total="reportedUsers.length"
-    v-model:current-page="currentPage">
-    </el-pagination>
-  </div>  
 </div>
 
 <button @click="userReport">신고 테스트</button>

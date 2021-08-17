@@ -1,6 +1,9 @@
 export function getNotices (state) {
 	return state.notices
 }
+export function getNoticesForUser (state) {
+	return state.notices
+}
 
 export function getUserId(state){
 	return state.userId
