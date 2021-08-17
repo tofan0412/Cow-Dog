@@ -54,3 +54,7 @@ export function getUsersIFollowed(state){
 export function getNotifications(state){
 	return state.notifications;
 }
+
+export function getMatchStatus(state){
+	return state.matchStatus;
+}

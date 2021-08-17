@@ -22,6 +22,7 @@ const state = {
   usersIFollowed: [],
   notifications:[],
   centerDialogVisible: false,
+  matchStatus:false,
 }
 
 const root = createStore({

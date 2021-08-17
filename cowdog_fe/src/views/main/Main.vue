@@ -23,6 +23,7 @@ import DistanceMatching from './components/DistanceMatching.vue'
 import RecomMatching from './components/RecomMatching.vue'
 import Explanation from './components/Explanation.vue'
 import { useStore } from 'vuex'
+import router from '../../router'
 // import router from '../../router';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -53,35 +54,37 @@ export default{
         })
         store.dispatch('AmIFollowed') // 내가 팔로우한 유저 usersIFollowed에 저장
         store.dispatch("getNotification",store.getters.getUserId)//알림 뭐 왔나 백엔드에서 가져오는거
-      
+        //store.commit("SET_MATCHSTATUS",false);
         onMounted(() => {
-          axios.get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`, {
-						auth: {
-							username: 'OPENVIDUAPP',
-							password: OPENVIDU_SERVER_SECRET,
-						},
-					}).then(response=>{
-            let content = response.data.content;
-	
-						for(let i=0;i<content.length;i++){
-							if(content[i].id==store.getters.getUserInfo.memberid){
-                Swal.fire({
-                    position: 'middle',
-                    icon: 'question',
-                    title: '누군가가 화상회의를 걸어왔어요!',
-                    showConfirmButton: false,
-                    timer: 1500
-                }).then(response=>{
-									// router.push({name:'VideoChat'});
-                  console.log(response);
-                  store.state.centerDialogVisible = true
-                  
-                })
-								return;                            
+          setTimeout(() => {  
+            axios.get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`, {
+              auth: {
+                username: 'OPENVIDUAPP',
+                password: OPENVIDU_SERVER_SECRET,
+              },
+            }).then(response=>{
+              let content = response.data.content;
+              
+              for(let i=0;i<content.length;i++){
+                if(content[i].id==store.getters.getUserInfo.memberid){
+                  Swal.fire({
+                      position: 'middle',
+                      icon: 'question',
+                      title: '누군가가 화상회의를 걸어왔어요!',
+                      showConfirmButton: false,
+                      timer: 1500
+                  }).then(response=>{
+                    router.push({name:'VideoChat'});
+                    console.log(response);
+                    // store.state.centerDialogVisible = true
+                    
+                  })
+                  return;                            
+                }
               }
-						}
-            
-          })
+              
+            })
+            }, 1500);
         })
         
         return{
