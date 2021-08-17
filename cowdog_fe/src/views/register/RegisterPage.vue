@@ -889,7 +889,7 @@ export default {
         border-radius: 10px;
     }
     .el-carousel {
-        height: 850px;
+        height: 1000px;
     }
     .el-carousel__container {
         height: 100%;
@@ -1046,6 +1046,11 @@ export default {
         display: block;
         margin: 0 auto;
     }
+}
+.img-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 </style>
