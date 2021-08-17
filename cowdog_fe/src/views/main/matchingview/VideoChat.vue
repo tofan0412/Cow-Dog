@@ -1,5 +1,5 @@
 <template>
-	<div id="" class="main-container">
+	<div id="" class="main-container" :class="{mainCss:startStatus2}">
 		<div v-if="session && invited">
 			<br><br>
 			<div class="result-card">
@@ -40,7 +40,7 @@
 							<user-video :stream-manager="mainStreamManager"/>
 						</div>
 						<!-- Video2 -->
-						<div class="video" v-if="matchAccept">
+						<div class="video">
 							<!-- <user-video :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/> -->
 							<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
 						</div>			
@@ -49,7 +49,7 @@
 						<div id="chatbox" class="chat-container" v-if="chatStatus && session && !invited">
 								<div class="chat-detail">
 									
-									<div ref="chatmain" class="chat-main">
+									<div ref="chatmain" :class="{chatmain : !this.startStatus2 , 'smChat': this.startStatus2}">
 										<div v-for="(chat,index) in chatdata" :key="index">
 											
 											<div v-if="myUserName == chat.userId" class="my-chat-box">
@@ -149,14 +149,16 @@
 					</div>
 					<div class="send-box">
 						<input class="send-input" v-model="msg" type="text" placeholder="메세지를 입력해주세요" @keydown.enter="sendMsg">
-						<i class="send-icon fas fa-reply" @click="sendMsg"></i>
+						<i v-if="!startStatus2" class="send-icon fas fa-reply" @click="sendMsg"></i>
 					</div>
 				</div>
 			</div>
 		</div>
-
-	<div class="draw-box">	
-	<div v-if="startStatus2 && myTurn">제시어:{{problem}}</div>
+	
+	
+	<div class="draw-box">
+	<Slider class="time-slider" v-if="startStatus2 && catchMindStatus" v-model="countView" :max="60" />
+	<div class="pb-div" v-if="startStatus2 && myTurn && catchMindStatus">{{problem}}</div>
 	<div class="draw-container" v-bind:class="{catDis:!startStatus2}">
 
     <canvas
@@ -167,7 +169,7 @@
       @mousemove="keepDrawing"
       @mouseup="stopDrawing"
     />
-    <div class="draw-tool">
+    <div v-if="!catchMindStatus || myTurn" class="draw-tool">
 		<table class="draw-opt">
 			<tr>
 				<td><Icon class="colorBtn" icon="akar-icons:circle-fill" color="black" @click="colorChange('black')" width="24" height="24"/></td>
@@ -180,9 +182,10 @@
 		</tr>
 		</table>
     </div>
-	<input type="text" v-model="answer" placeholder="답을 입력하세용" @keydown.enter="sendAns">
-	<div>남은시간 : {{count}}</div>
-	<button @click="startCM" v-if="!catchMindStatus">시작</button>
+	<div v-if="catchMindStatus && !myTurn">
+		<input class="ans-block" type="text" v-model="answer" placeholder="정답을 입력하세용" @keydown.enter="sendAns">
+	</div>
+	<button @click="startCM" v-if="!catchMindStatus && host">시작</button>
 	</div>
 	</div>
 	</div>
@@ -194,8 +197,9 @@ import { OpenVidu } from 'openvidu-browser';
 import UserVideo from '@/views/main/components/UserVideo';
 import router from '../../../router';
 import { Icon } from '@iconify/vue';
-import { mapGetters, mapMutations} from 'vuex';
+import { mapGetters} from 'vuex';
 import Swal from 'sweetalert2';
+import Slider from '@vueform/slider'
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const OPENVIDU_SERVER_URL = "https://i5b104.p.ssafy.io:9090";
@@ -212,6 +216,7 @@ export default {
 	components: {
 		UserVideo,
 		Icon,
+		Slider,
 	},
 	data () {
 		return {
@@ -257,7 +262,7 @@ export default {
 			penSize:2,
 			cmStatus:false,
 			isReadyCat:false,
-			catchProblem:["샴푸","송아지","강아지","소방관","포크레인","돈다발","철학","코딩","싸피","뚱이","스폰지밥","삼성","애플","아이폰"],
+			catchProblem:["샴푸","송아지","강아지","소방관","포크레인","돈다발","철학","코딩","싸피","뚱이","스폰지밥","삼성","애플","아이폰","에어팟","경찰","신과함께","아이언맨","캡틴아메리카","토르","헐크"],
 			problem:'',
 			catchMindStatus:false,
 			myTurn:false,
@@ -266,26 +271,17 @@ export default {
 			answer:'',
 			inProgress:false,
 			timerInit:null,
-			turn:0,
+			turn: 1,
+			host:true,
+			countView:'',
 		}
 	},
 	computed: {
     ...mapGetters(['getUserInfo','getUserToken','getMatchStatus']),
-		...mapMutations(['SET_MATCHSTATUS']),
-		genderIcon() {
-				if(this.memberinfo.gender == "남자"){
-						return true
-				} else {
-						return false
-				}
-		}
 	},
 	created(){
 		this.mySessionId = this.$route.query.opp;
 		this.myUserName = this.getUserInfo.memberid;
-		//this.file_path = this.$route.params.path;
-		//onsole.log(this.user);
-        //console.log(this.$route.query.matchType+"tesat");
 		this.getData(this.mySessionId);			
 	},
 	mounted() {
@@ -309,15 +305,17 @@ export default {
 		},
 		agreeMeeting(){
 			this.matchAccept=true;
-			this.$store.state.matchAccept = true;
+			this.$store.state.matchStatus=true;
 			this.invited=false;
 			this.session.signal({
 				data: 'agree',
 				to:[],
 				type: 'match'
 			})
+			
 		},
 		refuseMeeting(){
+			this.$store.state.matchStatus=false;
 			this.matchAccept=false;
 			this.$store.state.matchAccept = false;
 			this.session.signal({
@@ -372,13 +370,6 @@ export default {
 				to:[],
 				type: 'my-chat'
 			})
-			.then(() => {
-				this.msg='';
-				console.log('Message successfully sent');
-			})
-			.catch(error => {
-				console.log(error);
-			})
 		},
 		chatControll(){
 			this.chatStatus = true;
@@ -419,7 +410,6 @@ export default {
 			})
 		},
 		nextProblem(){
-			console.log(this.gamedata)
 			if(!this.nextStatus && this.isSelected){ 
 				Swal.fire('상대방이 선택하지 않았습니다')
 				return;
@@ -450,13 +440,6 @@ export default {
 				to:[],
 				type: 'my-game'
 			})
-			.then(() => {
-				this.msg='';
-				console.log('Message successfully sent');
-			})
-			.catch(error => {
-				console.log(error);
-			})
 		},
 		selectB(){
 			if(this.isSelected) return;
@@ -471,13 +454,7 @@ export default {
 				to:[],
 				type: 'my-game'
 			})
-			.then(() => {
-				this.msg='';
-				console.log('Message successfully sent');
-			})
-			.catch(error => {
-				console.log(error);
-			})
+			
 		},
 		joinSession () {
 			// --- Get an OpenVidu object ---
@@ -540,10 +517,10 @@ export default {
 				if(this.gameStart2.length==2){
 					this.startStatus2=true;
 					this.gameStatus=false;
-					this.chatStatus=false;
+					this.chatStatus=true;
 				}
 			});
-			this.session.on('signal:game-next',(event) =>{ 
+			this.session.on('signal:game-next',() =>{ 
 				if(this.gamedata.length==2){
 					if(this.gIndex<this.A_item_list.length-1){
 						this.nextStatus=false;
@@ -561,25 +538,31 @@ export default {
 						this.isReadyBal = false;
 						this.gIndex=0;
 					}
-					console.log(event);
 				}
 			});
 			this.session.on('signal:match',(event)=>{
 				//this.AcceptInfo.push("reject");
 				
 				if(this.mySessionId!=this.myUserName && event.data=="refuse"){
-					Swal.fire('상대방이 거절하였습니다.')
-					setTimeout(() => {
+					Swal.fire({
+					title:"상대방이 거절하였습니다",
+					showConfirmButton: false,
+                      timer: 1000
+					}).then(()=>{
 						this.leaveSession();
 						router.push({name:'Main'});
-					}, 1000);
+					})
 				}
 				else if(!this.invited && event.data=="agree" &&(this.mySessionId != this.myUserName)){
-					Swal.fire('상대방이 수락하였습니다.')
+					Swal.fire({
+					title:"상대방이 수락하였습니다",
+					showConfirmButton: false,
+                      timer: 1000
+					})
 					this.matchAccept=true;
 				}
 				
-				console.log(event.data);
+				
 			});
 			this.session.on('signal:catch-start',(event)=>{
 				this.catchMindStatus=true;
@@ -587,15 +570,12 @@ export default {
 				this.myTurn = !this.myTurn;
 				let pb = JSON.parse(event.data);
 				this.problem = pb.problem;
-				this.turn = pb.turn;
-				if(this.turn >6){
-					Swal.fire({
-					title:"게임 끝!",
-					showConfirmButton: false,
-                      timer: 1500
-					})
+				if(this.turn > 4){
+					this.endCM();
 					return;
 				}
+
+
 				if(this.myTurn){
 					Swal.fire({
 					title:"내 차례에요!",
@@ -612,12 +592,37 @@ export default {
 				}
 			})
 			this.session.on('signal:catch-end',(event)=>{
-				this.endCM();
-				console.log(event);
+				let val = JSON.parse(event.data);
+				this.turn = val.turn;
+				if(this.timerInit!=null){
+					clearInterval(this.timerInit);
+					this.timerInit=null;
+				}
+				this.allDelete();
+				if(this.turn>4){
+					Swal.fire({
+					title:"게임 끝!",
+					showConfirmButton: false,
+                      timer: 1500
+					}).then(()=>{
+						this.catchMindStatus=false;
+						this.turn=1;
+						this.count=60;
+					})
+					return;
+				}
+
+				if(!this.myTurn && this.turn<5){
+					setTimeout(() => {
+						this.startCM();
+					}, 1000);
+
+				}
 			})
 			this.session.on('signal:timer',(event)=>{
-				this.count = parseInt(event.data);
-				console.log(event);
+				this.count = event.data;
+				this.count = +this.count || 0;
+				this.countView = (this.count<10 ? '0' : '') + this.count;
 				
 			})
 			this.session.on('signal:start-draw',(event)=>{
@@ -657,14 +662,13 @@ export default {
 					title:`${info.name}님이 정답을 맞추셨습니다.`,
 					showConfirmButton: false,
                       timer: 1500
-					}).then(res=>{	
-						console.log(res);
+					}).then(()=>{	
+						this.allDelete();
 					})
 				}
 			})
 
-			this.session.on('signal:exit',(event)=>{
-				console.log(event);
+			this.session.on('signal:exit',()=>{
 				this.leaveSession();
 			})
 			// On every asynchronous exception...
@@ -677,7 +681,6 @@ export default {
 							username: 'OPENVIDUAPP',
 							password: OPENVIDU_SERVER_SECRET,
 						},}).then(response=>{
-			console.log("테스트입니다.")
 			console.log(response.data);
 		})
 
@@ -690,7 +693,6 @@ export default {
 					.then(() => {
 
 						// --- Get your own camera stream with the desired properties ---
-						console.log("얼마나 나오나 보자");
 						let publisher = this.OV.initPublisher(undefined, {
 							audioSource: undefined, // The source of audio. If undefined default microphone
 							videoSource: undefined, // The source of video. If undefined default webcam
@@ -719,9 +721,8 @@ export default {
 
 		leaveSession () {
 			// --- Leave the session by calling 'disconnect' method over the Session object ---
-
+			this.$store.state.matchStatus=false;
 			this.invited=false;
-			console.log(this.matchAccept);
 			
 			if (this.session) this.session.disconnect();
 
@@ -817,32 +818,33 @@ export default {
 						let content = response.data.content;
 						for(let i=0;i<content.length;i++){
 							if(content[i].id==this.myUserName){
-								console.log(content[i].connections.content[0].clientData);
 								let userid = content[i].connections.content[0].clientData.replace(/"/g,"").replace(":","").replace("clientData","").replace("{","").replace("}","");
-								console.log(userid);
 								axios.get("http://localhost:8080/cowdog/mem/getOppInfo/?userId="+userid,{
 									headers:{
 										Authorization:"Bearer "+ this.getUserToken
 									}
 								})
 								.then(res=>{
-									console.log(res.data);
 									this.file_path=res.data.file_path;
 									this.memberinfo = res.data.memberinfo;
 									this.memberid = res.data.memberid;
 									this.dist = res.data.dist;
 								})
 								this.mySessionId = this.myUserName;
+								this.host=false;
 								this.joinSession();
 								this.invited=true;
 								this.myTurn=true;
 								// // this.SET_MATCHSTATUS(true);
-								console.log(response);
+								//this.$store.commit("SET_MATCHSTATUS",true);
 								return;
 							
                             }
 						}
 						this.joinSession();
+						
+						this.$store.state.matchStatus=true;
+						
 
 					})
 					.then(data => resolve(data.id))
@@ -932,12 +934,12 @@ export default {
 		})
     },
 	startCM(){
+		if(this.turn>4){
+			return;
+		}
 		let pb = this.catchProblem[Math.floor(Math.random() * this.catchProblem.length)]
-		this.turn+=1;
 		const sdata={
 			problem : pb,
-			turn:this.turn,
-
 		}
 		this.session.signal({
 			data: JSON.stringify(sdata),
@@ -945,25 +947,24 @@ export default {
 			type: 'catch-start'
 		})
 
-		if(this.turn>6)return;
-		console.log(this.timerInit+"얄라랄라라라");
 		this.timerInit = setInterval(()=>{
 			this.timer();
 		},1000)
 	},
 	endCM(){
+		this.turn++;
+
+		const sdata = {
+			turn : this.turn,
+		}
 		this.session.signal({
-			data: '',
+			data: JSON.stringify(sdata),
 			to:[],
 			type: 'catch-end'
 		})
-		if(this.myTurn)return;
-
-		setTimeout(() => {
-					this.startCM();
-		}, 1000);
-	},timer(){
-		if(this.count>0){
+	},
+	timer(){
+		if(this.count>1){
 			this.count--;
 			this.session.signal({
 				data: this.count,
@@ -972,12 +973,12 @@ export default {
 			})
 		}
 		else{
-			this.count=0;
 			this.session.signal({
-				data: '',
+				data: 0,
 				to:[],
-				type: 'catch-end'
+				type: 'timer'
 			})
+			this.endCM();
 		}
 	},
 	exitChat(){
@@ -998,12 +999,13 @@ export default {
 			to:[],
 			type: 'send-answer'
 		})
-
 		if(this.answer==this.problem){
+			this.answer='';
 			setTimeout(() => {
 				this.endCM();
 			}, 1000);
 		}
+		this.answer='';
 	},
 	}
 }
@@ -1047,6 +1049,9 @@ export default {
 
 .main-container {
 	height: 100%;
+}
+.mainCss{
+	display: flex;
 }
 .video-container {
 	height: 100%;
@@ -1097,7 +1102,7 @@ export default {
 	padding: 3px;
 	margin: 10px;
 }
-.chat-main{
+.chatmain{
 	max-height: 500px;
 	overflow: auto;
 }
@@ -1129,11 +1134,12 @@ export default {
 	font-size: 12px;
 	font-weight: bold;
 	text-align: left;
+	margin-bottom: 2px;
 }
 .opp-chat {
 	background: white;
 	padding: 2%;
-	border-radius: 5px;
+	border-radius: 7px;
 	text-align: left;
 	word-break: break-all;
 }
@@ -1284,6 +1290,7 @@ export default {
 
 #myCanvas {
   border: 1px solid grey;
+  margin-bottom: 10px;
 }
 .draw-container{
 	text-align: center;
@@ -1314,6 +1321,7 @@ export default {
 	margin: auto;
 }
 .cmCreate{
+	margin-top:7%;
 	width:50%;
 }
 .videoSet{
@@ -1325,7 +1333,30 @@ export default {
 }
 .draw-box{
 	float:right;
+	margin-top:5%;
 	width:48%;
 }
-
+.smChat{
+	max-height: 250px;
+	overflow: auto;
+}
+.time-slider{
+	width:70%;
+	margin: auto;
+	margin-bottom: 20px;
+}
+.slider-connect{
+	background: #FF427E;
+}
+.pb-div{
+	margin:auto;
+	margin-bottom: 10px;
+	width:auto;
+	font-size:24px;
+}
+.ans-block{
+	border-radius: 5px;
+	height:20px;
+}
 </style>
+<style src="@vueform/slider/themes/default.css"></style>

@@ -104,3 +104,7 @@ export const SET_NOTIFICATION=(state, notifications) => {
 export const SET_SEARCH_RESULT= (state, searchResults) => {
     state.searchResults = searchResults
 }
+
+export const SET_MATCHSTATUS= (state, matchStatus) => {
+    state.matchStatus = matchStatus;
+}
