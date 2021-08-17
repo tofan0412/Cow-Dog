@@ -47,9 +47,12 @@ export const USER_LOGOUT=(state)=>{
 
 export const SET_ARTICLES = (state, articles) => {
     state.articles = articles
-    // 만약 현재 위치와 동일하다면
     router.push({name: "AppealList"})
-    
+}
+
+export const SET_ARTICLES_AFTER_DELETE = (state, articles) => {
+    // 페이지 이동 없음 ( 동일 페이지이기 때문에 )
+    state.articles = articles
 }
 
 export const SET_USERINFO = (state, data) => {

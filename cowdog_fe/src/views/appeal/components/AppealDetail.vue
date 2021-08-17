@@ -149,7 +149,7 @@
         </el-col>
       </el-row>
     </div>
-</el-dialog>
+  </el-dialog>
 
   <!-- 게시글 신고 페이지 modal창 -->
   <el-dialog
@@ -188,9 +188,7 @@
         </el-col>
       </el-row>
     </div>
-</el-dialog>
-
-
+  </el-dialog>
 </template>
 
 <script>
@@ -207,7 +205,6 @@ export default {
   setup(props) {
     const store = useStore()
     const state = reactive({
-      
       store: store,
       loginId: store.getters.getUserId,
       articleNo: props.article.articleNo,
@@ -221,9 +218,9 @@ export default {
         content: '',
       }
       
-    })
-    console.log("태그 확인: ", props.article.tags)    
+    })  
 
+    
     // 게시글마다 댓글 조회한다.
     state.store.dispatch("findComments", { articleNo: props.article.articleNo })
     .then(resp => {
@@ -232,7 +229,6 @@ export default {
     .catch(err => {
       console.log(err)
     })
-
     // 게시글 마다 회원 정보를 조회한다. 회원이 등록한 이미지 정보를 출력하기 위해!
     state.store.dispatch("getUserInfo", { userId : props.article.memberId })
     .then(resp => {
@@ -252,6 +248,28 @@ export default {
   methods: {
     deleteArticle() {
       this.state.store.dispatch("deleteArticle", { articleNo: this.article.articleNo, memberId: this.article.memberId })
+      .then(resp => {
+        console.log("삭제 완료!", resp.data) // 삭제 후 남은 객체
+        const result = resp.data
+        // 태그 전처리하기 -> 태그 개별 항목 검색 위해...
+        for (let i = 0; i < result.length; i++) {
+          if (result[i].tags !== null) {
+            const tags = result[i].tags.split('#').slice(1)
+            result[i].tags = tags
+          }
+        }
+
+        // 날짜 전처리
+        for (let i = 0; i < result.length; i++) {
+          const date = new Date(result[i].regtime).toDateString()
+          result[i].regtime = date
+        }
+
+        this.$emit("delete-article", result)
+      })
+      .catch(err => {
+        console.log(err)
+      })
     },
     // 페이지 갱신
     updateArticlePage(article) {

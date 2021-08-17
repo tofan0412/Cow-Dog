@@ -525,7 +525,7 @@ export function updateArticle({ state, commit }, payload) {
   })
 }
 
-export function deleteArticle({ state, commit }, payload) {
+export function deleteArticle({ state }, payload) {
   // 현재 로그인한 사용자와 게시글을 작성한 사용자의 PK 비교 
   if (payload.memberId !== state.userId) {
     Swal.fire('FAIL' ,'권한이 없습니다.');
@@ -533,22 +533,17 @@ export function deleteArticle({ state, commit }, payload) {
   }
   else{
     const answer = confirm("게시글을 삭제하시겠습니까?")
-    if (answer) {
+    if (answer === true) {
       const url = "/appeal/delete?articleNo=" + payload.articleNo
-      axios({
+      return axios({
         url: url,
         method: "DELETE",
         headers:{
-          Authorization:"Bearer "+state.accessToken
+          Authorization:"Bearer "+ state.accessToken
         },
-      })
-      .then(resp => {
-        // 데이터 갱신. 백엔드에서 목록을 가져오기 때문에 getArticles를 호출할 필요가 없다.
-        commit("SET_ARTICLES", resp.data)
-      })
-      .catch(err => {
-        console.log(err)
-      })
+      })    
+    }else {
+      return
     }
   }
 }
@@ -582,7 +577,6 @@ export function createArticleComment({ state }, payload) {
 }
 
 export function findComments({ state }, payload) {
-
   const articleNo = payload.articleNo
   const url = '/appealComment/findComments?articleNo=' + articleNo
   return axios({

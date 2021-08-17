@@ -11,7 +11,7 @@
             <el-input
             class="elinput" 
             v-model="state.articleForm.title" 
-            maxlength="100"
+            maxlength="20"
             show-word-limit
             autocomplete="on" 
             placeholder="제목"
@@ -234,7 +234,7 @@ methods: {
           return
         }
       }
-      
+
       tags.push(this.state.articleForm.tagKeyword.trim().replace(/(\s*)/g, ""))
       this.state.articleForm.tagKeyword = ''
       console.log(tags)

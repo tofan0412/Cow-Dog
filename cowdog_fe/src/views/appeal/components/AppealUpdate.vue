@@ -5,12 +5,24 @@
       <el-form class="article-update-form" :model="state.articleForm" :rules="state.rules" ref="articleForm">
         <el-form-item prop="title">
           <label for="title" class="title-label">제목</label>
-          <el-input type="text" class="article-title-update" v-model="state.articleForm.title"></el-input>
+          <el-input 
+          type="text" 
+          class="article-title-update" 
+          v-model="state.articleForm.title"
+          maxlength="20"
+          show-word-limit></el-input>
         </el-form-item>
         <br>
         <el-form-item prop="content">
           <label for="content" class="content-label">내용</label>
-          <el-input type="textarea" class="article-content-update" v-model="state.articleForm.content" rows="20"></el-input>
+          <el-input 
+          type="textarea" 
+          class="article-content-update"
+          resize="none"
+          v-model="state.articleForm.content" 
+          rows="15"
+          maxlength="500"
+          show-word-limit></el-input>
         </el-form-item>
         
         <!-- 태그 -->

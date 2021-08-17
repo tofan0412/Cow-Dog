@@ -44,7 +44,7 @@
         <!-- 게시글 객체가 존재하지 않을 수도 있다. v-if의 경우 조건에 맞지 않으면 렌더링을 하지 않음 -->
         <div>
           <div v-for="article in state.articles" :key="article.articleno"> <!-- 왜 key에다가 콜론을 해줘야 하지..? -->
-            <appealDetail :article="article" @send-tag="AppealSearchByClick" />
+            <appealDetail :article="article" @send-tag="AppealSearchByClick" @delete-article="afterDeleteArticle" />
           </div>
         </div>
       </el-col>
@@ -62,7 +62,7 @@
         <!-- 게시글 객체가 존재하지 않을 수도 있다. v-if의 경우 조건에 맞지 않으면 렌더링을 하지 않음 -->
         <div>
           <div v-for="article in state.searchResults" :key="article.articleno"> <!-- 왜 key에다가 콜론을 해줘야 하지..? -->
-            <appealDetail :article="article" @send-tag="AppealSearchByClick" />
+            <appealDetail :article="article" @send-tag="AppealSearchByClick" @delete-article="afterDeleteArticle" />
           </div>
         </div>
       </el-col>
@@ -94,9 +94,9 @@ export default {
   setup() {
     const store = useStore()
     const state = reactive({
+      store: store,
       searchKeyword: '',
       lastKeyword: '',
-      store: store,
       articles: store.getters.getArticles,
       searchResults: '',
       default: false,
@@ -106,8 +106,6 @@ export default {
       alert("로그인 해주세요.")
       router.push("/login")
     }
-
-    // store.dispatch("getArticles") // vuex의 store의 변수 중에서 게시글 목록을 별도로 저장한다.
     store.dispatch("getNotification",store.getters.getUserId) //알림 뭐 왔나 백엔드에서 가져오는거
   
     return {
@@ -115,9 +113,17 @@ export default {
     }    
   },
   methods: {
+    afterDeleteArticle(result) {
+      console.log("afterDeleteArticle: ", result)
+      // vuex에 변경사항 저장
+      this.state.store.commit("SET_ARTICLES_AFTER_DELETE", { articles: result })
+      this.state.articles = result
+    },
+
     createArticle() {
       router.push("/appeal/create")
     },
+
     AppealSearch() {
       // 초기화
       console.log("검색 시작")
