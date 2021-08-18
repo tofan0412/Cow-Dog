@@ -487,6 +487,30 @@ export function getArticle({ state }, payload){
   })
 }
 
+export function articleLike({ state }, payload){
+  const url = '/mem/likeArticle?id=' + payload.id + '&articleNo=' + payload.articleNo
+  console.log("좋아요 url 확인: ", url)
+  return axios({
+    url: url,
+    method: "GET",
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+}
+
+export function articleLikeCheck({ state }, payload) {
+  const url = '/mem/likeArticleCheck?id=' + payload.id + '&articleNo=' + payload.articleNo
+  return axios({
+    url: url,
+    method: 'GET',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+}
+
+
 export function userLogout({state,commit},payload){
   console.log(payload.id)
   const url = '/mem/logout/?id='+payload.id

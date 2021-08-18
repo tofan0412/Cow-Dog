@@ -136,9 +136,16 @@
           <el-divider></el-divider>
         </el-col>
       </el-row>
-      <el-row @click="centerDialogVisible = false; articleLike()">
+
+      <el-row v-if="!state.like" @click="centerDialogVisible = false; articleLike()">
         <el-col>
           <span>게시글 좋아요</span>
+          <el-divider></el-divider>
+        </el-col>
+      </el-row>
+      <el-row v-if="state.like" @click="centerDialogVisible = false; articleLike()">
+        <el-col>
+          <span>좋아요 취소</span>
           <el-divider></el-divider>
         </el-col>
       </el-row>
@@ -216,10 +223,24 @@ export default {
       reportArticle: {
         title: '',
         content: '',
-      }
+      },
+      like: false,
       
     })  
 
+    // 해당 게시글을 이미 좋아요 눌렀는지 확인
+    state.store.dispatch("articleLikeCheck", {id: state.loginId, articleNo: state.articleNo})
+      .then(resp => {
+        console.log("좋아요 확인! ", resp.data)
+        if (resp.data === "NO") {
+          state.like = false;
+        } else {
+          state.like = true;
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
     
     // 게시글마다 댓글 조회한다.
     state.store.dispatch("findComments", { articleNo: props.article.articleNo })
@@ -357,7 +378,21 @@ export default {
       const articleNo = this.state.articleNo
 
       console.log("사용자 PK: ", id, ", 게시글 PK: ", articleNo)
-
+      this.state.store.dispatch("articleLike", {id: id, articleNo: articleNo})
+        .then((resp) =>{
+          console.log(resp)
+          if (this.state.like === false) {
+            alert("좋아요 눌렀습니다.")
+          }
+          else {
+            alert("좋아요 취소했습니다.")
+          }
+          
+          this.state.like = !this.state.like;
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
 
 

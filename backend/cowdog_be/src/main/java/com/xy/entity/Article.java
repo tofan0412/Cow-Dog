@@ -18,7 +18,7 @@ import com.sun.xml.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+//@ToString
 public class Article {
 	
 	@Id
@@ -40,7 +40,8 @@ public class Article {
 	private String image;
 	private String tags;
 
-//	@ManyToMany(mappedBy = "members")
-	private List<Member> members = new ArrayList<>(); // 다대다 관계
+	@JsonManagedReference
+	@ManyToMany(mappedBy = "likeArticles")
+	private List<Member> likeMembers = new ArrayList<>(); // 다대다 관계
 
 }

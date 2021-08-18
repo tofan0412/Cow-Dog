@@ -18,8 +18,8 @@ public class Article_Comments {//댓글 엔터티
 	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name="ariticleno")
-	private Article articleno;//이 댓글이 달린 글 번호
-	private String id;//작성자
-	private String regtime;//작성일
-	private String content;//내용
+	private Article articleno;	//이 댓글이 달린 글 번호
+	private String id;	//작성자
+	private String regtime;	//작성일
+	private String content;	//내용
 }

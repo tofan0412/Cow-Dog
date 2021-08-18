@@ -49,7 +49,6 @@ public class ArticleController {
 		System.out.println(files.toString());
 	  }
     
-    
     @PostMapping("/imageListImgaeUpload")
 	public void execWrite(Image image, MultipartFile files,String userId) throws IOException {
 		System.out.println("여기는 게시판 이미지 업로드");
@@ -62,9 +61,7 @@ public class ArticleController {
 	    // }
 	    imgaeSer.ArticleImageUpload(image, userId);
 	  }
-     
-    
-    
+
     @PostMapping("/create")
     @Transactional // 트랜잭션 설정
     public ResponseEntity<? extends BaseResponseBody> create(@RequestBody HashMap<String, Object> map) {

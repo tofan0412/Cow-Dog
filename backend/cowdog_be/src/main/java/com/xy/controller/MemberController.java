@@ -231,27 +231,33 @@ public class MemberController {
 		return "SUCCESS";
 	}
 	
-	@GetMapping("/like")
-	public ResponseEntity<? extends BaseResponseBody> like(@RequestBody Map<String, String> map) {
+	@GetMapping("/likeArticle")
+	public ResponseEntity<? extends BaseResponseBody> like(@RequestParam Map<String, String> map) {
 		long id = Long.parseLong(map.get("id"));
 		long articleNo = Long.parseLong(map.get("articleNo"));
 
 		Article article = articleSer.findArticleByArticleNo(articleNo);
 		Member member = memSer.getMemberById(id);
 
-		// 좋아요를 클릭한 게시글을 회원의 ManyToMany 컬럼에 추가
-		member.getArticles().add(article);
-
-		// 멤버 저장
-		if (memRepo.save(member) != null) {
-			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SUCCESS"));
-		} else {
-			return ResponseEntity.status(200).body(BaseResponseBody.of(500, "FAIL"));
+		// 만약 이미 좋아요를 누른 게시글이라면? 좋아요 취소
+		List<Article> likeArticles = member.getLikeArticles();
+		for (int i = 0; i < likeArticles.size(); i++) {
+			if (likeArticles.get(i).getArticleNo() == article.getArticleNo()) {
+				likeArticles.remove(i);
+				memRepo.save(member);
+				return ResponseEntity.status(200).body(BaseResponseBody.of(200, "DELETE"));
+			}
 		}
+
+		// 아직 좋아요를 누르지 않은 게시글인 경우, 좋아요를 클릭한 게시글을 회원의 ManyToMany 컬럼에 추가
+		member.getLikeArticles().add(article);
+		memRepo.save(member);
+
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SUCCESS"));
 	}
 
-	@GetMapping("/likeCheck")
-	public String likeCheck(@RequestBody Map<String, String> map) {
+	@GetMapping("/likeArticleCheck")
+	public String likeCheck(@RequestParam Map<String, String> map) {
 		long id = Long.parseLong(map.get("id"));
 		long articleNo = Long.parseLong(map.get("articleNo"));
 
@@ -259,11 +265,16 @@ public class MemberController {
 		Member member = memSer.getMemberById(id);
 		// 회원이 해당 게시글을 좋아요 눌렀는지 확인
 
-		if (member.getArticles().contains(article)) {
-			return "포함";
-		}else {
-			return "미포함";
+		List<Article> likeArticles = member.getLikeArticles();
+		System.out.println("좋아요 정보는!!!!!" + likeArticles);
+		String result = "NO";
+		for (int i = 0; i < likeArticles.size(); i++) {
+			if (likeArticles.get(i).getArticleNo() == articleNo) {
+				result = "YES";
+			}
 		}
+
+		return result;
 	}
 
 	
