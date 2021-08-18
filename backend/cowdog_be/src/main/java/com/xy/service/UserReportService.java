@@ -9,4 +9,5 @@ public interface UserReportService {
     public List<UserReport> getUserReportList();
     public void deleteUserReport(Long userReportNo);
     public void deleteReportedUser(String userId, Long userLongId);
+	public int suspendReportedUser(String userId, Long userLongId);
 }

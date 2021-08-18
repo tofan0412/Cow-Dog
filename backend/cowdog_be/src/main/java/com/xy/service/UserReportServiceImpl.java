@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 
 import com.xy.api.request.UserReportPostReq;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,5 +67,15 @@ public class UserReportServiceImpl implements UserReportService{ // NoticeServic
 //		resultList.
 		userReportRepo.deleteByReportedId(userId); // userId와 관련된 userReport 모두 삭제
 		memberRepo.deleteById(userLongId);
+	}
+	@Transactional
+	@Override
+	public int suspendReportedUser(String userId, Long userLongId) {
+		userReportRepo.deleteByReportedId(userId); // userId와 관련된 userReport 모두 삭제
+		String jpql="update Member m SET m.issuspended=true where m.id=:userLongId";
+		Query query = em.createQuery(jpql).setParameter("userLongId", userLongId);
+		int rows = query.executeUpdate();
+		
+		return rows;
 	}
 }
