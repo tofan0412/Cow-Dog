@@ -31,7 +31,6 @@
   </el-main>
 </el-container>
 <el-footer>
-  @footer
 </el-footer>
 </template>
 

@@ -2,7 +2,10 @@ import router from '../router'
 export const GET_NOTICES = (state, noticeDatas) => {
     state.notices = noticeDatas
     console.log(noticeDatas)
-    // router.push('/admin/notice') // Admin 클릭 => notices가 로드되고 난 후에 notice 페이지로 push
+    router.push('/admin/notice') // Admin 클릭 => notices가 로드되고 난 후에 notice 페이지로 push
+}
+export const GET_NOTICES_FOR_USER = (state, noticeDatas) => {
+    state.notices = noticeDatas
 }
 export const GET_MYINFO = (state, myinfoData) => {
     state.myinfo = myinfoData
@@ -47,9 +50,12 @@ export const USER_LOGOUT=(state)=>{
 
 export const SET_ARTICLES = (state, articles) => {
     state.articles = articles
-    // 만약 현재 위치와 동일하다면
     router.push({name: "AppealList"})
-    
+}
+
+export const SET_ARTICLES_AFTER_DELETE = (state, articles) => {
+    // 페이지 이동 없음 ( 동일 페이지이기 때문에 )
+    state.articles = articles
 }
 
 export const SET_USERINFO = (state, data) => {
@@ -98,9 +104,11 @@ export const SET_NOTIFICATION=(state, notifications) => {
 export const SET_SEARCH_RESULT= (state, searchResults) => {
     state.searchResults = searchResults
 }
-
 export const SET_CAHTROOM_ID=(state,chatRoomId)=>{
     console.log(chatRoomId)
     state.chatRoomId=chatRoomId;
     console.log(state.chatRoomId)
+}
+export const SET_MATCHSTATUS= (state, matchStatus) => {
+    state.matchStatus = matchStatus;
 }

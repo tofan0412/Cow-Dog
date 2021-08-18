@@ -1,6 +1,9 @@
 export function getNotices (state) {
 	return state.notices
 }
+export function getNoticesForUser (state) {
+	return state.notices
+}
 
 export function getUserId(state){
 	return state.userId
@@ -49,4 +52,8 @@ export function getUsersIFollowed(state){
 
 export function getNotifications(state){
 	return state.notifications;
+}
+
+export function getMatchStatus(state){
+	return state.matchStatus;
 }

@@ -17,16 +17,16 @@
         </div>
       </div>
       <div v-else style="display:flex; justify-content:space-between">
-        <div style="display:flex">
+        <div style="display:flex" v-if="!matchStatus">
           <el-menu-item index="/main" class="navMenu-logo"><img class="nav-logo" :src="require('@/assets/images/cowanddog.png')" alt="logo" style="max-width: 100%; height:auto;"></el-menu-item>
           <el-menu-item index="/main" class="navMenu">매칭</el-menu-item>
-          <el-menu-item index="/notices" class="navMenu" @click="getNotices">공지사항</el-menu-item>
-          <el-menu-item index="/###"  class="navMenu" @click="getArticles">게시판</el-menu-item>
-          <el-menu-item index="/admin" class="navMenu" @click="getNotices">관리자</el-menu-item> <!-- 배포 전 숨기기 -->
+          <el-menu-item index="/notices" class="navMenu" @click="getNoticesForUser">공지사항</el-menu-item>
+          <el-menu-item index="###"  class="navMenu" @click="getArticles">게시판</el-menu-item>
+          <el-menu-item index="####" class="navMenu" @click="getNotices">관리자</el-menu-item> <!-- 배포 전 숨기기 -->
         </div>
-        <div style="display:flex; margin-right: 3%">
-          <el-menu-item index="##" v-if="notifications.length==0"  class="navMenu" @click="state.dialogVisible = true"><i class="fas fa-envelope-open"></i></el-menu-item>
-          <el-menu-item index="##" v-else class="navMenu" @click="state.dialogVisible = true"><i class="fas fa-envelope"></i> {{notifications.length}}</el-menu-item>
+        <div style="display:flex; margin-right: 3%" v-if="!matchStatus">
+          <el-menu-item v-if="notifications.length==0"  class="navMenu" @click="state.dialogVisible = true"><i class="fas fa-envelope-open"></i></el-menu-item>
+          <el-menu-item v-else class="navMenu" @click="state.dialogVisible = true"><i class="fas fa-envelope"></i> {{notifications.length}}</el-menu-item>
           <el-menu-item index="/mypage" class="navMenu" @click="getMyInfo">마이페이지</el-menu-item>
           <el-menu-item index="#" class="navMenu" @click="logout()">로그아웃</el-menu-item>
         </div>
@@ -80,14 +80,18 @@ export default ({
   computed: {
     ...mapGetters({
       notifications: 'getNotifications', // 알림
-
-    })
+      matchStatus: 'getMatchStatus'
+    }),
   },
   setup() {
     const state=reactive({
-      dialogVisible:false
+      dialogVisible:false,
     })
     const store = useStore()
+
+    // watch(store.getters.getMatchStatus,()=>{
+    //   state.matchStatus= store.getters.getMatchStatus
+    // })
     const logout =function(){
       console.log("로그아웃")
       store.dispatch("userLogout",{id:store.getters.getUserId})
@@ -105,6 +109,9 @@ export default ({
       logout,
       getNotices: () => {
         store.dispatch('getNotices') // actions/getNotices에 dispatch
+      },
+      getNoticesForUser: () => {
+        store.dispatch('getNoticesForUser')
       },
       getMyInfo:()=>{
         store.dispatch('getMyInfo')

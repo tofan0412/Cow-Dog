@@ -44,7 +44,7 @@
       <!-- 태그 부분 -->
       <el-row style="color: #9F81F7; font-size: 15px; margin-top: 20px;">
         <div v-for="tag in state.tags" :key="tag" style="cursor: pointer;">
-          <strong>#{{ tag }}</strong>&nbsp;&nbsp;
+          <strong @click="$emit('send-tag', tag)">#{{ tag }}</strong>&nbsp;&nbsp;
         </div>
       </el-row>
       <!-- 수정 / 삭제 -->
@@ -53,14 +53,7 @@
         <div class="article-button" @click="updateArticlePage(this.article)">수정</div>
         <div class="article-button" @click="deleteArticle(this.article)">삭제</div>
       </el-row>
-      
-
-      <!-- 좋아요 버튼 -->
-      <el-row>
-        <i></i>
-      </el-row>
-
-
+    
       <!-- 댓글 부분 -->
       <el-row style="color: gray; font-size: 15px; margin-top: 20px;">
         <!-- 댓글이 1개 이상 존재하는 경우 -->
@@ -84,7 +77,7 @@
       <div v-if="!state.default">
         <el-row v-for="(comment, index) in state.comments" :key="index" justify="space-between">
           <el-col :span="22" v-if="index < 3" style="text-align: start;">
-            <strong>{{ comment.id }}</strong> {{ comment.content }} <span style="color: grey; font-size: 12px;">-{{ comment.regtime }}</span>
+            <strong>{{ comment.id }}</strong> {{ comment.content }} <span style="color: grey; font-size: 12px;">.....{{ comment.regtime }}</span>
           </el-col>
           <el-col :span="2" v-if="index < 3">
             <!-- 내가 작성한 댓글에 대해서만 삭제 가능하다. -->
@@ -101,7 +94,7 @@
       <div v-if="state.default">
         <el-row v-for="(comment, index) in state.comments" :key="index" justify="space-between">
           <el-col :span="22" style="text-align: start;">
-            <strong>{{ comment.id }}</strong> {{ comment.content }} <span style="color: grey; font-size: 12px;">-{{ comment.regtime }}</span>
+            <strong>{{ comment.id }}</strong> {{ comment.content }} <span style="color: grey; font-size: 12px;">.....{{ comment.regtime }}</span>
           </el-col>
           <el-col :span="2">
             <span 
@@ -143,13 +136,19 @@
           <el-divider></el-divider>
         </el-col>
       </el-row>
+      <el-row @click="centerDialogVisible = false; articleLike()">
+        <el-col>
+          <span>게시글 좋아요</span>
+          <el-divider></el-divider>
+        </el-col>
+      </el-row>
       <el-row @click="centerDialogVisible = false">
         <el-col>
           <span>취소</span>
         </el-col>
       </el-row>
     </div>
-</el-dialog>
+  </el-dialog>
 
   <!-- 게시글 신고 페이지 modal창 -->
   <el-dialog
@@ -188,26 +187,24 @@
         </el-col>
       </el-row>
     </div>
-</el-dialog>
-
-
+  </el-dialog>
 </template>
 
 <script>
 import { reactive, ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
 import router from '../../../router'
+import Swal from 'sweetalert2'
 
 export default {  
   name: 'ArticleDetail',
   props: {
-      article: Object,
-    },
+    article: Object,
+  },
+  
   setup(props) {
-    console.log("props 확인: " + props)
     const store = useStore()
     const state = reactive({
-      
       store: store,
       loginId: store.getters.getUserId,
       articleNo: props.article.articleNo,
@@ -221,18 +218,17 @@ export default {
         content: '',
       }
       
-    })    
+    })  
 
+    
     // 게시글마다 댓글 조회한다.
     state.store.dispatch("findComments", { articleNo: props.article.articleNo })
     .then(resp => {
-      console.log(resp.data)
       state.comments = resp.data
     })
     .catch(err => {
       console.log(err)
     })
-
     // 게시글 마다 회원 정보를 조회한다. 회원이 등록한 이미지 정보를 출력하기 위해!
     state.store.dispatch("getUserInfo", { userId : props.article.memberId })
     .then(resp => {
@@ -252,6 +248,28 @@ export default {
   methods: {
     deleteArticle() {
       this.state.store.dispatch("deleteArticle", { articleNo: this.article.articleNo, memberId: this.article.memberId })
+      .then(resp => {
+        console.log("삭제 완료!", resp.data) // 삭제 후 남은 객체
+        const result = resp.data
+        // 태그 전처리하기 -> 태그 개별 항목 검색 위해...
+        for (let i = 0; i < result.length; i++) {
+          if (result[i].tags !== null) {
+            const tags = result[i].tags.split('#').slice(1)
+            result[i].tags = tags
+          }
+        }
+
+        // 날짜 전처리
+        for (let i = 0; i < result.length; i++) {
+          const date = new Date(result[i].regtime).toDateString()
+          result[i].regtime = date
+        }
+
+        this.$emit("delete-article", result)
+      })
+      .catch(err => {
+        console.log(err)
+      })
     },
     // 페이지 갱신
     updateArticlePage(article) {
@@ -268,7 +286,7 @@ export default {
 
       // 빈칸인 경우 입력 방지
       if ( this.state.commentContent === '') {
-        alert("내용을 입력해 주세요.")
+        Swal.fire('내용을 입력해주세요.')
         return
       }
       
@@ -316,9 +334,11 @@ export default {
       }, 100)
       }
     },
+
     goToReportPage(){
       router.push("/admin/article-report")
     },
+
     reportArticle() {
       this.state.store.dispatch("postArticleReport", { 
         title: this.state.reportArticle.title, 
@@ -326,8 +346,18 @@ export default {
         reportedArticleNo: this.state.articleNo, 
         articleUrl: '', 
       })
-      alert("신고 완료되었습니다.")
+      Swal.fire('신고 완료되었습니다.')
       return
+    },
+
+    articleLike() {
+      // 사용자 PK
+      const id = this.state.loginId
+      // 게시글 PK
+      const articleNo = this.state.articleNo
+
+      console.log("사용자 PK: ", id, ", 게시글 PK: ", articleNo)
+
     },
 
 
@@ -337,9 +367,13 @@ export default {
 </script>
 <style>
 .article-container{
-  margin: 1%;
+  background-color: white;
+  margin: 0 auto;
+  margin-top: 2%;
+  margin-bottom: 2%;
   padding: 1%;
-  border: 2px solid #f0f2f5;
+  width: 700px;
+  border: 5px solid #f0f2f5;
   border-radius: 0.45rem;
   height: auto;
 }

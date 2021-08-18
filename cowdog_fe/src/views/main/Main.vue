@@ -53,7 +53,7 @@ export default{
             distance:Boolean,
         })
         store.dispatch('AmIFollowed') // 내가 팔로우한 유저 usersIFollowed에 저장
-        //store.dispatch("getNotification",store.getters.getUserId)//알림 뭐 왔나 백엔드에서 가져오는거
+        store.dispatch("getNotification",store.getters.getUserId)//알림 뭐 왔나 백엔드에서 가져오는거
         //store.commit("SET_MATCHSTATUS",false);
         onMounted(() => {
           setTimeout(() => {  

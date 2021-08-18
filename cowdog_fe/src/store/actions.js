@@ -178,6 +178,23 @@ export function getNotices ({ state, commit }) {
       console.log(err)
     })    
 }
+export function getNoticesForUser ({ state, commit }) {
+  const url = '/notice'
+  axios({
+    url: url,
+    method: 'get',
+    headers:{
+      Authorization:"Bearer "+state.accessToken
+    },
+  })
+    .then(res => {
+      console.log(res)
+      commit('GET_NOTICES_FOR_USER', res.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })    
+}
 
 export function postNotice({ state, commit }, payload) {
   console.log(payload)
@@ -377,12 +394,11 @@ export function postArticleReport({ state }, payload) {
 
 export function deleteReportedArticle({ state, commit }, payload) {
   console.log(payload)
-  const url = '/article-report/reported-article/' + payload.reportedArticleNo + '/' + payload.reportedArticleLongNo
+  const url = '/article-report/reported-article/' + payload.reportedArticleNo + '/' + payload.reportedArticleLongNo + '/' + payload.reportedArticleArticleNo
   axios({
     url: url, method: 'delete', headers:{ Authorization:"Bearer "+state.accessToken},
   })
     .then(res => {
-      console.log(res.data)
       commit('GET_REPORTED_ARTICLES', res.data)
     })
     .catch(err => {
@@ -422,7 +438,7 @@ export function getArticles({ state, commit }) {
   // 로그인 여부 확인
   const accessToken = state.accessToken
   if (accessToken === '') {
-    alert("로그인 해주세요.")
+    Swal.fire('접근 제한!', '로그인 해주세요.')
     router.push("/login")
   }
   else {
@@ -500,6 +516,8 @@ export function updateArticlePage({ state }, payload) {
 
 export function updateArticle({ state, commit }, payload) {
   const url = '/appeal/update'
+
+  console.log("수정할 태그는: ", payload.tags)
   axios({
     url: url,
     method: "PUT",
@@ -510,6 +528,7 @@ export function updateArticle({ state, commit }, payload) {
       articleNo: payload.articleNo,
       title: payload.title,
       content: payload.content,
+      tags: payload.tags,
     }
   })
   .then(resp => {
@@ -522,7 +541,7 @@ export function updateArticle({ state, commit }, payload) {
   })
 }
 
-export function deleteArticle({ state, commit }, payload) {
+export function deleteArticle({ state }, payload) {
   // 현재 로그인한 사용자와 게시글을 작성한 사용자의 PK 비교 
   if (payload.memberId !== state.userId) {
     Swal.fire('FAIL' ,'권한이 없습니다.');
@@ -530,22 +549,17 @@ export function deleteArticle({ state, commit }, payload) {
   }
   else{
     const answer = confirm("게시글을 삭제하시겠습니까?")
-    if (answer) {
+    if (answer === true) {
       const url = "/appeal/delete?articleNo=" + payload.articleNo
-      axios({
+      return axios({
         url: url,
         method: "DELETE",
         headers:{
-          Authorization:"Bearer "+state.accessToken
+          Authorization:"Bearer "+ state.accessToken
         },
-      })
-      .then(resp => {
-        // 데이터 갱신. 백엔드에서 목록을 가져오기 때문에 getArticles를 호출할 필요가 없다.
-        commit("SET_ARTICLES", resp.data)
-      })
-      .catch(err => {
-        console.log(err)
-      })
+      })    
+    }else {
+      return
     }
   }
 }
@@ -560,7 +574,6 @@ export function appealSearch({ state }, payload) {
       Authorization:"Bearer " + state.accessToken
     },
   })
-
 }
 
 export function createArticleComment({ state }, payload) {
@@ -580,7 +593,6 @@ export function createArticleComment({ state }, payload) {
 }
 
 export function findComments({ state }, payload) {
-
   const articleNo = payload.articleNo
   const url = '/appealComment/findComments?articleNo=' + articleNo
   return axios({

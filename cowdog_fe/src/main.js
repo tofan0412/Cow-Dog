@@ -3,7 +3,6 @@ import App from './App.vue';
 import mitt from 'mitt';
 import VueSweetalert2 from 'vue-sweetalert2';
 import ChatModal from "./components/ChatModal.vue"
-
 // If you don't need the styles, do not connect
 import 'sweetalert2/dist/sweetalert2.min.css';
 

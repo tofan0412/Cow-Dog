@@ -12,9 +12,6 @@
     </el-form-item>
   </div>
 
-  <div class="notice-image">
-    <h3>이미지 첨부 옵션(추가)</h3>
-  </div>
   <el-form-item>
     <el-button @click="submitForm('ruleForm')">작성</el-button>
   </el-form-item>
@@ -22,6 +19,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2'
   export default {
     data() {
       return {
@@ -45,7 +43,7 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('작성이 완료되었습니다.');
+            Swal.fire('작성 완료', '공지사항 작성이 완료되었습니다.')
             this.$store.dispatch('postNotice', {"title": this.ruleForm.title, "content": this.ruleForm.content})
           } else {
             console.log('error submit!!');
@@ -65,9 +63,5 @@
   background: #ffffff;
   border-color: #ff4e7e;
   color: #ff4e7e;
-}
-
-.notice-image {
-  text-align: left;
 }
 </style>

@@ -103,7 +103,13 @@ public class ArticleController {
     public ResponseEntity<? extends BaseResponseBody> update(@RequestBody HashMap<String, Object> map) {
         Long result = articleService.update(map);
 
-        return ResponseEntity.status(200).body(BaseResponseBody.of(200, Long.toString(result)));
+        if ( result != 0L) {
+            // 성공 시 작성된 게시글 번호를 반환
+            return ResponseEntity.status(200).body(BaseResponseBody.of(200, Long.toString(result)));
+        }
+        else {
+            return ResponseEntity.status(500).body(BaseResponseBody.of(500, "FAIL"));
+        }
     }
 
     @GetMapping("/search")

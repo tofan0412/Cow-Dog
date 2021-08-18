@@ -81,6 +81,7 @@ public class ArticleServiceImpl implements ArticleService {
 
         article.setTitle(map.get("title").toString());
         article.setContent(map.get("content").toString());
+        article.setTags(map.get("tags").toString());
         article.setRegtime(new Timestamp(System.currentTimeMillis()));
 
         Article result = articleRepository.save(article);

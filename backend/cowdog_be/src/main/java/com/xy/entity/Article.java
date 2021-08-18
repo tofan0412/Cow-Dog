@@ -1,17 +1,10 @@
 package com.xy.entity;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
@@ -29,6 +22,7 @@ import com.sun.xml.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 public class Article {
 	
 	@Id
+	@Column(name = "articleNo")
 	@GeneratedValue
 	private Long articleNo;//pk
 	
@@ -45,4 +39,8 @@ public class Article {
 	private Timestamp regtime;
 	private String image;
 	private String tags;
+
+	@ManyToMany(mappedBy = "members")
+	private List<Member> members = new ArrayList<>(); // 다대다 관계
+
 }

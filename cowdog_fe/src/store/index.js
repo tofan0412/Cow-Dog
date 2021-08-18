@@ -22,6 +22,7 @@ const state = {
   notifications:[],
   centerDialogVisible: false,
   chatRoomId:'', //챗룸Id
+  matchStatus:false,
 }
 
 const root = createStore({

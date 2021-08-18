@@ -61,6 +61,7 @@ import { reactive } from '@vue/reactivity'
 import { useStore } from 'vuex'
 import router from '../../../router'
 import appealDetail from './AppealDetail.vue'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'AppealSearchResult',  
@@ -79,7 +80,7 @@ export default {
     })
 
     if (store.getters.getUserToken === '') {
-      alert("로그인 해주세요.")
+      Swal.fire('로그인 해주세요.')
       router.push("/login")
     }
     

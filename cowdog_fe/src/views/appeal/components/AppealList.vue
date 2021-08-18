@@ -14,26 +14,13 @@
           class="elinput" 
           placeholder="검색할 태그를 입력하세요." 
           v-model="state.searchKeyword" 
-          @keyup.enter="AppealSearch()">
+          @keyup.enter="AppealSearch()"
+          >
           </el-input>
         </el-col>
       </el-row>
     </el-menu>
   
-  <!-- 작성된 모든 게시글 출력 -->
-  <div v-if="!state.default">
-    <el-row>
-      <el-col :span="12" :offset="6"> <!-- offset 설정하면 왼쪽 기준으로 공백 크기 설정 -->
-        <!-- 게시글 객체가 존재하지 않을 수도 있다. v-if의 경우 조건에 맞지 않으면 렌더링을 하지 않음 -->
-        <div>
-          <div v-for="article in state.articles" :key="article.articleno"> <!-- 왜 key에다가 콜론을 해줘야 하지..? -->
-            <appealDetail :article="article"/>
-          </div>
-        </div>
-      </el-col>
-    </el-row>
-  </div>
-
   <!-- 작성된 게시글이 존재하지 않는 경우 -->
   <div v-if="state.articles.length === 0" style="vertical-align: middle;">
     <el-row justify="center" style="margin: 10px;">
@@ -49,23 +36,40 @@
     </el-row>    
   </div>
 
+  
+  <!-- 작성된 모든 게시글 출력 -->
+  <div v-else-if="!state.default">
+    <el-row>
+      <el-col :span="12" :offset="6"> <!-- offset 설정하면 왼쪽 기준으로 공백 크기 설정 -->
+        <!-- 게시글 객체가 존재하지 않을 수도 있다. v-if의 경우 조건에 맞지 않으면 렌더링을 하지 않음 -->
+        <div>
+          <div v-for="article in state.articles" :key="article.articleno"> <!-- 왜 key에다가 콜론을 해줘야 하지..? -->
+            <appealDetail :article="article" @send-tag="AppealSearchByClick" @delete-article="afterDeleteArticle" />
+          </div>
+        </div>
+      </el-col>
+    </el-row>
+  </div>
+
+
   <!-- 사용자가 검색을 한 경우 -->
   <div v-if="state.default">
-    {{ state.lastKeyword }} 검색 결과
+    <div style="margin: 20px;">
+      <span style="font-size: 20px; font-weight: bold;">#{{ state.lastKeyword }}</span> 검색 결과
+    </div>
     <el-row>
       <el-col :span="12" :offset="6"> <!-- offset 설정하면 왼쪽 기준으로 공백 크기 설정 -->
         <!-- 게시글 객체가 존재하지 않을 수도 있다. v-if의 경우 조건에 맞지 않으면 렌더링을 하지 않음 -->
         <div>
           <div v-for="article in state.searchResults" :key="article.articleno"> <!-- 왜 key에다가 콜론을 해줘야 하지..? -->
-            <appealDetail :article="article"/>
+            <appealDetail :article="article" @send-tag="AppealSearchByClick" @delete-article="afterDeleteArticle" />
           </div>
         </div>
       </el-col>
     </el-row>
-    <el-row justify="center">
+    <el-row justify="center" style="margin-bottom: 70px;">
       <el-col>
         <el-button class="default" plain @click="state.default = false; state.searchKeyword = ''">전체 게시글 보기</el-button>
-        
       </el-col>
     </el-row>
 
@@ -77,10 +81,10 @@
 
 <script>
 import { reactive } from '@vue/reactivity'
-import {  useStore, mapGetters } from 'vuex'
+import { useStore, mapGetters } from 'vuex'
 import router from '../../../router'
 import appealDetail from './AppealDetail.vue'
-
+import Swal from 'sweetalert2'
 export default {
   name: 'AppealList',  
   components: {
@@ -90,20 +94,18 @@ export default {
   setup() {
     const store = useStore()
     const state = reactive({
+      store: store,
       searchKeyword: '',
       lastKeyword: '',
-      store: store,
       articles: store.getters.getArticles,
       searchResults: '',
       default: false,
     })
 
     if (store.getters.getUserToken === '') {
-      alert("로그인 해주세요.")
+      Swal.fire('로그인 해주세요.')
       router.push("/login")
     }
-
-    // store.dispatch("getArticles") // vuex의 store의 변수 중에서 게시글 목록을 별도로 저장한다.
     store.dispatch("getNotification",store.getters.getUserId) //알림 뭐 왔나 백엔드에서 가져오는거
   
     return {
@@ -111,10 +113,22 @@ export default {
     }    
   },
   methods: {
+    afterDeleteArticle(result) {
+      console.log("afterDeleteArticle: ", result)
+      // vuex에 변경사항 저장
+      this.state.store.commit("SET_ARTICLES_AFTER_DELETE", { articles: result })
+      this.state.articles = result
+    },
+
     createArticle() {
       router.push("/appeal/create")
     },
+
     AppealSearch() {
+      // 초기화
+      console.log("검색 시작")
+      this.state.searchResults = ''
+
       this.state.store.dispatch("appealSearch", { searchKeyword : this.state.searchKeyword })
       .then(resp => {
         // 태그 전처리       
@@ -123,6 +137,12 @@ export default {
             const tags = resp.data[i].tags.split('#').slice(1)
             resp.data[i].tags = tags
           }
+        }
+
+        // 날짜 전처리
+        for (let i = 0; i < resp.data.length; i++) {
+          const date = new Date(resp.data[i].regtime).toDateString()
+          resp.data[i].regtime = date
         }
 
         this.state.lastKeyword = this.state.searchKeyword
@@ -135,6 +155,10 @@ export default {
       .catch(err => {
         console.log(err)
       })
+    },
+    AppealSearchByClick(tag) {
+      this.state.searchKeyword = tag
+      this.AppealSearch()
     },
     computed: {
       ...mapGetters({

@@ -4,7 +4,10 @@
   <div class="batch" style="display:flex">
       <h1 class="title">게시글 신고 관리</h1>
   </div>
-  <div class="reportedArticle-list">
+  <div v-if="!reportedArticlesPaginated.length">
+    <h3>게시글 신고가 없습니다!</h3>
+  </div>
+  <div v-else class="reportedArticle-list">
     <div v-for="(reportedArticle, idx) in reportedArticlesPaginated" :key="idx">
       <el-card class="box-card">
         <template #header>
@@ -20,19 +23,18 @@
         </div>
       </el-card>
     </div>
-  </div>
-  <div class="pagination">
-    <el-pagination
-    background
-    layout="prev, pager, next"
-    :page-size=pageSize
-    :total="reportedArticles.length"
-    v-model:current-page="currentPage">
-    </el-pagination>
-  </div>  
+    <div class="pagination">
+      <el-pagination
+      background
+      layout="prev, pager, next"
+      :page-size=pageSize
+      :total="reportedArticles.length"
+      v-model:current-page="currentPage">
+      </el-pagination>
+    </div> 
+  </div> 
 </div>
 
-<button @click="ArticleReport">게시글 신고 테스트</button>
 </template>
 
 <script>
@@ -65,14 +67,11 @@ export default {
 
   // 신고 POST 예시
   methods: {
-    ArticleReport() {
-      this.$store.dispatch('postArticleReport', {"title": "정지시켜주세요.", "content": "악질이에요.", "reportedArticleNo": "182", "articleUrl": "http://www.naver.com"})
-    },
     // 게시글 신고 삭제(게시글 삭제 아님)
     deleteArticleReport(articleReportNo) {
       this.$confirm('정말로 신고를 삭제하시겠습니까?')
         .then(res => {
-          console.log(res)
+          res
           this.$store.dispatch('deleteArticleReport', articleReportNo)
         })
     }
@@ -99,6 +98,6 @@ export default {
     font-weight: bold;
   }
   .pagination {
-    width: 80vw;
+    margin: 0 auto;
   }
 </style>

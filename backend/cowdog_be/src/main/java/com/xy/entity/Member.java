@@ -7,16 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.jdo.annotations.Join;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.OnDelete;
@@ -35,6 +27,7 @@ import lombok.ToString;
 public class Member {
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	@OnDelete(action = OnDeleteAction.CASCADE)
+	@Column(name="id")
 	private Long id;
 	
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -57,6 +50,13 @@ public class Member {
 	private String imgFullPath;
 	private boolean login;
 	private boolean manager;
+
+	@ManyToMany
+	@JoinTable(name = "MEMBER_ARTICLE",
+			joinColumns = @JoinColumn(name = "id"),
+			inverseJoinColumns = @JoinColumn(name = "articleNo"))
+	private List<Article> articles = new ArrayList<>(); // 다대다 관계
+
 //	public void addArticle(Article article) {
 //		this.articles.add(article);
 //		if(article.getMember_id()!=this) {

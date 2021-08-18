@@ -13,7 +13,7 @@
   </div>
 
   <div class="notice-image">
-    <h3>이미지 첨부 옵션(추가)</h3>
+    <!-- <h3>이미지 첨부 옵션(추가)</h3> -->
   </div>
   <el-form-item>
     <el-button type="primary" @click="submitForm('ruleForm')">수정 완료</el-button>

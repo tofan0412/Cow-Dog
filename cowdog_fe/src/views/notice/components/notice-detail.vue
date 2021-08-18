@@ -16,13 +16,13 @@
     <br>
     <br>
 
-    <div class="reported_reason">첨부파일</div>
+    <!-- <div class="reported_reason">첨부파일</div> -->
     <br>
     <!-- image box -->
-    <div class="reported_img_box">
+    <!-- <div class="reported_img_box"> -->
       <!-- 첨부 이미지가 있으면 보여주기 -->
-      <img :src="require('@/assets/images/user_report_example_image.png')" alt="reportedScreenImage">
-    </div>
+      <!-- <img :src="require('@/assets/images/user_report_example_image.png')" alt="reportedScreenImage"> -->
+    <!-- </div> -->
 
     <template #footer>
       <div class="dialog-footer" style="display:flex">
@@ -57,21 +57,9 @@ import router from '../../../router'
         router.push( 
           {name: 'UpdateNotice', params: { noticeNo: noticeDetailData.noticeNo, title: noticeDetailData.title, content:noticeDetailData.content }})
       },
-      handleClose(done) {
-        this.$confirm('Are you sure to close this dialog?')
-          .then(res => {
-            done();
-            console.log(res)
-            this.dialogVisible = false
-          })
-          .catch(res => {
-            console.log(res)
-          }); 
-      },
       handleDelete(noticeNo) {
         this.$confirm('정말로 삭제하시겠습니까?')
-          .then(res => {
-            console.log(res)
+          .then(() => {
             this.dialogVisible = false
             this.$store.dispatch('deleteNotice', noticeNo)
             this.$router.push('/admin/notice')
@@ -107,11 +95,11 @@ import router from '../../../router'
   line-height: 1.5rem;
   height: 6rem;
 }
-.reported_img_box {
+/* .reported_img_box {
   width: 100%;
   border: 1px solid black;
   border-radius: 10px;
-}
+} */
 
 .el-button--primary {
   background: #ffffff;

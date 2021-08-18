@@ -14,13 +14,11 @@
     <pre class="reported_content">{{ reportedArticleData.content }}</pre>
     <br>
     <br>
-
-    <div class="reported_reason">게시글 url</div>
     <br>
     <!-- image box -->
-    <div class="reported_url_box">
+    <!-- <div class="reported_url_box">
       <a :href="reportedArticleData.articleUrl">{{ reportedArticleData.articleUrl }}</a>
-    </div>
+    </div> -->
 
     <template #footer>
       <span class="dialog-footer">
@@ -45,24 +43,13 @@
       }
     },
     methods: {
-      handleClose(done) {
-        this.$confirm('Are you sure to close this dialog?')
-          .then(res => {
-            done();
-            console.log(res)
-            this.dialogVisible = false
-          })
-          .catch(res => {
-            console.log(res)
-          });     
-      },
       deleteReportedArticle(reportedArticleNo) {
         this.$confirm('정말로 제재하시겠습니까?')
-          .then(res => {
-            console.log(res)
+          .then(() => {
             var reportedArticleLongNo = reportedArticleNo
+            var reportedArticleArticleNo = reportedArticleNo
             this.$store.dispatch('deleteReportedArticle', 
-            {"reportedArticleNo": reportedArticleNo, "reportedArticleLongNo": reportedArticleLongNo})
+            {"reportedArticleNo": reportedArticleNo, "reportedArticleLongNo": reportedArticleLongNo, "reportedArticleArticleNo": reportedArticleArticleNo})
             this.dialogVisible = false
           })
           .catch(err => {

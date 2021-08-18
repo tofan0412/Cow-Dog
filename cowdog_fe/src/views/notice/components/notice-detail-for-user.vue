@@ -3,11 +3,11 @@
   <el-button class="admin-component-detail" type="text" @click="dialogVisible = true">자세히</el-button>
   <el-dialog
     class="notice-detail"
-    title="상세보기"
+    title="공지사항"
     v-model="dialogVisible"
     width="70%"
     >
-    <div class="reported_id">제목: {{ noticeDetailData.title }}</div>
+    <div class="reported_id">{{ noticeDetailData.title }}</div>
     <br>
     <br>
     <pre class="reported_reason">내용</pre>
@@ -16,13 +16,13 @@
     <br>
     <br>
 
-    <div class="reported_reason">첨부파일</div>
+    <!-- <div class="reported_reason">첨부파일</div> -->
     <br>
     <!-- image box -->
-    <div class="reported_img_box">
+    <!-- <div class="reported_img_box"> -->
       <!-- 첨부 이미지가 있으면 보여주기 -->
-      <img :src="require('@/assets/images/user_report_example_image.png')" alt="reportedScreenImage">
-    </div>
+      <!-- <img :src="require('@/assets/images/user_report_example_image.png')" alt="reportedScreenImage"> -->
+    <!-- </div> -->
   </el-dialog>
 </div>
 </template>
@@ -54,13 +54,22 @@
 .reported_id {
   font-size: 16px;
   color: black;
+  font-weight: bold;
 }
 .reported_reason {
   font-size: 16px;
   color: black;
 }
 .reported_content {
+  margin: 2% 0;
+  border: 2px solid #f0f2f5;
+  padding-top: 3%;
+  padding-bottom: 3%;
+  padding-left: 1%;
+  padding-right: 1%;
+  border-radius: 5px;
   font-weight: normal;
+  color: black;
 }
 .reported_img_box {
   width: 100%;

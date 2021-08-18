@@ -640,7 +640,7 @@ export default {
         }
       })
       .catch(function(err){
-        alert(err)
+        console.log(err)
       })
       }
     }
@@ -657,7 +657,7 @@ export default {
         }
       })
       .catch(function(err){
-        alert(err)
+        console.log(err)
       })
       }
     }
@@ -797,8 +797,8 @@ export default {
                     Swal.fire('SUCCESS' ,'회원가입 성공');
                     router.push({name:"Login"})
                 })
-                .catch(function () {
-                    alert("")
+                .catch(function (err) {
+                    console.log(err)
                 })
             } 
         }else {
@@ -889,7 +889,7 @@ export default {
         border-radius: 10px;
     }
     .el-carousel {
-        height: 850px;
+        height: 1000px;
     }
     .el-carousel__container {
         height: 100%;
@@ -1046,6 +1046,11 @@ export default {
         display: block;
         margin: 0 auto;
     }
+}
+.img-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 </style>

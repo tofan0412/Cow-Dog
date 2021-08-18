@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.xy.api.request.ArticleReportPostReq;
 import com.xy.common.response.BaseResponseBody;
+import com.xy.entity.Article;
 import com.xy.entity.ArticleReport;
 import com.xy.entity.UserReport;
 import com.xy.service.ArticleReportService;
@@ -57,11 +58,12 @@ public class ArticleReportController {
 		return articleReportService.getArticleReportList();
 	}
 	
-	@DeleteMapping("/reported-article/{reported_article_no}/{reported_article_long_no}")// reported article delete 요청
+	@DeleteMapping("/reported-article/{reported_article_no}/{reported_article_long_no}/{reported_article_article_no}")// reported article delete 요청
 	public List<ArticleReport> deleteReportedArticle(
 			@PathVariable("reported_article_no") String reportedArticleNo,
-			@PathVariable("reported_article_long_no") Long reportedArticleLongNo) {
-		articleReportService.deleteReportedArticle(reportedArticleNo, reportedArticleLongNo);
+			@PathVariable("reported_article_long_no") Long reportedArticleLongNo,
+			@PathVariable("reported_article_article_no") Article reportedArticleArticleNo) {
+		articleReportService.deleteReportedArticle(reportedArticleNo, reportedArticleLongNo, reportedArticleArticleNo);
 		return articleReportService.getArticleReportList();
 	}
 }
