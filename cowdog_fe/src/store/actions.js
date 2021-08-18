@@ -427,15 +427,18 @@ export function createArticle({ state, commit }, payload) {
   .then(resp => {
     console.log("create result: ", resp)
     // 게시글 목록 재업로드
-    getArticles({ state, commit })
+    getArticles({ state, commit }, { page:1, size:7 })
   })
   .catch(err => {
     console.log(err)
   })
 }
 
-export function getArticles({ state, commit }) {  
+export function getArticles({ state, commit }, payload) {  
   // 로그인 여부 확인
+  const page = payload.page
+  const size = payload.size
+
   const accessToken = state.accessToken
   if (accessToken === '') {
     Swal.fire('접근 제한!', '로그인 해주세요.')
@@ -443,7 +446,7 @@ export function getArticles({ state, commit }) {
   }
   else {
     console.log("게시글 목록 가져옵니다.")
-    const url = "/appeal"
+    const url = "/appeal?page=" + page + "&size=" + size
     axios({
       url: url,
       method: 'GET',
@@ -452,22 +455,29 @@ export function getArticles({ state, commit }) {
       },
     })
     .then(resp => {
+      // 페이지네이션 적용 - 데이터 내용부터 보자.
+      // resp.data.totalPages는 전체 페이지수를 의미한다.
+      console.log("게시글 로드 결과: " , resp)
+      const result = resp.data.content
+
       // 태그 전처리하기 -> 태그 개별 항목 검색 위해...
-      for (let i = 0; i < resp.data.length; i++) {
-        if (resp.data[i].tags !== null) {
-          const tags = resp.data[i].tags.split('#').slice(1)
-          resp.data[i].tags = tags
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].tags !== null) {
+          const tags = result[i].tags.split('#').slice(1)
+          result[i].tags = tags
         }
       }
-      console.log("게시글 목록 결과:", resp.data)
+      // console.log("게시글 목록 결과:", resp.data)
 
       // 날짜 전처리
-      for (let i = 0; i < resp.data.length; i++) {
-        const date = new Date(resp.data[i].regtime).toDateString()
-        resp.data[i].regtime = date
+      for (let i = 0; i < result.length; i++) {
+        const date = new Date(result[i].regtime).toDateString()
+        result[i].regtime = date
       }
-
-      commit("SET_ARTICLES", resp.data)
+      // 전체 페이지 수를 중앙 저장소에 저장한다.
+      const totalPageNumber = resp.data.totalPages
+      commit("SET_TOTAL_PAGE_NUMBER", totalPageNumber)
+      commit("SET_ARTICLES", result)
     })
     .catch(err => {
       console.log(err)
@@ -485,6 +495,16 @@ export function getArticle({ state }, payload){
       Authorization:"Bearer "+state.accessToken
     },
   })
+}
+
+export function nextPage({ state, commit }, payload) {
+  console.log("다음 페이지는 " + payload.nextPage + "입니다.")
+  getArticles({ state, commit }, { page:payload.nextPage, size:7 })
+}
+
+export function previousPage({ state, commit }, payload) {
+  console.log("이전 페이지는 " + payload.previousPage + "입니다.")
+  getArticles({ state, commit }, { page:payload.previousPage, size:7 })
 }
 
 export function articleLike({ state }, payload){
@@ -558,7 +578,7 @@ export function updateArticle({ state, commit }, payload) {
   .then(resp => {
     console.log(resp)
     // 목록을 수정한다.
-    getArticles({ state, commit })
+    getArticles({ state, commit }, { page:1, size: 7 })
   })
   .catch(err => {
     console.log(err)
@@ -1061,50 +1081,3 @@ export function checkNotification({state}, payload){
 
 
 }
-
-export function createRoom({state,commit},payload){
-  console.log('createRoom',  payload) // ex) createRoom {user1: "skk7541", user2: "kkk7541"}
-  console.log(payload.user1) // ex) skk7541
-  console.log(payload.user2) // ex) kkk7541
-  axios.post("/chat/newChat",{user1:payload.user1, user2:payload.user2}
-    ,{
-    headers:{
-      Authorization:"Bearer "+state.accessToken
-    }
-  })
-  .then(res=>{
-    console.log("일단 백엔드 거쳐왔음")
-    console.log(res.status)
-    console.log(res.data)
-    if(res.data.statusCode==200){
-      console.log(res.data.message)
-      commit('SET_CAHTROOM_ID', res.data.message);
-      alert("채팅룸 생성 성공")
-      // router.push({name:"Login"})
-    }else if(res.data.statusCode==500){
-      alert("채팅룸 생성 실패 시발럼아")
-    }
-  })
-  .catch(err=>{
-    console.log(err)
-    return err
-  })
-}
-
-
-// export function connetSockJS({state,commit}){
-//   // console.log(state.userId)
-//   // console.log(state.accessToken)
-//   axios.get("/mem/mypage/?userId="+state.userId,{
-//     headers:{
-//       Authorization:"Bearer "+state.accessToken
-//     }
-//   })
-//   .then(res=>{
-//     console.log(res.data)
-//     commit('GET_MYINFO',res.data);
-//   })
-//   .catch(err=>{
-//     console.log(err)
-//   })
-// }

@@ -29,6 +29,10 @@ export function getArticles (state) {
 	return state.articles
 }
 
+export function getTotalPageNumber (state) {
+	return state.totalPageNumber
+}
+
 export function getRandomUser(state){
 	return state.randomUsers
 }

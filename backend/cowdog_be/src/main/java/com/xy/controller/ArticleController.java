@@ -10,9 +10,11 @@ import com.xy.service.ImageService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -29,17 +31,20 @@ public class ArticleController {
 
     @Autowired
     ArticleService articleService;
+
     @Autowired
 	S3SServiceImpl s3sSer;
+
     @Autowired
 	ImageService imgaeSer;
-    /**
-     * 게시글 조회
-     * @return 모든 게시글
-     */
+
+    Pageable myPageable = PageRequest.of(1, 7, Sort.by(Sort.Direction.DESC, "articleNo"));
+
     @GetMapping("")
-    public List<Article> findAll() {
-    	List<Article> list = articleService.findAll();
+    public Page<Article> findAll(@RequestParam("page") int page, @RequestParam("size") int size, Pageable pageable) {
+        // page 넘버와 size를 변수로 받아야 한다. @RequestParam 필요...
+        pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC,"articleNo"));
+        Page<Article> list = articleService.findAll(pageable);
         return list;
     }
 
@@ -88,11 +93,11 @@ public class ArticleController {
 
     @DeleteMapping("/delete")
     @Transactional
-    public List<Article> deleteArticle(@RequestParam("articleNo") Long articleNo){
+    public Page<Article> deleteArticle(@RequestParam("articleNo") Long articleNo){
         System.out.println("삭제를 시작합니다. : " + articleNo);
         // 게시글 삭제
         articleService.deleteArticle(articleNo);
-        return articleService.findAll();
+        return articleService.findAll(myPageable);
     }
 
     @PutMapping("/update")

@@ -123,7 +123,7 @@ export default ({
           store.dispatch("getFollowUsers")
       },
       getArticles: () => {
-        store.dispatch('getArticles')
+        store.dispatch('getArticles', {page: 0, size: 7})
       },
      
      state,

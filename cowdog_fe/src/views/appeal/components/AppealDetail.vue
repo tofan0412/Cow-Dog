@@ -13,12 +13,24 @@
         <img class="profile" :src="require('@/assets/images/defaultProfile.png')"
         >&nbsp;
       </el-col>
-
-      <el-col :span="4">
+      
+      <!-- 작성자 이름 -->
+      <el-col :span="3">
         <span>{{ this.article.writer }}</span>
       </el-col>
+      
+      
+      <!-- 좋아요 표시 -->
+      <el-col :span="2" v-if="!state.like">
+        <i class="el-icon-star-off" style="font-size: 30px;"></i>
+      </el-col>
+      <el-col :span="2" v-else>
+        <i class="el-icon-star-on" style="font-size: 30px;"></i>
+      </el-col>
+      
+      
       <!-- 게시글 삭제, 회원 정보 조회 -->
-      <el-col :span="18" style="text-align: end; padding-right: 10px;">
+      <el-col :span="17" style="text-align: end; padding-right: 10px;">
         <i class="el-icon-more-outline" style="font-size: 25px; margin-right: 10px;" @click="centerDialogVisible = true"></i>
       </el-col>
       
@@ -379,15 +391,7 @@ export default {
 
       console.log("사용자 PK: ", id, ", 게시글 PK: ", articleNo)
       this.state.store.dispatch("articleLike", {id: id, articleNo: articleNo})
-        .then((resp) =>{
-          console.log(resp)
-          if (this.state.like === false) {
-            alert("좋아요 눌렀습니다.")
-          }
-          else {
-            alert("좋아요 취소했습니다.")
-          }
-          
+        .then(() =>{
           this.state.like = !this.state.like;
         })
         .catch((err) => {
@@ -421,6 +425,7 @@ export default {
 
 .article-header{
   display: flex;
+  margin-top: 10px;
   justify-content: space-between;
 }
 .article-title {
@@ -432,6 +437,7 @@ export default {
   margin-right: 3%;
   font-size: 12px;
   font-weight: bold;
+  align-items: flex-end;
 }
 .el-main{
   padding: 15px;

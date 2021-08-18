@@ -39,16 +39,27 @@
   
   <!-- 작성된 모든 게시글 출력 -->
   <div v-else-if="!state.default">
-    <el-row>
-      <el-col :span="12" :offset="6"> <!-- offset 설정하면 왼쪽 기준으로 공백 크기 설정 -->
+    <el-row justify="center">
+      <el-col :span="12"> <!-- offset 설정하면 왼쪽 기준으로 공백 크기 설정 -->
         <!-- 게시글 객체가 존재하지 않을 수도 있다. v-if의 경우 조건에 맞지 않으면 렌더링을 하지 않음 -->
-        <div>
-          <div v-for="article in state.articles" :key="article.articleno"> <!-- 왜 key에다가 콜론을 해줘야 하지..? -->
-            <appealDetail :article="article" @send-tag="AppealSearchByClick" @delete-article="afterDeleteArticle" />
-          </div>
+        <div v-for="article in state.articles" :key="article.articleno"> <!-- 왜 key에다가 콜론을 해줘야 하지..? -->
+          <appealDetail :article="article" @send-tag="AppealSearchByClick" @delete-article="afterDeleteArticle" />
         </div>
       </el-col>
     </el-row>
+
+    <el-row  justify="center" style="margin-bottom: 25px;">
+      <!-- 이전 페이지 버튼 -->
+      <el-col :span="6" v-if="state.currentPage > 0">
+        <el-button default plain @click="previousPage()">이전 페이지</el-button>
+      </el-col>
+      <!-- 다음 페이지 버튼 -->
+      <el-col :span="6" v-if="state.currentPage < state.totalPage">
+        <el-button default plain @click="nextPage()">다음 페이지</el-button>
+      </el-col>
+    </el-row>
+    <!-- 이전 페이지로 돌아가기 -->
+    
   </div>
 
 
@@ -57,13 +68,20 @@
     <div style="margin: 20px;">
       <span style="font-size: 20px; font-weight: bold;">#{{ state.lastKeyword }}</span> 검색 결과
     </div>
-    <el-row>
-      <el-col :span="12" :offset="6"> <!-- offset 설정하면 왼쪽 기준으로 공백 크기 설정 -->
+    <el-row justify="center">
+      <el-col :span="12"> <!-- offset 설정하면 왼쪽 기준으로 공백 크기 설정 -->
         <!-- 게시글 객체가 존재하지 않을 수도 있다. v-if의 경우 조건에 맞지 않으면 렌더링을 하지 않음 -->
-        <div>
+        <div v-if="state.searchResults.length !== 0">
           <div v-for="article in state.searchResults" :key="article.articleno"> <!-- 왜 key에다가 콜론을 해줘야 하지..? -->
             <appealDetail :article="article" @send-tag="AppealSearchByClick" @delete-article="afterDeleteArticle" />
           </div>
+        </div>
+
+        <div v-else>
+          <i class="el-icon-warning-outline" style="font-size: 250px;"></i><br>
+          <el-row justify="center" style="margin: 10px;">
+            검색결과가 없습니다.
+          </el-row>
         </div>
       </el-col>
     </el-row>
@@ -72,7 +90,6 @@
         <el-button class="default" plain @click="state.default = false; state.searchKeyword = ''">전체 게시글 보기</el-button>
       </el-col>
     </el-row>
-
   </div>
 
   <!-- 글 작성 버튼 하단 고정 -->
@@ -100,7 +117,11 @@ export default {
       articles: store.getters.getArticles,
       searchResults: '',
       default: false,
+      totalPage: store.getters.getTotalPageNumber,
+      currentPage: 0,
     })
+
+    console.log("전체 페이지 수는 ", state.totalPage)
 
     if (store.getters.getUserToken === '') {
       Swal.fire('로그인 해주세요.')
@@ -125,6 +146,14 @@ export default {
     },
 
     AppealSearch() {
+      // 검색어가 없다면 
+      if (this.state.searchKeyword === '') {
+        Swal.clickConfirm("")
+        Swal.fire("경고", "검색어를 입력해 주세요.")
+        
+        return
+      }
+
       // 초기화
       console.log("검색 시작")
       this.state.searchResults = ''
@@ -160,6 +189,19 @@ export default {
       this.state.searchKeyword = tag
       this.AppealSearch()
     },
+    nextPage() {
+      this.state.store.dispatch("nextPage", { nextPage : ++this.state.currentPage })
+      // 불러온 페이지의 게시글 목록으로 갱신
+      this.state.articles = ''
+      this.state.articles = this.state.store.getters.getArticles
+    },
+    previousPage() {
+      this.state.store.dispatch("previousPage", { previousPage : --this.state.currentPage })
+
+
+
+
+    },
     computed: {
       ...mapGetters({
         articleList: 'getArticles', // 알림
@@ -172,9 +214,10 @@ export default {
 
 <style>
 .bottom-create-bar {
-  position: fixed;
+  position: sticky;
+  margin: 0 auto;
   bottom: 0;
-  width: 100%;
+  width: 97%;
   padding: 1%;
   border: 1px solid #f0f2f5;
   background: #f0f2f5;

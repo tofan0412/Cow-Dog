@@ -5,6 +5,9 @@ import com.xy.entity.Member;
 import com.xy.repository.ArticleRepository;
 import com.xy.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +28,8 @@ public class ArticleServiceImpl implements ArticleService {
     MemberRepository memberRepository;
 
     @Override
-    public List<Article> findAll() {
-        return articleRepository.findAll(Sort.by(Sort.Direction.DESC, "articleNo"));
+    public Page<Article> findAll(Pageable pageable) {
+        return articleRepository.findAll(pageable);
     }
 
     @Override

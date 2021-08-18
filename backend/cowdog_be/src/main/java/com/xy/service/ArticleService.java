@@ -1,12 +1,14 @@
 package com.xy.service;
 
 import com.xy.entity.Article;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Map;
 
 public interface ArticleService {
-    public List<Article> findAll();
+    public Page<Article> findAll(Pageable pageable);
     public Long create(Map map);
     public Article findArticleByArticleNo(Long articleNo);
     public void deleteArticle(Long articleNo);
