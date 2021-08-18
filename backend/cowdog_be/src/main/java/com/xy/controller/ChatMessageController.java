@@ -10,6 +10,7 @@ import com.xy.service.ChatMessageService;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -59,4 +60,9 @@ public class ChatMessageController {
         simpMessagingTemplate.convertAndSend("/sub/" + writer.getId(), msg);
         System.out.println("message 전송 백엔드 펑션 수행");
     }
+    
+//    @MessageMapping("/chat")
+//    public List<ChatMessage> getMessages(@RequestBody long id) throws Exception {
+//    	
+//    }
 }

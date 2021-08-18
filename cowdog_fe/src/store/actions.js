@@ -1027,9 +1027,9 @@ export function checkNotification({state}, payload){
 }
 
 export function createRoom({state,commit},payload){
-  console.log('createRoom',  payload)
-  console.log(payload.user1)
-  console.log(payload.user2)
+  console.log('createRoom',  payload) // ex) createRoom {user1: "skk7541", user2: "kkk7541"}
+  console.log(payload.user1) // ex) skk7541
+  console.log(payload.user2) // ex) kkk7541
   axios.post("/chat/newChat",{user1:payload.user1, user2:payload.user2}
     ,{
     headers:{

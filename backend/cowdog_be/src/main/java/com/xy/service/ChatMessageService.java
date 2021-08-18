@@ -8,7 +8,6 @@ import com.xy.entity.Follow;
 public interface ChatMessageService {
 	public ChatMessage save(ChatMessage chatMessage);
 	public List<ChatMessage> getChatMessagesByChatroomId(long id);
-//	public List<ChatMessage> getChatMessagesByChatroomId(long id, long idx);
 	
 //	public Follow save(Follow follow);
 //	public List<Follow> getMemberId(long id);

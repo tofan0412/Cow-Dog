@@ -133,8 +133,8 @@ export default {
       if(this.stompClient!=null) {
           let chatMessage = {
             'chatroomId' : "1",
-            'sender': "test123",
-            'receiver': "test1234",
+            'sender': "skk7541",
+            'receiver': "kkk7541",
             'message': "테스트 메세지"
           }
           this.stompClient.send("/pub/chat/send", JSON.stringify(chatMessage),{})
