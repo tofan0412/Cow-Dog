@@ -51,10 +51,10 @@ public class Member {
 	private boolean login;
 	private boolean manager;
 
-	@ManyToMany
-	@JoinTable(name = "MEMBER_ARTICLE",
-			joinColumns = @JoinColumn(name = "id"),
-			inverseJoinColumns = @JoinColumn(name = "articleNo"))
+//	@ManyToMany
+//	@JoinTable(name = "MEMBER_ARTICLE",
+//			joinColumns = @JoinColumn(name = "id"),
+//			inverseJoinColumns = @JoinColumn(name = "articleNo"))
 	private List<Article> articles = new ArrayList<>(); // 다대다 관계
 
 //	public void addArticle(Article article) {
