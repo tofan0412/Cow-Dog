@@ -22,6 +22,7 @@
         <div class="card-footer">
             <div class="card-button">
                 <div class="card-matcing-btn"><i class="fas fa-video"></i> 화상챗 요청</div>
+                <div class="card-matcing-btn" @click="create_room(this.user.memberid)"><i class="fas fa-video"></i> DM </div>
             </div>
         </div>  
     </div>
@@ -71,8 +72,15 @@ import { useStore, mapGetters } from 'vuex'
         setup() {
             const store = useStore()
             const state = reactive({})
+            const myinfo = store.state.myinfo
             const back=function(){
                 router.push("/main")
+            }
+            const create_room = function(user2){
+                // console.log(myinfo.memberid)
+                console.log("새 채팅룸 생성")
+                store.dispatch('createRoom', {user1:myinfo.memberid,user2:user2})
+                // console.log("Mypage에서의 콘솔로그 : "+store.chatRoomId)
             }
 
             const like=function(memberid){//팔로우~
@@ -92,7 +100,7 @@ import { useStore, mapGetters } from 'vuex'
                     store.dispatch("getFollowUsers")
                 }, 50)
             }
-            return { state, back, like, unlike }
+            return { state, back, like, unlike, create_room }
         },
     }
 </script>

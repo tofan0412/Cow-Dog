@@ -21,6 +21,7 @@ const state = {
   usersIFollowed: [],
   notifications:[],
   centerDialogVisible: false,
+  chatRoomId:'', //챗룸Id
 }
 
 const root = createStore({

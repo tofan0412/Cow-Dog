@@ -98,3 +98,9 @@ export const SET_NOTIFICATION=(state, notifications) => {
 export const SET_SEARCH_RESULT= (state, searchResults) => {
     state.searchResults = searchResults
 }
+
+export const SET_CAHTROOM_ID=(state,chatRoomId)=>{
+    console.log(chatRoomId)
+    state.chatRoomId=chatRoomId;
+    console.log(state.chatRoomId)
+}

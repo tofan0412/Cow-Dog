@@ -50,6 +50,8 @@
   <!-- tabs -->
   <div>
     <el-tabs v-model="activeName">
+      <el-tab-pane label="ChatRoom" name="chatroom"><ChatRoom /></el-tab-pane>
+      <el-tab-pane label="DM" name="directmessage"><DirectMessage /></el-tab-pane>
       <el-tab-pane label="상세정보" name="myinfo"><my-info /></el-tab-pane>
       <el-tab-pane label="팔로워" name="follow"><follow /></el-tab-pane>
       <el-tab-pane label="맞팔로우" name="eachother"><each-other /></el-tab-pane>
@@ -61,6 +63,8 @@
 
 <script>
 import { useStore } from 'vuex'
+import DirectMessage from "./components/DirectMessage.vue"
+import ChatRoom from "./components/ChatRoom.vue"
 import MyInfo from "./components/MyInfo.vue"
 import Follow from "./components/Follow.vue"
 import EachOther from "./components/Eachother.vue"
@@ -69,6 +73,8 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'Mypage',
   components: {
+    ChatRoom,
+    DirectMessage,
     MyInfo,
     Follow,
     EachOther,
@@ -77,7 +83,8 @@ export default {
 
   data() {
     return {
-      activeName: 'myinfo'
+      // activeName: 'myinfo'
+      activeName: 'directmessage'
     }
   },
   computed: {
