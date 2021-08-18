@@ -40,7 +40,7 @@ public class Article {
 	private String image;
 	private String tags;
 
-	@ManyToMany(mappedBy = "members")
-	private List<Member> members = new ArrayList<>(); // 다대다 관계
+	// @ManyToMany(mappedBy = "members")
+	// private List<Member> members = new ArrayList<>(); // 다대다 관계
 
 }
