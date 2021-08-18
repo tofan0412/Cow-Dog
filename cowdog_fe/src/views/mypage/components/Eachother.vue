@@ -86,5 +86,7 @@ export default ({
 
 
 <style>
-
+.follow-view {
+    position: relative;
+}
 </style>

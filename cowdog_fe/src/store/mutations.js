@@ -108,3 +108,8 @@ export const SET_SEARCH_RESULT= (state, searchResults) => {
 export const SET_MATCHSTATUS= (state, matchStatus) => {
     state.matchStatus = matchStatus;
 }
+export const SET_CAHTROOM_ID=(state,chatRoomId)=>{
+    console.log(chatRoomId)
+    state.chatRoomId=chatRoomId;
+    console.log(state.chatRoomId)
+}
