@@ -110,6 +110,10 @@
 			<artifactId>spring-boot-starter-mail</artifactId>
 			<version>1.4.3.RELEASE</version>
 		</dependency>
+		<dependency>
+		        <groupId>org.springframework.boot</groupId>
+		        <artifactId>spring-boot-starter-tomcat</artifactId>
+		</dependency>
 
 		<!-- WebSocket Dependency 시작 -->
 		<dependency>

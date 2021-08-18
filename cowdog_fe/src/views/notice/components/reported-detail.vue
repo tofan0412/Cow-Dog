@@ -15,13 +15,6 @@
     <br>
     <br>
 
-    <div class="reported_reason">캡처 이미지</div>
-    <br>
-    <!-- image box -->
-    <div class="reported_img_box">
-      <img :src="require('@/assets/images/user_report_example_image.png')" alt="reportedScreenImage">
-    </div>
-
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">취소</el-button>

@@ -44,4 +44,5 @@ public class Article {
 	@ManyToMany(mappedBy = "likeArticles")
 	private List<Member> likeMembers = new ArrayList<>(); // 다대다 관계
 
+
 }
