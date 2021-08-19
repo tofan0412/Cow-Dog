@@ -737,10 +737,11 @@ export default {
             formData.append('title', "profile");
             formData.append('files', files[i]);
             formData.append('userId',state.form.id)
-            axios.post('http://localhost:8080/cowdog/mem/profileImgaeUpload',
+            axios.post('https://i5b104.p.ssafy.io/cowdog/mem/profileImgaeUpload',
             formData, {
                 headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data',
+                "Access-Control-Allow-Origin": "*",
                 },
             }
             )  

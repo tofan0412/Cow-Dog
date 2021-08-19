@@ -84,7 +84,7 @@ export default {
   data() {
     return {
       // activeName: 'myinfo'
-      activeName: 'directmessage'
+      activeName: 'muinfo'
     }
   },
   computed: {
