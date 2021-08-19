@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 
 import com.xy.api.request.UserReportPostReq;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,11 +61,30 @@ public class UserReportServiceImpl implements UserReportService{ // NoticeServic
 	
 	// 유저 삭제(유저 삭제 후 유저 관련 신고도 삭제)
 	@Override
-	public void deleteReportedUser(String userId, Long userLongId) {
+	public void deleteReportedUser(String userId) {
 //		String jpql = "select from Member m where m.id=:userLongId";
 //		List<Member> resultList = em.createQuery(jpql, Member.class).setParameter("userLongId", userLongId).getResultList();
 //		resultList.
+		
+		
+		
+		
+		
 		userReportRepo.deleteByReportedId(userId); // userId와 관련된 userReport 모두 삭제
-		memberRepo.deleteById(userLongId);
+		Member mem=memberRepo.getBymemberid(userId);
+		
+		
+		memberRepo.deleteById(mem.getId());
+	}
+	@Transactional
+	@Override
+	public int suspendReportedUser(String userId) {
+		Member mem=memberRepo.getBymemberid(userId);
+		userReportRepo.deleteByReportedId(userId); // userId와 관련된 userReport 모두 삭제
+		String jpql="update Member m SET m.issuspended=true where m.id=:userLongId";
+		Query query = em.createQuery(jpql).setParameter("userLongId", mem.getId());
+		int rows = query.executeUpdate();
+		
+		return rows;
 	}
 }

@@ -139,6 +139,10 @@
 								<i class="fas fa-gamepad"></i>
 								<div class="btn-exp">게임</div>
 							</div>
+							<div class="btn-css" @click="reportControll">
+								<Icon icon="icon-park-outline:report" color="red"/>
+								<div class="btn-exp">신고</div>
+							</div>
 						</div>
 						<div class="chat-exit">
 							<div class="exit-btn" @click="exitChat">
@@ -189,6 +193,23 @@
 	</div>
 	</div>
 	</div>
+	<el-dialog v-model="dialogStatus" title="신고">
+		<el-form>	
+			<el-form-item  label="title" :label-width="'120px'" >
+				<el-input v-model="this.title"  autocomplete="off"></el-input>
+			</el-form-item>
+
+			<el-form-item  class="rep-m" label="신고 내용" :label-width="'120px'" >
+				<el-input v-model="this.content" class="rep-ct" type="textarea" autocomplete="off"></el-input>
+			</el-form-item>
+
+		<div class="report-btn-box">
+			<div class="report-btn" @click="report()">
+				<div class="report-btn-text">신고하기</div>
+			</div>
+		</div>
+		</el-form>
+	</el-dialog>
 </template>
 
 <script>
@@ -275,6 +296,10 @@ export default {
 			turn: 1,
 			host:true,
 			countView:'',
+			dialogStatus:false,
+			title:'',
+			content:'',
+			reportedId:'',
 		}
 	},
 	computed: {
@@ -292,6 +317,14 @@ export default {
 		this.canvas = c.getContext(`2d`);
 	},
 	methods: {
+		reportControll(){
+			this.dialogStatus=true;
+		},
+		report(){
+			
+			this.$store.dispatch('postUserReport', {"title": this.title, "content": this.content, "reportedId": this.memberid})
+			this.dialogStatus=false;
+		},
 		videoControll(){
 			this.publisher.stream.applyFilter("FaceOverlayFilter")
     .then(filter => {
@@ -1372,6 +1405,31 @@ export default {
 .ans-block{
 	border-radius: 5px;
 	height:20px;
+}
+.el-dialog{
+	height:45%;
+}
+.rep-ct{
+	height:100px;
+}
+.rep-m{
+	margin-bottom: 10px;
+}
+.report-btn-box {
+	width: 50%;
+	border: 2px solid red;
+	padding: 3%;
+	margin: 0 auto;
+	font-size: 16px;
+	color: red;
+	text-align: center;
+	font-weight: bold;
+	border-radius: 5px;
+}
+.report-btn-box:hover {
+	background: red;
+	color: white;
+	cursor: pointer;
 }
 </style>
 <style src="@vueform/slider/themes/default.css"></style>

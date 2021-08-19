@@ -15,13 +15,6 @@
     <br>
     <br>
 
-    <div class="reported_reason">캡처 이미지</div>
-    <br>
-    <!-- image box -->
-    <div class="reported_img_box">
-      <img :src="require('@/assets/images/user_report_example_image.png')" alt="reportedScreenImage">
-    </div>
-
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">취소</el-button>
@@ -61,7 +54,7 @@
         this.$confirm('정말로 제재하시겠습니까?')
           .then(res => {
             console.log(res)
-            this.$store.dispatch('deleteReportedUser', {"user_id": reportedId, "user_long_id": reportedId})
+            this.$store.dispatch('deleteReportedUser', {"user_id": reportedId})
             this.dialogVisible = false
           })
           .catch(err => {
@@ -72,7 +65,7 @@
         this.$confirm('정말로 제재하시겠습니까?')
           .then(res => {
             console.log(res)
-            this.$store.dispatch('suspendReportedUser', {"user_id": reportedId, "user_long_id": reportedId})
+            this.$store.dispatch('suspendReportedUser', {"user_id": reportedId})
             this.dialogVisible = false
           })
           .catch(err => {

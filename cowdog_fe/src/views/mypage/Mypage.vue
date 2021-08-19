@@ -91,7 +91,7 @@ export default {
   data() {
     return {
       // activeName: 'myinfo'
-      activeName: 'muinfo'
+      activeName: 'myinfo'
     }
   },
   computed: {

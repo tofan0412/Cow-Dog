@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -57,11 +58,19 @@ public class UserReportController {
 		return userReportService.getUserReportList();
 	}
 	
-	@DeleteMapping("/user/{user_id}/{user_long_id}") // user delete 요청
+	@DeleteMapping("/user/{user_id}") // user delete 요청
 	public List<UserReport> deleteUser(
-			@PathVariable("user_id") String userId,
-			@PathVariable("user_long_id") Long userLongId) {
-		userReportService.deleteReportedUser(userId, userLongId);
+			@PathVariable("user_id") String userId
+			) {
+		userReportService.deleteReportedUser(userId);
 		return userReportService.getUserReportList();
 	}
+	@PatchMapping("/user/{user_id}")
+	public List<UserReport> suspendUser(
+			@PathVariable("user_id") String userId
+			) {
+		userReportService.suspendReportedUser(userId);
+		return userReportService.getUserReportList();
+	}
+	
 }

@@ -1,9 +1,10 @@
 <template>
 <div class="bg">
   <div class="container">
-    <div class="batch" style="display:flex">
+    <div v-if="!noticesPaginated.length">
+      <h1>공지사항이 없습니다.</h1>
     </div>
-    <div class="notice-list">
+    <div v-else class="notice-list">
       <div v-for="(notice, idx) in noticesPaginated" :key="idx">
         <el-card class="box-card">
           <template #header>
@@ -18,17 +19,18 @@
           </div>
         </el-card>
       </div>
+      <div class="pagination">
+        <el-pagination
+        background
+        layout="prev, pager, next"
+        :page-size=pageSize
+        :total="notices.length"
+        v-model:current-page="currentPage">
+        </el-pagination>
+      </div>
     </div>
   </div>
-  <div class="pagination">
-    <el-pagination
-    background
-    layout="prev, pager, next"
-    :page-size=pageSize
-    :total="notices.length"
-    v-model:current-page="currentPage">
-    </el-pagination>
-  </div>
+
 </div>
 </template>
 

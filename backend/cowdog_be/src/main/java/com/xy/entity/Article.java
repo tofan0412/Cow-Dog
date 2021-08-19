@@ -43,7 +43,7 @@ public class Article {
 	// @ManyToMany(mappedBy = "members")
 	// private List<Member> members = new ArrayList<>(); // 다대다 관계
 	@JsonManagedReference
-	@ManyToMany(mappedBy = "likeArticles")
+	@ManyToMany(mappedBy = "likeArticles", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Member> likeMembers = new ArrayList<>(); // 다대다 관계
 	
 	

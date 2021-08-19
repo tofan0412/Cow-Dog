@@ -35,7 +35,6 @@
   </div>
 </div>
 
-<button @click="userReport">신고 테스트</button>
 </template>
 
 <script>

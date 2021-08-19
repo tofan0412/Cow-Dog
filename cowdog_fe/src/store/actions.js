@@ -321,7 +321,7 @@ export function postUserReport({ state }, payload) {
 }
 
 export function deleteReportedUser({ state, commit }, payload) {
-  const url = '/user-report/user/' + payload.user_id + '/' + payload.user_long_id // user의 id를 payload로
+  const url = '/user-report/user/' + payload.user_id // user의 id를 payload로
   axios({
     url: url, method: 'delete', headers: {Authorization:"Bearer "+state.accessToken}, 
   })
@@ -335,7 +335,7 @@ export function deleteReportedUser({ state, commit }, payload) {
 }
 
 export function suspendReportedUser({ state, commit }, payload) {
-  const url = '/user-report/user/' + payload.user_id + '/' + payload.user_long_id // user의 id를 payload로
+  const url = '/user-report/user/' + payload.user_id // user의 id를 payload로
   axios({
     url: url, method: 'patch', headers: {Authorization:"Bearer "+state.accessToken}, 
   })
