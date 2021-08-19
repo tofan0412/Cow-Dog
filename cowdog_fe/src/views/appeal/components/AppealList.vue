@@ -189,6 +189,7 @@ export default {
       this.state.searchKeyword = tag
       this.AppealSearch()
     },
+    
     nextPage() {
       this.state.store.dispatch("nextPage", { nextPage : ++this.state.currentPage })
       // 불러온 페이지의 게시글 목록으로 갱신
@@ -197,9 +198,8 @@ export default {
     },
     previousPage() {
       this.state.store.dispatch("previousPage", { previousPage : --this.state.currentPage })
-
-
-
+      this.state.articles = ''
+      this.state.articles = this.state.store.getters.getArticles
 
     },
     computed: {

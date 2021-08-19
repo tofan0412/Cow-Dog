@@ -38,7 +38,7 @@ public class ArticleController {
     @Autowired
 	ImageService imgaeSer;
 
-    Pageable myPageable = PageRequest.of(1, 7, Sort.by(Sort.Direction.DESC, "articleNo"));
+    Pageable myPageable = PageRequest.of(0, 7, Sort.by(Sort.Direction.DESC, "articleNo"));
 
     @GetMapping("")
     public Page<Article> findAll(@RequestParam("page") int page, @RequestParam("size") int size, Pageable pageable) {

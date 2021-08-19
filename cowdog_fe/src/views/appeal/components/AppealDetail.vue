@@ -243,7 +243,7 @@ export default {
     // 해당 게시글을 이미 좋아요 눌렀는지 확인
     state.store.dispatch("articleLikeCheck", {id: state.loginId, articleNo: state.articleNo})
       .then(resp => {
-        console.log("좋아요 확인! ", resp.data)
+        // console.log("좋아요 확인! ", resp.data)
         if (resp.data === "NO") {
           state.like = false;
         } else {
@@ -282,8 +282,8 @@ export default {
     deleteArticle() {
       this.state.store.dispatch("deleteArticle", { articleNo: this.article.articleNo, memberId: this.article.memberId })
       .then(resp => {
-        console.log("삭제 완료!", resp.data) // 삭제 후 남은 객체
-        const result = resp.data
+        console.log("삭제 완료!", resp.data.content) // 삭제 후 남은 객체
+        const result = resp.data.content
         // 태그 전처리하기 -> 태그 개별 항목 검색 위해...
         for (let i = 0; i < result.length; i++) {
           if (result[i].tags !== null) {

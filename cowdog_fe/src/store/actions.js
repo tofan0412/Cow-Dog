@@ -427,7 +427,7 @@ export function createArticle({ state, commit }, payload) {
   .then(resp => {
     console.log("create result: ", resp)
     // 게시글 목록 재업로드
-    getArticles({ state, commit }, { page:1, size:7 })
+    getArticles({ state, commit }, { page:0, size:7 })
   })
   .catch(err => {
     console.log(err)
@@ -509,7 +509,7 @@ export function previousPage({ state, commit }, payload) {
 
 export function articleLike({ state }, payload){
   const url = '/mem/likeArticle?id=' + payload.id + '&articleNo=' + payload.articleNo
-  console.log("좋아요 url 확인: ", url)
+  
   return axios({
     url: url,
     method: "GET",
@@ -578,7 +578,7 @@ export function updateArticle({ state, commit }, payload) {
   .then(resp => {
     console.log(resp)
     // 목록을 수정한다.
-    getArticles({ state, commit }, { page:1, size: 7 })
+    getArticles({ state, commit }, { page:0, size: 7 })
   })
   .catch(err => {
     console.log(err)
@@ -1051,7 +1051,6 @@ export function getNotification({state,commit}, payload){
     },
   })
     .then(res => {
-      console.log(res.data)
       commit("SET_NOTIFICATION", res.data.list)
     })
     .catch(err => {
