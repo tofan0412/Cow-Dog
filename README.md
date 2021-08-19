@@ -3,6 +3,7 @@
 ![LogoBackgroundInvisible](README.assets/LogoBackgroundInvisible.png)
 
 <div>
+>[배포주소](i5b104.p.ssafy.io)
 <p align="center">
   <br/><b>소개팅 서비스</b>
   <p align="center">
