@@ -99,6 +99,11 @@ import { useStore, mapGetters } from 'vuex'
 import router from '../../../router'
 import appealDetail from './AppealDetail.vue'
 import Swal from 'sweetalert2'
+import { onMounted } from '@vue/runtime-core'
+import axios from 'axios'
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+const OPENVIDU_SERVER_URL = "https://i5b104.p.ssafy.io:9090";
+const OPENVIDU_SERVER_SECRET = "cowdog123";
 export default {
   name: 'AppealList',  
   components: {
@@ -117,6 +122,37 @@ export default {
       totalPage: store.getters.getTotalPageNumber,
       currentPage: 0,
     })
+    onMounted(() => {
+          setTimeout(() => {  
+            axios.get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`, {
+              auth: {
+                username: 'OPENVIDUAPP',
+                password: OPENVIDU_SERVER_SECRET,
+              },
+            }).then(response=>{
+              let content = response.data.content;
+              
+              for(let i=0;i<content.length;i++){
+                if(content[i].id==store.getters.getUserInfo.memberid){
+                  Swal.fire({
+                      position: 'middle',
+                      icon: 'question',
+                      title: '누군가가 화상회의를 걸어왔어요!',
+                      showConfirmButton: false,
+                      timer: 1500
+                  }).then(response=>{
+                    router.push({name:'VideoChat'});
+                    console.log(response);
+                    // store.state.centerDialogVisible = true
+                    
+                  })
+                  return;                            
+                }
+              }
+              
+            })
+            }, 1500);
+        })
 
     console.log("전체 페이지 수는 ", state.totalPage)
 

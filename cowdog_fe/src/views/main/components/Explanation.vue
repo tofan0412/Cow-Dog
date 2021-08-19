@@ -61,7 +61,7 @@
       <h2><i class="fas fa-check" style="color:#ff4e7e"></i> 맞팔로우 상태인 인연과 DM을 할 수 있습니다.</h2>
       <div style="margin-left:3%">
         <h3>DM을 통해 연락을 유지하며 만남을 기약하세요.</h3>
-        <h3>[[DM 이미지 추가]]</h3>
+        <img :src="require('@/assets/images/explanation3.png')">
       </div>
     </div>
 

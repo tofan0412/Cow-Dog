@@ -106,10 +106,10 @@
 				<div class="footers">
 					<div class="nav">
 						<div class="main-btn" style="display:flex">
-							<div class="btn-css" @click="videoControll">
+							<!-- <div class="btn-css" @click="videoControll">
 								<i class="far fa-grin-stars"></i>
 								<div class="btn-exp">얼굴변조</div>
-							</div>
+							</div> -->
 
 							<div class="btn-css" @click="voiceControll">
 								<Icon v-if="voiceStatus" icon="ic:baseline-record-voice-over"/>
@@ -407,6 +407,7 @@ export default {
 				to:[],
 				type: 'my-chat'
 			})
+			this.msg='';
 		},
 		chatControll(){
 			this.chatStatus = true;
