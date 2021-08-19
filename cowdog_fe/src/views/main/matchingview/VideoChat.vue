@@ -200,8 +200,9 @@ import { Icon } from '@iconify/vue';
 import { mapGetters} from 'vuex';
 import Swal from 'sweetalert2';
 import Slider from '@vueform/slider'
-axios.defaults.headers.post['Content-Type'] = 'application/json';
 
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 const OPENVIDU_SERVER_URL = "https://i5b104.p.ssafy.io:9090";
 const OPENVIDU_SERVER_SECRET = "cowdog123";
 
@@ -819,10 +820,14 @@ export default {
 						for(let i=0;i<content.length;i++){
 							if(content[i].id==this.myUserName){
 								let userid = content[i].connections.content[0].clientData.replace(/"/g,"").replace(":","").replace("clientData","").replace("{","").replace("}","");
-								axios.get("http://localhost:8080/cowdog/mem/getOppInfo/?userId="+userid,{
+								axios.get("http://i5b104.p.ssafy.io/cowdog/mem/getOppInfo/?userId="+userid,{
 									headers:{
-										Authorization:"Bearer "+ this.getUserToken
+										Authorization:"Bearer "+ this.getUserToken,
+										"Access-Control-Allow-Origin": "*",
+										"Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+										"Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token"
 									}
+						
 								})
 								.then(res=>{
 									this.file_path=res.data.file_path;
@@ -872,7 +877,7 @@ export default {
 			ctx.closePath();
 		},
 	beginDrawing(e) {
-		if(!this.myTurn)return;
+		//if(!this.myTurn)return;
 		this.x = e.offsetX;
 		this.y = e.offsetY;
 		this.isDrawing = true;

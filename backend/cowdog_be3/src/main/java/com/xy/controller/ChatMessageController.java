@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/cowdog")
+@RequestMapping("/cowdog/chat")
 @CrossOrigin(origins = "*",allowedHeaders = "*")
 public class ChatMessageController {
 	private final SimpMessagingTemplate simpMessagingTemplate;
@@ -44,7 +44,7 @@ public class ChatMessageController {
 //        simpMessagingTemplate.convertAndSend("/sub/" + message.getChatRoom().getId(), message);
 //        System.out.println("message 전송 백엔드 펑션 수행");
 //    }
-    @MessageMapping("/chat/send")
+    @MessageMapping("/send")
     public void sendMsg(@RequestBody chatMessageReq message) throws Exception {
     	Member writer=memRepo.getBymemberid(message.getSender());
     	ChatMessage msg = new ChatMessage();

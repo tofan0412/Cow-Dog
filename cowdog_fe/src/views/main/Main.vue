@@ -27,7 +27,7 @@ import router from '../../router'
 // import router from '../../router';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 const OPENVIDU_SERVER_URL = "https://i5b104.p.ssafy.io:9090";
 const OPENVIDU_SERVER_SECRET = "cowdog123";
 
