@@ -3,7 +3,7 @@
 ![LogoBackgroundInvisible](README.assets/LogoBackgroundInvisible.png)
 
 <div>
->[배포주소](i5b104.p.ssafy.io)
+
 <p align="center">
   <br/><b>소개팅 서비스</b>
   <p align="center">
@@ -24,7 +24,7 @@
 > 팀명: 5xy
 > 개발 기간: 2021.07.12 ~ 2021.08.20 (약 7주) 
 
-
+>[배포주소](i5b104.p.ssafy.io)
 
 ## 📑 문서 
 
