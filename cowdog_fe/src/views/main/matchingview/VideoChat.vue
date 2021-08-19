@@ -629,14 +629,15 @@ export default {
 				let sm = JSON.parse(event.data);
 				this.x = sm.x;
 				this.y = sm.y;
+				this.isDrawing=sm.isDrawing;
 				
 			})
 			this.session.on('signal:drawing',(event)=>{
 				let sm = JSON.parse(event.data);
-				
 				this.drawLine(this.x, this.y, sm.x, sm.y, this.color);
 				this.x = sm.x;
 				this.y = sm.y;
+				this.isDrawing=sm.isDrawing;
 			})
 			
 			this.session.on('signal:drawing-opt',(event)=>{
@@ -872,7 +873,7 @@ export default {
 			ctx.closePath();
 		},
 	beginDrawing(e) {
-		if(!this.myTurn)return;
+		//if(!this.myTurn)return;
 		this.x = e.offsetX;
 		this.y = e.offsetY;
 		this.isDrawing = true;
@@ -889,7 +890,7 @@ export default {
 		})
     },
     keepDrawing(e) {
-      if (this.isDrawing === true) {
+      if (this.isDrawing) {
 		const sdata = {
 			x : e.offsetX,
 			y : e.offsetY,
@@ -903,7 +904,7 @@ export default {
       }
     },
     stopDrawing(e) {
-      if (this.isDrawing === true) {
+      if (this.isDrawing) {
 		const sdata = {
 			x : e.offsetX,
 			y : e.offsetY,

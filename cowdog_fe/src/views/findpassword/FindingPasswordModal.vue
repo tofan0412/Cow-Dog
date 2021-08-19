@@ -123,7 +123,7 @@ import { useStore } from 'vuex'
 
 <style>
    .findForm .el-form-item__error {
-    left: 5%;
+    left: 5% !important;
   }
   @media (max-width: 1024px) {
     .findForm .el-form-item__error {

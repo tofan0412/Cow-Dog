@@ -22,13 +22,13 @@
         <div class="card-footer">
             <div class="card-button">
                 <div class="card-matcing-btn"><i class="fas fa-video"></i> 화상챗 요청</div>
-                <div class="card-matcing-btn" @click="create_room(this.user.memberid)"><i class="fas fa-video"></i> DM </div>
+                <div class="card-matcing-btn" @click="create_room(this.user.memberid); openDialog();"><i class="fas fa-video"></i> DM </div>
             </div>
         </div>  
     </div>
 
     <!-- DM 모달 창 -->
-    <div v-if="state.dialogVisible" class="DM-modal-box">
+    <div v-if="this.dialogVisible" class="DM-modal-box">
         <div class="DM-modal-header">
         <!-- 상대방 닉네임만 나오면 됨, chatRommId는 방이 맞는지 확인하기 위한 용도(나중에 삭제) -->
         <div class="DM-header-name">{{ this.user.memberid }} {{this.$store.state.chatRoomId}}</div>
@@ -53,7 +53,7 @@
             </div>
         </div>
         <div class="DM-modal-footer">
-            <textarea class="DM-input" v-model="content" placeholder="메세지를 입력하세요" />
+            <input class="DM-input" v-model="this.content" @keyup.enter="sendMessage()" placeholder="메세지를 입력하세요" />
             <div class="DM-send-btn" @click="sendMessage()">전송</div>
         </div>
     </div>
@@ -70,19 +70,47 @@ import SockJS from 'sockjs-client'
         props: {
             user: Object,
         },
-
+        data() {
+            return {
+                dialogVisible: false,
+                content: ''
+            }
+        },
         methods:{
             sendMessage(){
             if(this.stompClient!=null) {
                 let chatMessage = {
-                    'chatroomId' : "1",
-                    'sender': "skk7541",
-                    'receiver': "kkk7541",
-                    'message': "테스트 메세지"
+                    'chatroomId' : this.$store.state.chatRoomId,
+                    'sender': this.$store.state.myinfo.memberid,
+                    'receiver': this.user.memberid,
+                    'message': this.content
                 }
                 this.stompClient.send("/pub/chat/send", JSON.stringify(chatMessage),{})
+                this.content = ''
 
             }
+            },
+            DMClose() {
+                this.dialogVisible = false;
+            },
+            openDialog() {
+                setTimeout(() => {
+                    this.dialogVisible = true;
+                }, 1000)
+            },
+            create_room(user2) { //user2 = 상대방
+                // console.log(myinfo.memberid)
+                console.log("새 채팅룸 생성")
+                this.$store.dispatch('createRoom', {user1:this.$store.state.myinfo.memberid, user2:user2})
+                // console.log("Mypage에서의 콘솔로그 : "+store.chatRoomId)
+                    .then(() => {
+                        console.log("성공!")
+                        // messages 불러오기
+                        // 코드 작성(메세지 불러와서 store.state에 저장하여 사용)
+                        // 불러온 메세지에서 message_id는 제외하고 store에 저장하는게 좋을듯?
+                        // 지금은 일단 messageEx가 store.state에 저장되었다고 치고 코드 작성합니다.
+                        
+                    })
             }
         },
 
@@ -128,10 +156,9 @@ import SockJS from 'sockjs-client'
         setup() {
             const store = useStore()
             const state = reactive({
-                dialogVisible: false
             })
             const chatRoomId = store.state.chatRoomId
-            const myinfo = store.state.myinfo
+            // const myinfo = store.state.myinfo
             let socket = new SockJS('http://localhost:8080/chat')
             const stompClient = Stomp.over(socket)
                 stompClient.connect({}, frame=>{
@@ -155,23 +182,6 @@ import SockJS from 'sockjs-client'
             const back=function(){
                 router.push("/main")
             }
-            const create_room = function(user2){ //user2 = 상대방
-                // console.log(myinfo.memberid)
-                console.log("새 채팅룸 생성")
-                store.dispatch('createRoom', {user1:myinfo.memberid, user2:user2})
-                // console.log("Mypage에서의 콘솔로그 : "+store.chatRoomId)
-                    .then(() => {
-                        console.log("성공!")
-                        // messages 불러오기
-                        // 코드 작성(메세지 불러와서 store.state에 저장하여 사용)
-                        // 불러온 메세지에서 message_id는 제외하고 store에 저장하는게 좋을듯?
-                        // 지금은 일단 messageEx가 store.state에 저장되었다고 치고 코드 작성합니다.
-
-                        // modal 창 열기
-                        state.dialogVisible = true;
-                        
-                    })
-            }
 
             const like=function(memberid){//팔로우~
                 console.log("팔로우~~")
@@ -189,9 +199,6 @@ import SockJS from 'sockjs-client'
                     store.dispatch("getFollowEachOther")
                     store.dispatch("getFollowUsers")
                 }, 50)
-            }
-            const DMClose = function() {
-                state.dialogVisible = false;
             }
 
             const messageEx = [
@@ -245,7 +252,7 @@ import SockJS from 'sockjs-client'
                     member_id: "4"
                 },
             ]
-            return { state, back, like, unlike, create_room, DMClose, stompClient, messageEx }
+            return { state, back, like, unlike, stompClient, messageEx }
         },
     }
 </script>
