@@ -50,15 +50,14 @@
 
     <el-row  justify="center" style="margin-bottom: 25px;">
       <!-- 이전 페이지 버튼 -->
-      <el-col :span="6" v-if="state.currentPage > 0">
+      <el-col :span="6" v-if="state.store.getters.getCurrentPageNumber > 0">
         <el-button default plain @click="previousPage()">이전 페이지</el-button>
       </el-col>
       <!-- 다음 페이지 버튼 -->
-      <el-col :span="6" v-if="state.currentPage < state.totalPage">
+      <el-col :span="6" v-if="state.store.getters.getCurrentPageNumber < state.store.getters.getTotalPageNumber">
         <el-button default plain @click="nextPage()">다음 페이지</el-button>
       </el-col>
     </el-row>
-    <!-- 이전 페이지로 돌아가기 -->
     
   </div>
 
@@ -102,6 +101,7 @@ import { useStore, mapGetters } from 'vuex'
 import router from '../../../router'
 import appealDetail from './AppealDetail.vue'
 import Swal from 'sweetalert2'
+
 export default {
   name: 'AppealList',  
   components: {
@@ -117,11 +117,11 @@ export default {
       articles: store.getters.getArticles,
       searchResults: '',
       default: false,
-      totalPage: store.getters.getTotalPageNumber,
-      currentPage: 0,
     })
 
-    console.log("전체 페이지 수는 ", state.totalPage)
+    state.articles = store.getters.getArticles
+
+    console.log("전체 페이지 수는 ", state.store.getters.getTotalPageNumber)
 
     if (store.getters.getUserToken === '') {
       Swal.fire('로그인 해주세요.')
@@ -134,13 +134,6 @@ export default {
     }    
   },
   methods: {
-    afterDeleteArticle(result) {
-      console.log("afterDeleteArticle: ", result)
-      // vuex에 변경사항 저장
-      this.state.store.commit("SET_ARTICLES_AFTER_DELETE", { articles: result })
-      this.state.articles = result
-    },
-
     createArticle() {
       router.push("/appeal/create")
     },
@@ -185,23 +178,102 @@ export default {
         console.log(err)
       })
     },
+
     AppealSearchByClick(tag) {
       this.state.searchKeyword = tag
       this.AppealSearch()
     },
-    
-    nextPage() {
-      this.state.store.dispatch("nextPage", { nextPage : ++this.state.currentPage })
-      // 불러온 페이지의 게시글 목록으로 갱신
-      this.state.articles = ''
-      this.state.articles = this.state.store.getters.getArticles
-    },
-    previousPage() {
-      this.state.store.dispatch("previousPage", { previousPage : --this.state.currentPage })
-      this.state.articles = ''
-      this.state.articles = this.state.store.getters.getArticles
 
+    nextPage() {
+      // 먼저 vuex의 currentPage 변수를 변화한다.
+      let currentPageNumber = this.state.store.getters.getCurrentPageNumber
+      this.state.store.commit("SET_CURRENT_PAGE_NUMBER", ++currentPageNumber)
+
+      this.state.store.dispatch("nextPage", { nextPage : this.state.store.getters.getCurrentPageNumber })
+      .then(resp => {
+        console.log("다음 페이지 로딩결과: " , resp)
+        const result = resp.data.content
+
+        // 태그 전처리하기 -> 태그 개별 항목 검색 위해...
+        for (let i = 0; i < result.length; i++) {
+          if (result[i].tags !== null) {
+            const tags = result[i].tags.split('#').slice(1)
+            result[i].tags = tags
+          }
+        }
+
+        // 날짜 전처리
+        for (let i = 0; i < result.length; i++) {
+          const date = new Date(result[i].regtime).toDateString()
+          result[i].regtime = date
+        }
+
+        // 전체 페이지 수를 중앙 저장소에 저장한다.
+        const totalPageNumber = resp.data.totalPages - 1
+        this.state.store.commit("SET_TOTAL_PAGE_NUMBER", totalPageNumber)
+        this.state.store.commit("SET_ARTICLES", result)
+        this.state.articles = this.state.store.getters.getArticles
+      })
+      .catch(err => {
+        console.log(err)
+      })      
     },
+
+    previousPage() {
+      // 먼저 vuex의 currentPage 변수를 변화한다.
+      let currentPageNumber = this.state.store.getters.getCurrentPageNumber
+      this.state.store.commit("SET_CURRENT_PAGE_NUMBER", --currentPageNumber)
+
+      this.state.store.dispatch("previousPage", { previousPage : this.state.store.getters.getCurrentPageNumber })
+      .then(resp => {
+        console.log("이전 페이지 로딩결과: " , resp)
+        const result = resp.data.content
+
+        // 태그 전처리하기 -> 태그 개별 항목 검색 위해...
+        for (let i = 0; i < result.length; i++) {
+          if (result[i].tags !== null) {
+            const tags = result[i].tags.split('#').slice(1)
+            result[i].tags = tags
+          }
+        }
+
+        // 날짜 전처리
+        for (let i = 0; i < result.length; i++) {
+          const date = new Date(result[i].regtime).toDateString()
+          result[i].regtime = date
+        }
+
+        // 전체 페이지 수를 중앙 저장소에 저장한다.
+        const totalPageNumber = resp.data.totalPages - 1
+        this.state.store.commit("SET_TOTAL_PAGE_NUMBER", totalPageNumber)
+        this.state.store.commit("SET_ARTICLES", result)
+        this.state.articles = this.state.store.getters.getArticles // 만약 set_articles에 router.go 조건을 넣으면 필요 없음
+      })
+      .catch(err => {
+        console.log(err)
+      })  
+    },
+
+    afterDeleteArticle(result) {
+      // 1. 게시글을 삭제한 후, 현재 페이지에 해당하는 게시글이 존재하지 않는 경우
+      if (result === "NODATA_IN_THIS_PAGE") {
+        console.log("현재 페이지의 게시글이 없으므로, 앞 페이지 게시글 정보를 불러옵니다.")
+        this.previousPage()
+        return
+      } 
+      if (result === "ZERO_DATA_WHOLE_PAGES") {
+        this.state.store.commit("SET_ARTICLES_AFTER_DELETE", [])
+        this.state.articles = this.state.store.getters.getArticles
+        return
+      }
+      // 2. 현재 페이지에 게시글이 남아 있는 경우...
+      else {
+        // vuex에 변경사항 저장
+        this.state.store.commit("SET_ARTICLES_AFTER_DELETE", result)
+        this.state.articles = result
+      }
+    },
+
     computed: {
       ...mapGetters({
         articleList: 'getArticles', // 알림

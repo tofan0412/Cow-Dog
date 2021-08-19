@@ -38,8 +38,6 @@ public class ArticleController {
     @Autowired
 	ImageService imgaeSer;
 
-    Pageable myPageable = PageRequest.of(0, 7, Sort.by(Sort.Direction.DESC, "articleNo"));
-
     @GetMapping("")
     public Page<Article> findAll(@RequestParam("page") int page, @RequestParam("size") int size, Pageable pageable) {
         // page 넘버와 size를 변수로 받아야 한다. @RequestParam 필요...
@@ -93,11 +91,14 @@ public class ArticleController {
 
     @DeleteMapping("/delete")
     @Transactional
-    public Page<Article> deleteArticle(@RequestParam("articleNo") Long articleNo){
+    public Page<Article> deleteArticle(@RequestParam("articleNo") Long articleNo, @RequestParam("currentPage") int currentPage){
         System.out.println("삭제를 시작합니다. : " + articleNo);
         // 게시글 삭제
         articleService.deleteArticle(articleNo);
-        return articleService.findAll(myPageable);
+
+        // 게시글 삭제 후 현재 페이지 보기를 유지하기 위해...
+        Pageable Pageable = PageRequest.of(currentPage, 7, Sort.by(Sort.Direction.DESC, "articleNo"));
+        return articleService.findAll(Pageable);
     }
 
     @PutMapping("/update")

@@ -57,6 +57,10 @@ export const SET_TOTAL_PAGE_NUMBER = (state, totalPageNumber) => {
     state.totalPageNumber = totalPageNumber
 }
 
+export const SET_CURRENT_PAGE_NUMBER = (state, currentPageNumber) => {
+    state.currentPageNumber = currentPageNumber
+}
+
 export const SET_ARTICLES_AFTER_DELETE = (state, articles) => {
     // 페이지 이동 없음 ( 동일 페이지이기 때문에 )
     state.articles = articles

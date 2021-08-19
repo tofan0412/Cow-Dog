@@ -406,6 +406,60 @@ export function deleteReportedArticle({ state, commit }, payload) {
     })
 }
 
+export function getArticles({ state, commit }, payload) {  
+  console.log("getArticles 호출합니다.")
+  // 로그인 여부 확인
+  const page = payload.page
+  const size = payload.size
+
+  const accessToken = state.accessToken
+  if (accessToken === '') {
+    Swal.fire('접근 제한!', '로그인 해주세요.')
+    router.push("/login")
+  }
+  else {
+    const url = "/appeal?page=" + page + "&size=" + size
+    console.log("요청 URL 상태는 ", url)
+    axios({
+      url: url,
+      method: 'GET',
+      headers:{
+        Authorization:"Bearer "+state.accessToken
+      },
+    })
+    .then(resp => {
+      // resp.data.totalPages는 전체 페이지수를 의미한다. 단 주의해야 할 점은 0부터 시작한다.
+      // resp.data.totalElements는 전체 게시글 수를 의미한다.
+
+      console.log("getArticles 결과: " , resp)
+      const result = resp.data.content
+
+      // 태그 전처리하기 -> 태그 개별 항목 검색 위해...
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].tags !== null) {
+          const tags = result[i].tags.split('#').slice(1)
+          result[i].tags = tags
+        }
+      }
+
+      // 날짜 전처리
+      for (let i = 0; i < result.length; i++) {
+        const date = new Date(result[i].regtime).toDateString()
+        result[i].regtime = date
+      }
+
+      // 전체 페이지 수를 중앙 저장소에 저장한다.
+      const totalPageNumber = resp.data.totalPages - 1
+      commit("SET_CURRENT_PAGE_NUMBER", page)
+      commit("SET_TOTAL_PAGE_NUMBER", totalPageNumber)
+      commit("SET_ARTICLES", result)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+}
+
 export function createArticle({ state, commit }, payload) {
   console.log(payload.tags)
   
@@ -434,56 +488,7 @@ export function createArticle({ state, commit }, payload) {
   })
 }
 
-export function getArticles({ state, commit }, payload) {  
-  // 로그인 여부 확인
-  const page = payload.page
-  const size = payload.size
 
-  const accessToken = state.accessToken
-  if (accessToken === '') {
-    Swal.fire('접근 제한!', '로그인 해주세요.')
-    router.push("/login")
-  }
-  else {
-    console.log("게시글 목록 가져옵니다.")
-    const url = "/appeal?page=" + page + "&size=" + size
-    axios({
-      url: url,
-      method: 'GET',
-      headers:{
-        Authorization:"Bearer "+state.accessToken
-      },
-    })
-    .then(resp => {
-      // 페이지네이션 적용 - 데이터 내용부터 보자.
-      // resp.data.totalPages는 전체 페이지수를 의미한다.
-      console.log("게시글 로드 결과: " , resp)
-      const result = resp.data.content
-
-      // 태그 전처리하기 -> 태그 개별 항목 검색 위해...
-      for (let i = 0; i < result.length; i++) {
-        if (result[i].tags !== null) {
-          const tags = result[i].tags.split('#').slice(1)
-          result[i].tags = tags
-        }
-      }
-      // console.log("게시글 목록 결과:", resp.data)
-
-      // 날짜 전처리
-      for (let i = 0; i < result.length; i++) {
-        const date = new Date(result[i].regtime).toDateString()
-        result[i].regtime = date
-      }
-      // 전체 페이지 수를 중앙 저장소에 저장한다.
-      const totalPageNumber = resp.data.totalPages
-      commit("SET_TOTAL_PAGE_NUMBER", totalPageNumber)
-      commit("SET_ARTICLES", result)
-    })
-    .catch(err => {
-      console.log(err)
-    })
-  }
-}
 
 export function getArticle({ state }, payload){
   console.log(state)
@@ -497,14 +502,50 @@ export function getArticle({ state }, payload){
   })
 }
 
-export function nextPage({ state, commit }, payload) {
-  console.log("다음 페이지는 " + payload.nextPage + "입니다.")
-  getArticles({ state, commit }, { page:payload.nextPage, size:7 })
+export function nextPage({ state }, payload) {
+  // 로그인 여부 확인
+  const page = payload.nextPage
+  const size = 7
+
+  const accessToken = state.accessToken
+  if (accessToken === '') {
+    Swal.fire('접근 제한!', '로그인 해주세요.')
+    router.push("/login")
+  }
+  else {
+    const url = "/appeal?page=" + page + "&size=" + size
+
+    return axios({
+      url: url,
+      method: 'GET',
+      headers:{
+        Authorization:"Bearer "+state.accessToken
+      },
+    })
+  }
 }
 
-export function previousPage({ state, commit }, payload) {
-  console.log("이전 페이지는 " + payload.previousPage + "입니다.")
-  getArticles({ state, commit }, { page:payload.previousPage, size:7 })
+export function previousPage({ state }, payload) {
+  // 로그인 여부 확인
+  const page = payload.previousPage
+  const size = 7
+
+  const accessToken = state.accessToken
+  if (accessToken === '') {
+    Swal.fire('접근 제한!', '로그인 해주세요.')
+    router.push("/login")
+  }
+  else {
+    const url = "/appeal?page=" + page + "&size=" + size
+
+    return axios({
+      url: url,
+      method: 'GET',
+      headers:{
+        Authorization:"Bearer "+state.accessToken
+      },
+    })
+  }
 }
 
 export function articleLike({ state }, payload){
@@ -578,7 +619,7 @@ export function updateArticle({ state, commit }, payload) {
   .then(resp => {
     console.log(resp)
     // 목록을 수정한다.
-    getArticles({ state, commit }, { page:0, size: 7 })
+    getArticles({ state, commit }, { page: state.currentPageNumber, size: 7 })
   })
   .catch(err => {
     console.log(err)
@@ -594,7 +635,7 @@ export function deleteArticle({ state }, payload) {
   else{
     const answer = confirm("게시글을 삭제하시겠습니까?")
     if (answer === true) {
-      const url = "/appeal/delete?articleNo=" + payload.articleNo
+      const url = "/appeal/delete?articleNo=" + payload.articleNo + "&currentPage=" + state.currentPageNumber
       return axios({
         url: url,
         method: "DELETE",

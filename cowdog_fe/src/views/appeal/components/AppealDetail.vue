@@ -280,30 +280,53 @@ export default {
 
   methods: {
     deleteArticle() {
-      this.state.store.dispatch("deleteArticle", { articleNo: this.article.articleNo, memberId: this.article.memberId })
+      this.state.store.dispatch("deleteArticle", 
+      { articleNo: this.article.articleNo, memberId: this.article.memberId })
       .then(resp => {
-        console.log("삭제 완료!", resp.data.content) // 삭제 후 남은 객체
-        const result = resp.data.content
-        // 태그 전처리하기 -> 태그 개별 항목 검색 위해...
-        for (let i = 0; i < result.length; i++) {
-          if (result[i].tags !== null) {
-            const tags = result[i].tags.split('#').slice(1)
-            result[i].tags = tags
+        console.log("현재 페이지의 남은 게시글 수는 : " + resp.data.content.length + "개입니다.")
+
+        // 현재 페이지에 포함되어 있는 게시글의 수가 0개인 경우
+        if (resp.data.content.length === 0) {          
+
+          let currentPageNumber = this.state.store.getters.getCurrentPageNumber
+          
+          // 1. 현재 페이지가 0페이지이고, 게시글이 아예 존재하지 않는다면...
+          if (currentPageNumber === 0) {
+            this.$emit("delete-article", "ZERO_DATA_WHOLE_PAGES")
           }
+          // 2. 이 외에는 앞 페이지의 게시글을 불러온다.
+          else {            
+            this.$emit("delete-article", "NODATA_IN_THIS_PAGE")            
+          }
+          
         }
+        // 현재 페이지의 게시글이 남아있는 경우
+        else {
+          const result = resp.data.content
+          // 태그 전처리하기 -> 태그 개별 항목 검색 위해...
+          for (let i = 0; i < result.length; i++) {
+            if (result[i].tags !== null) {
+              const tags = result[i].tags.split('#').slice(1)
+              result[i].tags = tags
+            }
+          }
 
-        // 날짜 전처리
-        for (let i = 0; i < result.length; i++) {
-          const date = new Date(result[i].regtime).toDateString()
-          result[i].regtime = date
+          // 날짜 전처리
+          for (let i = 0; i < result.length; i++) {
+            const date = new Date(result[i].regtime).toDateString()
+            result[i].regtime = date
+          }
+
+          // 삭제 후 모든 페이지 수를 갱신해야 한다.
+          this.state.store.commit("SET_TOTAL_PAGE_NUMBER", resp.data.totalPages - 1)
+          this.$emit("delete-article", result)
         }
-
-        this.$emit("delete-article", result)
       })
       .catch(err => {
         console.log(err)
       })
     },
+
     // 페이지 갱신
     updateArticlePage(article) {
       this.state.store.dispatch("updateArticlePage", { article : article })

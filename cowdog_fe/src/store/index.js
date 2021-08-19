@@ -7,6 +7,7 @@ import createPersistedState from 'vuex-persistedstate'
 const state = {
   articles: [],
   totalPageNumber: '',
+  currentPageNumber: '',
   notices: "기본값",
   reportedUsers: '기본값',
   reportedArticles: '기본값',

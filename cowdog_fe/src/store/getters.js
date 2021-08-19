@@ -33,6 +33,10 @@ export function getTotalPageNumber (state) {
 	return state.totalPageNumber
 }
 
+export function getCurrentPageNumber (state) {
+	return state.currentPageNumber
+}
+
 export function getRandomUser(state){
 	return state.randomUsers
 }
