@@ -63,7 +63,7 @@
       <el-row class="article-button-group" justify="end" v-if="this.state.loginId === this.article.memberId">
         <!-- Button Group -->
         <div class="article-button" @click="updateArticlePage(this.article)">수정</div>
-        <div class="article-button" @click="state.like = false; deleteArticle(this.article)">삭제</div>
+        <div class="article-button" @click="deleteArticle()">삭제</div>
       </el-row>
     
       <!-- 댓글 부분 -->
@@ -241,7 +241,8 @@ export default {
     })  
 
     // 해당 게시글을 이미 좋아요 눌렀는지 확인
-    state.store.dispatch("articleLikeCheck", {id: state.loginId, articleNo: state.articleNo})
+    const check = (() => {
+      state.store.dispatch("articleLikeCheck", {id: state.loginId, articleNo: state.articleNo})
       .then(resp => {
         // console.log("좋아요 확인! ", resp.data)
         if (resp.data === "NO") {
@@ -253,6 +254,8 @@ export default {
       .catch(err => {
         console.log(err)
       })
+    })
+    check()
     
     // 게시글마다 댓글 조회한다.
     state.store.dispatch("findComments", { articleNo: props.article.articleNo })
@@ -271,12 +274,15 @@ export default {
     .catch(err => {
       console.log(err)
     })
+
     return {
       state,
+      check, // 좋아요 체크 함수
       centerDialogVisible: ref(false),
       reportDialogVisible: ref(false),
     }
   },
+
 
   methods: {
     deleteArticle() {

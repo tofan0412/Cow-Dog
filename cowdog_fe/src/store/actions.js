@@ -635,7 +635,7 @@ export function deleteArticle({ state }, payload) {
   else{
     const answer = confirm("게시글을 삭제하시겠습니까?")
     if (answer === true) {
-      const url = "/appeal/delete?articleNo=" + payload.articleNo + "&currentPage=" + state.currentPageNumber
+      const url = "/appeal/delete?articleNo=" + payload.articleNo + "&currentPage=" + state.currentPageNumber + "&userId=" + state.userId
       return axios({
         url: url,
         method: "DELETE",

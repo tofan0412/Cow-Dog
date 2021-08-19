@@ -255,6 +255,9 @@ export default {
     },
 
     afterDeleteArticle(result) {
+      // articles 초기화
+      this.state.articles = ''
+
       // 1. 게시글을 삭제한 후, 현재 페이지에 해당하는 게시글이 존재하지 않는 경우
       if (result === "NODATA_IN_THIS_PAGE") {
         console.log("현재 페이지의 게시글이 없으므로, 앞 페이지 게시글 정보를 불러옵니다.")

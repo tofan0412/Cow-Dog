@@ -5,9 +5,12 @@ import com.xy.common.response.BaseResponseBody;
 import com.xy.entity.Article;
 import com.xy.entity.Image;
 import com.xy.entity.Member;
+import com.xy.repository.ArticleRepository;
+import com.xy.repository.MemberRepository;
 import com.xy.service.ArticleService;
 import com.xy.service.ImageService;
 
+import com.xy.service.MemberService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -32,6 +35,15 @@ public class ArticleController {
 
     @Autowired
     ArticleService articleService;
+
+    @Autowired
+    MemberService memberService;
+
+    @Autowired
+    ArticleRepository articleRepository;
+
+    @Autowired
+    MemberRepository memberRepository;
 
     @Autowired
 	S3SServiceImpl s3sSer;
@@ -92,13 +104,19 @@ public class ArticleController {
 
     @DeleteMapping("/delete")
     @Transactional
-    public Page<Article> deleteArticle(@RequestParam("articleNo") Long articleNo, @RequestParam("currentPage") int currentPage){
+    public Page<Article> deleteArticle(@RequestParam("userId") Long id, @RequestParam("articleNo") Long articleNo, @RequestParam("currentPage") int currentPage){
         System.out.println("삭제를 시작합니다. : " + articleNo);
 
         // 게시글 삭제하기 전에, 해당 게시글 좋아요 내역 삭제
+        Member member = memberService.getMemberById(id);
         Article article = articleService.findArticleByArticleNo(articleNo);
-        for (Member member : article.getLikeMembers()){
-            member.getLikeArticles().remove(this);
+
+        List<Article> likeArticles = member.getLikeArticles();
+        for (int i = 0; i < likeArticles.size(); i++) {
+            if (likeArticles.get(i).getArticleNo() == article.getArticleNo()) {
+                likeArticles.remove(i);
+                memberRepository.save(member);
+            }
         }
 
         // 게시글 삭제
