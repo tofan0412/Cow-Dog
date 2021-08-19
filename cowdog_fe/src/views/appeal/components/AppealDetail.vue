@@ -63,7 +63,7 @@
       <el-row class="article-button-group" justify="end" v-if="this.state.loginId === this.article.memberId">
         <!-- Button Group -->
         <div class="article-button" @click="updateArticlePage(this.article)">수정</div>
-        <div class="article-button" @click="deleteArticle(this.article)">삭제</div>
+        <div class="article-button" @click="state.like = false; deleteArticle(this.article)">삭제</div>
       </el-row>
     
       <!-- 댓글 부분 -->

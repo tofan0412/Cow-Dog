@@ -4,6 +4,7 @@ import com.xy.S3.S3SServiceImpl;
 import com.xy.common.response.BaseResponseBody;
 import com.xy.entity.Article;
 import com.xy.entity.Image;
+import com.xy.entity.Member;
 import com.xy.service.ArticleService;
 import com.xy.service.ImageService;
 
@@ -93,6 +94,13 @@ public class ArticleController {
     @Transactional
     public Page<Article> deleteArticle(@RequestParam("articleNo") Long articleNo, @RequestParam("currentPage") int currentPage){
         System.out.println("삭제를 시작합니다. : " + articleNo);
+
+        // 게시글 삭제하기 전에, 해당 게시글 좋아요 내역 삭제
+        Article article = articleService.findArticleByArticleNo(articleNo);
+        for (Member member : article.getLikeMembers()){
+            member.getLikeArticles().remove(this);
+        }
+
         // 게시글 삭제
         articleService.deleteArticle(articleNo);
 
