@@ -71,7 +71,7 @@ public class MemberServiceImpl implements MemberService{
 		newMember.setOnlinetime(stringDatetime);
 		newMember.setPassword(passwordEncoder.encode(member.get("password").toString()));//패스워드 인코드
 		newMember.setManager(false);
-		
+		newMember.setMatching(false);
 		
 		
 		

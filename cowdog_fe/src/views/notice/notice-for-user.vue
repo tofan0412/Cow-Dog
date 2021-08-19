@@ -33,8 +33,15 @@
 </template>
 
 <script>
+import { onMounted } from '@vue/runtime-core'
 import { mapGetters, useStore } from 'vuex'
 import NoticeDetailForUser from './components/notice-detail-for-user.vue'
+import axios from 'axios'
+import Swal from 'sweetalert2';
+import router from '../../router'
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+const OPENVIDU_SERVER_URL = "https://i5b104.p.ssafy.io:9090";
+const OPENVIDU_SERVER_SECRET = "cowdog123";
 export default {
   data() {
     return {
@@ -66,7 +73,37 @@ export default {
   setup() {
     const store=useStore()
     store.dispatch("getNotification",store.getters.getUserId)//알림 뭐 왔나 백엔드에서 가져오는거
-
+    onMounted(() => {
+          setTimeout(() => {  
+            axios.get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`, {
+              auth: {
+                username: 'OPENVIDUAPP',
+                password: OPENVIDU_SERVER_SECRET,
+              },
+            }).then(response=>{
+              let content = response.data.content;
+              
+              for(let i=0;i<content.length;i++){
+                if(content[i].id==store.getters.getUserInfo.memberid){
+                  Swal.fire({
+                      position: 'middle',
+                      icon: 'question',
+                      title: '누군가가 화상회의를 걸어왔어요!',
+                      showConfirmButton: false,
+                      timer: 1500
+                  }).then(response=>{
+                    router.push({name:'VideoChat'});
+                    console.log(response);
+                    // store.state.centerDialogVisible = true
+                    
+                  })
+                  return;                            
+                }
+              }
+              
+            })
+            }, 1500);
+        })
   }
 }
 </script>

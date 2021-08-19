@@ -22,7 +22,7 @@
           <el-menu-item index="/main" class="navMenu">매칭</el-menu-item>
           <el-menu-item index="/notices" class="navMenu" @click="getNoticesForUser">공지사항</el-menu-item>
           <el-menu-item index="###"  class="navMenu" @click="getArticles">게시판</el-menu-item>
-          <el-menu-item index="####" class="navMenu" @click="getNotices">관리자</el-menu-item> <!-- 배포 전 숨기기 -->
+          <el-menu-item v-if="this.$store.state.myinfo.manager" index="####" class="navMenu" @click="getNotices">관리자</el-menu-item> <!-- 배포 전 숨기기 -->
         </div>
         <div style="display:flex; margin-right: 3%" v-if="!matchStatus">
           <el-menu-item v-if="notifications.length==0"  class="navMenu" @click="state.dialogVisible = true"><i class="fas fa-envelope-open"></i></el-menu-item>

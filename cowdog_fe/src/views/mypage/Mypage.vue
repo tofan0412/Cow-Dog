@@ -70,6 +70,13 @@ import Follow from "./components/Follow.vue"
 import EachOther from "./components/Eachother.vue"
 import Setting from "./components/Setting.vue"
 import { mapGetters } from 'vuex'
+import { onMounted } from '@vue/runtime-core'
+import axios from 'axios'
+import router from '../../router'
+import Swal from 'sweetalert2';
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+const OPENVIDU_SERVER_URL = "https://i5b104.p.ssafy.io:9090";
+const OPENVIDU_SERVER_SECRET = "cowdog123";
 export default {
   name: 'Mypage',
   components: {
@@ -99,7 +106,37 @@ export default {
     const myinfo = store.state.myinfo
     store.dispatch('AmIFollowed') // 내가 팔로우한 유저 usersIFollowed에 저장
     store.dispatch("getNotification",store.getters.getUserId)//알림 뭐 왔나 백엔드에서 가져오는거
-    
+    onMounted(() => {
+          setTimeout(() => {  
+            axios.get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`, {
+              auth: {
+                username: 'OPENVIDUAPP',
+                password: OPENVIDU_SERVER_SECRET,
+              },
+            }).then(response=>{
+              let content = response.data.content;
+              
+              for(let i=0;i<content.length;i++){
+                if(content[i].id==store.getters.getUserInfo.memberid){
+                  Swal.fire({
+                      position: 'middle',
+                      icon: 'question',
+                      title: '누군가가 화상회의를 걸어왔어요!',
+                      showConfirmButton: false,
+                      timer: 1500
+                  }).then(response=>{
+                    router.push({name:'VideoChat'});
+                    console.log(response);
+                    // store.state.centerDialogVisible = true
+                    
+                  })
+                  return;                            
+                }
+              }
+              
+            })
+            }, 1500);
+        })
     return { myinfo,
       getMyInfo:()=>{
         store.dispatch('getMyInfo')
@@ -116,7 +153,7 @@ export default {
   display: flex;
   justify-content: center;
 }
-.profile-img-box {
+.profile-img-box {  
   margin: 5% auto;
   margin-left: 20%;
   width: 250px;

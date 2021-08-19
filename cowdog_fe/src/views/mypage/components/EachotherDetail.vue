@@ -21,7 +21,7 @@
         </div>
         <div class="card-footer">
             <div class="card-button">
-                <div class="card-matcing-btn"><i class="fas fa-video"></i> 화상챗 요청</div>
+                <div class="card-matcing-btn" @click="liveOn(this.user.memberid)"><i class="fas fa-video"></i> 화상챗 요청</div>
                 <div class="card-matcing-btn" @click="create_room(this.user.memberid);openDialog();"><i class="fas fa-video"></i> DM </div>
             </div>
         </div>  
@@ -92,6 +92,7 @@ import SockJS from 'sockjs-client'
                  this.content=''
             }
             },
+            
             DMClose () {
                 this.dialogVisible = false;
             },
@@ -187,6 +188,11 @@ import SockJS from 'sockjs-client'
             const back=function(){
                 router.push("/main")
             }
+            const liveOn=function(id){//화상 요청~
+                store.dispatch("isMatching")
+                console.log("들억자ㅣ나")
+                router.push({name: 'VideoChat',query:{opp:id}})
+            }
             
 
             const like=function(memberid){//팔로우~
@@ -259,7 +265,7 @@ import SockJS from 'sockjs-client'
                     member_id: "4"
                 },
             ]
-            return { state, back, like, unlike, stompClient, messageEx }
+            return { state, back, like, unlike, stompClient, messageEx ,liveOn}
         },
     }
 </script>

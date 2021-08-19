@@ -43,12 +43,12 @@
       <h2><i class="fas fa-check" style="color:#ff4e7e"></i> 상대방이 궁금하다면 즉시 화상 채팅을 요청할 수 있습니다.</h2>
       <div style="margin-left: 3%">
         <h3>상대방이 수락하면 화상 채팅이 가능합니다.</h3>
-        <h3>[[수락 or 거절 이미지 추가]]</h3>
+        <img :src="require('@/assets/images/explanation1.png')">
       </div>
       <br>
       <h2><i class="fas fa-check" style="color:#ff4e7e"></i> 어색한 분위기를 간단한 게임을 통해 녹여보세요.</h2>
         <div style="margin-left: 3%">
-          <h3>[[게임 이미지 추가]]</h3>
+          <img :src="require('@/assets/images/explanation2.png')">
         </div>
       <br>
       <h2><i class="fas fa-check" style="color:#ff4e7e"></i> 상대방이 마음에 들었다면, 하트를 눌러 팔로우하세요.</h2>

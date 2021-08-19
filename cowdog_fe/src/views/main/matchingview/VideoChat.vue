@@ -286,7 +286,8 @@ export default {
 		this.getData(this.mySessionId);			
 	},
 	mounted() {
-    var c = document.getElementById("myCanvas");
+		console.log("마운트 확인하기");
+		var c = document.getElementById("myCanvas");
 		this.canvas = c.getContext(`2d`);
 	},
 	methods: {
@@ -631,11 +632,12 @@ export default {
 				this.x = sm.x;
 				this.y = sm.y;
 				this.isDrawing=sm.isDrawing;
+				console.log("그리기 스타트")
 				
 			})
 			this.session.on('signal:drawing',(event)=>{
 				let sm = JSON.parse(event.data);
-				
+				console.log("그리기 세션 콘솔 창창")
 				this.drawLine(this.x, this.y, sm.x, sm.y, this.color);
 				this.x = sm.x;
 				this.y = sm.y;
@@ -724,6 +726,7 @@ export default {
 
 		leaveSession () {
 			// --- Leave the session by calling 'disconnect' method over the Session object ---
+			clearInterval(this.timerInit);
 			this.$store.state.matchStatus=false;
 			this.invited=false;
 			
@@ -869,6 +872,7 @@ export default {
 			});
 		},
 		drawLine(x1, y1, x2, y2, color) {
+			console.log("그리기 함수안에 들어옴")
 			let ctx = this.canvas;
 			ctx.beginPath();
 			ctx.strokeStyle = color;
@@ -1223,6 +1227,7 @@ export default {
 }
 .exit-exp {
 	align-self: center;
+	width:150px;
 }
 .exit-btn:hover {
 	transform: scale(1.1);

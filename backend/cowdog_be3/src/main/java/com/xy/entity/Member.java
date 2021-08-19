@@ -50,6 +50,8 @@ public class Member {
 	private String imgFullPath;
 	private boolean login;
 	private boolean manager;
+	private boolean Matching;
+	
 
 	@ManyToMany
 	@JoinTable(name = "MEMBER_ARTICLE",
