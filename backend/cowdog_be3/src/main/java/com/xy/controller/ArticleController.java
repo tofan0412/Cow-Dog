@@ -71,7 +71,6 @@ public class ArticleController {
     	System.out.println(map.toString());
         // 작성된 게시글 번호 또는 0L을 반환한다.
         Long result = articleService.create(map);
-
         
         if ( result != 0L) {
             // 성공 시 작성된 게시글 번호를 반환

@@ -9,7 +9,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class chatMessageReq {
+public class ChatMessageReq {
 	private String chatroomId;
 	private String sender;
 	private String receiver;
