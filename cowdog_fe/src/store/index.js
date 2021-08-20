@@ -23,6 +23,7 @@ const state = {
   centerDialogVisible: false,
   matchStatus:false,
   chatRoomId:'', //챗룸Id
+  messageEx:[],
 }
 
 const root = createStore({

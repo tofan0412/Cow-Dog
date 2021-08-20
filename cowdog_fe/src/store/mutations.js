@@ -113,3 +113,8 @@ export const SET_CAHTROOM_ID=(state,chatRoomId)=>{
     state.chatRoomId=chatRoomId;
     console.log(state.chatRoomId)
 }
+export const SET_MESSAGE_EX=(state, messageEx) => {
+    console.log(messageEx)
+    state.messageEx = messageEx;
+    // console.log("이전 메세지 콘솔로 확인" + state.messageEx)
+}

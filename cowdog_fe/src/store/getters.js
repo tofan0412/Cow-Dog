@@ -57,3 +57,7 @@ export function getNotifications(state){
 export function getMatchStatus(state){
 	return state.matchStatus;
 }
+
+export function getMessageEx(state){
+	return state.messageEx;
+}

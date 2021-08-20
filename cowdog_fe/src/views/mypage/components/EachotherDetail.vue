@@ -38,16 +38,16 @@
             <!-- content(대화 내용)
             get Messages 한 후 state에 모든 데이터 저장하여 보여줄 것 -->
             <div v-for="(message, idx) in messageEx" :key="idx">
-                <div v-if="message.member_id == this.user.id" class="chat-box">
+                <div v-if="message[4] != this.user.id" class="chat-box">
                         <div class="chat-block">
-                            <div class="my-chat-time">{{ message.time.slice(11, 16) }}</div>
-                            <div class="my-chat">{{ message.message }}</div>
+                            <div class="my-chat-time">{{ message[2].slice(11, 16) }}</div>
+                            <div class="my-chat">{{ message[1] }}</div>
                         </div>
                     </div>
                 <div v-else class="opp-chat-box">
                         <div class="opp-block">
-                            <div class="opp-chat">{{ message.message }}</div>
-                            <div class="opp-chat-time">{{ message.time.slice(11, 16) }}</div>
+                            <div class="opp-chat">{{ message[1] }}</div>
+                            <div class="opp-chat-time">{{ message[2].slice(11, 16) }}</div>
                         </div>
                 </div>
             </div>
@@ -62,23 +62,28 @@
 <script>
 import { reactive } from '@vue/reactivity'
 import router from '../../../router'
-import { useStore, mapGetters } from 'vuex'
+import { useStore, mapGetters, mapActions, mapState } from 'vuex'
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
+// import axios from 'axios'
+
     export default {  
-        name: 'FollowDetail.vue',
+        name: 'EachotherDetail.vue',
         props: {
             user: Object,
         },
-        data(){
+        data() {
             return{
                 content:'',
-                dialogVisible:false
+                dialogVisible:false,
+                // Stomp,
+                message:[],
             }
 
         },
 
         methods:{
+             ...mapActions(["getMessages"]),
             sendMessage(){
             if(this.stompClient!=null) {
                 let chatMessage = {
@@ -89,7 +94,7 @@ import SockJS from 'sockjs-client'
                 }
                
                 this.stompClient.send("/pub/chat/send", JSON.stringify(chatMessage),{})
-                 this.content=''
+                this.content=''
             }
             },
             DMClose () {
@@ -101,22 +106,42 @@ import SockJS from 'sockjs-client'
                 }, 1000)
             },
             create_room(user2){ //user2 = 상대방
-                // console.log(myinfo.memberid)
                 console.log("새 채팅룸 생성")
                 this.$store.dispatch('createRoom', {user1:this.$store.state.myinfo.memberid, user2:user2})
                 // console.log("Mypage에서의 콘솔로그 : "+store.chatRoomId)
                     .then(() => {
-                        console.log("성공!")
                         // messages 불러오기
                         // 코드 작성(메세지 불러와서 store.state에 저장하여 사용)
                         // 불러온 메세지에서 message_id는 제외하고 store에 저장하는게 좋을듯?
                         // 지금은 일단 messageEx가 store.state에 저장되었다고 치고 코드 작성합니다.
+                        
+                        this.$store.dispatch('getMessages', {id:this.$store.state.chatRoomId});
 
                         // modal 창 열기
                         this.dialogVisible = true;
                         
                     })
+            },
+            getdata(no) {
+             this.getMessages(no);
+            },
+            getChat() {
+            //this.getMsg(no);
+            this.message = [];
+            if (this.messageEx.length == 0) {
+                this.message = [];
+            } else {
+                console.log(this.msg);
+                for (let i = this.msg.length - 1; i > -1; i--) {
+                let m = {
+                    sender: this.messageEx[i][1],
+                    content: this.messageEx[i][4],
+                    // style: this.messageEx[i].senderId == this.id ? "myMsg" : "otherMsg",
+                };
+                this.message.push(m);
+                }
             }
+            },
         },
 
 
@@ -151,12 +176,9 @@ import SockJS from 'sockjs-client'
             //     var time = messageTime.split()
             //     return time
             // },
-            ...mapGetters({
-            followed: 'getUsersIFollowed'
-            })
-
+            ...mapGetters({followed: 'getUsersIFollowed'}),
+            ...mapState(["chatRoomId", "messageEx"]),
         },
-
 
         setup() {
             const store = useStore()
@@ -164,30 +186,41 @@ import SockJS from 'sockjs-client'
             })
             const chatRoomId = store.state.chatRoomId
             // const myinfo = store.state.myinfo
-            let socket = new SockJS('https://i5b104.p.ssafy.io:8092/chat')
+            let socket = new SockJS('http://localhost:8080/chat')
             const stompClient = Stomp.over(socket)
-                stompClient.connect({}, frame=>{
-                console.log("success", frame)
-                stompClient.subscribe("/sub/"+chatRoomId, res=>{
-                    let jsonBody = JSON.parse(res.body)
-                        let m={
-                        // 'senderNickname':jsonBody.senderNickname,
-                        // 'content': jsonBody.content,
-                        // 'style': jsonBody.senderId == this.id ? 'myMsg':'otherMsg'
-                        'senderNickname':"김남자",
-                        'content': "테스트 메세지 초기값",
-                        'style': jsonBody.senderId == this.id ? 'myMsg':'otherMsg'
-                    }
-                    this.msg.push(m)
-                })
-                }, err=>{
-                console.log("fail", err)
-                })
+
+            stompClient.connect({}, frame=>{
+            console.log("Stomp connect success", frame)
+            stompClient.subscribe("/sub/"+chatRoomId, res=>{
+                let jsonBody = JSON.parse(res.body)
+                console.log("sub 콜백의 jsonBody : "+jsonBody)
+                let m={
+                    'sender':jsonBody.sender,
+                'message': jsonBody.message,
+
+                // 'style': jsonBody.senderId == this.id ? 'myMsg':'otherMsg'
+                // 'chatroomId' : this.$store.state.chatRoomId,
+                // 'sender': this.$store.state.myinfo.memberid,
+                // 'receiver': this.user.memberid,
+                // 'message': this.content
+                }
+                store.sate.messageEx.push(m)
+                store.dispatch('getMessages', {chatRoomId});
+
+            })
+            }, err=>{
+            console.log("fail", err)
+            })
 
             const back=function(){
                 router.push("/main")
             }
-            
+
+            //backend에서 rabbitMQ 핸들러로 사용하면 가능한 방법
+            // const onreceive(frame)=>{
+            //     console.log('Message received',frame)
+            // }
+            // stompClient.onreceive=onreceive
 
             const like=function(memberid){//팔로우~
                 console.log("팔로우~~")
@@ -207,58 +240,8 @@ import SockJS from 'sockjs-client'
                 }, 50)
             }
            
+            const messageEx = store.state.messageEx
 
-            const messageEx = [
-                {
-                    message_id: "1",
-                    message: "테스트 메시지",
-                    time: "2021-08-18 19:04:16.6",
-                    room_id: "1",
-                    member_id: "2"
-                },
-                {
-                    message_id: "2",
-                    message: "테스트 메시지2",
-                    time: "2021-08-18 19:04:16.6",
-                    room_id: "1",
-                    member_id: "4"
-                },
-                {
-                    message_id: "3",
-                    message: "테스트 메시지3",
-                    time: "2021-08-18 19:04:16.6",
-                    room_id: "1",
-                    member_id: "2"
-                },
-                {
-                    message_id: "4",
-                    message: "테스트 메시지4",
-                    time: "2021-08-18 19:04:16.6",
-                    room_id: "1",
-                    member_id: "4"
-                },
-                {
-                    message_id: "5",
-                    message: "테스트 메시지4",
-                    time: "2021-08-18 19:04:16.6",
-                    room_id: "1",
-                    member_id: "4"
-                },
-                {
-                    message_id: "6",
-                    message: "테스트 메시지4",
-                    time: "2021-08-18 19:04:16.6",
-                    room_id: "1",
-                    member_id: "4"
-                },
-                {
-                    message_id: "6",
-                    message: "테스트 메시지4",
-                    time: "2021-08-18 19:04:16.6",
-                    room_id: "1",
-                    member_id: "4"
-                },
-            ]
             return { state, back, like, unlike, stompClient, messageEx }
         },
     }

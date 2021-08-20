@@ -3,7 +3,7 @@ import VueAxios from 'vue-axios'
 import axios from 'axios'
 // import config from '../config.j'
 
-const BASE_URL = 'http://i5b104.p.ssafy.io/cowdog'
+const BASE_URL = 'http://localhost:8080/cowdog'
 const DEFAULT_ACCEPT_TYPE = 'application/json'
 
 axios.defaults.baseURL = BASE_URL
